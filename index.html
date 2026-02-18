@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>VIDRIOS Y ALUMINIOS YURI</title>
+<style>
+body{
+    font-family: Arial;
+    background:#f4f6f9;
+    padding:20px;
+}
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h1{
+    text-align:center;
+}
+input, select{
+    padding:8px;
+    margin:5px;
+}
+button{
+    padding:10px 15px;
+    margin:10px 5px;
+    background:#1e88e5;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+th,td{
+    border:1px solid #ddd;
+    padding:8px;
+    text-align:center;
+}
+.total-box{
+    text-align:right;
+    margin-top:20px;
+    font-size:18px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>VIDRIOS Y ALUMINIOS YURI</h1>
+
+<h3>Datos del Cliente</h3>
+<input type="text" id="cliente" placeholder="Nombre del cliente">
+<input type="text" id="ruc" placeholder="DNI / RUC">
+
+<h3>Agregar Servicio</h3>
+
+<select id="tipo">
+<option value="m2">Por Metro Cuadrado</option>
+<option value="unidad">Por Unidad</option>
+</select>
+
+<input type="number" id="alto" placeholder="Alto (m)">
+<input type="number" id="ancho" placeholder="Ancho (m)">
+<input type="number" id="cantidad" placeholder="Cantidad">
+<input type="number" id="precio" placeholder="Precio">
+
+<button onclick="agregar()">Agregar</button>
+
+<table id="tabla">
+<tr>
+<th>Descripción</th>
+<th>Cantidad</th>
+<th>Precio</th>
+<th>Subtotal</th>
+</tr>
+</table>
+
+<div class="total-box">
+<p>Subtotal: S/ <span id="subtotal">0</span></p>
+<p>IGV (18%): S/ <span id="igv">0</span></p>
+<p><strong>Total: S/ <span id="total">0</span></strong></p>
+<p>Adelanto 40%: S/ <span id="adelanto">0</span></p>
+<p>Saldo: S/ <span id="saldo">0</span></p>
+</div>
+
+</div>
+
+<script>
+let totalGeneral=0;
+
+function agregar(){
+    let tipo=document.getElementById("tipo").value;
+    let alto=parseFloat(document.getElementById("alto").value)||0;
+    let ancho=parseFloat(document.getElementById("ancho").value)||0;
+    let cantidad=parseFloat(document.getElementById("cantidad").value)||1;
+    let precio=parseFloat(document.getElementById("precio").value)||0;
+
+    let subtotal=0;
+    let descripcion="";
+
+    if(tipo==="m2"){
+        let m2=alto*ancho;
+        subtotal=m2*precio;
+        descripcion="Servicio m2 ("+alto+"x"+ancho+")";
+    }else{
+        subtotal=cantidad*precio;
+        descripcion="Servicio por unidad";
+    }
+
+    totalGeneral+=subtotal;
+
+    let tabla=document.getElementById("tabla");
+    let fila=tabla.insertRow();
+    fila.insertCell(0).innerHTML=descripcion;
+    fila.insertCell(1).innerHTML=cantidad;
+    fila.insertCell(2).innerHTML=precio;
+    fila.insertCell(3).innerHTML=subtotal.toFixed(2);
+
+    calcular();
+}
+
+function calcular(){
+    let igv=totalGeneral*0.18;
+    let total=totalGeneral+igv;
+    let adelanto=total*0.40;
+    let saldo=total-adelanto;
+
+    document.getElementById("subtotal").innerText=totalGeneral.toFixed(2);
+    document.getElementById("igv").innerText=igv.toFixed(2);
+    document.getElementById("total").innerText=total.toFixed(2);
+    document.getElementById("adelanto").innerText=adelanto.toFixed(2);
+    document.getElementById("saldo").innerText=saldo.toFixed(2);
+}
+</script>
+
+</body>
+</html>
