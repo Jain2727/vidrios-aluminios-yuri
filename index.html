@@ -5,95 +5,187 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Cotizaciones - Vidrios y Aluminios Yuri</title>
 <style>
+  /* Fuente elegante para títulos */
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap');
+
   body {
-    font-family: Arial, sans-serif;
-    margin: 15px;
-    background: #f9f9f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    background: #f0f4fa;
     color: #003366;
   }
-  h1, h2 {
+
+  h1, h2, h3 {
+    font-family: 'Merriweather', serif;
     color: #003366;
+    margin-bottom: 10px;
   }
+  
+  h1 {
+    font-size: 2.4rem;
+    letter-spacing: 1.2px;
+    border-bottom: 3px solid #0059b3;
+    padding-bottom: 6px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 30px;
+    border-bottom: 2px solid #0073e6;
+    padding-bottom: 4px;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    color: #004080;
+  }
+
   label {
-    font-weight: bold;
+    font-weight: 600;
     display: block;
-    margin-top: 10px;
+    margin-bottom: 6px;
+    color: #004080;
   }
-  input, select {
+
+  input, select, textarea {
     width: 100%;
-    padding: 6px;
-    margin-top: 4px;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 2px solid #0073e6;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
     box-sizing: border-box;
   }
+  input:focus, textarea:focus, select:focus {
+    border-color: #003366;
+    outline: none;
+  }
+  textarea {
+    resize: vertical;
+  }
+
+  button {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 7px;
+    border: none;
+    background-color: #0059b3;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+    margin-top: 8px;
+  }
+  button:hover {
+    background-color: #003d7a;
+  }
+  button.danger {
+    background-color: #cc0000;
+  }
+  button.danger:hover {
+    background-color: #990000;
+  }
+
+  /* Layout Flex */
+  .flex-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .flex-row > div {
+    flex: 1 1 220px;
+  }
+
+  /* Panel sections */
+  .panel {
+    background: white;
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 8px rgb(0 51 102 / 0.1);
+    margin-bottom: 40px;
+    border: 1.5px solid #0073e6;
+  }
+
+  /* Tabla */
   table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgb(0 51 102 / 0.1);
+    border-radius: 8px;
+    overflow: hidden;
     background: white;
+    border: 1.5px solid #0073e6;
   }
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+  thead tr {
+    background-color: #0059b3;
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  thead tr th {
+    padding: 14px 12px;
+    border-right: 1px solid #004080;
     text-align: center;
   }
-  th {
-    background-color: #0066cc;
-    color: white;
+  thead tr th:last-child {
+    border-right: none;
   }
-  .btn {
-    background-color: #0066cc;
-    color: white;
-    padding: 10px 18px;
-    border: none;
-    margin-top: 15px;
-    cursor: pointer;
-    font-size: 14px;
+
+  tbody tr:hover {
+    background-color: #dbe9ff;
   }
-  .btn:hover {
-    background-color: #004c99;
+  tbody tr td {
+    border-right: 1px solid #0073e6;
+    padding: 12px 10px;
+    font-size: 0.95rem;
+    color: #003366;
+    vertical-align: middle;
+    text-align: center;
   }
+  tbody tr td.left {
+    text-align: left;
+  }
+  tbody tr td:last-child {
+    border-right: none;
+  }
+
+  /* Input de búsqueda */
+  #buscarCliente {
+    width: 300px;
+    padding: 10px 15px;
+    border: 2px solid #0073e6;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  /* Footer */
   .footer {
-    background-color: #0066cc;
+    background-color: #0059b3;
     color: white;
-    padding: 10px;
-    margin-top: 30px;
+    padding: 15px;
+    font-size: 0.95rem;
+    font-weight: 600;
     text-align: center;
-    font-size: 12px;
+    border-radius: 0 0 12px 12px;
+    user-select: none;
   }
-  @media(max-width:600px) {
-    table, thead, tbody, th, td, tr {
-      display: block;
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .flex-row > div {
+      flex: 1 1 100%;
     }
-    th {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
+    #buscarCliente {
+      width: 100%;
+      margin-bottom: 20px;
     }
-    tr {
-      margin-bottom: 15px;
-    }
-    td {
-      border: none;
-      position: relative;
-      padding-left: 50%;
-      text-align: left;
-    }
-    td:before {
-      position: absolute;
-      top: 8px;
-      left: 10px;
-      width: 45%;
-      white-space: nowrap;
-      font-weight: bold;
-      color: #003366;
-    }
-    td:nth-of-type(1):before { content: "Ítem"; }
-    td:nth-of-type(2):before { content: "Código"; }
-    td:nth-of-type(3):before { content: "Descripción"; }
-    td:nth-of-type(4):before { content: "Cantidad"; }
-    td:nth-of-type(5):before { content: "Unidad"; }
-    td:nth-of-type(6):before { content: "Precio Unit."; }
-    td:nth-of-type(7):before { content: "Subtotal"; }
   }
 </style>
 </head>
@@ -101,272 +193,534 @@
 
 <h1>Vidrios y Aluminios Yuri</h1>
 
-<section>
-  <h2>Datos del Cliente</h2>
-  <label for="cliente">Nombre</label>
-  <input type="text" id="cliente" placeholder="Nombre completo" required />
-  <label for="ruc">RUC / DNI</label>
-  <input type="text" id="ruc" placeholder="Documento" required />
-  <label for="telefono">Teléfono</label>
-  <input type="text" id="telefono" placeholder="Teléfono o celular" />
-  <label for="direccion">Dirección</label>
-  <input type="text" id="direccion" placeholder="Dirección completa" />
+<section class="panel" id="dashboard">
+  <h2>📋 Historial de Cotizaciones</h2>
+  <input type="text" id="buscarCliente" placeholder="Buscar por nombre o DNI/RUC..." oninput="filtrarHistorial()" />
+  <table>
+    <thead>
+      <tr>
+        <th>N° Cotización</th>
+        <th>Cliente</th>
+        <th>Fecha</th>
+        <th>Total (S/)</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="historialBody">
+      <!-- Historial cargado aquí -->
+    </tbody>
+  </table>
+  <button onclick="nuevaCotizacion()">+ Nueva Cotización</button>
 </section>
 
-<section>
-  <h2>Agregar Ítem</h2>
-  <label for="codigo">Código</label>
-  <input type="text" id="codigo" placeholder="Código del producto o servicio" />
-  <label for="descripcion">Descripción</label>
-  <input type="text" id="descripcion" placeholder="Descripción detallada" required />
-  <label for="cantidad">Cantidad</label>
-  <input type="number" id="cantidad" min="1" value="1" required />
-  <label for="unidad">Unidad</label>
-  <select id="unidad">
-    <option value="unidad">Unidad</option>
-    <option value="m2">Metro cuadrado (m²)</option>
-    <option value="ml">Metro lineal (ml)</option>
-    <option value="pieza">Pieza</option>
-  </select>
-  <label for="precio">Precio Unitario (S/)</label>
-  <input type="number" id="precio" min="0" step="0.01" value="0" required />
-  <button class="btn" onclick="agregarItem()">Agregar Ítem</button>
-</section>
+<section class="panel" id="formCotizacion" style="display:none;">
+  <h2>📝 Crear / Editar Cotización</h2>
 
-<section>
-  <h2>Lista de Ítems</h2>
+  <div class="flex-row">
+    <div>
+      <label for="numeroCotizacion">N° Cotización</label>
+      <input type="text" id="numeroCotizacion" disabled />
+    </div>
+    <div>
+      <label for="fechaEmision">Fecha de Emisión</label>
+      <input type="date" id="fechaEmision" disabled />
+    </div>
+    <div>
+      <label for="fechaValidez">Válida hasta</label>
+      <input type="date" id="fechaValidez" disabled />
+    </div>
+  </div>
+
+  <h3>Datos del Cliente</h3>
+  <label for="clienteNombre">Nombre</label>
+  <input type="text" id="clienteNombre" placeholder="Nombre completo" required />
+
+  <div class="flex-row">
+    <div>
+      <label for="clienteRuc">DNI / RUC</label>
+      <input type="text" id="clienteRuc" placeholder="Documento" required />
+    </div>
+    <div>
+      <label for="clienteTelefono">Teléfono</label>
+      <input type="text" id="clienteTelefono" placeholder="Teléfono o celular" />
+    </div>
+  </div>
+
+  <label for="clienteDireccion">Dirección</label>
+  <textarea id="clienteDireccion" rows="2" placeholder="Dirección completa"></textarea>
+
+  <h3>Servicios (Ítems)</h3>
+
+  <div class="flex-row">
+    <div>
+      <label for="itemCodigo">Código</label>
+      <input type="text" id="itemCodigo" placeholder="Código" />
+    </div>
+    <div style="flex: 2 1 300px;">
+      <label for="itemDescripcion">Descripción</label>
+      <input type="text" id="itemDescripcion" placeholder="Ej: instalación ventana aluminio serie 25" required />
+    </div>
+    <div>
+      <label for="itemMedidas">Medidas (Alto x Ancho)</label>
+      <input type="text" id="itemMedidas" placeholder="Ej: 1.2m x 0.8m" />
+    </div>
+    <div>
+      <label for="itemCantidad">Cantidad</label>
+      <input type="number" id="itemCantidad" min="1" value="1" required />
+    </div>
+    <div>
+      <label for="itemPrecio">Precio Unitario (S/)</label>
+      <input type="number" id="itemPrecio" min="0" step="0.01" value="0" required />
+    </div>
+  </div>
+
+  <button onclick="agregarItem()">Agregar Ítem</button>
+
   <table id="tablaItems">
     <thead>
       <tr>
         <th>Ítem</th>
         <th>Código</th>
         <th>Descripción</th>
+        <th>Medidas</th>
         <th>Cantidad</th>
-        <th>Unidad</th>
         <th>Precio Unit.</th>
         <th>Subtotal</th>
         <th>Eliminar</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Aquí van los ítems -->
+      <!-- Items -->
     </tbody>
   </table>
 
-  <div style="margin-top: 15px; text-align: right; max-width: 400px; margin-left: auto;">
-    <p><strong>Subtotal:</strong> S/ <span id="subtotal">0.00</span></p>
-    <p><strong>IGV (18%):</strong> S/ <span id="igv">0.00</span></p>
-    <p style="font-size:18px"><strong>Total:</strong> S/ <span id="total">0.00</span></p>
+  <div style="max-width: 360px; margin-left:auto; font-size:1.1rem; font-weight:600; color:#004080;">
+    <p>Subtotal: S/ <span id="subtotal">0.00</span></p>
+    <p>IGV (18%): S/ <span id="igv">0.00</span></p>
+    <p style="font-size:1.3rem; font-weight:700; margin-top:6px;">Total: S/ <span id="total">0.00</span></p>
+  </div>
+
+  <div style="margin-top: 10px;">
+    <button onclick="guardarCotizacion()">Guardar en Base de Datos</button>
+    <button onclick="generarPDF()">Descargar PDF</button>
+    <button onclick="exportarImagen()">Exportar Imagen</button>
+    <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+    <button class="danger" onclick="cancelarEdicion()">Cancelar</button>
   </div>
 </section>
-
-<button class="btn" onclick="generarPDF()">Generar PDF</button>
 
 <div class="footer">
   CC.HACCA S/N OMACHA - PARURO - CUSCO | Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
 
+<!-- Librerías -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
+(() => {
+  let cotizaciones = JSON.parse(localStorage.getItem('cotizaciones')) || [];
+  let editandoId = null;
   let items = [];
 
-  function agregarItem() {
-    const codigo = document.getElementById('codigo').value.trim();
-    const descripcion = document.getElementById('descripcion').value.trim();
-    const cantidad = parseFloat(document.getElementById('cantidad').value);
-    const unidad = document.getElementById('unidad').value;
-    const precio = parseFloat(document.getElementById('precio').value);
+  const dashboard = document.getElementById('dashboard');
+  const formCotizacion = document.getElementById('formCotizacion');
+  const historialBody = document.getElementById('historialBody');
+  const buscarClienteInput = document.getElementById('buscarCliente');
 
-    if (!descripcion || cantidad <= 0 || precio < 0) {
-      alert('Por favor, completa correctamente la descripción, cantidad y precio.');
+  const numeroCotizacionInput = document.getElementById('numeroCotizacion');
+  const fechaEmisionInput = document.getElementById('fechaEmision');
+  const fechaValidezInput = document.getElementById('fechaValidez');
+  const clienteNombreInput = document.getElementById('clienteNombre');
+  const clienteRucInput = document.getElementById('clienteRuc');
+  const clienteTelefonoInput = document.getElementById('clienteTelefono');
+  const clienteDireccionInput = document.getElementById('clienteDireccion');
+  const itemCodigoInput = document.getElementById('itemCodigo');
+  const itemDescripcionInput = document.getElementById('itemDescripcion');
+  const itemMedidasInput = document.getElementById('itemMedidas');
+  const itemCantidadInput = document.getElementById('itemCantidad');
+  const itemPrecioInput = document.getElementById('itemPrecio');
+  const tablaItemsBody = document.querySelector('#tablaItems tbody');
+  const subtotalSpan = document.getElementById('subtotal');
+  const igvSpan = document.getElementById('igv');
+  const totalSpan = document.getElementById('total');
+
+  cargarHistorial();
+
+  function cargarHistorial(filtro='') {
+    historialBody.innerHTML = '';
+    let listaFiltrada = cotizaciones;
+    if (filtro) {
+      const f = filtro.toLowerCase();
+      listaFiltrada = cotizaciones.filter(c => 
+        c.clienteNombre.toLowerCase().includes(f) || 
+        c.clienteRuc.toLowerCase().includes(f));
+    }
+    if(listaFiltrada.length === 0){
+      historialBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No hay cotizaciones.</td></tr>`;
       return;
     }
-
-    const subtotal = cantidad * precio;
-
-    items.push({ codigo, descripcion, cantidad, unidad, precio, subtotal });
-
-    actualizarTabla();
-    limpiarCampos();
-  }
-
-  function eliminarItem(index) {
-    items.splice(index, 1);
-    actualizarTabla();
-  }
-
-  function actualizarTabla() {
-    const tbody = document.querySelector('#tablaItems tbody');
-    tbody.innerHTML = '';
-    items.forEach((item, i) => {
+    listaFiltrada.forEach(c => {
       const tr = document.createElement('tr');
-
       tr.innerHTML = `
-        <td>${i + 1}</td>
-        <td>${item.codigo || '-'}</td>
-        <td style="text-align:left;">${item.descripcion}</td>
-        <td>${item.cantidad}</td>
-        <td>${item.unidad}</td>
-        <td>S/ ${item.precio.toFixed(2)}</td>
-        <td>S/ ${item.subtotal.toFixed(2)}</td>
-        <td><button onclick="eliminarItem(${i})" style="background:#cc0000;color:white;border:none;padding:5px;cursor:pointer;">X</button></td>
+        <td>${c.numeroCotizacion}</td>
+        <td class="left">${c.clienteNombre}</td>
+        <td>${c.fechaEmision}</td>
+        <td>S/ ${c.total.toFixed(2)}</td>
+        <td>${c.estado || 'Pendiente'}</td>
+        <td>
+          <button onclick="editarCotizacion('${c.id}')">✏️</button>
+          <button onclick="eliminarCotizacion('${c.id}')" class="danger">🗑️</button>
+        </td>
       `;
-
-      tbody.appendChild(tr);
+      historialBody.appendChild(tr);
     });
+  }
 
+  window.filtrarHistorial = () => {
+    cargarHistorial(buscarClienteInput.value);
+  }
+
+  window.nuevaCotizacion = () => {
+    editandoId = null;
+    items = [];
+    limpiarFormulario();
+    fechaEmisionInput.valueAsDate = new Date();
+    let fechaVal = new Date();
+    fechaVal.setDate(fechaVal.getDate() + 7);
+    fechaValidezInput.valueAsDate = fechaVal;
+
+    const anio = new Date().getFullYear();
+    const maxNum = cotizaciones.reduce((max, c) => {
+      const n = parseInt(c.numeroCotizacion.split('-')[1]);
+      return n > max ? n : max;
+    }, 0);
+    const nuevoNum = maxNum + 1;
+    numeroCotizacionInput.value = `${anio}-${nuevoNum.toString().padStart(4,'0')}`;
+
+    mostrarFormulario(true);
+    actualizarTablaItems();
+    actualizarTotales();
+  }
+
+  function mostrarFormulario(mostrar) {
+    dashboard.style.display = mostrar ? 'none' : 'block';
+    formCotizacion.style.display = mostrar ? 'block' : 'none';
+  }
+
+  function limpiarFormulario() {
+    numeroCotizacionInput.value = '';
+    fechaEmisionInput.value = '';
+    fechaValidezInput.value = '';
+    clienteNombreInput.value = '';
+    clienteRucInput.value = '';
+    clienteTelefonoInput.value = '';
+    clienteDireccionInput.value = '';
+    itemCodigoInput.value = '';
+    itemDescripcionInput.value = '';
+    itemMedidasInput.value = '';
+    itemCantidadInput.value = 1;
+    itemPrecioInput.value = 0;
+    items = [];
+    actualizarTablaItems();
+    actualizarTotales();
+  }
+
+  window.agregarItem = () => {
+    const codigo = itemCodigoInput.value.trim();
+    const descripcion = itemDescripcionInput.value.trim();
+    const medidas = itemMedidasInput.value.trim();
+    const cantidad = parseFloat(itemCantidadInput.value);
+    const precio = parseFloat(itemPrecioInput.value);
+
+    if(!descripcion) {
+      alert('La descripción es obligatoria');
+      return;
+    }
+    if (cantidad <= 0 || precio < 0) {
+      alert('Cantidad y precio deben ser valores positivos');
+      return;
+    }
+    items.push({codigo, descripcion, medidas, cantidad, precio, subtotal: cantidad*precio});
+    actualizarTablaItems();
+    limpiarItemInputs();
+    actualizarTotales();
+  }
+
+  function limpiarItemInputs() {
+    itemCodigoInput.value = '';
+    itemDescripcionInput.value = '';
+    itemMedidasInput.value = '';
+    itemCantidadInput.value = 1;
+    itemPrecioInput.value = 0;
+  }
+
+  function actualizarTablaItems() {
+    tablaItemsBody.innerHTML = '';
+    if(items.length === 0) {
+      tablaItemsBody.innerHTML = `<tr><td colspan="8" style="text-align:center;">No hay ítems agregados.</td></tr>`;
+      return;
+    }
+    items.forEach((item, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${idx+1}</td>
+        <td>${item.codigo || '-'}</td>
+        <td class="left">${item.descripcion}</td>
+        <td>${item.medidas || '-'}</td>
+        <td>${item.cantidad}</td>
+        <td>S/ ${item.precio.toFixed(2)}</td>
+        <td>S/ ${(item.cantidad*item.precio).toFixed(2)}</td>
+        <td><button onclick="eliminarItem(${idx})" class="danger">X</button></td>
+      `;
+      tablaItemsBody.appendChild(tr);
+    });
+  }
+
+  window.eliminarItem = (index) => {
+    items.splice(index, 1);
+    actualizarTablaItems();
+    actualizarTotales();
+  }
+
+  function actualizarTotales() {
     const subtotal = items.reduce((acc, i) => acc + i.subtotal, 0);
     const igv = subtotal * 0.18;
     const total = subtotal + igv;
 
-    document.getElementById('subtotal').innerText = subtotal.toFixed(2);
-    document.getElementById('igv').innerText = igv.toFixed(2);
-    document.getElementById('total').innerText = total.toFixed(2);
+    subtotalSpan.textContent = subtotal.toFixed(2);
+    igvSpan.textContent = igv.toFixed(2);
+    totalSpan.textContent = total.toFixed(2);
   }
 
-  function limpiarCampos() {
-    document.getElementById('codigo').value = '';
-    document.getElementById('descripcion').value = '';
-    document.getElementById('cantidad').value = 1;
-    document.getElementById('unidad').value = 'unidad';
-    document.getElementById('precio').value = 0;
+  window.guardarCotizacion = () => {
+    if(!clienteNombreInput.value.trim() || !clienteRucInput.value.trim()) {
+      alert('Por favor completa los datos del cliente');
+      return;
+    }
+    if(items.length === 0) {
+      alert('Agrega al menos un ítem');
+      return;
+    }
+    const cotizacion = {
+      id: editandoId || Date.now().toString(),
+      numeroCotizacion: numeroCotizacionInput.value,
+      fechaEmision: fechaEmisionInput.value,
+      fechaValidez: fechaValidezInput.value,
+      clienteNombre: clienteNombreInput.value.trim(),
+      clienteRuc: clienteRucInput.value.trim(),
+      clienteTelefono: clienteTelefonoInput.value.trim(),
+      clienteDireccion: clienteDireccionInput.value.trim(),
+      items: [...items],
+      subtotal: parseFloat(subtotalSpan.textContent),
+      igv: parseFloat(igvSpan.textContent),
+      total: parseFloat(totalSpan.textContent),
+      estado: 'Pendiente',
+    };
+
+    if(editandoId) {
+      const idx = cotizaciones.findIndex(c => c.id === editandoId);
+      cotizaciones[idx] = cotizacion;
+    } else {
+      cotizaciones.push(cotizacion);
+    }
+    localStorage.setItem('cotizaciones', JSON.stringify(cotizaciones));
+    alert('Cotización guardada');
+    mostrarFormulario(false);
+    cargarHistorial();
   }
 
-  async function generarPDF() {
+  window.editarCotizacion = (id) => {
+    const cotizacion = cotizaciones.find(c => c.id === id);
+    if(!cotizacion) return;
+    editandoId = id;
+    mostrarFormulario(true);
+
+    numeroCotizacionInput.value = cotizacion.numeroCotizacion;
+    fechaEmisionInput.value = cotizacion.fechaEmision;
+    fechaValidezInput.value = cotizacion.fechaValidez;
+    clienteNombreInput.value = cotizacion.clienteNombre;
+    clienteRucInput.value = cotizacion.clienteRuc;
+    clienteTelefonoInput.value = cotizacion.clienteTelefono;
+    clienteDireccionInput.value = cotizacion.clienteDireccion;
+    items = [...cotizacion.items];
+    actualizarTablaItems();
+    actualizarTotales();
+  }
+
+  window.eliminarCotizacion = (id) => {
+    if(confirm('¿Eliminar esta cotización?')) {
+      cotizaciones = cotizaciones.filter(c => c.id !== id);
+      localStorage.setItem('cotizaciones', JSON.stringify(cotizaciones));
+      cargarHistorial();
+    }
+  }
+
+  window.cancelarEdicion = () => {
+    mostrarFormulario(false);
+  }
+
+  window.generarPDF = async () => {
+    if(items.length === 0) {
+      alert('Agrega al menos un ítem para generar PDF');
+      return;
+    }
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    const empresaNombre = "VIDRIOS Y ALUMINIOS YURI";
-    const ruc = "10617365036";
-    const direccionEmpresa = "CC.HACCA S/N OMACHA - PARURO - CUSCO";
-    const correo = "hermozayurihermozapuelles@gmail.com";
-    const celular = "993 963 381";
-    const cuentaBCP = "52671107164027";
-    const cci = "00 2526 1711 0716 4027 21";
+    // Datos empresa y cliente
+    const empresa = {
+      nombre: "VIDRIOS Y ALUMINIOS YURI",
+      ruc: "10617365036",
+      direccion: "CC.HACCA S/N OMACHA - PARURO - CUSCO",
+      correo: "hermozayurihermozapuelles@gmail.com",
+      celular: "993 963 381",
+      cuentaBCP: "52671107164027",
+      cci: "00 2526 1711 0716 4027 21"
+    };
+    const cliente = {
+      nombre: clienteNombreInput.value.trim() || "---",
+      ruc: clienteRucInput.value.trim() || "---",
+      telefono: clienteTelefonoInput.value.trim() || "---",
+      direccion: clienteDireccionInput.value.trim() || "---"
+    };
 
-    const cliente = document.getElementById('cliente').value || '---';
-    const rucCliente = document.getElementById('ruc').value || '---';
-    const telefonoCliente = document.getElementById('telefono').value || '---';
-    const direccionCliente = document.getElementById('direccion').value || '---';
-
-    if (!cliente || !rucCliente) {
-      alert('Por favor, ingresa nombre y RUC/DNI del cliente.');
-      return;
-    }
-
-    if (items.length === 0) {
-      alert('Agrega al menos un ítem a la cotización.');
-      return;
-    }
-
-    const fechaEmision = new Date();
-    const fechaValida = new Date(fechaEmision);
-    fechaValida.setDate(fechaValida.getDate() + 7);
+    // Fecha emisión y validez
+    const fechaEmision = fechaEmisionInput.value ? new Date(fechaEmisionInput.value) : new Date();
+    const fechaValidez = fechaValidezInput.value ? new Date(fechaValidezInput.value) : new Date(fechaEmision.getTime() + 7*24*60*60*1000);
 
     // Encabezado
     doc.setFontSize(16);
-    doc.setTextColor("#003366");
     doc.setFont("helvetica", "bold");
-    doc.text(empresaNombre, 10, 15);
+    doc.setTextColor("#003366");
+    doc.text(empresa.nombre, 10, 15);
 
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    doc.text(`RUC: ${ruc}`, 10, 22);
-    doc.text(`Dirección: ${direccionEmpresa}`, 10, 28);
+    doc.text(`RUC: ${empresa.ruc}`, 10, 22);
+    doc.text(`Dirección: ${empresa.direccion}`, 10, 28);
 
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text("COTIZACIÓN", 150, 15);
+    doc.text("COTIZACIÓN", 160, 15);
 
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
-    doc.text(`Fecha emisión: ${fechaEmision.toLocaleDateString('es-PE')}`, 150, 20);
-    doc.text(`Válida hasta: ${fechaValida.toLocaleDateString('es-PE')}`, 150, 25);
+    doc.text(`Fecha emisión: ${fechaEmision.toLocaleDateString('es-PE')}`, 160, 20);
+    doc.text(`Válida hasta: ${fechaValidez.toLocaleDateString('es-PE')}`, 160, 26);
 
+    // Número de cotización
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
-    doc.text("DATOS CLIENTE", 10, 40);
+    doc.text(`Cotización N° ${numeroCotizacionInput.value}`, 10, 40);
+
+    // Datos cliente
+    doc.setFontSize(11);
+    doc.text("DATOS CLIENTE", 10, 50);
     doc.setFont("helvetica", "normal");
-    doc.text(`Nombre: ${cliente}`, 10, 46);
-    doc.text(`RUC/DNI: ${rucCliente}`, 10, 52);
-    doc.text(`Teléfono: ${telefonoCliente}`, 10, 58);
-    doc.text(`Dirección: ${direccionCliente}`, 10, 64);
+    doc.text(`Nombre: ${cliente.nombre}`, 10, 56);
+    doc.text(`RUC/DNI: ${cliente.ruc}`, 10, 62);
+    doc.text(`Teléfono: ${cliente.telefono}`, 10, 68);
+    doc.text(`Dirección: ${cliente.direccion}`, 10, 74);
 
     // Tabla encabezado
-    const startY = 75;
+    const startY = 85;
     doc.setFillColor(0, 102, 204);
     doc.setTextColor(255, 255, 255);
     doc.rect(10, startY - 7, 190, 8, 'F');
 
     doc.setFontSize(10);
     doc.text("Ítem", 12, startY);
-    doc.text("Código", 30, startY);
+    doc.text("Código", 27, startY);
     doc.text("Descripción", 55, startY);
-    doc.text("Cantidad", 120, startY);
-    doc.text("Unidad", 140, startY);
-    doc.text("Precio Unit.", 160, startY);
-    doc.text("Subtotal", 185, startY);
+    doc.text("Medidas", 120, startY);
+    doc.text("Cantidad", 145, startY);
+    doc.text("Precio Unit.", 170, startY);
+    doc.text("Subtotal", 195, startY);
 
     doc.setTextColor(0, 0, 0);
 
     // Datos tabla
-    let posY = startY + 5;
+    let posY = startY + 6;
+    const maxItemsPerPage = 25;
     items.forEach((item, index) => {
-      doc.text((index + 1).toString(), 12, posY);
-      doc.text(item.codigo || '-', 30, posY);
-      doc.text(item.descripcion, 55, posY, {maxWidth: 60});
-      doc.text(item.cantidad.toString(), 120, posY);
-      doc.text(item.unidad, 140, posY);
-      doc.text(`S/ ${item.precio.toFixed(2)}`, 160, posY);
-      doc.text(`S/ ${item.subtotal.toFixed(2)}`, 185, posY);
-      posY += 8;
-      if(posY > 270) {
+      if(index > 0 && index % maxItemsPerPage === 0){
         doc.addPage();
         posY = 20;
       }
+      doc.text(`${index + 1}`, 12, posY);
+      doc.text(item.codigo || "-", 27, posY);
+      doc.text(item.descripcion, 55, posY, { maxWidth: 55 });
+      doc.text(item.medidas || "-", 120, posY);
+      doc.text(item.cantidad.toString(), 145, posY);
+      doc.text(`S/ ${item.precio.toFixed(2)}`, 170, posY);
+      doc.text(`S/ ${(item.cantidad * item.precio).toFixed(2)}`, 195, posY);
+      posY += 7;
     });
 
     // Totales
-    const subtotal = items.reduce((a, b) => a + b.subtotal, 0);
+    const subtotal = items.reduce((a,b) => a + b.subtotal, 0);
     const igv = subtotal * 0.18;
     const total = subtotal + igv;
 
-    posY += 10;
+    posY += 12;
     doc.setFont("helvetica", "bold");
-    doc.text(`COSTO: S/ ${subtotal.toFixed(2)}`, 140, posY);
+    doc.text(`SUBTOTAL: S/ ${subtotal.toFixed(2)}`, 130, posY);
     posY += 7;
-    doc.text(`IGV (18%): S/ ${igv.toFixed(2)}`, 140, posY);
+    doc.text(`IGV (18%): S/ ${igv.toFixed(2)}`, 130, posY);
     posY += 7;
-    doc.text(`TOTAL COTIZADO: S/ ${total.toFixed(2)}`, 140, posY);
+    doc.text(`TOTAL: S/ ${total.toFixed(2)}`, 130, posY);
 
     // Método de pago y firma
-    posY += 20;
+    posY += 15;
     doc.setFontSize(10);
-    doc.setFont("helvetica", "bold");
-    doc.text("METODO DE PAGO", 10, posY);
+    doc.text("MÉTODO DE PAGO", 10, posY);
     posY += 6;
     doc.setFont("helvetica", "normal");
-    doc.text(`Cuenta BCP: ${cuentaBCP}`, 10, posY);
+    doc.text(`Cuenta BCP: ${empresa.cuentaBCP}`, 10, posY);
     posY += 6;
-    doc.text(`CCI: ${cci}`, 10, posY);
-    posY += 20;
-    doc.text("Fecha y firma:", 10, posY);
-    posY += 20;
-    // Aquí podrías agregar una imagen de firma si quieres
+    doc.text(`CCI: ${empresa.cci}`, 10, posY);
 
-    // Pie de página con fondo azul
+    posY += 25;
+    doc.text("Fecha y firma:", 10, posY);
+
+    // Pie de página azul
     const pageHeight = doc.internal.pageSize.height;
     doc.setFillColor(0, 102, 204);
     doc.rect(0, pageHeight - 20, 210, 20, 'F');
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(9);
-    doc.text(direccionEmpresa, 10, pageHeight - 12);
-    doc.text(`Correo: ${correo} | Cel: ${celular}`, 10, pageHeight - 5);
+    doc.text(empresa.direccion, 10, pageHeight - 12);
+    doc.text(`Correo: ${empresa.correo} | Cel: ${empresa.celular}`, 10, pageHeight - 5);
 
-    doc.save(`Cotizacion_${cliente}_${fechaEmision.toISOString().slice(0,10)}.pdf`);
-  }
+    doc.save(`Cotizacion_${cliente.nombre}_${numeroCotizacionInput.value}.pdf`);
+  };
+
+  window.exportarImagen = () => {
+    html2canvas(formCotizacion).then(canvas => {
+      canvas.toBlob(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `Cotizacion_${clienteNombreInput.value.trim() || 'cliente'}.png`;
+        a.click();
+      });
+    });
+  };
+
+  window.enviarWhatsApp = () => {
+    if(!clienteNombreInput.value.trim() || !clienteRucInput.value.trim()) {
+      alert('Debe ingresar nombre y DNI/RUC del cliente para enviar por WhatsApp');
+      return;
+    }
+    const texto = `Hola, ${clienteNombreInput.value.trim()}.\n\nTe envío la cotización N° ${numeroCotizacionInput.value}.\nTotal: S/ ${totalSpan.textContent}.\nGracias por tu preferencia.`;
+
+    // WhatsApp URL (sin archivo PDF, porque es local)
+    const url = `https://wa.me/?text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank');
+  };
+})();
 </script>
 
 </body>
