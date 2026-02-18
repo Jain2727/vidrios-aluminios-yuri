@@ -1,59 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VIDRIOS Y ALUMINIOS YURI</title>
+
 <style>
 body{
-    font-family: Arial;
-    background:#f4f6f9;
-    padding:20px;
+    font-family: Arial, sans-serif;
+    background:#f2f4f8;
+    margin:0;
+    padding:0;
 }
+
 .container{
-    max-width:900px;
+    max-width:1000px;
     margin:auto;
     background:white;
     padding:20px;
     border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    margin-top:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
+
 h1{
     text-align:center;
+    color:#1e88e5;
 }
+
 input, select{
     padding:8px;
-    margin:5px;
+    margin:5px 0;
+    width:100%;
+    box-sizing:border-box;
 }
+
 button{
-    padding:10px 15px;
-    margin:10px 5px;
+    padding:10px;
+    margin-top:10px;
     background:#1e88e5;
     color:white;
     border:none;
     border-radius:5px;
     cursor:pointer;
 }
+
+button:hover{
+    background:#1565c0;
+}
+
 table{
     width:100%;
     border-collapse:collapse;
     margin-top:15px;
 }
+
 th,td{
     border:1px solid #ddd;
     padding:8px;
     text-align:center;
 }
+
 .total-box{
     text-align:right;
     margin-top:20px;
     font-size:18px;
 }
+
+.empresa{
+    text-align:center;
+    font-size:14px;
+    color:#555;
+    margin-bottom:15px;
+}
+
+@media(max-width:600px){
+    .container{
+        margin:10px;
+    }
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
+
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
+
+<div class="empresa">
+RUC: 10617365036<br>
+YURI HERMOZA PUELLES<br>
+APV. Las Joyas, San Sebastián – Cusco
+</div>
 
 <h3>Datos del Cliente</h3>
 <input type="text" id="cliente" placeholder="Nombre del cliente">
@@ -62,16 +101,16 @@ th,td{
 <h3>Agregar Servicio</h3>
 
 <select id="tipo">
-<option value="m2">Por Metro Cuadrado</option>
-<option value="unidad">Por Unidad</option>
+<option value="m2">Por Metro Cuadrado (m²)</option>
+<option value="unidad">Por Unidad / Pieza</option>
 </select>
 
 <input type="number" id="alto" placeholder="Alto (m)">
 <input type="number" id="ancho" placeholder="Ancho (m)">
 <input type="number" id="cantidad" placeholder="Cantidad">
-<input type="number" id="precio" placeholder="Precio">
+<input type="number" id="precio" placeholder="Precio Unitario">
 
-<button onclick="agregar()">Agregar</button>
+<button onclick="agregar()">Agregar Servicio</button>
 
 <table id="tabla">
 <tr>
@@ -83,19 +122,40 @@ th,td{
 </table>
 
 <div class="total-box">
-<p>Subtotal: S/ <span id="subtotal">0</span></p>
-<p>IGV (18%): S/ <span id="igv">0</span></p>
-<p><strong>Total: S/ <span id="total">0</span></strong></p>
-<p>Adelanto 40%: S/ <span id="adelanto">0</span></p>
-<p>Saldo: S/ <span id="saldo">0</span></p>
+<p>Subtotal: S/ <span id="subtotal">0.00</span></p>
+<p>IGV (18%): S/ <span id="igv">0.00</span></p>
+<p><strong>Total: S/ <span id="total">0.00</span></strong></p>
+<p>Adelanto 40%: S/ <span id="adelanto">0.00</span></p>
+<p>Saldo: S/ <span id="saldo">0.00</span></p>
 </div>
 
+<button onclick="guardarCotizacion()">Guardar Cotización</button>
+
 </div>
 
-<script>
-let totalGeneral=0;
+<!-- FIREBASE -->
+<script type="module">
 
-function agregar(){
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDvyVnL6c50raTdwWwyX536e7ekBpVU_TM",
+  authDomain: "vidrios-aluminios-yuri-78c46.firebaseapp.com",
+  projectId: "vidrios-aluminios-yuri-78c46",
+  storageBucket: "vidrios-aluminios-yuri-78c46.firebasestorage.app",
+  messagingSenderId: "924651472923",
+  appId: "1:924651472923:web:b411161733f72a927d10be"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let totalGeneral = 0;
+let items = [];
+
+window.agregar = function() {
+
     let tipo=document.getElementById("tipo").value;
     let alto=parseFloat(document.getElementById("alto").value)||0;
     let ancho=parseFloat(document.getElementById("ancho").value)||0;
@@ -108,13 +168,14 @@ function agregar(){
     if(tipo==="m2"){
         let m2=alto*ancho;
         subtotal=m2*precio;
-        descripcion="Servicio m2 ("+alto+"x"+ancho+")";
+        descripcion="Servicio m2 ("+alto+" x "+ancho+")";
     }else{
         subtotal=cantidad*precio;
         descripcion="Servicio por unidad";
     }
 
     totalGeneral+=subtotal;
+    items.push({descripcion, cantidad, precio, subtotal});
 
     let tabla=document.getElementById("tabla");
     let fila=tabla.insertRow();
@@ -138,6 +199,41 @@ function calcular(){
     document.getElementById("adelanto").innerText=adelanto.toFixed(2);
     document.getElementById("saldo").innerText=saldo.toFixed(2);
 }
+
+window.guardarCotizacion = async function() {
+
+    const cliente = document.getElementById("cliente").value;
+    const ruc = document.getElementById("ruc").value;
+
+    if(!cliente){
+        alert("Ingrese nombre del cliente");
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, "cotizaciones"), {
+            empresa: "VIDRIOS Y ALUMINIOS YURI",
+            cliente: cliente,
+            ruc: ruc,
+            items: items,
+            subtotal: totalGeneral,
+            igv: totalGeneral * 0.18,
+            total: totalGeneral * 1.18,
+            adelanto: (totalGeneral * 1.18) * 0.40,
+            saldo: (totalGeneral * 1.18) * 0.60,
+            fecha: new Date()
+        });
+
+        alert("✅ Cotización guardada correctamente");
+
+        location.reload();
+
+    } catch (e) {
+        alert("❌ Error al guardar");
+        console.error(e);
+    }
+}
+
 </script>
 
 </body>
