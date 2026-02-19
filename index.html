@@ -3,77 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotizaciones - Vidrios y Aluminios Yuri</title>
+<title>Vidrios y Aluminios Yuri - Sistema Profesional</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Inter:wght@400;600&display=swap');
-
 body{
-  font-family: 'Inter', sans-serif;
-  background:#f4f7fc;
-  margin:20px;
+  font-family:'Inter',sans-serif;
+  background:#f2f5fa;
+  margin:25px;
   color:#003366;
 }
-
 h1{
-  font-family:'Merriweather', serif;
-  font-size:28px;
+  font-family:'Merriweather',serif;
+  font-size:30px;
   border-bottom:3px solid #0059b3;
-  padding-bottom:8px;
+  padding-bottom:10px;
 }
-
 .panel{
   background:white;
   padding:25px;
-  border-radius:12px;
-  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  border-radius:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
   margin-bottom:40px;
 }
-
-label{font-weight:600;}
-
 input,textarea{
   width:100%;
   padding:8px;
-  margin-bottom:12px;
-  border-radius:6px;
+  margin-bottom:10px;
+  border-radius:8px;
   border:1.5px solid #0073e6;
 }
-
 button{
-  padding:8px 15px;
+  padding:8px 14px;
   border:none;
-  border-radius:6px;
+  border-radius:8px;
   background:#0059b3;
   color:white;
   cursor:pointer;
-  margin-right:8px;
+  margin-right:6px;
 }
-
 button.danger{background:#cc0000;}
-
+button.gray{background:#6c757d;}
+.flex{display:flex;gap:10px;flex-wrap:wrap;}
+.flex>div{flex:1;}
 table{
   width:100%;
   border-collapse:collapse;
   margin-top:15px;
 }
-
 th{
   background:#0059b3;
   color:white;
-  padding:10px;
-}
-
-td{
   padding:8px;
-  border:1px solid #d0d7e2;
 }
-
-.flex{
-  display:flex;
-  gap:15px;
+td{
+  border:1px solid #ccc;
+  padding:6px;
 }
-.flex>div{flex:1;}
+.total-box{
+  background:#eef5ff;
+  padding:15px;
+  border-radius:10px;
+  text-align:right;
+  font-weight:600;
+}
+iframe{
+  width:100%;
+  height:600px;
+  border:1px solid #ccc;
+  margin-top:20px;
+}
+.logo-preview,.firma-preview{max-height:80px;margin-top:10px;}
 </style>
 </head>
 
@@ -81,13 +85,26 @@ td{
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 
-<div class="panel" id="dashboard">
+<div class="panel">
+<h3>Configuración Empresa</h3>
+<label>Subir Logo PNG</label>
+<input type="file" id="logoInput" accept="image/png">
+<img id="logoPreview" class="logo-preview">
+
+<label>Subir Firma PNG</label>
+<input type="file" id="firmaInput" accept="image/png">
+<img id="firmaPreview" class="firma-preview">
+</div>
+
+<div class="panel">
 <h2>Historial</h2>
+<input type="text" id="buscar" placeholder="Buscar por cliente / DNI / RUC">
 <table>
 <thead>
 <tr>
 <th>N°</th>
 <th>Cliente</th>
+<th>DNI/RUC</th>
 <th>Fecha</th>
 <th>Total</th>
 <th>Acciones</th>
@@ -101,236 +118,159 @@ td{
 
 <div class="panel" id="formulario" style="display:none;">
 
-<h2>Crear Cotización</h2>
+<h2>Cotización</h2>
 
 <div class="flex">
-<div>
-<label>N° Cotización</label>
-<input id="numero">
-</div>
-<div>
-<label>Fecha Emisión</label>
-<input type="date" id="fecha">
-</div>
-<div>
-<label>Válida hasta</label>
-<input type="date" id="validez">
-</div>
+<div><label>N°</label><input id="numero"></div>
+<div><label>Fecha Emisión</label><input type="date" id="fecha"></div>
+<div><label>Validez</label><input type="date" id="validez"></div>
 </div>
 
 <h3>Cliente</h3>
-
-<input id="nombre" placeholder="Nombre">
+<input id="cliente" placeholder="Nombre">
 <input id="doc" placeholder="DNI / RUC">
 <input id="telefono" placeholder="Teléfono">
 <textarea id="direccion" placeholder="Dirección"></textarea>
 
-<h3>Servicios</h3>
-
+<h3>Ítems</h3>
 <div class="flex">
-<input id="desc" placeholder="Descripción">
-<input id="cant" type="number" value="1">
+<input id="codigo" placeholder="Código">
+<input id="descripcion" placeholder="Descripción">
+<input id="medidas" placeholder="Medidas">
+<input id="cantidad" type="number" value="1">
 <input id="precio" type="number" value="0">
 </div>
-
 <button onclick="agregar()">Agregar Ítem</button>
 
 <table>
 <thead>
 <tr>
-<th>#</th>
-<th>Descripción</th>
-<th>Cant</th>
-<th>P.Unit</th>
-<th>Subtotal</th>
-<th></th>
+<th>#</th><th>Código</th><th>Descripción</th><th>Medidas</th>
+<th>Cant</th><th>P.Unit</th><th>Subtotal</th><th></th>
 </tr>
 </thead>
 <tbody id="items"></tbody>
 </table>
 
-<br>
-<div style="text-align:right;font-weight:600;">
+<div class="total-box">
 Subtotal: S/ <span id="sub">0.00</span><br>
 IGV 18%: S/ <span id="igv">0.00</span><br>
-Total: S/ <span id="total">0.00</span>
+TOTAL: S/ <span id="tot">0.00</span>
 </div>
 
 <br>
 <button onclick="guardar()">Guardar</button>
+<button onclick="vista()">Vista PDF</button>
 <button onclick="pdf()">Descargar PDF</button>
+<button onclick="imagen()">Exportar Imagen</button>
+<button onclick="whatsapp()">WhatsApp</button>
 <button onclick="cancelar()" class="danger">Cancelar</button>
+
+<iframe id="preview"></iframe>
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <script>
-
-let cotizaciones = JSON.parse(localStorage.getItem("cotizaciones")) || [];
-let items = [];
-let editando = null;
-
-function siguienteNumeroLibre(){
-  let usados = cotizaciones.map(c=>parseInt(c.numero));
-  let n=1;
-  while(usados.includes(n)) n++;
-  return n;
-}
+let lista=[];
+let editIndex=null;
 
 function nueva(){
-  document.getElementById("dashboard").style.display="none";
-  document.getElementById("formulario").style.display="block";
-  editando=null;
-  items=[];
-  renderItems();
-  actualizarTotales();
-  document.getElementById("numero").value = siguienteNumeroLibre();
-  let hoy = new Date().toISOString().split("T")[0];
-  document.getElementById("fecha").value = hoy;
-  let v=new Date();v.setDate(v.getDate()+7);
-  document.getElementById("validez").value=v.toISOString().split("T")[0];
+document.getElementById("formulario").style.display="block";
+generarNumero();
 }
 
-function cancelar(){
-  document.getElementById("dashboard").style.display="block";
-  document.getElementById("formulario").style.display="none";
+function generarNumero(){
+let usados=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+let numeros=usados.map(c=>parseInt(c.numero));
+let n=1;
+while(numeros.includes(n)) n++;
+document.getElementById("numero").value=n;
 }
 
 function agregar(){
-  let d=document.getElementById("desc").value;
-  let c=parseFloat(document.getElementById("cant").value);
-  let p=parseFloat(document.getElementById("precio").value);
-  if(!d)return;
-  items.push({d,c,p,sub:c*p});
-  renderItems();
-  actualizarTotales();
+let codigo=document.getElementById("codigo").value;
+let desc=document.getElementById("descripcion").value;
+let med=document.getElementById("medidas").value;
+let cant=parseFloat(document.getElementById("cantidad").value);
+let precio=parseFloat(document.getElementById("precio").value);
+let subtotal=cant*precio;
+lista.push({codigo,desc,med,cant,precio,subtotal});
+render();
 }
 
-function renderItems(){
-  let tbody=document.getElementById("items");
-  tbody.innerHTML="";
-  items.forEach((it,i)=>{
-    tbody.innerHTML+=`
-    <tr>
-      <td>${i+1}</td>
-      <td>${it.d}</td>
-      <td>${it.c}</td>
-      <td>${it.p.toFixed(2)}</td>
-      <td>${it.sub.toFixed(2)}</td>
-      <td><button onclick="eliminarItem(${i})">X</button></td>
-    </tr>`;
-  });
+function render(){
+let html="";
+lista.forEach((i,index)=>{
+html+=`<tr>
+<td>${index+1}</td>
+<td>${i.codigo}</td>
+<td>${i.desc}</td>
+<td>${i.med}</td>
+<td>${i.cant}</td>
+<td>${i.precio.toFixed(2)}</td>
+<td>${i.subtotal.toFixed(2)}</td>
+<td><button onclick="eliminarItem(${index})" class="danger">X</button></td>
+</tr>`;
+});
+document.getElementById("items").innerHTML=html;
+calcular();
 }
 
-function eliminarItem(i){
-  items.splice(i,1);
-  renderItems();
-  actualizarTotales();
-}
+function eliminarItem(i){lista.splice(i,1);render();}
 
-function actualizarTotales(){
-  let sub=items.reduce((a,b)=>a+b.sub,0);
-  let igv=sub*0.18;
-  let total=sub+igv;
-  document.getElementById("sub").innerText=sub.toFixed(2);
-  document.getElementById("igv").innerText=igv.toFixed(2);
-  document.getElementById("total").innerText=total.toFixed(2);
+function calcular(){
+let sub=lista.reduce((a,b)=>a+b.subtotal,0);
+let igv=sub*0.18;
+let tot=sub+igv;
+document.getElementById("sub").innerText=sub.toFixed(2);
+document.getElementById("igv").innerText=igv.toFixed(2);
+document.getElementById("tot").innerText=tot.toFixed(2);
 }
 
 function guardar(){
-  let cot={
-    id:editando||Date.now(),
-    numero:parseInt(document.getElementById("numero").value),
-    fecha:document.getElementById("fecha").value,
-    validez:document.getElementById("validez").value,
-    nombre:document.getElementById("nombre").value,
-    total:parseFloat(document.getElementById("total").innerText),
-    items:items
-  };
-  if(editando){
-    cotizaciones=cotizaciones.map(c=>c.id==editando?cot:c);
-  }else{
-    cotizaciones.push(cot);
-  }
-  localStorage.setItem("cotizaciones",JSON.stringify(cotizaciones));
-  cancelar();
-  cargar();
+let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+let cot={
+numero:document.getElementById("numero").value,
+fecha:document.getElementById("fecha").value,
+cliente:document.getElementById("cliente").value,
+doc:document.getElementById("doc").value,
+total:document.getElementById("tot").innerText
+};
+data.push(cot);
+localStorage.setItem("cotizaciones",JSON.stringify(data));
+alert("Guardado");
+mostrarHistorial();
 }
 
-function eliminar(id){
-  cotizaciones=cotizaciones.filter(c=>c.id!=id);
-  localStorage.setItem("cotizaciones",JSON.stringify(cotizaciones));
-  cargar();
+function mostrarHistorial(){
+let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+let buscar=document.getElementById("buscar").value.toLowerCase();
+let html="";
+data.forEach((c,i)=>{
+if(c.cliente.toLowerCase().includes(buscar)||c.doc.includes(buscar)){
+html+=`<tr>
+<td>${c.numero}</td>
+<td>${c.cliente}</td>
+<td>${c.doc}</td>
+<td>${c.fecha}</td>
+<td>${c.total}</td>
+<td><button onclick="eliminar(${i})" class="danger">Eliminar</button></td>
+</tr>`;
+}
+});
+document.getElementById("historial").innerHTML=html;
 }
 
-function cargar(){
-  let h=document.getElementById("historial");
-  h.innerHTML="";
-  cotizaciones.sort((a,b)=>a.numero-b.numero);
-  cotizaciones.forEach(c=>{
-    h.innerHTML+=`
-    <tr>
-      <td>${c.numero}</td>
-      <td>${c.nombre}</td>
-      <td>${c.fecha}</td>
-      <td>S/ ${c.total.toFixed(2)}</td>
-      <td><button onclick="eliminar(${c.id})">Eliminar</button></td>
-    </tr>`;
-  });
-}
-cargar();
-
-async function pdf(){
-  const { jsPDF } = window.jspdf;
-  const doc=new jsPDF();
-
-  let numero=document.getElementById("numero").value;
-  let fecha=document.getElementById("fecha").value;
-  let validez=document.getElementById("validez").value;
-
-  let sub=parseFloat(document.getElementById("sub").innerText);
-  let igv=sub*0.18;
-  let total=sub+igv;
-
-  doc.setFont("helvetica","bold");
-  doc.setFontSize(18);
-  doc.text("VIDRIOS Y ALUMINIOS YURI",20,20);
-
-  doc.setFontSize(12);
-  doc.text("COTIZACIÓN N° "+numero,150,20);
-
-  doc.setFontSize(10);
-  doc.text("Fecha: "+fecha,150,28);
-  doc.text("Válida hasta: "+validez,150,34);
-
-  doc.setFontSize(12);
-  doc.text("Cliente: "+document.getElementById("nombre").value,20,40);
-
-  // Marca de agua
-  doc.setTextColor(230);
-  doc.setFontSize(60);
-  doc.text("YURI",60,150,{angle:45});
-  doc.setTextColor(0);
-
-  let y=60;
-  doc.setFontSize(10);
-  items.forEach((it,i)=>{
-    doc.text(`${i+1}. ${it.d} | Cant:${it.c} | P:${it.p} | Sub:${it.sub}`,20,y);
-    y+=8;
-  });
-
-  y+=10;
-  doc.setFont("helvetica","bold");
-  doc.text("Subtotal: S/ "+sub.toFixed(2),140,y);
-  y+=8;
-  doc.text("IGV: S/ "+igv.toFixed(2),140,y);
-  y+=8;
-  doc.text("TOTAL: S/ "+total.toFixed(2),140,y);
-
-  doc.save("Cotizacion_"+numero+".pdf");
+function eliminar(i){
+let data=JSON.parse(localStorage.getItem("cotizaciones"));
+data.splice(i,1);
+localStorage.setItem("cotizaciones",JSON.stringify(data));
+mostrarHistorial();
 }
 
+document.getElementById("buscar").addEventListener("input",mostrarHistorial);
+mostrarHistorial();
 </script>
+
 </body>
 </html>
