@@ -19,9 +19,15 @@ body{
 }
 h1{
     text-align:center;
-    font-size:32px;
+    font-size:34px;
     font-weight:800;
-    letter-spacing:1px;
+    margin-bottom:5px;
+}
+.subtitulo{
+    text-align:center;
+    font-size:15px;
+    font-weight:600;
+    line-height:1.4;
 }
 .panel{
     background:white;
@@ -47,11 +53,16 @@ button{
     margin:5px 3px;
 }
 button:hover{background:#004494;}
-button.danger{background:#cc0000;}
-.flex{display:flex;gap:10px;flex-wrap:wrap;}
 table{width:100%;border-collapse:collapse;margin-top:10px;}
-th{background:#0059b3;color:white;padding:8px;}
-td{border:1px solid #ccc;padding:6px;}
+th{
+    background:#0059b3;
+    color:white;
+    padding:8px;
+}
+td{
+    border:1px solid #ccc;
+    padding:6px;
+}
 .total-box{
     background:#eef5ff;
     padding:12px;
@@ -62,7 +73,7 @@ td{border:1px solid #ccc;padding:6px;}
 }
 #preview{
     width:100%;
-    height:700px;
+    height:750px;
     border:1px solid #ccc;
     margin-top:20px;
 }
@@ -71,6 +82,7 @@ td{border:1px solid #ccc;padding:6px;}
     width:794px;
     padding:40px;
     background:white;
+    border:3px solid #0059b3;
 }
 </style>
 </head>
@@ -78,6 +90,11 @@ td{border:1px solid #ccc;padding:6px;}
 <body>
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
+<div class="subtitulo">
+YURI HERMOZA PUELLES<br>
+RUC: 10617365036<br>
+Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
+</div>
 
 <div class="panel">
 <button onclick="nueva()">Nueva Cotización</button>
@@ -88,22 +105,16 @@ td{border:1px solid #ccc;padding:6px;}
 
 <div class="panel">
 
-<div class="flex">
-<div>
 <label>N° Cotización</label>
 <input id="numero" readonly>
-</div>
-<div>
-<label>Fecha emisión</label>
+
+<label>Fecha de emisión</label>
 <input id="fecha">
-</div>
-<div>
+
 <label>Válida hasta</label>
 <input id="validez">
-</div>
-</div>
 
-<h3>Cliente</h3>
+<h3>Datos del Cliente</h3>
 <input id="cliente" placeholder="Nombre">
 <input id="doc" placeholder="DNI / RUC">
 <input id="telefono" placeholder="Teléfono">
@@ -142,7 +153,11 @@ TOTAL: S/ <span id="tot">0.00</span>
 <script>
 let lista=[];
 
-// NUMERACIÓN AUTOMÁTICA POR AÑO
+function formatoFecha(fecha){
+let d=new Date(fecha);
+return d.toLocaleDateString("es-PE");
+}
+
 function generarNumero(){
 let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
 let año=new Date().getFullYear();
@@ -153,20 +168,18 @@ while(numeros.includes(siguiente)) siguiente++;
 numero.value=`${año}-${String(siguiente).padStart(4,"0")}`;
 }
 
-// NUEVA
 function nueva(){
 lista=[];
 render();
 generarNumero();
 let hoy=new Date();
-fecha.value=hoy.toLocaleDateString();
+fecha.value=formatoFecha(hoy);
 let val=new Date();
 val.setDate(val.getDate()+7);
-validez.value=val.toLocaleDateString();
+validez.value=formatoFecha(val);
 vista();
 }
 
-// AGREGAR
 function agregar(){
 let d=descripcion.value;
 let c=parseFloat(cantidad.value);
@@ -177,7 +190,6 @@ render();
 vista();
 }
 
-// RENDER
 function render(){
 let html="";
 let sub=0;
@@ -195,13 +207,11 @@ html+=`<tr>
 items.innerHTML=html;
 let igv=sub*0.18;
 let total=sub+igv;
-sub=sub||0;
 document.getElementById("sub").innerText=sub.toFixed(2);
 document.getElementById("igv").innerText=igv.toFixed(2);
 document.getElementById("tot").innerText=total.toFixed(2);
 }
 
-// GUARDAR
 function guardar(){
 let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
 data.push({
@@ -214,7 +224,6 @@ localStorage.setItem("cotizaciones",JSON.stringify(data));
 alert("Guardado correctamente");
 }
 
-// VISTA PDF
 async function vista(){
 const cot={
 numero:numero.value,
@@ -239,7 +248,6 @@ preview.src=docPDF.output("bloburl");
 pdfContent.style.display="none";
 }
 
-// DESCARGAR
 async function descargarPDF(){
 await vista();
 const canvas=await html2canvas(pdfContent,{scale:3});
@@ -251,7 +259,6 @@ docPDF.addImage(imgData,"PNG",0,0,width,height);
 docPDF.save(`Cotizacion_${numero.value}.pdf`);
 }
 
-// DISEÑO PDF
 function crearPDF(cot){
 let filas="";
 let sub=0;
@@ -271,22 +278,34 @@ let total=sub+igv;
 
 return `
 <div>
+
 <div style="text-align:center;">
 <h2 style="margin:0;font-weight:bold;">VIDRIOS Y ALUMINIOS YURI</h2>
+<div style="font-size:14px;margin-top:5px;">
+YURI HERMOZA PUELLES<br>
+RUC: 10617365036<br>
+Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
+</div>
 </div>
 
-<div style="margin-top:15px;padding:15px;border-radius:12px;
-box-shadow:0 4px 15px rgba(0,0,0,0.08);">
+<br>
+
+<div style="border:2px solid #0059b3;border-radius:12px;padding:15px;">
 
 <b>Cotización N°:</b> ${cot.numero}<br>
-<b>Fecha emisión:</b> ${cot.fecha}<br>
-<b>Válida hasta:</b> ${cot.validez}<br><br>
+<b>Fecha de emisión:</b> ${cot.fecha}<br>
+<b>Válida hasta:</b> ${cot.validez}
 
+</div>
+
+<br>
+
+<div style="background:#f1f1f1;padding:12px;border-radius:8px;">
+<b>DATOS DEL CLIENTE</b><br><br>
 <b>Cliente:</b> ${cot.cliente}<br>
 <b>DNI/RUC:</b> ${cot.doc}<br>
 <b>Teléfono:</b> ${cot.telefono}<br>
 <b>Dirección:</b> ${cot.direccion}
-
 </div>
 
 <table border="1" width="100%" style="margin-top:20px;border-collapse:collapse;">
@@ -301,13 +320,23 @@ ${filas}
 </table>
 
 <div style="text-align:right;margin-top:15px;">
-Costo: S/ ${sub.toFixed(2)}<br>
+Subtotal: S/ ${sub.toFixed(2)}<br>
 IGV (18%): S/ ${igv.toFixed(2)}<br>
 <b style="font-size:16px;">TOTAL: S/ ${total.toFixed(2)}</b>
 </div>
 
 <br><br>
-<div style="background:#0059b3;color:white;padding:15px;text-align:center;margin-top:40px;">
+
+<div style="margin-top:20px;">
+<b>MÉTODO DE PAGO</b><br>
+Cuenta BCP: 52671107164027<br>
+CCI: 00252617110716402721
+</div>
+
+<br><br>
+
+<div style="position:absolute;bottom:0;left:0;width:100%;
+background:#0059b3;color:white;text-align:center;padding:12px;">
 CC.HACCA S/N OMACHA - PARURO - CUSCO<br>
 Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
