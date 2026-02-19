@@ -22,6 +22,7 @@ h1{
   font-size:30px;
   border-bottom:3px solid #0059b3;
   padding-bottom:10px;
+  margin-bottom:20px;
 }
 .panel{
   background:white;
@@ -36,6 +37,7 @@ input,textarea{
   margin-bottom:10px;
   border-radius:8px;
   border:1.5px solid #0073e6;
+  box-sizing:border-box;
 }
 button{
   padding:8px 14px;
@@ -45,7 +47,10 @@ button{
   color:white;
   cursor:pointer;
   margin-right:6px;
+  margin-top:5px;
+  transition: 0.2s;
 }
+button:hover{opacity:0.85;}
 button.danger{background:#cc0000;}
 button.gray{background:#6c757d;}
 .flex{display:flex;gap:10px;flex-wrap:wrap;}
@@ -59,11 +64,14 @@ th{
   background:#0059b3;
   color:white;
   padding:8px;
+  text-align:center;
 }
 td{
   border:1px solid #ccc;
   padding:6px;
+  text-align:center;
 }
+td.left{text-align:left;}
 .total-box{
   background:#eef5ff;
   padding:15px;
@@ -71,13 +79,22 @@ td{
   text-align:right;
   font-weight:600;
 }
-iframe{
-  width:100%;
-  height:600px;
-  border:1px solid #ccc;
-  margin-top:20px;
+.logo-preview,.firma-preview{max-height:80px;margin-top:10px;display:block;}
+#logoPreviewWrapper,#firmaPreviewWrapper{position:relative;}
+.remove-btn{
+  position:absolute;
+  top:-10px;
+  right:-10px;
+  background:red;
+  color:white;
+  border-radius:50%;
+  border:none;
+  width:22px;
+  height:22px;
+  font-size:14px;
+  cursor:pointer;
 }
-.logo-preview,.firma-preview{max-height:80px;margin-top:10px;}
+#preview{width:100%;height:600px;border:1px solid #ccc;margin-top:20px;}
 </style>
 </head>
 
@@ -85,19 +102,28 @@ iframe{
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 
+<!-- CONFIGURACIÓN EMPRESA -->
 <div class="panel">
 <h3>Configuración Empresa</h3>
+
 <label>Subir Logo PNG</label>
 <input type="file" id="logoInput" accept="image/png">
-<img id="logoPreview" class="logo-preview">
+<div id="logoPreviewWrapper">
+  <img id="logoPreview" class="logo-preview">
+  <button class="remove-btn" id="removeLogoBtn" style="display:none;">&times;</button>
+</div>
 
 <label>Subir Firma PNG</label>
 <input type="file" id="firmaInput" accept="image/png">
-<img id="firmaPreview" class="firma-preview">
+<div id="firmaPreviewWrapper">
+  <img id="firmaPreview" class="firma-preview">
+  <button class="remove-btn" id="removeFirmaBtn" style="display:none;">&times;</button>
+</div>
 </div>
 
+<!-- HISTORIAL -->
 <div class="panel">
-<h2>Historial</h2>
+<h2>Historial de Cotizaciones</h2>
 <input type="text" id="buscar" placeholder="Buscar por cliente / DNI / RUC">
 <table>
 <thead>
@@ -116,6 +142,7 @@ iframe{
 <button onclick="nueva()">+ Nueva Cotización</button>
 </div>
 
+<!-- FORMULARIO COTIZACIÓN -->
 <div class="panel" id="formulario" style="display:none;">
 
 <h2>Cotización</h2>
@@ -137,8 +164,8 @@ iframe{
 <input id="codigo" placeholder="Código">
 <input id="descripcion" placeholder="Descripción">
 <input id="medidas" placeholder="Medidas">
-<input id="cantidad" type="number" value="1">
-<input id="precio" type="number" value="0">
+<input id="cantidad" type="number" value="1" min="1">
+<input id="precio" type="number" value="0" min="0">
 </div>
 <button onclick="agregar()">Agregar Ítem</button>
 
@@ -174,101 +201,232 @@ TOTAL: S/ <span id="tot">0.00</span>
 let lista=[];
 let editIndex=null;
 
-function nueva(){
-document.getElementById("formulario").style.display="block";
-generarNumero();
-}
+// LOGO / FIRMA
+const logoInput=document.getElementById("logoInput");
+const firmaInput=document.getElementById("firmaInput");
+const logoPreview=document.getElementById("logoPreview");
+const firmaPreview=document.getElementById("firmaPreview");
+const removeLogoBtn=document.getElementById("removeLogoBtn");
+const removeFirmaBtn=document.getElementById("removeFirmaBtn");
 
-function generarNumero(){
-let usados=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let numeros=usados.map(c=>parseInt(c.numero));
-let n=1;
-while(numeros.includes(n)) n++;
-document.getElementById("numero").value=n;
-}
-
-function agregar(){
-let codigo=document.getElementById("codigo").value;
-let desc=document.getElementById("descripcion").value;
-let med=document.getElementById("medidas").value;
-let cant=parseFloat(document.getElementById("cantidad").value);
-let precio=parseFloat(document.getElementById("precio").value);
-let subtotal=cant*precio;
-lista.push({codigo,desc,med,cant,precio,subtotal});
-render();
-}
-
-function render(){
-let html="";
-lista.forEach((i,index)=>{
-html+=`<tr>
-<td>${index+1}</td>
-<td>${i.codigo}</td>
-<td>${i.desc}</td>
-<td>${i.med}</td>
-<td>${i.cant}</td>
-<td>${i.precio.toFixed(2)}</td>
-<td>${i.subtotal.toFixed(2)}</td>
-<td><button onclick="eliminarItem(${index})" class="danger">X</button></td>
-</tr>`;
+logoInput.addEventListener("change",e=>{
+  if(e.target.files && e.target.files[0]){
+    const reader=new FileReader();
+    reader.onload=e=>{logoPreview.src=e.target.result; removeLogoBtn.style.display="inline-block";}
+    reader.readAsDataURL(e.target.files[0]);
+  }
 });
-document.getElementById("items").innerHTML=html;
-calcular();
-}
+firmaInput.addEventListener("change",e=>{
+  if(e.target.files && e.target.files[0]){
+    const reader=new FileReader();
+    reader.onload=e=>{firmaPreview.src=e.target.result; removeFirmaBtn.style.display="inline-block";}
+    reader.readAsDataURL(e.target.files[0]);
+  }
+});
+removeLogoBtn.onclick=()=>{logoPreview.src=""; removeLogoBtn.style.display="none";}
+removeFirmaBtn.onclick=()=>{firmaPreview.src=""; removeFirmaBtn.style.display="none";}
 
-function eliminarItem(i){lista.splice(i,1);render();}
-
-function calcular(){
-let sub=lista.reduce((a,b)=>a+b.subtotal,0);
-let igv=sub*0.18;
-let tot=sub+igv;
-document.getElementById("sub").innerText=sub.toFixed(2);
-document.getElementById("igv").innerText=igv.toFixed(2);
-document.getElementById("tot").innerText=tot.toFixed(2);
-}
-
-function guardar(){
-let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let cot={
-numero:document.getElementById("numero").value,
-fecha:document.getElementById("fecha").value,
-cliente:document.getElementById("cliente").value,
-doc:document.getElementById("doc").value,
-total:document.getElementById("tot").innerText
-};
-data.push(cot);
-localStorage.setItem("cotizaciones",JSON.stringify(data));
-alert("Guardado");
-mostrarHistorial();
-}
-
+// HISTORIAL
 function mostrarHistorial(){
-let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let buscar=document.getElementById("buscar").value.toLowerCase();
-let html="";
-data.forEach((c,i)=>{
-if(c.cliente.toLowerCase().includes(buscar)||c.doc.includes(buscar)){
-html+=`<tr>
-<td>${c.numero}</td>
-<td>${c.cliente}</td>
-<td>${c.doc}</td>
-<td>${c.fecha}</td>
-<td>${c.total}</td>
-<td><button onclick="eliminar(${i})" class="danger">Eliminar</button></td>
-</tr>`;
+  let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+  let buscar=document.getElementById("buscar").value.toLowerCase();
+  let html="";
+  let filtrado=data.filter(c=>c.cliente.toLowerCase().includes(buscar)||c.doc.includes(buscar));
+  if(filtrado.length===0){
+    html=`<tr><td colspan="6" style="text-align:center;">No hay cotizaciones.</td></tr>`;
+  }else{
+    filtrado.forEach((c,i)=>{
+      html+=`<tr>
+      <td>${c.numero}</td>
+      <td class="left">${c.cliente}</td>
+      <td>${c.doc}</td>
+      <td>${c.fecha}</td>
+      <td>${c.total}</td>
+      <td>
+        <button onclick="editar(${c.numero})">Editar</button>
+        <button onclick="eliminar(${c.numero})" class="danger">Eliminar</button>
+      </td>
+      </tr>`;
+    });
+  }
+  document.getElementById("historial").innerHTML=html;
 }
-});
-document.getElementById("historial").innerHTML=html;
-}
-
-function eliminar(i){
-let data=JSON.parse(localStorage.getItem("cotizaciones"));
-data.splice(i,1);
-localStorage.setItem("cotizaciones",JSON.stringify(data));
-mostrarHistorial();
-}
-
 document.getElementById("buscar").addEventListener("input",mostrarHistorial);
+
+// NUEVA COTIZACIÓN
+function nueva(){
+  document.getElementById("formulario").style.display="block";
+  lista=[];
+  render();
+  generarNumero();
+  let hoy=new Date().toISOString().split('T')[0];
+  document.getElementById("fecha").value=hoy;
+  let val=new Date();
+  val.setDate(val.getDate()+7);
+  document.getElementById("validez").value=val.toISOString().split('T')[0];
+}
+
+// NUMERACIÓN INTELIGENTE
+function generarNumero(){
+  let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+  let numeros=data.map(c=>parseInt(c.numero));
+  let n=1;
+  while(numeros.includes(n)) n++;
+  document.getElementById("numero").value=n;
+}
+
+// ÍTEMS
+function agregar(){
+  let codigo=document.getElementById("codigo").value;
+  let desc=document.getElementById("descripcion").value;
+  let med=document.getElementById("medidas").value;
+  let cant=parseFloat(document.getElementById("cantidad").value);
+  let precio=parseFloat(document.getElementById("precio").value);
+  if(!desc || cant<=0 || precio<0){alert("Revisa los campos"); return;}
+  lista.push({codigo,desc,med,cant,precio,subtotal:cant*precio});
+  render();
+}
+function render(){
+  let html="";
+  lista.forEach((i,index)=>{
+    html+=`<tr>
+    <td>${index+1}</td><td>${i.codigo}</td><td class="left">${i.desc}</td>
+    <td>${i.med}</td><td>${i.cant}</td><td>${i.precio.toFixed(2)}</td>
+    <td>${i.subtotal.toFixed(2)}</td>
+    <td><button onclick="eliminarItem(${index})" class="danger">X</button></td>
+    </tr>`;
+  });
+  document.getElementById("items").innerHTML=html;
+  calcular();
+}
+function eliminarItem(i){lista.splice(i,1); render();}
+
+// CALCULO
+function calcular(){
+  let sub=lista.reduce((a,b)=>a+b.subtotal,0);
+  let igv=sub*0.18;
+  let tot=sub+igv;
+  document.getElementById("sub").innerText=sub.toFixed(2);
+  document.getElementById("igv").innerText=igv.toFixed(2);
+  document.getElementById("tot").innerText=tot.toFixed(2);
+}
+
+// GUARDAR
+function guardar(){
+  let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+  let cot={
+    numero:document.getElementById("numero").value,
+    fecha:document.getElementById("fecha").value,
+    validez:document.getElementById("validez").value,
+    cliente:document.getElementById("cliente").value,
+    doc:document.getElementById("doc").value,
+    telefono:document.getElementById("telefono").value,
+    direccion:document.getElementById("direccion").value,
+    items:lista,
+    total:document.getElementById("tot").innerText
+  };
+  // Reemplaza si ya existe
+  let idx=data.findIndex(c=>c.numero==cot.numero);
+  if(idx>=0)data[idx]=cot; else data.push(cot);
+  localStorage.setItem("cotizaciones",JSON.stringify(data));
+  alert("Guardado!");
+  document.getElementById("formulario").style.display="none";
+  mostrarHistorial();
+}
+
+// ELIMINAR
+function eliminar(n){
+  if(confirm("¿Eliminar cotización?")){
+    let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+    data=data.filter(c=>c.numero!=n);
+    localStorage.setItem("cotizaciones",JSON.stringify(data));
+    mostrarHistorial();
+  }
+}
+
+// EDITAR
+function editar(n){
+  let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+  let cot=data.find(c=>c.numero==n);
+  if(!cot)return;
+  document.getElementById("formulario").style.display="block";
+  document.getElementById("numero").value=cot.numero;
+  document.getElementById("fecha").value=cot.fecha;
+  document.getElementById("validez").value=cot.validez;
+  document.getElementById("cliente").value=cot.cliente;
+  document.getElementById("doc").value=cot.doc;
+  document.getElementById("telefono").value=cot.telefono;
+  document.getElementById("direccion").value=cot.direccion;
+  lista=cot.items||[];
+  render();
+}
+
+// CANCELAR
+function cancelar(){document.getElementById("formulario").style.display="none";}
+
+// VISTA PDF
+function vista(){pdf(true);}
+function pdf(preview=false){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF();
+  let x=10,y=15;
+  if(logoPreview.src)doc.addImage(logoPreview.src,'PNG',x,y,40,20);
+  doc.setFontSize(16); doc.setFont("helvetica","bold");
+  doc.text("VIDRIOS Y ALUMINIOS YURI",10,y+30);
+  doc.setFontSize(10); doc.setFont("helvetica","normal");
+  doc.text(`Fecha: ${document.getElementById("fecha").value}`,150,y);
+  doc.text(`Validez: ${document.getElementById("validez").value}`,150,y+6);
+  y+=40;
+  doc.setFontSize(12); doc.text(`Cliente: ${document.getElementById("cliente").value}`,10,y);
+  doc.text(`DNI/RUC: ${document.getElementById("doc").value}`,10,y+6);
+  doc.text(`Tel: ${document.getElementById("telefono").value}`,10,y+12);
+  doc.text(`Dir: ${document.getElementById("direccion").value}`,10,y+18);
+  y+=30;
+  doc.setFillColor(0,102,204); doc.setTextColor(255,255,255);
+  doc.rect(10,y-5,190,7,'F'); doc.setTextColor(0,0,0); doc.setFontSize(10);
+  doc.text("#",12,y); doc.text("Código",20,y); doc.text("Descripción",40,y);
+  doc.text("Medidas",110,y); doc.text("Cant",140,y); doc.text("P.Unit",155,y); doc.text("Subtotal",180,y);
+  y+=5;
+  lista.forEach((i,idx)=>{
+    y+=7;
+    doc.text((idx+1).toString(),12,y);
+    doc.text(i.codigo,20,y);
+    doc.text(i.desc,40,y,{maxWidth:65});
+    doc.text(i.med,110,y);
+    doc.text(i.cant.toString(),140,y);
+    doc.text(i.precio.toFixed(2),155,y);
+    doc.text(i.subtotal.toFixed(2),180,y);
+  });
+  y+=10;
+  let sub=parseFloat(document.getElementById("sub").innerText);
+  let igv=parseFloat(document.getElementById("igv").innerText);
+  let tot=parseFloat(document.getElementById("tot").innerText);
+  doc.text(`Subtotal: S/ ${sub.toFixed(2)}`,140,y);
+  doc.text(`IGV 18%: S/ ${igv.toFixed(2)}`,140,y+6);
+  doc.setFont("helvetica","bold");
+  doc.text(`TOTAL: S/ ${tot.toFixed(2)}`,140,y+12);
+  if(firmaPreview.src)doc.addImage(firmaPreview.src,'PNG',10,y+20,50,20);
+  if(preview)document.getElementById("preview").src=doc.output('datauristring'); else doc.save(`Cotizacion_${document.getElementById("cliente").value}_${document.getElementById("numero").value}.pdf`);
+}
+
+// EXPORTAR IMAGEN
+function imagen(){
+  html2canvas(document.getElementById("formulario")).then(canvas=>{
+    canvas.toBlob(blob=>{
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=`Cotizacion_${document.getElementById("cliente").value}.png`;
+      a.click();
+    });
+  });
+}
+
+// WHATSAPP
+function whatsapp(){
+  const url=`https://wa.me/?text=${encodeURIComponent(`Hola ${document.getElementById("cliente").value}, te envío la cotización N° ${document.getElementById("numero").value} Total S/ ${document.getElementById("tot").innerText}`)}`;
+  window.open(url,'_blank');
+}
+
 mostrarHistorial();
 </script>
 
