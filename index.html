@@ -124,7 +124,10 @@ td.left{text-align:left;}
 <!-- HISTORIAL -->
 <div class="panel">
 <h2>Historial de Cotizaciones</h2>
+<div class="flex">
 <input type="text" id="buscar" placeholder="Buscar por cliente / DNI / RUC">
+<button onclick="mostrarHistorial()">Buscar</button>
+</div>
 <table>
 <thead>
 <tr>
@@ -148,7 +151,7 @@ td.left{text-align:left;}
 <h2>Cotización</h2>
 
 <div class="flex">
-<div><label>N°</label><input id="numero"></div>
+<div><label>N°</label><input id="numero" readonly></div>
 <div><label>Fecha Emisión</label><input type="date" id="fecha"></div>
 <div><label>Validez</label><input type="date" id="validez"></div>
 </div>
@@ -165,15 +168,15 @@ td.left{text-align:left;}
 <input id="descripcion" placeholder="Descripción">
 <input id="medidas" placeholder="Medidas">
 <input id="cantidad" type="number" value="1" min="1">
-<input id="precio" type="number" value="0" min="0">
+<input id="precio" type="number" value="0" min="0" step="0.01">
 </div>
-<button onclick="agregar()">Agregar Ítem</button>
+<button onclick="agregar()">Agregar Item</button>
 
 <table>
 <thead>
 <tr>
-<th>#</th><th>Código</th><th>Descripción</th><th>Medidas</th>
-<th>Cant</th><th>P.Unit</th><th>Subtotal</th><th></th>
+<th>Item</th><th>Código</th><th>Descripción</th><th>Medidas</th>
+<th>Cantidad</th><th>Precio Unitario</th><th>Subtotal</th><th>Acción</th>
 </tr>
 </thead>
 <tbody id="items"></tbody>
@@ -235,6 +238,7 @@ function mostrarHistorial(){
   if(filtrado.length===0){
     html=`<tr><td colspan="6" style="text-align:center;">No hay cotizaciones.</td></tr>`;
   }else{
+    filtrado.sort((a,b)=>a.numero-b.numero);
     filtrado.forEach((c,i)=>{
       html+=`<tr>
       <td>${c.numero}</td>
@@ -251,7 +255,9 @@ function mostrarHistorial(){
   }
   document.getElementById("historial").innerHTML=html;
 }
-document.getElementById("buscar").addEventListener("input",mostrarHistorial);
+
+// BUSCAR EN TIEMPO REAL CON BOTÓN
+document.getElementById("buscar").addEventListener("keypress",e=>{if(e.key==='Enter') mostrarHistorial();});
 
 // NUEVA COTIZACIÓN
 function nueva(){
@@ -264,6 +270,10 @@ function nueva(){
   let val=new Date();
   val.setDate(val.getDate()+7);
   document.getElementById("validez").value=val.toISOString().split('T')[0];
+  document.getElementById("cliente").value="";
+  document.getElementById("doc").value="";
+  document.getElementById("telefono").value="";
+  document.getElementById("direccion").value="";
 }
 
 // NUMERACIÓN INTELIGENTE
@@ -285,6 +295,11 @@ function agregar(){
   if(!desc || cant<=0 || precio<0){alert("Revisa los campos"); return;}
   lista.push({codigo,desc,med,cant,precio,subtotal:cant*precio});
   render();
+  document.getElementById("codigo").value="";
+  document.getElementById("descripcion").value="";
+  document.getElementById("medidas").value="";
+  document.getElementById("cantidad").value=1;
+  document.getElementById("precio").value=0;
 }
 function render(){
   let html="";
@@ -313,6 +328,7 @@ function calcular(){
 
 // GUARDAR
 function guardar(){
+  if(lista.length===0){alert("Agrega al menos un item"); return;}
   let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
   let cot={
     numero:document.getElementById("numero").value,
@@ -325,7 +341,6 @@ function guardar(){
     items:lista,
     total:document.getElementById("tot").innerText
   };
-  // Reemplaza si ya existe
   let idx=data.findIndex(c=>c.numero==cot.numero);
   if(idx>=0)data[idx]=cot; else data.push(cot);
   localStorage.setItem("cotizaciones",JSON.stringify(data));
@@ -369,33 +384,38 @@ function vista(){pdf(true);}
 function pdf(preview=false){
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF();
-  let x=10,y=15;
-  if(logoPreview.src)doc.addImage(logoPreview.src,'PNG',x,y,40,20);
+  let y=20;
+  if(logoPreview.src)doc.addImage(logoPreview.src,'PNG',10,10,50,25);
   doc.setFontSize(16); doc.setFont("helvetica","bold");
-  doc.text("VIDRIOS Y ALUMINIOS YURI",10,y+30);
+  doc.text("VIDRIOS Y ALUMINIOS YURI",70,20);
   doc.setFontSize(10); doc.setFont("helvetica","normal");
-  doc.text(`Fecha: ${document.getElementById("fecha").value}`,150,y);
-  doc.text(`Validez: ${document.getElementById("validez").value}`,150,y+6);
-  y+=40;
-  doc.setFontSize(12); doc.text(`Cliente: ${document.getElementById("cliente").value}`,10,y);
-  doc.text(`DNI/RUC: ${document.getElementById("doc").value}`,10,y+6);
-  doc.text(`Tel: ${document.getElementById("telefono").value}`,10,y+12);
-  doc.text(`Dir: ${document.getElementById("direccion").value}`,10,y+18);
-  y+=30;
+  doc.text(`Fecha: ${document.getElementById("fecha").value}`,150,10);
+  doc.text(`Validez: ${document.getElementById("validez").value}`,150,16);
+  y+=10;
+  doc.text(`Cliente: ${document.getElementById("cliente").value}`,10,y+20);
+  doc.text(`DNI/RUC: ${document.getElementById("doc").value}`,10,y+26);
+  doc.text(`Tel: ${document.getElementById("telefono").value}`,10,y+32);
+  doc.text(`Dir: ${document.getElementById("direccion").value}`,10,y+38);
+  y+=50;
   doc.setFillColor(0,102,204); doc.setTextColor(255,255,255);
   doc.rect(10,y-5,190,7,'F'); doc.setTextColor(0,0,0); doc.setFontSize(10);
-  doc.text("#",12,y); doc.text("Código",20,y); doc.text("Descripción",40,y);
-  doc.text("Medidas",110,y); doc.text("Cant",140,y); doc.text("P.Unit",155,y); doc.text("Subtotal",180,y);
+  doc.text("Item",12,y);
+  doc.text("Código",22,y);
+  doc.text("Descripción",50,y);
+  doc.text("Medidas",120,y);
+  doc.text("Cantidad",140,y);
+  doc.text("Precio Unitario",155,y);
+  doc.text("Subtotal",185,y);
   y+=5;
   lista.forEach((i,idx)=>{
     y+=7;
     doc.text((idx+1).toString(),12,y);
-    doc.text(i.codigo,20,y);
-    doc.text(i.desc,40,y,{maxWidth:65});
-    doc.text(i.med,110,y);
+    doc.text(i.codigo,22,y);
+    doc.text(i.desc,50,y,{maxWidth:65});
+    doc.text(i.med,120,y);
     doc.text(i.cant.toString(),140,y);
     doc.text(i.precio.toFixed(2),155,y);
-    doc.text(i.subtotal.toFixed(2),180,y);
+    doc.text(i.subtotal.toFixed(2),185,y);
   });
   y+=10;
   let sub=parseFloat(document.getElementById("sub").innerText);
@@ -405,7 +425,7 @@ function pdf(preview=false){
   doc.text(`IGV 18%: S/ ${igv.toFixed(2)}`,140,y+6);
   doc.setFont("helvetica","bold");
   doc.text(`TOTAL: S/ ${tot.toFixed(2)}`,140,y+12);
-  if(firmaPreview.src)doc.addImage(firmaPreview.src,'PNG',10,y+20,50,20);
+  if(firmaPreview.src)doc.addImage(firmaPreview.src,'PNG',10,y+15,50,20);
   if(preview)document.getElementById("preview").src=doc.output('datauristring'); else doc.save(`Cotizacion_${document.getElementById("cliente").value}_${document.getElementById("numero").value}.pdf`);
 }
 
