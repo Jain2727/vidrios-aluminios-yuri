@@ -1,76 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vidrios y Aluminios Yuri - Sistema Profesional</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-body{
-  font-family:'Inter',sans-serif;
-  background:#f4f7fb;
-  margin:20px;
-  color:#003366;
-}
-h1{font-size:28px;margin-bottom:20px;}
-.panel{
-  background:#fff;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 6px 20px rgba(0,0,0,.08);
-  margin-bottom:30px;
-}
-input,textarea,select{
-  width:100%;
-  padding:8px;
-  margin-top:5px;
-  margin-bottom:10px;
-  border-radius:8px;
-  border:1px solid #0073e6;
-}
-button{
-  background:#0059b3;
-  color:#fff;
-  border:none;
-  padding:8px 14px;
-  border-radius:8px;
-  cursor:pointer;
-  margin:4px;
-}
-button:hover{background:#003f88;}
-button.danger{background:#c40000;}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th,td{border:1px solid #ddd;padding:8px;font-size:14px;}
-th{background:#0059b3;color:#fff;}
-.total-box{
-  background:#eef5ff;
-  padding:15px;
-  border-radius:12px;
-  margin-top:15px;
-  font-weight:600;
-}
-#preview{
-  width:100%;
-  height:600px;
-  border:1px solid #ccc;
-  margin-top:15px;
+body{font-family:'Times New Roman',serif;background:#f7f9fc;margin:25px;color:#003366}
+h1,h2,h3{font-family:'Inter',sans-serif}
+.panel{background:#fff;padding:20px 25px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.08);margin-bottom:40px}
+label{font-weight:600;font-size:14px;margin-top:12px;display:block}
+input,textarea,select{padding:8px 10px;border-radius:8px;border:1.5px solid #0073e6;width:100%;box-sizing:border-box;margin-top:4px}
+button{background:#0059b3;border:none;padding:8px 14px;border-radius:8px;color:white;cursor:pointer;margin:5px 6px 5px 0;font-weight:600}
+button:hover{background:#004494}
+button.danger{background:#cc0000}
+table{border-collapse:collapse;width:100%;margin-top:15px}
+th{background:#0059b3;color:white;padding:10px;text-align:center}
+td{border:1px solid #c9d6e3;padding:8px;font-size:14px}
+.total-box{margin-top:15px;background:#eef5ff;padding:12px;border-radius:12px;font-weight:600;text-align:right}
+#preview{width:100%;height:600px;border:1px solid #ccc;margin-top:20px;border-radius:12px}
+.watermark{
+position:absolute;
+top:40%;
+left:20%;
+font-size:80px;
+color:rgba(0,0,0,0.08);
+transform:rotate(-30deg);
+font-weight:bold;
+pointer-events:none;
 }
 </style>
 </head>
 <body>
 
-<h1>VIDRIOS Y ALUMINIOS YURI - SISTEMA PROFESIONAL</h1>
+<h1>VIDRIOS Y ALUMINIOS YURI</h1>
 
 <div class="panel">
 <h2>Historial</h2>
-<input type="text" id="buscar" placeholder="Buscar cliente...">
-<button onclick="mostrarHistorial()">Buscar</button>
-<button onclick="nueva()">+ Nueva</button>
+<button onclick="nueva()">+ Nueva Cotización</button>
 <table>
 <thead>
 <tr>
@@ -114,7 +86,7 @@ th{background:#0059b3;color:#fff;}
 <option>Rechazada</option>
 </select>
 
-<h3>Items</h3>
+<h3>Ítems</h3>
 
 <input id="descripcion" placeholder="Descripción">
 <input id="cantidad" type="number" value="1">
@@ -135,171 +107,219 @@ th{background:#0059b3;color:#fff;}
 <tbody id="items"></tbody>
 </table>
 
-<label>Descuento (%)</label>
-<input type="number" id="descuento" value="0" oninput="render()">
+<div class="total-box">
+Subtotal: S/ <span id="sub">0.00</span><br>
+Descuento: S/ <span id="descMonto">0.00</span><br>
+IGV 18%: S/ <span id="igv">0.00</span><br>
+TOTAL: S/ <span id="tot">0.00</span><br>
+Adelanto: S/ <span id="adelantoMonto">0.00</span><br>
+Saldo Pendiente: S/ <span id="saldo">0.00</span>
+</div>
 
-<label>Condiciones de Pago</label>
-<textarea id="condiciones">50% adelanto y 50% contra entrega</textarea>
+<label>Descuento (%)</label>
+<input type="number" id="descuento" value="0" min="0" max="100" oninput="render()">
+
+<label>Adelanto (%)</label>
+<input type="number" id="adelanto" value="0" min="0" max="100" oninput="render()">
+
+<label>Condiciones</label>
+<textarea id="condiciones"></textarea>
 
 <label>Observaciones</label>
 <textarea id="observaciones"></textarea>
 
-<div class="total-box">
-Subtotal: S/ <span id="sub">0.00</span><br>
-Descuento: S/ <span id="descMonto">0.00</span><br>
-IGV (18%): S/ <span id="igv">0.00</span><br>
-TOTAL: S/ <span id="tot">0.00</span>
-</div>
-
 <button onclick="guardar()">Guardar</button>
+<button onclick="duplicar()">Duplicar</button>
 <button onclick="vista()">Vista PDF</button>
 <button onclick="pdf()">Descargar PDF</button>
-<button onclick="duplicar()">Duplicar</button>
 <button onclick="cancelar()" class="danger">Cancelar</button>
 
 <iframe id="preview"></iframe>
 </div>
 
-<div id="pdfContent" style="display:none;"></div>
+<div id="pdfContent" style="display:none;position:relative;"></div>
 
 <script>
-
 let lista=[];
+let editIndex=null;
 
 function generarNumero(){
-  const año=new Date().getFullYear();
-  let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-  let num=data.length+1;
-  return año+"-"+num.toString().padStart(4,"0");
+let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+const año=new Date().getFullYear();
+let nums=data.filter(c=>c.numero.startsWith(año))
+.map(c=>parseInt(c.numero.split("-")[1]));
+let n=1;
+while(nums.includes(n))n++;
+return año+"-"+n.toString().padStart(4,"0");
 }
 
 function nueva(){
-  lista=[];
-  document.getElementById("formulario").style.display="block";
-  document.getElementById("numero").value=generarNumero();
-  document.getElementById("fecha").value=new Date().toISOString().split("T")[0];
-  render();
+lista=[];
+editIndex=null;
+formulario.style.display="block";
+numero.value=generarNumero();
+fecha.value=new Date().toISOString().split("T")[0];
+render();
 }
 
 function agregar(){
-  const desc=document.getElementById("descripcion").value;
-  const cant=parseFloat(document.getElementById("cantidad").value);
-  const pre=parseFloat(document.getElementById("precio").value);
-  if(!desc||cant<=0||pre<0)return alert("Datos inválidos");
-  lista.push({desc,cant,pre});
-  document.getElementById("descripcion").value="";
-  render();
+let d=descripcion.value;
+let c=parseFloat(cantidad.value);
+let p=parseFloat(precio.value);
+if(!d||c<=0||p<0)return alert("Datos inválidos");
+lista.push({d,c,p});
+descripcion.value="";
+render();
 }
 
 function render(){
-  let tbody=document.getElementById("items");
-  tbody.innerHTML="";
-  let subtotal=0;
-  lista.forEach((i,index)=>{
-    let st=i.cant*i.pre;
-    subtotal+=st;
-    tbody.innerHTML+=`
-    <tr>
-    <td>${index+1}</td>
-    <td>${i.desc}</td>
-    <td>${i.cant}</td>
-    <td>${i.pre.toFixed(2)}</td>
-    <td>${st.toFixed(2)}</td>
-    <td><button onclick="eliminarItem(${index})">X</button></td>
-    </tr>`;
-  });
+items.innerHTML="";
+let subtotal=0;
+lista.forEach((i,index)=>{
+let st=i.c*i.p;
+subtotal+=st;
+items.innerHTML+=`
+<tr>
+<td>${index+1}</td>
+<td>${i.d}</td>
+<td>${i.c}</td>
+<td>${i.p.toFixed(2)}</td>
+<td>${st.toFixed(2)}</td>
+<td><button onclick="eliminarItem(${index})">X</button></td>
+</tr>`;
+});
 
-  let descP=parseFloat(document.getElementById("descuento").value)||0;
-  let descMonto=subtotal*(descP/100);
-  let base=subtotal-descMonto;
-  let igv=base*0.18;
-  let total=base+igv;
+let desc=parseFloat(descuento.value)||0;
+let descMonto=subtotal*(desc/100);
+let base=subtotal-descMonto;
+let igvCalc=base*0.18;
+let total=base+igvCalc;
 
-  document.getElementById("sub").textContent=subtotal.toFixed(2);
-  document.getElementById("descMonto").textContent=descMonto.toFixed(2);
-  document.getElementById("igv").textContent=igv.toFixed(2);
-  document.getElementById("tot").textContent=total.toFixed(2);
+let adel=parseFloat(adelanto.value)||0;
+let adelMonto=total*(adel/100);
+let saldoCalc=total-adelMonto;
+
+sub.textContent=subtotal.toFixed(2);
+descMontoSpan=document.getElementById("descMonto");
+descMontoSpan.textContent=descMonto.toFixed(2);
+igv.textContent=igvCalc.toFixed(2);
+tot.textContent=total.toFixed(2);
+adelantoMonto.textContent=adelMonto.toFixed(2);
+saldo.textContent=saldoCalc.toFixed(2);
 }
 
-function eliminarItem(i){
-  lista.splice(i,1);
-  render();
-}
+function eliminarItem(i){lista.splice(i,1);render();}
 
 function guardar(){
-  let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-  let cot={
-    numero:numero.value,
-    fecha:fecha.value,
-    cliente:cliente.value,
-    estado:estado.value,
-    total:tot.textContent
-  };
-  data.push(cot);
-  localStorage.setItem("cotizaciones",JSON.stringify(data));
-  alert("Guardado");
-  cancelar();
-  mostrarHistorial();
+let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+let cot={
+numero:numero.value,
+fecha:fecha.value,
+cliente:cliente.value,
+doc:doc.value,
+estado:estado.value,
+total:tot.textContent,
+items:lista,
+descuento:descuento.value,
+adelanto:adelanto.value,
+condiciones:condiciones.value,
+observaciones:observaciones.value
+};
+if(editIndex!==null)data[editIndex]=cot;
+else data.push(cot);
+localStorage.setItem("cotizaciones",JSON.stringify(data));
+mostrarHistorial();
+cancelar();
 }
 
 function mostrarHistorial(){
-  let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-  let html="";
-  data.forEach(c=>{
-    html+=`<tr>
-    <td>${c.numero}</td>
-    <td>${c.cliente}</td>
-    <td>${c.fecha}</td>
-    <td>${c.estado}</td>
-    <td>${c.total}</td>
-    <td><button onclick="eliminar('${c.numero}')">Eliminar</button></td>
-    </tr>`;
-  });
-  historial.innerHTML=html;
+let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+historial.innerHTML="";
+data.forEach((c,index)=>{
+historial.innerHTML+=`
+<tr>
+<td>${c.numero}</td>
+<td>${c.cliente}</td>
+<td>${c.fecha}</td>
+<td>${c.estado}</td>
+<td>S/ ${c.total}</td>
+<td>
+<button onclick="editar(${index})">Editar</button>
+<button onclick="eliminar(${index})" class="danger">Eliminar</button>
+</td>
+</tr>`;
+});
 }
 
-function eliminar(num){
-  let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-  data=data.filter(c=>c.numero!==num);
-  localStorage.setItem("cotizaciones",JSON.stringify(data));
-  mostrarHistorial();
+function editar(i){
+let data=JSON.parse(localStorage.getItem("cotizaciones"));
+let c=data[i];
+editIndex=i;
+formulario.style.display="block";
+numero.value=c.numero;
+fecha.value=c.fecha;
+cliente.value=c.cliente;
+doc.value=c.doc;
+estado.value=c.estado;
+lista=c.items;
+descuento.value=c.descuento||0;
+adelanto.value=c.adelanto||0;
+condiciones.value=c.condiciones||"";
+observaciones.value=c.observaciones||"";
+render();
 }
 
-function cancelar(){
-  document.getElementById("formulario").style.display="none";
+function eliminar(i){
+let data=JSON.parse(localStorage.getItem("cotizaciones"));
+data.splice(i,1);
+localStorage.setItem("cotizaciones",JSON.stringify(data));
+mostrarHistorial();
 }
+
+function cancelar(){formulario.style.display="none";}
 
 function duplicar(){
-  nueva();
+numero.value=generarNumero();
+editIndex=null;
 }
 
 async function vista(){
-  pdf();
+const cot=JSON.parse(localStorage.getItem("cotizaciones")).find(c=>c.numero===numero.value);
+await generarPDF(cot,false);
 }
 
 async function pdf(){
-  const pdfDiv=document.getElementById("pdfContent");
-  pdfDiv.innerHTML=`<h1 style="text-align:center;">VIDRIOS Y ALUMINIOS YURI</h1>
-  <h2>${numero.value}</h2>
-  <p><b>Cliente:</b> ${cliente.value}</p>
-  <p><b>Fecha:</b> ${fecha.value}</p>
-  <hr>
-  <p>Total: S/ ${tot.textContent}</p>
-  <br><p style="opacity:0.1;font-size:60px;text-align:center;">VIDRIOS Y ALUMINIOS YURI</p>`;
+const cot=JSON.parse(localStorage.getItem("cotizaciones")).find(c=>c.numero===numero.value);
+await generarPDF(cot,true);
+}
 
-  pdfDiv.style.display="block";
-
-  const canvas=await html2canvas(pdfDiv,{scale:3});
-  const imgData=canvas.toDataURL("image/png");
-  const doc=new jspdf.jsPDF();
-  doc.addImage(imgData,"PNG",0,0,210,297);
-  doc.save("Cotizacion.pdf");
-
-  pdfDiv.style.display="none";
+async function generarPDF(cot,descargar){
+const pdfDiv=document.getElementById("pdfContent");
+pdfDiv.innerHTML=`
+<div class="watermark">${cot.estado}</div>
+<h2 style="text-align:center">COTIZACIÓN ${cot.numero}</h2>
+<p><b>Cliente:</b> ${cot.cliente}</p>
+<p><b>DNI/RUC:</b> ${cot.doc}</p>
+<hr>
+<p><b>Total:</b> S/ ${cot.total}</p>
+<p><b>Condiciones:</b> ${cot.condiciones}</p>
+<p><b>Observaciones:</b> ${cot.observaciones}</p>
+`;
+pdfDiv.style.display="block";
+await new Promise(r=>setTimeout(r,200));
+const canvas=await html2canvas(pdfDiv,{scale:2});
+const imgData=canvas.toDataURL("image/png");
+const doc=new jspdf.jsPDF("p","pt","a4");
+const pdfWidth=doc.internal.pageSize.getWidth();
+const pdfHeight=(canvas.height*pdfWidth)/canvas.width;
+doc.addImage(imgData,"PNG",0,0,pdfWidth,pdfHeight);
+if(descargar)doc.save("Cotizacion_"+cot.numero+".pdf");
+else preview.src=doc.output("bloburl");
+pdfDiv.style.display="none";
 }
 
 mostrarHistorial();
-
 </script>
+
 </body>
 </html>
