@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vidrios y Aluminios Yuri - Cotizador Profesional</title>
+<title>Vidrios y Aluminios Yuri - Sistema Profesional</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -13,16 +13,21 @@
 <style>
 body{
     font-family:'Inter',sans-serif;
-    background:#f4f7fb;
+    background:#f3f6fb;
     margin:25px;
     color:#003366;
 }
-h1{font-size:28px;font-weight:700;}
+h1{
+    text-align:center;
+    font-size:32px;
+    font-weight:800;
+    letter-spacing:1px;
+}
 .panel{
     background:white;
     padding:20px;
     border-radius:15px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
     margin-bottom:30px;
 }
 input,textarea{
@@ -57,26 +62,15 @@ td{border:1px solid #ccc;padding:6px;}
 }
 #preview{
     width:100%;
-    height:650px;
+    height:700px;
     border:1px solid #ccc;
     margin-top:20px;
 }
-.remove-btn{
-    position:absolute;
-    top:-5px;
-    right:-5px;
-    background:red;
-    color:white;
-    border-radius:50%;
-    width:20px;
-    height:20px;
-    border:none;
-    cursor:pointer;
-}
 #pdfContent{
     font-family:'Times New Roman',serif;
-    width:800px;
-    padding:30px;
+    width:794px;
+    padding:40px;
+    background:white;
 }
 </style>
 </head>
@@ -85,64 +79,37 @@ td{border:1px solid #ccc;padding:6px;}
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 
-<!-- CONFIGURACIÓN -->
 <div class="panel">
-<h3>Configuración Empresa</h3>
-
-<label>Logo PNG</label>
-<input type="file" id="logoInput" accept="image/png">
-<div style="position:relative;display:inline-block;">
-<img id="logoPreview" style="max-height:80px;">
-<button class="remove-btn" onclick="eliminarLogo()">×</button>
+<button onclick="nueva()">Nueva Cotización</button>
+<button onclick="guardar()">Guardar</button>
+<button onclick="vista()">Vista PDF</button>
+<button onclick="descargarPDF()">Descargar PDF</button>
 </div>
 
-<label>Firma PNG</label>
-<input type="file" id="firmaInput" accept="image/png">
-<div style="position:relative;display:inline-block;">
-<img id="firmaPreview" style="max-height:80px;">
-<button class="remove-btn" onclick="eliminarFirma()">×</button>
-</div>
-
-</div>
-
-<!-- HISTORIAL -->
 <div class="panel">
-<h3>Historial</h3>
-<input type="text" id="buscar" placeholder="Buscar cliente / DNI">
-<button onclick="mostrarHistorial()">Buscar</button>
 
-<table>
-<thead>
-<tr>
-<th>N°</th>
-<th>Cliente</th>
-<th>DNI</th>
-<th>Total</th>
-<th>Acción</th>
-</tr>
-</thead>
-<tbody id="historial"></tbody>
-</table>
-<button onclick="nueva()">Nueva</button>
+<div class="flex">
+<div>
+<label>N° Cotización</label>
+<input id="numero" readonly>
+</div>
+<div>
+<label>Fecha emisión</label>
+<input id="fecha">
+</div>
+<div>
+<label>Válida hasta</label>
+<input id="validez">
+</div>
 </div>
 
-<!-- FORMULARIO -->
-<div class="panel" id="formulario" style="display:none;">
-<h3>Cotización</h3>
+<h3>Cliente</h3>
+<input id="cliente" placeholder="Nombre">
+<input id="doc" placeholder="DNI / RUC">
+<input id="telefono" placeholder="Teléfono">
+<textarea id="direccion" placeholder="Dirección"></textarea>
 
-<label>Cliente</label>
-<input id="cliente">
-
-<label>DNI / RUC</label>
-<input id="doc">
-
-<label>Teléfono</label>
-<input id="telefono">
-
-<label>Dirección</label>
-<textarea id="direccion"></textarea>
-
-<h4>Items</h4>
+<h3>Items</h3>
 <input id="descripcion" placeholder="Descripción">
 <input id="cantidad" type="number" value="1">
 <input id="precio" type="number" value="0">
@@ -154,7 +121,7 @@ td{border:1px solid #ccc;padding:6px;}
 <th>#</th>
 <th>Descripción</th>
 <th>Cant</th>
-<th>Precio</th>
+<th>P.Unit</th>
 <th>Subtotal</th>
 </tr>
 </thead>
@@ -163,48 +130,47 @@ td{border:1px solid #ccc;padding:6px;}
 
 <div class="total-box">
 Subtotal: S/ <span id="sub">0.00</span><br>
-IGV: S/ <span id="igv">0.00</span><br>
+IGV 18%: S/ <span id="igv">0.00</span><br>
 TOTAL: S/ <span id="tot">0.00</span>
 </div>
 
-<button onclick="vista()">Vista PDF</button>
-<button onclick="pdf()">Descargar PDF</button>
-
-<iframe id="preview"></iframe>
 </div>
 
+<iframe id="preview"></iframe>
 <div id="pdfContent" style="display:none;"></div>
 
 <script>
 let lista=[];
 
-// LOGO Y FIRMA
-logoInput.onchange=e=>{
-    const reader=new FileReader();
-    reader.onload=ev=>logoPreview.src=ev.target.result;
-    reader.readAsDataURL(e.target.files[0]);
-};
-firmaInput.onchange=e=>{
-    const reader=new FileReader();
-    reader.onload=ev=>firmaPreview.src=ev.target.result;
-    reader.readAsDataURL(e.target.files[0]);
-};
-function eliminarLogo(){logoPreview.src="";}
-function eliminarFirma(){firmaPreview.src="";}
+// NUMERACIÓN AUTOMÁTICA POR AÑO
+function generarNumero(){
+let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
+let año=new Date().getFullYear();
+let numeros=data.filter(c=>c.numero.startsWith(año))
+.map(c=>parseInt(c.numero.split("-")[1]));
+let siguiente=1;
+while(numeros.includes(siguiente)) siguiente++;
+numero.value=`${año}-${String(siguiente).padStart(4,"0")}`;
+}
 
 // NUEVA
 function nueva(){
-document.getElementById("formulario").style.display="block";
 lista=[];
 render();
-vista(); // 👈 Vista previa automática sin datos
+generarNumero();
+let hoy=new Date();
+fecha.value=hoy.toLocaleDateString();
+let val=new Date();
+val.setDate(val.getDate()+7);
+validez.value=val.toLocaleDateString();
+vista();
 }
 
-// AGREGAR ITEM
+// AGREGAR
 function agregar(){
-const d=descripcion.value;
-const c=parseFloat(cantidad.value);
-const p=parseFloat(precio.value);
+let d=descripcion.value;
+let c=parseFloat(cantidad.value);
+let p=parseFloat(precio.value);
 if(!d)return;
 lista.push({d,c,p});
 render();
@@ -220,50 +186,44 @@ let st=i.c*i.p;
 sub+=st;
 html+=`<tr>
 <td>${idx+1}</td>
-<td>${i.d}</td>
+<td style="text-align:justify;">${i.d}</td>
 <td>${i.c}</td>
 <td>${i.p.toFixed(2)}</td>
 <td>${st.toFixed(2)}</td>
 </tr>`;
 });
 items.innerHTML=html;
-sub=sub||0;
 let igv=sub*0.18;
 let total=sub+igv;
+sub=sub||0;
 document.getElementById("sub").innerText=sub.toFixed(2);
 document.getElementById("igv").innerText=igv.toFixed(2);
 document.getElementById("tot").innerText=total.toFixed(2);
 }
 
-// BUSCAR
-function mostrarHistorial(){
+// GUARDAR
+function guardar(){
 let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let b=buscar.value.toLowerCase();
-let filtrado=data.filter(c=>c.cliente.toLowerCase().includes(b));
-if(filtrado.length===0){
-historial.innerHTML=`<tr><td colspan="5" style="text-align:center;color:red;">No se encuentra</td></tr>`;
-return;
-}
-let html="";
-filtrado.forEach(c=>{
-html+=`<tr>
-<td>${c.numero}</td>
-<td>${c.cliente}</td>
-<td>${c.doc}</td>
-<td>${c.total}</td>
-<td>-</td>
-</tr>`;
+data.push({
+numero:numero.value,
+cliente:cliente.value,
+doc:doc.value,
+total:tot.innerText
 });
-historial.innerHTML=html;
+localStorage.setItem("cotizaciones",JSON.stringify(data));
+alert("Guardado correctamente");
 }
 
 // VISTA PDF
 async function vista(){
 const cot={
+numero:numero.value,
 cliente:cliente.value||"",
 doc:doc.value||"",
 telefono:telefono.value||"",
 direccion:direccion.value||"",
+fecha:fecha.value,
+validez:validez.value,
 items:lista
 };
 pdfContent.innerHTML=crearPDF(cot);
@@ -280,18 +240,18 @@ pdfContent.style.display="none";
 }
 
 // DESCARGAR
-async function pdf(){
+async function descargarPDF(){
 await vista();
-const docPDF=new jspdf.jsPDF("p","pt","a4");
 const canvas=await html2canvas(pdfContent,{scale:3});
 const imgData=canvas.toDataURL("image/png");
+const docPDF=new jspdf.jsPDF("p","pt","a4");
 const width=docPDF.internal.pageSize.getWidth();
 const height=(canvas.height*width)/canvas.width;
 docPDF.addImage(imgData,"PNG",0,0,width,height);
-docPDF.save("Cotizacion.pdf");
+docPDF.save(`Cotizacion_${numero.value}.pdf`);
 }
 
-// CREAR DISEÑO BONITO
+// DISEÑO PDF
 function crearPDF(cot){
 let filas="";
 let sub=0;
@@ -310,24 +270,26 @@ let igv=sub*0.18;
 let total=sub+igv;
 
 return `
-<div style="font-size:13px;">
-<div style="display:flex;justify-content:space-between;">
 <div>
-<h2 style="margin:0;">VIDRIOS Y ALUMINIOS YURI</h2>
-RUC: 10617365036<br>
-Dirección: APLAS JOYAS, SAN SEBASTIÁN - CUSCO
-</div>
-<div>${logoPreview.src?`<img src="${logoPreview.src}" style="max-height:80px;">`:""}</div>
+<div style="text-align:center;">
+<h2 style="margin:0;font-weight:bold;">VIDRIOS Y ALUMINIOS YURI</h2>
 </div>
 
-<hr>
+<div style="margin-top:15px;padding:15px;border-radius:12px;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);">
+
+<b>Cotización N°:</b> ${cot.numero}<br>
+<b>Fecha emisión:</b> ${cot.fecha}<br>
+<b>Válida hasta:</b> ${cot.validez}<br><br>
 
 <b>Cliente:</b> ${cot.cliente}<br>
 <b>DNI/RUC:</b> ${cot.doc}<br>
 <b>Teléfono:</b> ${cot.telefono}<br>
 <b>Dirección:</b> ${cot.direccion}
 
-<table border="1" width="100%" style="margin-top:15px;border-collapse:collapse;">
+</div>
+
+<table border="1" width="100%" style="margin-top:20px;border-collapse:collapse;">
 <tr style="background:#0059b3;color:white;">
 <th>#</th>
 <th>Descripción</th>
@@ -338,32 +300,23 @@ Dirección: APLAS JOYAS, SAN SEBASTIÁN - CUSCO
 ${filas}
 </table>
 
-<br>
-<div style="text-align:right;">
+<div style="text-align:right;margin-top:15px;">
 Costo: S/ ${sub.toFixed(2)}<br>
 IGV (18%): S/ ${igv.toFixed(2)}<br>
-<b style="font-size:15px;">TOTAL: S/ ${total.toFixed(2)}</b>
+<b style="font-size:16px;">TOTAL: S/ ${total.toFixed(2)}</b>
 </div>
 
 <br><br>
-Método de pago:<br>
-Cuenta BCP: 52671107164027<br>
-CCI: 00 2526 1711 0716 4027 21
+<div style="background:#0059b3;color:white;padding:15px;text-align:center;margin-top:40px;">
+CC.HACCA S/N OMACHA - PARURO - CUSCO<br>
+Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
+</div>
 
-<br><br><br>
-<div style="display:flex;justify-content:space-between;">
-<div>
-${firmaPreview.src?`<img src="${firmaPreview.src}" style="max-height:70px;">`:""}
-<br>_________________________<br>
-Firma
-</div>
-<div>
-Fecha: ${new Date().toLocaleDateString()}
-</div>
-</div>
 </div>
 `;
 }
+
+nueva();
 </script>
 
 </body>
