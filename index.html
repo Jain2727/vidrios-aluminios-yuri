@@ -25,7 +25,7 @@ h1{
 }
 .subtitulo{
     text-align:center;
-    font-size:15px;
+    font-size:14px;
     font-weight:600;
     line-height:1.4;
 }
@@ -54,15 +54,8 @@ button{
 }
 button:hover{background:#004494;}
 table{width:100%;border-collapse:collapse;margin-top:10px;}
-th{
-    background:#0059b3;
-    color:white;
-    padding:8px;
-}
-td{
-    border:1px solid #ccc;
-    padding:6px;
-}
+th{background:#0059b3;color:white;padding:8px;}
+td{border:1px solid #ccc;padding:6px;}
 .total-box{
     background:#eef5ff;
     padding:12px;
@@ -73,16 +66,34 @@ td{
 }
 #preview{
     width:100%;
-    height:750px;
+    height:780px;
     border:1px solid #ccc;
     margin-top:20px;
 }
 #pdfContent{
     font-family:'Times New Roman',serif;
     width:794px;
+    height:1123px;
     padding:40px;
     background:white;
     border:3px solid #0059b3;
+    position:relative;
+}
+.footer{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#0059b3;
+    color:white;
+    text-align:center;
+    padding:12px;
+}
+.logo-img{
+    max-height:90px;
+}
+.firma-img{
+    max-height:70px;
 }
 </style>
 </head>
@@ -97,22 +108,32 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 </div>
 
 <div class="panel">
+
+<label>Logo (PNG)</label>
+<input type="file" id="logoInput" accept="image/png">
+<img id="logoPreview" class="logo-img">
+
+<label>Firma (PNG)</label>
+<input type="file" id="firmaInput" accept="image/png">
+<img id="firmaPreview" class="firma-img">
+
+</div>
+
+<div class="panel">
+
 <button onclick="nueva()">Nueva Cotización</button>
 <button onclick="guardar()">Guardar</button>
 <button onclick="vista()">Vista PDF</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
-</div>
-
-<div class="panel">
 
 <label>N° Cotización</label>
 <input id="numero" readonly>
 
 <label>Fecha de emisión</label>
-<input id="fecha">
+<input type="date" id="fecha">
 
 <label>Válida hasta</label>
-<input id="validez">
+<input type="date" id="validez">
 
 <h3>Datos del Cliente</h3>
 <input id="cliente" placeholder="Nombre">
@@ -153,18 +174,25 @@ TOTAL: S/ <span id="tot">0.00</span>
 <script>
 let lista=[];
 
-function formatoFecha(fecha){
-let d=new Date(fecha);
-return d.toLocaleDateString("es-PE");
-}
+logoInput.onchange=e=>{
+const reader=new FileReader();
+reader.onload=ev=>logoPreview.src=ev.target.result;
+reader.readAsDataURL(e.target.files[0]);
+};
+
+firmaInput.onchange=e=>{
+const reader=new FileReader();
+reader.onload=ev=>firmaPreview.src=ev.target.result;
+reader.readAsDataURL(e.target.files[0]);
+};
 
 function generarNumero(){
 let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
 let año=new Date().getFullYear();
-let numeros=data.filter(c=>c.numero.startsWith(año))
+let nums=data.filter(c=>c.numero.startsWith(año))
 .map(c=>parseInt(c.numero.split("-")[1]));
 let siguiente=1;
-while(numeros.includes(siguiente)) siguiente++;
+while(nums.includes(siguiente)) siguiente++;
 numero.value=`${año}-${String(siguiente).padStart(4,"0")}`;
 }
 
@@ -172,11 +200,11 @@ function nueva(){
 lista=[];
 render();
 generarNumero();
-let hoy=new Date();
-fecha.value=formatoFecha(hoy);
+let hoy=new Date().toISOString().split("T")[0];
+fecha.value=hoy;
 let val=new Date();
 val.setDate(val.getDate()+7);
-validez.value=formatoFecha(val);
+validez.value=val.toISOString().split("T")[0];
 vista();
 }
 
@@ -207,6 +235,8 @@ html+=`<tr>
 items.innerHTML=html;
 let igv=sub*0.18;
 let total=sub+igv;
+sub=sub||0;
+sub=sub||0;
 document.getElementById("sub").innerText=sub.toFixed(2);
 document.getElementById("igv").innerText=igv.toFixed(2);
 document.getElementById("tot").innerText=total.toFixed(2);
@@ -214,12 +244,7 @@ document.getElementById("tot").innerText=total.toFixed(2);
 
 function guardar(){
 let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-data.push({
-numero:numero.value,
-cliente:cliente.value,
-doc:doc.value,
-total:tot.innerText
-});
+data.push({numero:numero.value});
 localStorage.setItem("cotizaciones",JSON.stringify(data));
 alert("Guardado correctamente");
 }
@@ -227,10 +252,10 @@ alert("Guardado correctamente");
 async function vista(){
 const cot={
 numero:numero.value,
-cliente:cliente.value||"",
-doc:doc.value||"",
-telefono:telefono.value||"",
-direccion:direccion.value||"",
+cliente:cliente.value,
+doc:doc.value,
+telefono:telefono.value,
+direccion:direccion.value,
 fecha:fecha.value,
 validez:validez.value,
 items:lista
@@ -267,7 +292,7 @@ let st=i.c*i.p;
 sub+=st;
 filas+=`<tr>
 <td>${idx+1}</td>
-<td style="text-align:justify;">${i.d}</td>
+<td>${i.d}</td>
 <td>${i.c}</td>
 <td>${i.p.toFixed(2)}</td>
 <td>${st.toFixed(2)}</td>
@@ -280,8 +305,9 @@ return `
 <div>
 
 <div style="text-align:center;">
-<h2 style="margin:0;font-weight:bold;">VIDRIOS Y ALUMINIOS YURI</h2>
-<div style="font-size:14px;margin-top:5px;">
+${logoPreview.src?`<img src="${logoPreview.src}" class="logo-img"><br>`:""}
+<h2 style="margin:0;">VIDRIOS Y ALUMINIOS YURI</h2>
+<div style="font-size:14px;">
 YURI HERMOZA PUELLES<br>
 RUC: 10617365036<br>
 Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
@@ -290,12 +316,10 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 
 <br>
 
-<div style="border:2px solid #0059b3;border-radius:12px;padding:15px;">
-
+<div style="border:2px solid #0059b3;border-radius:10px;padding:15px;">
 <b>Cotización N°:</b> ${cot.numero}<br>
 <b>Fecha de emisión:</b> ${cot.fecha}<br>
 <b>Válida hasta:</b> ${cot.validez}
-
 </div>
 
 <br>
@@ -327,7 +351,7 @@ IGV (18%): S/ ${igv.toFixed(2)}<br>
 
 <br><br>
 
-<div style="margin-top:20px;">
+<div>
 <b>MÉTODO DE PAGO</b><br>
 Cuenta BCP: 52671107164027<br>
 CCI: 00252617110716402721
@@ -335,8 +359,13 @@ CCI: 00252617110716402721
 
 <br><br>
 
-<div style="position:absolute;bottom:0;left:0;width:100%;
-background:#0059b3;color:white;text-align:center;padding:12px;">
+<div style="text-align:left;">
+${firmaPreview.src?`<img src="${firmaPreview.src}" class="firma-img"><br>`:""}
+_________________________<br>
+Firma autorizada
+</div>
+
+<div class="footer">
 CC.HACCA S/N OMACHA - PARURO - CUSCO<br>
 Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
