@@ -10,121 +10,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-body{
-font-family:'Arial Narrow', Arial, sans-serif;
-background:#eef2f7;
-margin:20px;
-color:#003366;
-}
+body{font-family:'Arial Narrow',Arial,sans-serif;background:#eef2f7;margin:20px;color:#003366;}
 h1{text-align:center;font-size:36px;margin:0;}
 .subtitulo{text-align:center;font-weight:600;margin-bottom:20px;}
 
-.panel{
-background:white;
-padding:20px;
-border-radius:15px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-margin-bottom:25px;
-}
-
-input,select,textarea{
-width:100%;
-padding:6px;
-margin-top:4px;
-border-radius:6px;
-border:1px solid #1d5fa7;
-}
-
-button{
-background:#1d5fa7;
-color:white;
-border:none;
-padding:7px 12px;
-border-radius:6px;
-cursor:pointer;
-margin:4px 2px;
-}
+.panel{background:white;padding:20px;border-radius:15px;box-shadow:0 8px 25px rgba(0,0,0,0.08);margin-bottom:25px;}
+input,select,textarea{width:100%;padding:6px;margin-top:4px;border-radius:6px;border:1px solid #1d5fa7;}
+button{background:#1d5fa7;color:white;border:none;padding:7px 12px;border-radius:6px;cursor:pointer;margin:4px 2px;}
 button:hover{background:#174c88;}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-th{
-background:#1d5fa7;
-color:white;
-padding:8px;
-}
-td{
-border:1px solid #1d5fa7;
-padding:6px;
-}
-
-.total-box{
-text-align:right;
-margin-top:10px;
-font-weight:600;
-}
-
-#preview{
-width:100%;
-height:820px;
-border:1px solid #ccc;
-margin-top:20px;
-background:white;
-}
-
-#pdfContent{
-width:794px;
-min-height:1123px;
-padding:40px;
-background:white;
-border:2px solid #1d5fa7;
-box-shadow:0 10px 40px rgba(0,0,0,0.1);
-font-family:'Arial Narrow', Arial, sans-serif;
-position:relative;
-}
-
-.footer{
-position:absolute;
-bottom:0;
-left:0;
-width:100%;
-background:#1d5fa7;
-color:white;
-text-align:center;
-padding:12px;
-}
-
-.cliente-box{
-background:#dceeff;
-padding:12px;
-border-radius:8px;
-margin-top:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.05);
-}
-
-.login{
-position:fixed;
-top:0;left:0;
-width:100%;
-height:100%;
-background:#1d5fa7;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:999;
-}
-
-.login-box{
-background:white;
-padding:30px;
-border-radius:12px;
-width:300px;
-text-align:center;
-}
-
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th{background:#1d5fa7;color:white;padding:8px;}
+td{border:1px solid #1d5fa7;padding:6px;}
+.total-box{text-align:right;margin-top:10px;font-weight:600;}
+#preview{width:100%;height:820px;border:1px solid #ccc;margin-top:20px;background:white;}
+#pdfContent{width:794px;min-height:1123px;padding:40px;background:white;border:2px solid #1d5fa7;box-shadow:0 10px 40px rgba(0,0,0,0.1);position:relative;}
+.footer{position:absolute;bottom:0;left:0;width:100%;background:#1d5fa7;color:white;text-align:center;padding:12px;}
+.cliente-box{background:#dceeff;padding:15px;border-radius:8px;margin-top:10px;box-shadow:0 4px 10px rgba(0,0,0,0.05);}
+.cliente-box h3{margin-top:0;color:#003366;}
+.login{position:fixed;top:0;left:0;width:100%;height:100%;background:#1d5fa7;display:flex;justify-content:center;align-items:center;z-index:999;}
+.login-box{background:white;padding:30px;border-radius:12px;width:300px;text-align:center;}
 .logo-img{max-height:90px;}
 .firma-img{max-height:80px;}
 </style>
@@ -134,8 +38,6 @@ text-align:center;
 <div class="login" id="loginBox">
 <div class="login-box">
 <h3>Ingreso al Sistema</h3>
-<input id="userLogin" placeholder="DNI o RUC">
-<br><br>
 <input id="passLogin" type="password" placeholder="Contraseña">
 <br><br>
 <button onclick="login()">Ingresar</button>
@@ -153,16 +55,6 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 
 <div class="panel">
 
-<label>Logo</label>
-<input type="file" id="logoInput">
-<button onclick="eliminarLogo()">Eliminar Logo</button>
-<img id="logoPreview" class="logo-img">
-
-<label>Firma</label>
-<input type="file" id="firmaInput">
-<button onclick="eliminarFirma()">Eliminar Firma</button>
-<img id="firmaPreview" class="firma-img">
-
 <button onclick="nueva()">Nueva Cotización</button>
 <button onclick="guardar()">Guardar</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
@@ -176,8 +68,8 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 <label>Válida hasta</label>
 <input type="date" id="validez">
 
-<h3>Datos Cliente</h3>
 <div class="cliente-box">
+<h3>CLIENTE</h3>
 <input id="cliente" placeholder="Nombre">
 <input id="doc" placeholder="DNI / RUC">
 <input id="telefono" placeholder="Teléfono">
@@ -185,7 +77,6 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 </div>
 
 <h3>Items</h3>
-
 <table>
 <thead>
 <tr>
@@ -200,7 +91,6 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 </thead>
 <tbody id="items"></tbody>
 </table>
-
 <button onclick="agregar()">Agregar Ítem</button>
 
 <div class="total-box">
@@ -208,12 +98,11 @@ Costo: S/ <span id="sub">0.00</span><br>
 IGV (18%): S/ <span id="igv">0.00</span><br>
 TOTAL: S/ <span id="tot">0.00</span>
 </div>
-
 </div>
 
 <div class="panel">
-<h3>Buscar Cotización</h3>
-<input id="buscarTexto" placeholder="Número, cliente o RUC">
+<h3>Historial de Cotizaciones</h3>
+<input id="buscarTexto" placeholder="Buscar por número, cliente o RUC">
 <button onclick="buscar()">Buscar</button>
 <table>
 <thead><tr><th>N°</th><th>Cliente</th><th>Total</th><th>Editar</th></tr></thead>
@@ -228,53 +117,16 @@ TOTAL: S/ <span id="tot">0.00</span>
 </div>
 
 <script>
-
 let lista=[];
 let editIndex=null;
 
 /* LOGIN */
-if(localStorage.getItem("sesion")==="activa"){
-loginBox.style.display="none";
-sistema.style.display="block";
-}
+if(localStorage.getItem("sesion")==="activa"){loginBox.style.display="none";sistema.style.display="block";}
+function login(){if(passLogin.value==="yuri2024"){localStorage.setItem("sesion","activa");loginBox.style.display="none";sistema.style.display="block";}else{alert("Incorrecto");}}
 
-function login(){
-if(passLogin.value==="yuri2024"){
-localStorage.setItem("sesion","activa");
-loginBox.style.display="none";
-sistema.style.display="block";
-}else{alert("Contraseña incorrecta");}
-}
-
-/* LOGO Y FIRMA */
-logoInput.onchange=e=>{
-const r=new FileReader();
-r.onload=ev=>{
-logoPreview.src=ev.target.result;
-localStorage.setItem("logo",ev.target.result);
-};
-r.readAsDataURL(e.target.files[0]);
-};
-
-firmaInput.onchange=e=>{
-const r=new FileReader();
-r.onload=ev=>{
-firmaPreview.src=ev.target.result;
-localStorage.setItem("firma",ev.target.result);
-};
-r.readAsDataURL(e.target.files[0]);
-};
-
-function eliminarLogo(){logoPreview.src="";localStorage.removeItem("logo");}
-function eliminarFirma(){firmaPreview.src="";localStorage.removeItem("firma");}
-
-if(localStorage.getItem("logo"))logoPreview.src=localStorage.getItem("logo");
-if(localStorage.getItem("firma"))firmaPreview.src=localStorage.getItem("firma");
-
-/* NUMERACIÓN SECUENCIAL REAL */
+/* NUMERACIÓN */
 function generarNumero(){
-let ultimo=localStorage.getItem("ultimoNumero")||0;
-ultimo++;
+let ultimo=parseInt(localStorage.getItem("ultimoNumero")||0)+1;
 localStorage.setItem("ultimoNumero",ultimo);
 let año=new Date().getFullYear();
 numero.value=`${año} - ${String(ultimo).padStart(4,"0")}`;
@@ -292,15 +144,9 @@ validez.value=hoy;
 vista();
 }
 
-/* AGREGAR */
+/* AGREGAR ITEM */
 function agregar(){
-lista.push({
-codigo:"",
-descripcion:"",
-cantidad:1,
-unidad:"UND",
-precio:0
-});
+lista.push({codigo:"",descripcion:"",cantidad:1,unidad:"UND",precio:0});
 render();
 }
 
@@ -308,7 +154,6 @@ render();
 function render(){
 let html="";
 let sub=0;
-
 lista.forEach((i,index)=>{
 let st=i.cantidad*i.precio;
 sub+=st;
@@ -320,23 +165,21 @@ html+=`
 <td contenteditable oninput="lista[${index}].cantidad=parseFloat(this.innerText)||0;render();">${i.cantidad}</td>
 <td>
 <select onchange="lista[${index}].unidad=this.value">
-<option>UND</option>
-<option>M2</option>
-<option>ML</option>
-<option>KG</option>
-<option>PZA</option>
-<option>JGO</option>
+<option ${i.unidad==="UND"?"selected":""}>UND</option>
+<option ${i.unidad==="M2"?"selected":""}>M2</option>
+<option ${i.unidad==="ML"?"selected":""}>ML</option>
+<option ${i.unidad==="KG"?"selected":""}>KG</option>
+<option ${i.unidad==="PZA"?"selected":""}>PZA</option>
+<option ${i.unidad==="JGO"?"selected":""}>JGO</option>
 </select>
 </td>
 <td contenteditable oninput="lista[${index}].precio=parseFloat(this.innerText)||0;render();">${i.precio}</td>
 <td>${st.toFixed(2)}</td>
 </tr>`;
 });
-
 items.innerHTML=html;
 let igv=sub*0.18;
 let total=sub+igv;
-sub=sub||0;
 document.getElementById("sub").innerText=sub.toFixed(2);
 document.getElementById("igv").innerText=igv.toFixed(2);
 document.getElementById("tot").innerText=total.toFixed(2);
@@ -346,18 +189,8 @@ vista();
 /* GUARDAR */
 function guardar(){
 let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let obj={
-numero:numero.value,
-cliente:cliente.value,
-doc:doc.value,
-total:tot.innerText,
-items:lista
-};
-if(editIndex!==null){
-data[editIndex]=obj;
-}else{
-data.push(obj);
-}
+let obj={numero:numero.value,cliente:cliente.value,doc:doc.value,total:tot.innerText,items:lista};
+if(editIndex!==null){data[editIndex]=obj;}else{data.push(obj);}
 localStorage.setItem("cotizaciones",JSON.stringify(data));
 cargarHistorial();
 }
@@ -393,24 +226,30 @@ render();
 function buscar(){
 let texto=buscarTexto.value.toLowerCase();
 let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let filtrados=data.filter(c=>
-c.numero.toLowerCase().includes(texto) ||
-c.cliente.toLowerCase().includes(texto) ||
-c.doc?.toLowerCase().includes(texto)
-);
-if(filtrados.length===0){
-mensajeBusqueda.innerText="No se encontraron datos";
-}else{
-mensajeBusqueda.innerText="";
-}
+let filtrados=data.filter(c=>c.numero.toLowerCase().includes(texto)||c.cliente.toLowerCase().includes(texto)||c.doc.toLowerCase().includes(texto));
+if(filtrados.length===0){mensajeBusqueda.innerText="No se encontraron datos";}else{mensajeBusqueda.innerText="";}
 }
 
 /* PDF */
 async function vista(){
 const contenido=document.getElementById("pdfContent");
+
+let filas="";
+lista.forEach((i,index)=>{
+let st=i.cantidad*i.precio;
+filas+=`<tr>
+<td>${index+1}</td>
+<td>${i.codigo}</td>
+<td>${i.descripcion}</td>
+<td>${i.cantidad}</td>
+<td>${i.unidad}</td>
+<td>${i.precio}</td>
+<td>${st.toFixed(2)}</td>
+</tr>`;
+});
+
 contenido.innerHTML=`
 <div style="text-align:center;">
-${logoPreview.src?`<img src="${logoPreview.src}" class="logo-img"><br>`:""}
 <h2>VIDRIOS Y ALUMINIOS YURI</h2>
 YURI HERMOZA PUELLES<br>
 RUC: 10617365036<br>
@@ -422,15 +261,32 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 <strong>Válida hasta:</strong> ${validez.value}
 <br><br>
 <div style="background:#dceeff;padding:10px;border-radius:6px;">
-<strong>Cliente:</strong> ${cliente.value}<br>
-<strong>DNI/RUC:</strong> ${doc.value}
+<h3>CLIENTE</h3>
+${cliente.value}<br>
+DNI/RUC: ${doc.value}<br>
+Dirección: ${direccion.value}
 </div>
 <br>
+<table border="1" width="100%" style="border-collapse:collapse;">
+<tr style="background:#1d5fa7;color:white;">
+<th>Ítem</th><th>Código</th><th>Descripción</th><th>Cant</th><th>Unidad</th><th>P.Unit</th><th>Subtotal</th>
+</tr>
+${filas}
+</table>
+<br>
+<strong>MÉTODO DE PAGO</strong><br>
+Cuenta BCP: 52671107164027<br>
+CCI: 00 2526 1711 0716 4027 21
+<br><br><br>
+_____________________________<br>
+Firma<br>
+DNI:
 <div class="footer">
 CC.HACCA S/N OMACHA - PARURO - CUSCO<br>
 Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
 `;
+
 contenido.style.display="block";
 const canvas=await html2canvas(contenido,{scale:2});
 const img=canvas.toDataURL("image/png");
@@ -443,7 +299,6 @@ contenido.style.display="none";
 async function descargarPDF(){await vista();}
 
 nueva();
-
 </script>
 </body>
 </html>
