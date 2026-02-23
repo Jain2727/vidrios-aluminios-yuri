@@ -2,83 +2,191 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vidrios y Aluminios Yuri - Sistema Profesional</title>
+<title>Sistema Cotizaciones - Vidrios y Aluminios Yuri</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Arial+Narrow&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-body{font-family:'Arial Narrow',Arial,sans-serif;background:#eef2f7;margin:20px;color:#003366;}
-h1{text-align:center;font-size:36px;margin:0;}
-.subtitulo{text-align:center;font-weight:600;margin-bottom:20px;}
+body{
+font-family:'Arial Narrow', Arial, sans-serif;
+margin:0;
+background:#eef2f7;
+}
 
-.panel{background:white;padding:20px;border-radius:15px;box-shadow:0 8px 25px rgba(0,0,0,0.08);margin-bottom:25px;}
-input,select,textarea{width:100%;padding:6px;margin-top:4px;border-radius:6px;border:1px solid #1d5fa7;}
-button{background:#1d5fa7;color:white;border:none;padding:7px 12px;border-radius:6px;cursor:pointer;margin:4px 2px;}
-button:hover{background:#174c88;}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th{background:#1d5fa7;color:white;padding:8px;}
-td{border:1px solid #1d5fa7;padding:6px;}
-.total-box{text-align:right;margin-top:10px;font-weight:600;}
-#preview{width:100%;height:820px;border:1px solid #ccc;margin-top:20px;background:white;}
-#pdfContent{width:794px;min-height:1123px;padding:40px;background:white;border:2px solid #1d5fa7;box-shadow:0 10px 40px rgba(0,0,0,0.1);position:relative;}
-.footer{position:absolute;bottom:0;left:0;width:100%;background:#1d5fa7;color:white;text-align:center;padding:12px;}
-.cliente-box{background:#dceeff;padding:15px;border-radius:8px;margin-top:10px;box-shadow:0 4px 10px rgba(0,0,0,0.05);}
-.cliente-box h3{margin-top:0;color:#003366;}
-.login{position:fixed;top:0;left:0;width:100%;height:100%;background:#1d5fa7;display:flex;justify-content:center;align-items:center;z-index:999;}
-.login-box{background:white;padding:30px;border-radius:12px;width:300px;text-align:center;}
-.logo-img{max-height:90px;}
-.firma-img{max-height:80px;}
+h1,h2,h3{margin:5px 0}
+
+.container{
+display:grid;
+grid-template-columns: 45% 55%;
+height:100vh;
+}
+
+.left{
+padding:20px;
+overflow:auto;
+background:#fff;
+border-right:2px solid #ddd;
+}
+
+.right{
+padding:20px;
+background:#f4f6f9;
+overflow:auto;
+}
+
+input,select{
+width:100%;
+padding:6px;
+margin:4px 0;
+font-family:'Arial Narrow', Arial, sans-serif;
+}
+
+button{
+padding:8px 12px;
+background:#1e4fa1;
+color:white;
+border:none;
+cursor:pointer;
+margin-top:5px;
+}
+
+button:hover{
+background:#163a75;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:5px;
+font-size:14px;
+}
+
+th{
+background:#1e4fa1;
+color:white;
+}
+
+.preview{
+background:white;
+padding:25px;
+box-shadow:0 0 15px rgba(0,0,0,0.15);
+border-radius:10px;
+}
+
+.empresa{
+text-align:center;
+}
+
+.linea{
+border-top:2px solid #1e4fa1;
+margin:10px 0;
+}
+
+.cliente-box{
+background:#e8f1ff;
+padding:10px;
+border-radius:6px;
+margin-bottom:10px;
+}
+
+.firma{
+text-align:center;
+margin-top:60px;
+}
+
+.historial-item{
+padding:5px;
+border-bottom:1px solid #ddd;
+cursor:pointer;
+}
+
+.historial-item:hover{
+background:#f0f0f0;
+}
 </style>
 </head>
 <body>
 
-<div class="login" id="loginBox">
-<div class="login-box">
-<h3>Ingreso al Sistema</h3>
-<input id="passLogin" type="password" placeholder="Contraseña">
-<br><br>
-<button onclick="login()">Ingresar</button>
-</div>
+<div class="container">
+
+<div class="left">
+
+<h2>Crear / Editar Cotización</h2>
+
+<label>Nombre Cliente</label>
+<input id="nombre">
+
+<label>DNI / RUC</label>
+<input id="dni">
+
+<label>Teléfono</label>
+<input id="telefono">
+
+<label>Dirección</label>
+<input id="direccion">
+
+<h3>Ítems</h3>
+
+<table id="tablaItems">
+<tr>
+<th>Ítem</th>
+<th>Código</th>
+<th>Descripción</th>
+<th>Cant</th>
+<th>Unidad</th>
+<th>Precio</th>
+<th>Subtotal</th>
+</tr>
+</table>
+
+<button onclick="agregarItem()">Agregar Ítem</button>
+
+<h3>Historial de Cotizaciones</h3>
+
+<input placeholder="Buscar por cliente, RUC o número" id="buscar">
+<button onclick="buscarCotizacion()">Buscar</button>
+<div id="historial"></div>
+
+<br>
+<button onclick="guardarCotizacion()">Guardar</button>
+<button onclick="descargarPDF()">Descargar PDF</button>
+
 </div>
 
-<div id="sistema" style="display:none;">
+<div class="right">
 
+<div class="preview" id="pdf">
+
+<div class="empresa">
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
-<div class="subtitulo">
-YURI HERMOZA PUELLES<br>
+<h3>YURI HERMOZA PUELLES</h3>
 RUC: 10617365036<br>
 Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 </div>
 
-<div class="panel">
+<div class="linea"></div>
 
-<button onclick="nueva()">Nueva Cotización</button>
-<button onclick="guardar()">Guardar</button>
-<button onclick="descargarPDF()">Descargar PDF</button>
-
-<label>N° Cotización</label>
-<input id="numero" readonly>
-
-<label>Fecha emisión</label>
-<input type="date" id="fecha">
-
-<label>Válida hasta</label>
-<input type="date" id="validez">
+<div>
+<strong>COTIZACIÓN Nº <span id="numeroPreview"></span></strong><br>
+Fecha emisión: <span id="fechaPreview"></span><br>
+Válido hasta: <span id="validezPreview"></span>
+</div>
 
 <div class="cliente-box">
 <h3>CLIENTE</h3>
-<input id="cliente" placeholder="Nombre">
-<input id="doc" placeholder="DNI / RUC">
-<input id="telefono" placeholder="Teléfono">
-<textarea id="direccion" placeholder="Dirección"></textarea>
+Nombre: <span id="pNombre"></span><br>
+DNI/RUC: <span id="pDni"></span><br>
+Teléfono: <span id="pTelefono"></span><br>
+Dirección: <span id="pDireccion"></span>
 </div>
 
-<h3>Items</h3>
-<table>
-<thead>
+<table id="tablaPreview">
 <tr>
 <th>Ítem</th>
 <th>Código</th>
@@ -88,217 +196,165 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 <th>P.Unit</th>
 <th>Subtotal</th>
 </tr>
-</thead>
-<tbody id="items"></tbody>
 </table>
-<button onclick="agregar()">Agregar Ítem</button>
 
-<div class="total-box">
-Costo: S/ <span id="sub">0.00</span><br>
+<br>
+
+<div style="text-align:right">
+Costo: S/ <span id="costo">0.00</span><br>
 IGV (18%): S/ <span id="igv">0.00</span><br>
-TOTAL: S/ <span id="tot">0.00</span>
-</div>
-</div>
-
-<div class="panel">
-<h3>Historial de Cotizaciones</h3>
-<input id="buscarTexto" placeholder="Buscar por número, cliente o RUC">
-<button onclick="buscar()">Buscar</button>
-<table>
-<thead><tr><th>N°</th><th>Cliente</th><th>Total</th><th>Editar</th></tr></thead>
-<tbody id="historial"></tbody>
-</table>
-<div id="mensajeBusqueda" style="color:red;"></div>
+<strong>Total: S/ <span id="total">0.00</span></strong>
 </div>
 
-<iframe id="preview"></iframe>
-<div id="pdfContent" style="display:none;"></div>
-
-</div>
-
-<script>
-let lista=[];
-let editIndex=null;
-
-/* LOGIN */
-if(localStorage.getItem("sesion")==="activa"){loginBox.style.display="none";sistema.style.display="block";}
-function login(){if(passLogin.value==="yuri2024"){localStorage.setItem("sesion","activa");loginBox.style.display="none";sistema.style.display="block";}else{alert("Incorrecto");}}
-
-/* NUMERACIÓN */
-function generarNumero(){
-let ultimo=parseInt(localStorage.getItem("ultimoNumero")||0)+1;
-localStorage.setItem("ultimoNumero",ultimo);
-let año=new Date().getFullYear();
-numero.value=`${año} - ${String(ultimo).padStart(4,"0")}`;
-}
-
-/* NUEVA */
-function nueva(){
-editIndex=null;
-lista=[];
-render();
-generarNumero();
-let hoy=new Date().toISOString().split("T")[0];
-fecha.value=hoy;
-validez.value=hoy;
-vista();
-}
-
-/* AGREGAR ITEM */
-function agregar(){
-lista.push({codigo:"",descripcion:"",cantidad:1,unidad:"UND",precio:0});
-render();
-}
-
-/* RENDER */
-function render(){
-let html="";
-let sub=0;
-lista.forEach((i,index)=>{
-let st=i.cantidad*i.precio;
-sub+=st;
-html+=`
-<tr>
-<td>${index+1}</td>
-<td contenteditable oninput="lista[${index}].codigo=this.innerText">${i.codigo}</td>
-<td contenteditable oninput="lista[${index}].descripcion=this.innerText">${i.descripcion}</td>
-<td contenteditable oninput="lista[${index}].cantidad=parseFloat(this.innerText)||0;render();">${i.cantidad}</td>
-<td>
-<select onchange="lista[${index}].unidad=this.value">
-<option ${i.unidad==="UND"?"selected":""}>UND</option>
-<option ${i.unidad==="M2"?"selected":""}>M2</option>
-<option ${i.unidad==="ML"?"selected":""}>ML</option>
-<option ${i.unidad==="KG"?"selected":""}>KG</option>
-<option ${i.unidad==="PZA"?"selected":""}>PZA</option>
-<option ${i.unidad==="JGO"?"selected":""}>JGO</option>
-</select>
-</td>
-<td contenteditable oninput="lista[${index}].precio=parseFloat(this.innerText)||0;render();">${i.precio}</td>
-<td>${st.toFixed(2)}</td>
-</tr>`;
-});
-items.innerHTML=html;
-let igv=sub*0.18;
-let total=sub+igv;
-document.getElementById("sub").innerText=sub.toFixed(2);
-document.getElementById("igv").innerText=igv.toFixed(2);
-document.getElementById("tot").innerText=total.toFixed(2);
-vista();
-}
-
-/* GUARDAR */
-function guardar(){
-let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let obj={numero:numero.value,cliente:cliente.value,doc:doc.value,total:tot.innerText,items:lista};
-if(editIndex!==null){data[editIndex]=obj;}else{data.push(obj);}
-localStorage.setItem("cotizaciones",JSON.stringify(data));
-cargarHistorial();
-}
-
-/* HISTORIAL */
-function cargarHistorial(){
-let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let html="";
-data.forEach((c,i)=>{
-html+=`<tr>
-<td>${c.numero}</td>
-<td>${c.cliente}</td>
-<td>S/ ${c.total}</td>
-<td><button onclick="editar(${i})">Editar</button></td>
-</tr>`;
-});
-historial.innerHTML=html;
-}
-cargarHistorial();
-
-function editar(i){
-let data=JSON.parse(localStorage.getItem("cotizaciones"));
-let c=data[i];
-editIndex=i;
-numero.value=c.numero;
-cliente.value=c.cliente;
-doc.value=c.doc;
-lista=c.items;
-render();
-}
-
-/* BUSCAR */
-function buscar(){
-let texto=buscarTexto.value.toLowerCase();
-let data=JSON.parse(localStorage.getItem("cotizaciones"))||[];
-let filtrados=data.filter(c=>c.numero.toLowerCase().includes(texto)||c.cliente.toLowerCase().includes(texto)||c.doc.toLowerCase().includes(texto));
-if(filtrados.length===0){mensajeBusqueda.innerText="No se encontraron datos";}else{mensajeBusqueda.innerText="";}
-}
-
-/* PDF */
-async function vista(){
-const contenido=document.getElementById("pdfContent");
-
-let filas="";
-lista.forEach((i,index)=>{
-let st=i.cantidad*i.precio;
-filas+=`<tr>
-<td>${index+1}</td>
-<td>${i.codigo}</td>
-<td>${i.descripcion}</td>
-<td>${i.cantidad}</td>
-<td>${i.unidad}</td>
-<td>${i.precio}</td>
-<td>${st.toFixed(2)}</td>
-</tr>`;
-});
-
-contenido.innerHTML=`
-<div style="text-align:center;">
-<h2>VIDRIOS Y ALUMINIOS YURI</h2>
-YURI HERMOZA PUELLES<br>
-RUC: 10617365036<br>
-Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
-</div>
-<br>
-<strong>Cotización N°:</strong> ${numero.value}<br>
-<strong>Fecha emisión:</strong> ${fecha.value}<br>
-<strong>Válida hasta:</strong> ${validez.value}
-<br><br>
-<div style="background:#dceeff;padding:10px;border-radius:6px;">
-<h3>CLIENTE</h3>
-${cliente.value}<br>
-DNI/RUC: ${doc.value}<br>
-Dirección: ${direccion.value}
-</div>
-<br>
-<table border="1" width="100%" style="border-collapse:collapse;">
-<tr style="background:#1d5fa7;color:white;">
-<th>Ítem</th><th>Código</th><th>Descripción</th><th>Cant</th><th>Unidad</th><th>P.Unit</th><th>Subtotal</th>
-</tr>
-${filas}
-</table>
-<br>
+<div style="margin-top:20px;">
 <strong>MÉTODO DE PAGO</strong><br>
 Cuenta BCP: 52671107164027<br>
 CCI: 00 2526 1711 0716 4027 21
-<br><br><br>
+</div>
+
+<div class="firma">
+<br><br>
 _____________________________<br>
 Firma<br>
 DNI:
-<div class="footer">
-CC.HACCA S/N OMACHA - PARURO - CUSCO<br>
-Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
-`;
 
-contenido.style.display="block";
-const canvas=await html2canvas(contenido,{scale:2});
-const img=canvas.toDataURL("image/png");
-const docPDF=new jspdf.jsPDF("p","pt","a4");
-docPDF.addImage(img,"PNG",0,0,595,842);
-preview.src=docPDF.output("bloburl");
-contenido.style.display="none";
+</div>
+
+</div>
+</div>
+
+<script>
+
+let contador = localStorage.getItem("contador") || 1;
+let editando = null;
+
+function generarNumero(){
+return "2026 - " + String(contador).padStart(4,'0');
 }
 
-async function descargarPDF(){await vista();}
+function agregarItem(){
+let tabla=document.getElementById("tablaItems");
+let row=tabla.insertRow();
+row.innerHTML=`
+<td>${tabla.rows.length-1}</td>
+<td><input></td>
+<td><input></td>
+<td><input type="number" value="1"></td>
+<td>
+<select>
+<option>UND</option>
+<option>M2</option>
+<option>ML</option>
+<option>KG</option>
+<option>Juego</option>
+<option>Servicio</option>
+</select>
+</td>
+<td><input type="number" value="0"></td>
+<td>0.00</td>
+`;
+}
 
-nueva();
+function actualizarPreview(){
+document.getElementById("pNombre").innerText=nombre.value;
+document.getElementById("pDni").innerText=dni.value;
+document.getElementById("pTelefono").innerText=telefono.value;
+document.getElementById("pDireccion").innerText=direccion.value;
+}
+
+function guardarCotizacion(){
+actualizarPreview();
+
+let numero = editando || generarNumero();
+
+let data={
+numero,
+nombre:nombre.value,
+dni:dni.value,
+telefono:telefono.value,
+direccion:direccion.value
+};
+
+localStorage.setItem("cot_"+numero,JSON.stringify(data));
+
+if(!editando){
+contador++;
+localStorage.setItem("contador",contador);
+}
+
+cargarHistorial();
+alert("Guardado correctamente");
+}
+
+function cargarHistorial(){
+let div=document.getElementById("historial");
+div.innerHTML="";
+for(let key in localStorage){
+if(key.startsWith("cot_")){
+let data=JSON.parse(localStorage.getItem(key));
+let item=document.createElement("div");
+item.className="historial-item";
+item.innerText=data.numero+" - "+data.nombre;
+item.onclick=()=>editar(data.numero);
+div.appendChild(item);
+}
+}
+}
+
+function editar(numero){
+let data=JSON.parse(localStorage.getItem("cot_"+numero));
+editando=numero;
+nombre.value=data.nombre;
+dni.value=data.dni;
+telefono.value=data.telefono;
+direccion.value=data.direccion;
+actualizarPreview();
+}
+
+function buscarCotizacion(){
+let texto=document.getElementById("buscar").value.toLowerCase();
+let encontrado=false;
+for(let key in localStorage){
+if(key.startsWith("cot_")){
+let data=JSON.parse(localStorage.getItem(key));
+if(data.nombre.toLowerCase().includes(texto) || data.numero.includes(texto) || data.dni.includes(texto)){
+editar(data.numero);
+encontrado=true;
+}
+}
+}
+if(!encontrado){
+alert("No se encontraron datos");
+}
+}
+
+function descargarPDF(){
+let element=document.getElementById("pdf");
+let nombreArchivo="Cotizacion_"+(editando||generarNumero())+"_"+nombre.value+".pdf";
+html2pdf().set({
+margin:5,
+filename:nombreArchivo,
+html2canvas:{scale:2},
+jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+}).from(element).save();
+}
+
+function init(){
+document.getElementById("numeroPreview").innerText=generarNumero();
+let hoy=new Date();
+document.getElementById("fechaPreview").innerText=hoy.toLocaleDateString();
+let validez=new Date();
+validez.setDate(hoy.getDate()+7);
+document.getElementById("validezPreview").innerText=validez.toLocaleDateString();
+cargarHistorial();
+}
+
+document.querySelectorAll("input").forEach(i=>i.addEventListener("input",actualizarPreview));
+
+init();
+
 </script>
+
 </body>
 </html>
