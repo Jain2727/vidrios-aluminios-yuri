@@ -12,7 +12,7 @@ body{
     margin:0;
 }
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 #login{
     height:100vh;
     display:flex;
@@ -26,7 +26,6 @@ body{
     border-radius:10px;
     width:350px;
 }
-.login-box h2{text-align:center;}
 .login-box input{
     width:100%;
     padding:8px;
@@ -35,13 +34,12 @@ body{
 .login-box button{
     width:100%;
     padding:8px;
-    margin-top:10px;
     background:#2e58a6;
     color:white;
     border:none;
 }
 
-/* SISTEMA */
+/* ================= SISTEMA ================= */
 #sistema{display:none;padding:20px;}
 button{
     background:#2e58a6;
@@ -52,8 +50,9 @@ button{
     border-radius:5px;
     cursor:pointer;
 }
+button:hover{background:#1c3d7a}
 
-/* A4 REAL */
+/* ================= A4 ================= */
 #a4{
     width:794px;
     height:1123px;
@@ -66,20 +65,23 @@ button{
 
 /* ENCABEZADO */
 .header{text-align:center;position:relative;}
-.header h1{margin:0;font-size:30px;}
+.header h1{margin:0;font-size:32px;}
 .header h2{margin:0;font-size:18px;font-weight:bold;}
-.logo{width:80px;position:absolute;top:0;}
+.logo{
+    width:80px;
+    position:absolute;
+    top:0;
+}
 .logo-left{left:0;}
 .logo-right{right:0;}
 .header hr{border:1px solid #2e58a6;}
 
-/* CAMPOS VISIBLES PARA COMPLETAR */
+/* CAMPOS CUADRITO */
 input, select{
-    border:none;
-    border-bottom:2px solid #2e58a6;
+    border:1px solid #2e58a6;
     padding:3px;
-    background:transparent;
     outline:none;
+    font-family:'Arial Narrow', Arial, sans-serif;
 }
 
 /* CLIENTE */
@@ -107,8 +109,6 @@ td{
 }
 td input{
     width:100%;
-    border:none;
-    border-bottom:1px solid #999;
 }
 
 /* TOTALES */
@@ -117,7 +117,7 @@ td input{
 /* FIRMA */
 .firma{
     position:absolute;
-    bottom:160px;
+    bottom:170px;
     width:100%;
     text-align:center;
 }
@@ -136,6 +136,17 @@ td input{
 .versiculo{
     font-style:italic;
     margin-top:5px;
+}
+
+/* HISTORIAL */
+#historial{
+    margin-top:30px;
+    background:white;
+    padding:20px;
+    border-radius:8px;
+}
+#historial table th{
+    background:#444;
 }
 </style>
 </head>
@@ -160,17 +171,23 @@ onclick="alert('Se enviará enlace de recuperación.')">
 <div id="sistema">
 
 <div>
-<button onclick="vistaPreviaReal()">Vista Previa Real</button>
+<button onclick="vistaPrevia()">Vista Previa</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
-<button onclick="agregarItem()">Agregar Item</button>
-<button onclick="agregarFirma()">Añadir / Modificar Firma</button>
+<button onclick="guardarCotizacion()">Guardar</button>
 </div>
 
+<!-- ================= A4 ================= -->
 <div id="a4">
 
 <div class="header">
 <img id="logo1" class="logo logo-left">
 <img id="logo2" class="logo logo-right">
+
+<button style="position:absolute;left:0;top:85px;"
+onclick="cargarLogo(1)">Modificar Logo</button>
+
+<button style="position:absolute;right:0;top:85px;"
+onclick="cargarLogo(2)">Modificar Logo</button>
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 <h2>YURI HERMOZA PUELLES</h2>
@@ -181,7 +198,7 @@ value="APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO">
 <hr>
 </div>
 
-<b>COTIZACIÓN N° 2026 - 0002</b><br><br>
+<b>COTIZACIÓN N° <span id="numCot">2026 - 0002</span></b><br><br>
 
 Fecha emisión:<br>
 <input type="date"><br><br>
@@ -191,15 +208,13 @@ Válido hasta:<br>
 
 <div class="cliente">
 <b>CLIENTE</b><br><br>
-Nombre:<br>
-<input><br><br>
-DNI/RUC:<br>
-<input><br><br>
-Teléfono:<br>
-<input><br><br>
-Dirección:<br>
-<input>
+Nombre:<br><input><br><br>
+DNI/RUC:<br><input><br><br>
+Teléfono:<br><input><br><br>
+Dirección:<br><input>
 </div>
+
+<button onclick="agregarItem()">Agregar Item</button>
 
 <table id="tabla">
 <thead>
@@ -214,7 +229,25 @@ Dirección:<br>
 <th class="colEliminar">Eliminar</th>
 </tr>
 </thead>
-<tbody></tbody>
+<tbody>
+<tr>
+<td>1</td>
+<td><input></td>
+<td><input></td>
+<td><input type="number" value="0" onchange="calcular()"></td>
+<td>
+<select>
+<option>UND</option><option>M2</option><option>M</option>
+<option>KG</option><option>CM</option><option>MM</option>
+<option>GLB</option><option>PAR</option><option>SET</option>
+<option>LT</option>
+</select>
+</td>
+<td><input type="number" value="0" onchange="calcular()"></td>
+<td class="sub">0.00</td>
+<td class="colEliminar"><button onclick="this.parentElement.parentElement.remove()">X</button></td>
+</tr>
+</tbody>
 </table>
 
 <div class="totales">
@@ -231,6 +264,7 @@ CCI: 00 2526 1711 0716 4027 21
 
 <div class="firma">
 <img id="firmaImg" width="150"><br>
+<button onclick="agregarFirma()">Añadir / Modificar Firma</button><br>
 _________________________<br>
 Firma<br>
 DNI:
@@ -245,10 +279,31 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
 
 </div>
+<!-- ================= FIN A4 ================= -->
+
+<!-- HISTORIAL -->
+<div id="historial">
+<h3>Historial de Cotizaciones</h3>
+Buscar: <input id="buscar" onkeyup="filtrar()">
+<table>
+<thead>
+<tr>
+<th>N°</th>
+<th>Fecha</th>
+<th>Total</th>
+<th>Modificar</th>
+<th>Anular</th>
+</tr>
+</thead>
+<tbody id="listaHistorial"></tbody>
+</table>
+</div>
+
 </div>
 
 <script>
-let contador=0;
+let contador=1;
+let historial=[];
 
 function entrar(){
 document.getElementById("login").style.display="none";
@@ -262,7 +317,7 @@ fila.innerHTML=`
 <td>${contador}</td>
 <td><input></td>
 <td><input></td>
-<td><input type="number" value="1" onchange="calcular()"></td>
+<td><input type="number" value="0" onchange="calcular()"></td>
 <td>
 <select>
 <option>UND</option><option>M2</option><option>M</option>
@@ -294,26 +349,10 @@ document.getElementById("igv").innerText=(total*0.18).toFixed(2);
 document.getElementById("total").innerText=(total*1.18).toFixed(2);
 }
 
-/* VISTA PREVIA REAL EXACTA */
-function vistaPreviaReal(){
-let ventana=window.open('','','width=900,height=1200');
-let contenido=document.getElementById("a4").outerHTML;
-ventana.document.write(`
-<html>
-<head>
-<title>Vista Previa</title>
-<style>
-body{margin:0}
-</style>
-</head>
-<body onload="window.print()">
-${contenido}
-</body>
-</html>`);
-ventana.document.close();
+function vistaPrevia(){
+window.print();
 }
 
-/* DESCARGAR PDF EXACTO */
 function descargarPDF(){
 document.querySelectorAll(".colEliminar").forEach(e=>e.style.display="none");
 html2pdf().set({
@@ -324,6 +363,51 @@ jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'}
 }).from(document.getElementById("a4")).save().then(()=>{
 document.querySelectorAll(".colEliminar").forEach(e=>e.style.display="");
 });
+}
+
+function guardarCotizacion(){
+let data={
+num:document.getElementById("numCot").innerText,
+fecha:new Date().toLocaleDateString(),
+total:document.getElementById("total").innerText
+};
+historial.push(data);
+mostrarHistorial();
+}
+
+function mostrarHistorial(){
+let tbody=document.getElementById("listaHistorial");
+tbody.innerHTML="";
+historial.forEach((h,i)=>{
+tbody.innerHTML+=`
+<tr>
+<td>${h.num}</td>
+<td>${h.fecha}</td>
+<td>${h.total}</td>
+<td><button>Modificar</button></td>
+<td><button>Anular</button></td>
+</tr>`;
+});
+}
+
+function filtrar(){
+let f=document.getElementById("buscar").value.toLowerCase();
+document.querySelectorAll("#listaHistorial tr").forEach(r=>{
+r.style.display=r.innerText.toLowerCase().includes(f)?"":"none";
+});
+}
+
+function cargarLogo(num){
+let input=document.createElement("input");
+input.type="file";
+input.onchange=e=>{
+let reader=new FileReader();
+reader.onload=function(){
+document.getElementById("logo"+num).src=reader.result;
+}
+reader.readAsDataURL(e.target.files[0]);
+};
+input.click();
 }
 
 function agregarFirma(){
