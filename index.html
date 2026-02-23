@@ -8,26 +8,45 @@
 <style>
 body{
 margin:0;
-background:#eef1f5;
+background:#f0f3f8;
 font-family:'Arial Narrow', Arial, sans-serif;
 }
 
-/* PANEL SUPERIOR */
-
-#panel{
-max-width:1100px;
-margin:20px auto;
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.15);
+/* CONTENEDOR GENERAL */
+.wrapper{
+max-width:1200px;
+margin:30px auto;
 }
 
-.panel-botones{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:15px;
+/* ENCABEZADO PRINCIPAL */
+.empresa-header{
+background:white;
+padding:25px;
+text-align:center;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}
+
+.empresa-header h1{
+margin:0;
+}
+
+/* PANEL FORMULARIO */
+#panel{
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}
+
+input{
+padding:7px;
+margin:5px;
+border:1px solid #ccc;
+border-radius:5px;
+min-width:160px;
 }
 
 button{
@@ -37,22 +56,50 @@ border:none;
 padding:8px 14px;
 border-radius:6px;
 cursor:pointer;
+margin:5px;
 font-weight:bold;
 }
 
 button:hover{
-background:#1d3e7a;
+background:#1c3f7a;
 }
 
-input{
-padding:6px;
-margin:4px;
-border-radius:4px;
+/* TABLA */
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th{
+background:#2f5aa6;
+color:white;
+padding:8px;
+}
+
+td{
 border:1px solid #ccc;
+padding:6px;
+text-align:center;
+height:28px;
+}
+
+/* HISTORIAL */
+#historial{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.hist-item{
+display:flex;
+justify-content:space-between;
+padding:8px;
+border-bottom:1px solid #ddd;
 }
 
 /* VISTA A4 */
-
 #a4Container{
 display:none;
 position:fixed;
@@ -76,30 +123,10 @@ position:relative;
 font-size:15px;
 }
 
-/* ENCABEZADO */
-
-.header{
-text-align:center;
-position:relative;
-}
-
-.logo-left,.logo-right{
-position:absolute;
-top:0;
-width:90px;
-height:90px;
-object-fit:contain;
-}
-
-.logo-left{left:0;}
-.logo-right{right:0;}
-
 .separator{
 border-top:2px solid #2f5aa6;
 margin:10px 0;
 }
-
-/* CLIENTE */
 
 .cliente{
 background:#e6eefc;
@@ -108,42 +135,10 @@ border-radius:8px;
 margin-top:10px;
 }
 
-/* TABLA */
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:15px;
-}
-
-th{
-background:#2f5aa6;
-color:white;
-padding:8px;
-}
-
-td{
-border:1px solid #ccc;
-padding:6px;
-text-align:center;
-height:25px;
-}
-
 .totales{
 text-align:right;
 margin-top:10px;
 }
-
-/* FIRMA */
-
-.firma{
-position:absolute;
-bottom:140px;
-width:100%;
-text-align:center;
-}
-
-/* PIE */
 
 .footer{
 position:absolute;
@@ -157,31 +152,47 @@ padding:12px;
 font-size:14px;
 }
 
-/* BOTONES PDF */
+.firma{
+position:absolute;
+bottom:150px;
+width:100%;
+text-align:center;
+}
 
 .pdf-controls{
 text-align:center;
-margin-top:15px;
+margin-top:10px;
 }
 
 @media print{
 .pdf-controls{display:none;}
 }
-
 </style>
 </head>
 <body>
 
+<div class="wrapper">
+
+<!-- ENCABEZADO EMPRESA -->
+<div class="empresa-header">
+<h1>VIDRIOS Y ALUMINIOS YURI</h1>
+<strong>YURI HERMOZA PUELLES</strong><br>
+RUC: 10617365036<br>
+Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
+</div>
+
+<!-- PANEL FORMULARIO -->
 <div id="panel">
 
-<div class="panel-botones">
 <button onclick="agregarItem()">Agregar Item</button>
 <button onclick="vistaPrevia()">Vista Previa A4</button>
 <button onclick="guardar()">Guardar</button>
-</div>
+
+<br><br>
 
 Fecha emisión:
 <input type="date" id="fechaEmision">
+
 Válido hasta:
 <input type="date" id="fechaValidez">
 
@@ -207,13 +218,17 @@ Dirección: <input id="clienteDir">
 </table>
 
 Costo: S/ <span id="costo">0.00</span><br>
-IGV 18%: S/ <span id="igv">0.00</span><br>
+IGV (18%): S/ <span id="igv">0.00</span><br>
 Total: S/ <span id="total">0.00</span>
 
-<br><br>
-Logo Izq: <input type="file" onchange="cargarLogo(event,'logoLeft')">
-Logo Der: <input type="file" onchange="cargarLogo(event,'logoRight')">
-Firma: <input type="file" onchange="cargarLogo(event,'firmaImg')">
+</div>
+
+<!-- HISTORIAL -->
+<div id="historial">
+<h3>Historial de Cotizaciones</h3>
+Buscar: <input id="buscar" onkeyup="filtrar()">
+<div id="listaHistorial"></div>
+</div>
 
 </div>
 
@@ -221,15 +236,14 @@ Firma: <input type="file" onchange="cargarLogo(event,'firmaImg')">
 <div id="a4Container">
 <div id="a4">
 
-<div class="header">
-<img id="logoLeft" class="logo-left">
-<img id="logoRight" class="logo-right">
-<h1>VIDRIOS Y ALUMINIOS YURI</h1>
-<strong>YURI HERMOZA PUELLES</strong><br>
+<h2 style="text-align:center;">VIDRIOS Y ALUMINIOS YURI</h2>
+<strong style="display:block;text-align:center;">YURI HERMOZA PUELLES</strong>
+<div style="text-align:center;">
 RUC: 10617365036<br>
 Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
-<div class="separator"></div>
 </div>
+
+<div class="separator"></div>
 
 <p id="numCotizacion"></p>
 <p id="fechasVista"></p>
@@ -252,7 +266,7 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 </tr>
 </thead>
 <tbody id="vistaItems">
-<tr><td colspan="7" style="height:120px;"></td></tr>
+<tr><td colspan="7" style="height:150px;"></td></tr>
 </tbody>
 </table>
 
@@ -268,8 +282,7 @@ CCI: 00 2526 1711 0716 4027 21
 </p>
 
 <div class="firma">
-<img id="firmaImg" height="80"><br>
-_________________________<br>
+_____________________________<br>
 Firma<br>
 DNI:
 </div>
@@ -289,12 +302,13 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 
 <script>
 
-let contador=localStorage.getItem("contador")||1;
+let contador = localStorage.getItem("contador") || 1;
+let editando = null;
 
 function agregarItem(){
-let tabla=document.getElementById("tablaItems");
-let row=tabla.insertRow();
-row.innerHTML=`
+let tabla = document.getElementById("tablaItems");
+let row = tabla.insertRow();
+row.innerHTML = `
 <td>${tabla.rows.length}</td>
 <td contenteditable></td>
 <td contenteditable></td>
@@ -316,14 +330,15 @@ total+=sub;
 });
 costo.innerText=total.toFixed(2);
 igv.innerText=(total*0.18).toFixed(2);
-totalFinal=(total*1.18);
-document.getElementById("total").innerText=totalFinal.toFixed(2);
+document.getElementById("total").innerText=(total*1.18).toFixed(2);
 }
 
 function vistaPrevia(){
 a4Container.style.display="block";
 
-let numero="2026-"+String(contador).padStart(4,'0');
+let num = editando ? editando : contador;
+let numero = "2026-"+String(num).padStart(4,'0');
+
 numCotizacion.innerText="COTIZACIÓN N° "+numero;
 fechasVista.innerText="Fecha emisión: "+fechaEmision.value+" | Válido hasta: "+fechaValidez.value;
 
@@ -333,7 +348,7 @@ vistaCliente.innerHTML=
 "Teléfono: "+clienteTel.value+"<br>"+
 "Dirección: "+clienteDir.value;
 
-vistaItems.innerHTML=tablaItems.innerHTML || '<tr><td colspan="7" style="height:120px;"></td></tr>';
+vistaItems.innerHTML = tablaItems.innerHTML || '<tr><td colspan="7" style="height:150px;"></td></tr>';
 
 vistaCosto.innerText=costo.innerText;
 vistaIgv.innerText=igv.innerText;
@@ -344,14 +359,61 @@ function cerrarVista(){
 a4Container.style.display="none";
 }
 
+function guardar(){
+let num = editando ? editando : contador;
+localStorage.setItem("cot_"+num, panel.innerHTML);
+if(!editando){
+contador++;
+localStorage.setItem("contador",contador);
+}
+cargarHistorial();
+alert("Cotización guardada");
+}
+
+function cargarHistorial(){
+let lista=document.getElementById("listaHistorial");
+lista.innerHTML="";
+for(let i=1;i<contador;i++){
+if(localStorage.getItem("cot_"+i)){
+let div=document.createElement("div");
+div.className="hist-item";
+div.innerHTML="Cotización 2026-"+String(i).padStart(4,'0')+
+`<div>
+<button onclick="editar(${i})">Modificar</button>
+<button onclick="anular(${i})">Anular</button>
+</div>`;
+lista.appendChild(div);
+}
+}
+}
+
+function editar(num){
+editando=num;
+panel.innerHTML=localStorage.getItem("cot_"+num);
+}
+
+function anular(num){
+if(confirm("¿Anular cotización?")){
+localStorage.removeItem("cot_"+num);
+cargarHistorial();
+}
+}
+
+function filtrar(){
+let f=buscar.value.toLowerCase();
+document.querySelectorAll(".hist-item").forEach(el=>{
+el.style.display=el.innerText.toLowerCase().includes(f)?"flex":"none";
+});
+}
+
 function descargarPDF(){
 document.querySelector(".pdf-controls").style.display="none";
-
-let numero="2026-"+String(contador).padStart(4,'0');
+let num = numCotizacion.innerText.replace("COTIZACIÓN N° ","");
 
 html2pdf().from(a4).set({
 margin:0,
-filename:"Cotizacion_"+numero+".pdf",
+filename:"Cotizacion_"+num+".pdf",
+pagebreak:{mode:['avoid-all']},
 html2canvas:{scale:2},
 jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
 }).save().then(()=>{
@@ -359,15 +421,8 @@ document.querySelector(".pdf-controls").style.display="block";
 });
 }
 
-function cargarLogo(e,id){
-let reader=new FileReader();
-reader.onload=function(){
-document.getElementById(id).src=reader.result;
-}
-reader.readAsDataURL(e.target.files[0]);
-}
-
 agregarItem();
+cargarHistorial();
 
 </script>
 
