@@ -2,168 +2,103 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Sistema Cotizaciones - Vidrios y Aluminios Yuri</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Arial+Narrow&display=swap" rel="stylesheet">
+<title>Sistema Profesional - Vidrios y Aluminios Yuri</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
-body{
-font-family:'Arial Narrow', Arial, sans-serif;
-margin:0;
-background:#eef2f7;
-}
-
+body{margin:0;font-family:'Arial Narrow',Arial,sans-serif;background:#eef2f7}
 h1,h2,h3{margin:5px 0}
-
-.container{
-display:grid;
-grid-template-columns: 45% 55%;
-height:100vh;
-}
-
-.left{
-padding:20px;
-overflow:auto;
-background:#fff;
-border-right:2px solid #ddd;
-}
-
-.right{
-padding:20px;
-background:#f4f6f9;
-overflow:auto;
-}
-
-input,select{
-width:100%;
-padding:6px;
-margin:4px 0;
-font-family:'Arial Narrow', Arial, sans-serif;
-}
-
-button{
-padding:8px 12px;
-background:#1e4fa1;
-color:white;
-border:none;
-cursor:pointer;
-margin-top:5px;
-}
-
-button:hover{
-background:#163a75;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-th,td{
-border:1px solid #ccc;
-padding:5px;
-font-size:14px;
-}
-
-th{
-background:#1e4fa1;
-color:white;
-}
-
-.preview{
-background:white;
-padding:25px;
-box-shadow:0 0 15px rgba(0,0,0,0.15);
-border-radius:10px;
-}
-
-.empresa{
-text-align:center;
-}
-
-.linea{
-border-top:2px solid #1e4fa1;
-margin:10px 0;
-}
-
-.cliente-box{
-background:#e8f1ff;
-padding:10px;
-border-radius:6px;
-margin-bottom:10px;
-}
-
-.firma{
-text-align:center;
-margin-top:60px;
-}
-
-.historial-item{
-padding:5px;
-border-bottom:1px solid #ddd;
-cursor:pointer;
-}
-
-.historial-item:hover{
-background:#f0f0f0;
-}
+input,select{width:100%;padding:6px;margin:4px 0}
+button{padding:8px 12px;background:#1e4fa1;color:#fff;border:none;cursor:pointer;margin:3px 0}
+button:hover{background:#163a75}
+.container{display:grid;grid-template-columns:45% 55%;height:100vh}
+.left{padding:20px;overflow:auto;background:#fff;border-right:2px solid #ddd}
+.right{padding:20px;background:#f4f6f9;overflow:auto}
+.preview{background:#fff;padding:25px;border-radius:10px;box-shadow:0 0 15px rgba(0,0,0,.15)}
+.empresa{text-align:center}
+.linea{border-top:2px solid #1e4fa1;margin:10px 0}
+.cliente-box{background:#e8f1ff;padding:10px;border-radius:6px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #ccc;padding:5px;font-size:14px}
+th{background:#1e4fa1;color:#fff}
+.firma{text-align:center;margin-top:60px}
+.footer{background:#1e4fa1;color:#fff;text-align:center;padding:10px;margin-top:20px}
+.historial-item{padding:5px;border-bottom:1px solid #ddd;cursor:pointer}
+.historial-item:hover{background:#f0f0f0}
+.login{display:flex;justify-content:center;align-items:center;height:100vh;background:#1e4fa1}
+.login-box{background:#fff;padding:30px;border-radius:10px;width:350px}
+.hidden{display:none}
+img.logo{max-height:80px;margin-bottom:10px}
+img.firma-img{max-height:80px}
 </style>
 </head>
 <body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login">
+<div class="login-box">
+<h2>Iniciar Sesión</h2>
+<label>RUC o DNI</label>
+<input id="user">
+<label>Contraseña</label>
+<input type="password" id="pass">
+<button onclick="login()">Ingresar</button>
+<button onclick="recuperar()">Recuperar contraseña</button>
+</div>
+</div>
+
+<!-- SISTEMA -->
+<div id="app" class="hidden">
 
 <div class="container">
 
 <div class="left">
 
-<h2>Crear / Editar Cotización</h2>
+<h2>VIDRIOS Y ALUMINIOS YURI</h2>
+YURI HERMOZA PUELLES<br>
+RUC: 10617365036<br>
+Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
+<hr>
 
-<label>Nombre Cliente</label>
-<input id="nombre">
+<h3>Logo</h3>
+<input type="file" onchange="cargarLogo(event)">
+<button onclick="eliminarLogo()">Eliminar Logo</button>
 
-<label>DNI / RUC</label>
-<input id="dni">
+<h3>Firma</h3>
+<input type="file" onchange="cargarFirma(event)">
+<button onclick="eliminarFirma()">Eliminar Firma</button>
 
-<label>Teléfono</label>
-<input id="telefono">
+<hr>
 
-<label>Dirección</label>
-<input id="direccion">
+<h3>Datos Cliente</h3>
+<input placeholder="Nombre" id="nombre">
+<input placeholder="DNI/RUC" id="dni">
+<input placeholder="Teléfono" id="telefono">
+<input placeholder="Dirección" id="direccion">
 
 <h3>Ítems</h3>
-
 <table id="tablaItems">
 <tr>
-<th>Ítem</th>
-<th>Código</th>
-<th>Descripción</th>
-<th>Cant</th>
-<th>Unidad</th>
-<th>Precio</th>
-<th>Subtotal</th>
+<th>Ítem</th><th>Código</th><th>Descripción</th>
+<th>Cant</th><th>Unidad</th><th>Precio</th><th>Subtotal</th>
 </tr>
 </table>
-
 <button onclick="agregarItem()">Agregar Ítem</button>
 
-<h3>Historial de Cotizaciones</h3>
-
+<h3>Historial</h3>
 <input placeholder="Buscar por cliente, RUC o número" id="buscar">
 <button onclick="buscarCotizacion()">Buscar</button>
 <div id="historial"></div>
 
-<br>
 <button onclick="guardarCotizacion()">Guardar</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
 
 </div>
 
 <div class="right">
-
 <div class="preview" id="pdf">
 
 <div class="empresa">
+<img id="logoPreview" class="logo">
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 <h3>YURI HERMOZA PUELLES</h3>
 RUC: 10617365036<br>
@@ -172,11 +107,9 @@ Dirección: APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO
 
 <div class="linea"></div>
 
-<div>
 <strong>COTIZACIÓN Nº <span id="numeroPreview"></span></strong><br>
 Fecha emisión: <span id="fechaPreview"></span><br>
 Válido hasta: <span id="validezPreview"></span>
-</div>
 
 <div class="cliente-box">
 <h3>CLIENTE</h3>
@@ -188,171 +121,172 @@ Dirección: <span id="pDireccion"></span>
 
 <table id="tablaPreview">
 <tr>
-<th>Ítem</th>
-<th>Código</th>
-<th>Descripción</th>
-<th>Cant</th>
-<th>Unidad</th>
-<th>P.Unit</th>
-<th>Subtotal</th>
+<th>Ítem</th><th>Código</th><th>Descripción</th>
+<th>Cant</th><th>Unidad</th><th>P.Unit</th><th>Subtotal</th>
 </tr>
 </table>
 
-<br>
-
-<div style="text-align:right">
+<div style="text-align:right;margin-top:10px">
 Costo: S/ <span id="costo">0.00</span><br>
 IGV (18%): S/ <span id="igv">0.00</span><br>
 <strong>Total: S/ <span id="total">0.00</span></strong>
 </div>
 
-<div style="margin-top:20px;">
+<div style="margin-top:20px">
 <strong>MÉTODO DE PAGO</strong><br>
 Cuenta BCP: 52671107164027<br>
 CCI: 00 2526 1711 0716 4027 21
 </div>
 
 <div class="firma">
-<br><br>
+<img id="firmaPreview" class="firma-img"><br>
 _____________________________<br>
 Firma<br>
 DNI:
 </div>
 
+<div class="footer">
+CC.HACCA S/N OMACHA - PARURO - CUSCO<br>
+Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
 
+</div>
+</div>
 </div>
 </div>
 
 <script>
 
-let contador = localStorage.getItem("contador") || 1;
-let editando = null;
+let contador=localStorage.getItem("contador")||1;
+let editando=null;
+
+function login(){
+if(user.value && pass.value){
+document.getElementById("loginPage").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+init();
+}else alert("Ingrese datos");
+}
+
+function recuperar(){
+alert("Se enviará enlace de recuperación a su correo o celular registrado.");
+}
 
 function generarNumero(){
-return "2026 - " + String(contador).padStart(4,'0');
+return "2026 - "+String(contador).padStart(4,'0');
 }
 
 function agregarItem(){
-let tabla=document.getElementById("tablaItems");
-let row=tabla.insertRow();
-row.innerHTML=`
-<td>${tabla.rows.length-1}</td>
+let t=document.getElementById("tablaItems");
+let row=t.insertRow();
+row.innerHTML=`<td>${t.rows.length-1}</td>
 <td><input></td>
 <td><input></td>
 <td><input type="number" value="1"></td>
-<td>
-<select>
-<option>UND</option>
-<option>M2</option>
-<option>ML</option>
-<option>KG</option>
-<option>Juego</option>
-<option>Servicio</option>
-</select>
-</td>
+<td><select>
+<option>UND</option><option>M2</option>
+<option>ML</option><option>KG</option>
+<option>Juego</option><option>Servicio</option>
+</select></td>
 <td><input type="number" value="0"></td>
-<td>0.00</td>
-`;
+<td>0.00</td>`;
 }
 
+function cargarLogo(e){
+let reader=new FileReader();
+reader.onload=()=>{logoPreview.src=reader.result}
+reader.readAsDataURL(e.target.files[0]);
+}
+
+function eliminarLogo(){logoPreview.src=""}
+
+function cargarFirma(e){
+let reader=new FileReader();
+reader.onload=()=>{firmaPreview.src=reader.result}
+reader.readAsDataURL(e.target.files[0]);
+}
+
+function eliminarFirma(){firmaPreview.src=""}
+
 function actualizarPreview(){
-document.getElementById("pNombre").innerText=nombre.value;
-document.getElementById("pDni").innerText=dni.value;
-document.getElementById("pTelefono").innerText=telefono.value;
-document.getElementById("pDireccion").innerText=direccion.value;
+pNombre.innerText=nombre.value;
+pDni.innerText=dni.value;
+pTelefono.innerText=telefono.value;
+pDireccion.innerText=direccion.value;
 }
 
 function guardarCotizacion(){
 actualizarPreview();
-
-let numero = editando || generarNumero();
-
-let data={
-numero,
-nombre:nombre.value,
-dni:dni.value,
-telefono:telefono.value,
-direccion:direccion.value
-};
-
+let numero=editando||generarNumero();
+let data={numero,nombre:nombre.value,dni:dni.value,
+telefono:telefono.value,direccion:direccion.value};
 localStorage.setItem("cot_"+numero,JSON.stringify(data));
-
-if(!editando){
-contador++;
-localStorage.setItem("contador",contador);
-}
-
+if(!editando){contador++;localStorage.setItem("contador",contador);}
 cargarHistorial();
-alert("Guardado correctamente");
+alert("Guardado");
 }
 
 function cargarHistorial(){
-let div=document.getElementById("historial");
-div.innerHTML="";
+historial.innerHTML="";
 for(let key in localStorage){
 if(key.startsWith("cot_")){
-let data=JSON.parse(localStorage.getItem(key));
-let item=document.createElement("div");
-item.className="historial-item";
-item.innerText=data.numero+" - "+data.nombre;
-item.onclick=()=>editar(data.numero);
-div.appendChild(item);
+let d=JSON.parse(localStorage.getItem(key));
+let div=document.createElement("div");
+div.className="historial-item";
+div.innerText=d.numero+" - "+d.nombre;
+div.onclick=()=>editar(d.numero);
+historial.appendChild(div);
 }
 }
 }
 
-function editar(numero){
-let data=JSON.parse(localStorage.getItem("cot_"+numero));
-editando=numero;
-nombre.value=data.nombre;
-dni.value=data.dni;
-telefono.value=data.telefono;
-direccion.value=data.direccion;
+function editar(num){
+let d=JSON.parse(localStorage.getItem("cot_"+num));
+editando=num;
+nombre.value=d.nombre;
+dni.value=d.dni;
+telefono.value=d.telefono;
+direccion.value=d.direccion;
 actualizarPreview();
+numeroPreview.innerText=num;
 }
 
 function buscarCotizacion(){
-let texto=document.getElementById("buscar").value.toLowerCase();
+let texto=buscar.value.toLowerCase();
 let encontrado=false;
 for(let key in localStorage){
 if(key.startsWith("cot_")){
-let data=JSON.parse(localStorage.getItem(key));
-if(data.nombre.toLowerCase().includes(texto) || data.numero.includes(texto) || data.dni.includes(texto)){
-editar(data.numero);
+let d=JSON.parse(localStorage.getItem(key));
+if(d.nombre.toLowerCase().includes(texto)||
+d.numero.includes(texto)||d.dni.includes(texto)){
+editar(d.numero);
 encontrado=true;
 }
 }
 }
-if(!encontrado){
-alert("No se encontraron datos");
-}
+if(!encontrado)alert("No se encontraron datos");
 }
 
 function descargarPDF(){
-let element=document.getElementById("pdf");
 let nombreArchivo="Cotizacion_"+(editando||generarNumero())+"_"+nombre.value+".pdf";
 html2pdf().set({
 margin:5,
 filename:nombreArchivo,
 html2canvas:{scale:2},
-jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-}).from(element).save();
+jsPDF:{unit:'mm',format:'a4'}
+}).from(pdf).save();
 }
 
 function init(){
-document.getElementById("numeroPreview").innerText=generarNumero();
+numeroPreview.innerText=generarNumero();
 let hoy=new Date();
-document.getElementById("fechaPreview").innerText=hoy.toLocaleDateString();
-let validez=new Date();
-validez.setDate(hoy.getDate()+7);
-document.getElementById("validezPreview").innerText=validez.toLocaleDateString();
+fechaPreview.innerText=hoy.toLocaleDateString();
+let val=new Date();val.setDate(hoy.getDate()+7);
+validezPreview.innerText=val.toLocaleDateString();
 cargarHistorial();
 }
 
 document.querySelectorAll("input").forEach(i=>i.addEventListener("input",actualizarPreview));
-
-init();
 
 </script>
 
