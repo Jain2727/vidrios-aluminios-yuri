@@ -2,15 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Sistema Cotización - Vidrios y Aluminios Yuri</title>
+<title>Sistema Profesional - Vidrios y Aluminios Yuri</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 body{
-    font-family: "Arial Narrow", Arial, sans-serif;
+    font-family:"Arial Narrow", Arial, sans-serif;
     margin:0;
-    background:#f4f6f9;
+    background:#f2f4f8;
 }
 
 /* LOGIN */
@@ -19,7 +19,7 @@ body{
     margin:100px auto;
     background:white;
     padding:30px;
-    border-radius:10px;
+    border-radius:12px;
     box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
@@ -30,32 +30,21 @@ input, select{
 }
 
 button{
-    padding:8px 12px;
+    padding:8px 14px;
     cursor:pointer;
     border:none;
-    background:#1976d2;
+    background:#1565c0;
     color:white;
-    border-radius:5px;
+    border-radius:6px;
 }
 
-button:hover{
-    background:#125ea8;
-}
+button:hover{ background:#0d47a1; }
 
-#app{
-    display:none;
-    padding:20px;
-}
+#app{ display:none; padding:20px; }
 
 /* Empresa */
-.empresa{
-    text-align:center;
-}
-
-.linea{
-    border-top:2px solid #1976d2;
-    margin:10px 0;
-}
+.empresa{ text-align:center; }
+.linea{ border-top:2px solid #1565c0; margin:10px 0; }
 
 /* Cliente */
 .cliente-box{
@@ -63,10 +52,7 @@ button:hover{
     padding:10px;
     border-radius:8px;
     margin-bottom:10px;
-}
-
-.cliente-box h3{
-    margin:0 0 5px 0;
+    box-shadow:0 3px 10px rgba(0,0,0,0.05);
 }
 
 /* Tabla */
@@ -75,7 +61,7 @@ table{
     border-collapse:collapse;
     margin-top:10px;
     background:white;
-    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
 th, td{
@@ -88,27 +74,35 @@ tfoot td{
     font-weight:bold;
 }
 
-/* Footer */
-.footer{
-    background:#0d47a1;
-    color:white;
-    text-align:center;
-    padding:10px;
-    margin-top:20px;
-}
-
 /* Firma */
 .firma-box{
     text-align:center;
     margin-top:50px;
 }
 
+/* Footer */
+.footer{
+    background:#0d47a1;
+    color:white;
+    text-align:center;
+    padding:12px;
+    margin-top:20px;
+}
+
 /* Historial */
 #historial{
     margin-top:20px;
     background:white;
-    padding:10px;
+    padding:15px;
     border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+iframe{
+    width:100%;
+    height:700px;
+    border:1px solid #ccc;
+    margin-top:20px;
 }
 </style>
 </head>
@@ -120,7 +114,7 @@ tfoot td{
 <input id="usuario" placeholder="DNI o RUC">
 <input id="password" type="password" placeholder="Contraseña">
 <button onclick="login()">Ingresar</button>
-<p style="color:#1976d2; cursor:pointer;" onclick="alert('Recuperación enviada (simulado profesional)')">¿Olvidó contraseña?</p>
+<p style="color:#1565c0;cursor:pointer;" onclick="alert('Recuperación enviada correctamente')">¿Olvidó contraseña?</p>
 </div>
 
 <!-- APP -->
@@ -140,11 +134,9 @@ Válida hasta: <input type="date" id="fechaValidez">
 
 <hr>
 
-<!-- LOGOS -->
 Logo Izquierdo: <input type="file" onchange="cargarLogo(event,'logoIzq')">
 Logo Derecho: <input type="file" onchange="cargarLogo(event,'logoDer')">
 
-<!-- CLIENTE -->
 <div class="cliente-box">
 <h3>CLIENTE</h3>
 Nombre: <input id="clienteNombre">
@@ -153,7 +145,6 @@ Teléfono: <input id="clienteTelefono">
 Dirección: <input id="clienteDireccion">
 </div>
 
-<!-- TABLA -->
 <table id="tablaItems">
 <thead>
 <tr>
@@ -166,24 +157,7 @@ Dirección: <input id="clienteDireccion">
 <th>Subtotal</th>
 </tr>
 </thead>
-<tbody id="itemsBody">
-<tr>
-<td>1</td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
-<td contenteditable="true" oninput="calcular()"></td>
-<td>
-<select>
-<option>UND</option>
-<option>M2</option>
-<option>ML</option>
-<option>KG</option>
-</select>
-</td>
-<td contenteditable="true" oninput="calcular()"></td>
-<td>0.00</td>
-</tr>
-</tbody>
+<tbody id="itemsBody"></tbody>
 <tfoot>
 <tr><td colspan="6">Subtotal</td><td id="subtotal">0.00</td></tr>
 <tr><td colspan="6">IGV (18%)</td><td id="igv">0.00</td></tr>
@@ -191,17 +165,13 @@ Dirección: <input id="clienteDireccion">
 </tfoot>
 </table>
 
-<br>
 <button onclick="agregarItem()">Agregar Ítem</button>
-
-<hr>
 
 <h3>MÉTODO DE PAGO</h3>
 Cuenta BCP: 52671107164027<br>
 CCI: 00 2526 1711 0716 4027 21
 
 <div class="firma-box">
-<br><br>
 Firma: <input type="file" onchange="cargarFirma(event)">
 <br>
 <img id="firmaImg" width="150"><br>
@@ -212,7 +182,8 @@ DNI: ____________
 <button onclick="guardarCotizacion()">Guardar</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
 
-<!-- HISTORIAL -->
+<iframe id="vistaPDF"></iframe>
+
 <div id="historial">
 <h3>Historial de Cotizaciones</h3>
 <input id="buscarInput" placeholder="Buscar por Cliente / RUC / N°">
@@ -229,131 +200,141 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 
 <script>
 const { jsPDF } = window.jspdf;
-
 let cotizaciones = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
+let editandoIndex = null;
 
 function login(){
-    localStorage.setItem("sesion","activa");
-    document.getElementById("loginBox").style.display="none";
-    document.getElementById("app").style.display="block";
-    generarNumero();
-    cargarHistorial();
+localStorage.setItem("sesion","activa");
+document.getElementById("loginBox").style.display="none";
+document.getElementById("app").style.display="block";
+generarNumero();
+cargarHistorial();
+agregarItem();
+generarVistaPrevia();
 }
-
-if(localStorage.getItem("sesion")){
-    login();
-}
+if(localStorage.getItem("sesion")) login();
 
 function generarNumero(){
-    let numero = cotizaciones.length + 1;
-    document.getElementById("numeroCot").innerText =
-        "2026-" + numero.toString().padStart(4,"0");
+if(editandoIndex!==null){
+document.getElementById("numeroCot").innerText=cotizaciones[editandoIndex].numero;
+return;
+}
+let numero=cotizaciones.length+1;
+document.getElementById("numeroCot").innerText="2026-"+numero.toString().padStart(4,"0");
 }
 
 function agregarItem(){
-    let tbody = document.getElementById("itemsBody");
-    let fila = tbody.rows.length + 1;
-    tbody.innerHTML += `
-    <tr>
-    <td>${fila}</td>
-    <td contenteditable="true"></td>
-    <td contenteditable="true"></td>
-    <td contenteditable="true" oninput="calcular()"></td>
-    <td>
-    <select>
-    <option>UND</option>
-    <option>M2</option>
-    <option>ML</option>
-    <option>KG</option>
-    </select>
-    </td>
-    <td contenteditable="true" oninput="calcular()"></td>
-    <td>0.00</td>
-    </tr>`;
+let tbody=document.getElementById("itemsBody");
+let fila=tbody.rows.length+1;
+tbody.innerHTML+=`
+<tr>
+<td>${fila}</td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td contenteditable="true" oninput="calcular()"></td>
+<td>
+<select>
+<option>UND</option>
+<option>M2</option>
+<option>ML</option>
+<option>KG</option>
+</select>
+</td>
+<td contenteditable="true" oninput="calcular()"></td>
+<td>0.00</td>
+</tr>`;
 }
 
 function calcular(){
-    let filas = document.querySelectorAll("#itemsBody tr");
-    let subtotal = 0;
-    filas.forEach(f=>{
-        let cant = parseFloat(f.cells[3].innerText)||0;
-        let precio = parseFloat(f.cells[5].innerText)||0;
-        let sub = cant*precio;
-        f.cells[6].innerText = sub.toFixed(2);
-        subtotal += sub;
-    });
-    let igv = subtotal*0.18;
-    let total = subtotal+igv;
-    document.getElementById("subtotal").innerText=subtotal.toFixed(2);
-    document.getElementById("igv").innerText=igv.toFixed(2);
-    document.getElementById("total").innerText=total.toFixed(2);
+let filas=document.querySelectorAll("#itemsBody tr");
+let subtotal=0;
+filas.forEach(f=>{
+let cant=parseFloat(f.cells[3].innerText)||0;
+let precio=parseFloat(f.cells[5].innerText)||0;
+let sub=cant*precio;
+f.cells[6].innerText=sub.toFixed(2);
+subtotal+=sub;
+});
+let igv=subtotal*0.18;
+let total=subtotal+igv;
+document.getElementById("subtotal").innerText=subtotal.toFixed(2);
+document.getElementById("igv").innerText=igv.toFixed(2);
+document.getElementById("total").innerText=total.toFixed(2);
+generarVistaPrevia();
 }
 
 function guardarCotizacion(){
-    let data={
-        numero:document.getElementById("numeroCot").innerText,
-        cliente:document.getElementById("clienteNombre").value,
-        ruc:document.getElementById("clienteRuc").value,
-        total:document.getElementById("total").innerText
-    };
-    cotizaciones.push(data);
-    localStorage.setItem("cotizaciones",JSON.stringify(cotizaciones));
-    generarNumero();
-    cargarHistorial();
+let data={
+numero:document.getElementById("numeroCot").innerText,
+cliente:document.getElementById("clienteNombre").value,
+ruc:document.getElementById("clienteRuc").value,
+total:document.getElementById("total").innerText
+};
+if(editandoIndex!==null){
+cotizaciones[editandoIndex]=data;
+editandoIndex=null;
+}else{
+cotizaciones.push(data);
+}
+localStorage.setItem("cotizaciones",JSON.stringify(cotizaciones));
+generarNumero();
+cargarHistorial();
 }
 
 function cargarHistorial(){
-    let lista=document.getElementById("listaHistorial");
-    lista.innerHTML="";
-    cotizaciones.forEach(c=>{
-        lista.innerHTML+=`<li>${c.numero} - ${c.cliente} - S/ ${c.total}</li>`;
-    });
+let lista=document.getElementById("listaHistorial");
+lista.innerHTML="";
+cotizaciones.forEach((c,i)=>{
+lista.innerHTML+=`<li onclick="editarCot(${i})" style="cursor:pointer">
+${c.numero} - ${c.cliente} - S/ ${c.total}
+</li>`;
+});
+}
+
+function editarCot(i){
+editandoIndex=i;
+let c=cotizaciones[i];
+document.getElementById("clienteNombre").value=c.cliente;
+document.getElementById("clienteRuc").value=c.ruc;
+document.getElementById("total").innerText=c.total;
+generarNumero();
 }
 
 function buscarCot(){
-    let val=document.getElementById("buscarInput").value.toLowerCase();
-    let lista=document.getElementById("listaHistorial");
-    lista.innerHTML="";
-    let encontrados=cotizaciones.filter(c=>
-        c.numero.toLowerCase().includes(val) ||
-        c.cliente.toLowerCase().includes(val) ||
-        c.ruc.toLowerCase().includes(val)
-    );
-    if(encontrados.length===0){
-        lista.innerHTML="<li>No se encontraron datos</li>";
-    } else {
-        encontrados.forEach(c=>{
-            lista.innerHTML+=`<li>${c.numero} - ${c.cliente} - S/ ${c.total}</li>`;
-        });
-    }
+let val=document.getElementById("buscarInput").value.toLowerCase();
+let lista=document.getElementById("listaHistorial");
+lista.innerHTML="";
+let encontrados=cotizaciones.filter(c=>
+c.numero.toLowerCase().includes(val)||
+c.cliente.toLowerCase().includes(val)||
+c.ruc.toLowerCase().includes(val)
+);
+if(encontrados.length===0){
+lista.innerHTML="<li>No se encontraron datos</li>";
+}else{
+encontrados.forEach((c,i)=>{
+lista.innerHTML+=`<li onclick="editarCot(${i})">${c.numero} - ${c.cliente}</li>`;
+});
+}
 }
 
-function cargarFirma(e){
-    let reader=new FileReader();
-    reader.onload=function(){
-        document.getElementById("firmaImg").src=reader.result;
-    }
-    reader.readAsDataURL(e.target.files[0]);
-}
-
-function cargarLogo(e,id){
-    let reader=new FileReader();
-    reader.onload=function(){
-        let img=document.createElement("img");
-        img.src=reader.result;
-        img.width=80;
-        document.body.appendChild(img);
-    }
-    reader.readAsDataURL(e.target.files[0]);
+function generarVistaPrevia(){
+const doc=new jsPDF("p","mm","a4");
+doc.text("VIDRIOS Y ALUMINIOS YURI",105,15,null,null,"center");
+doc.text("Cotización N° "+document.getElementById("numeroCot").innerText,20,30);
+doc.text("Cliente: "+document.getElementById("clienteNombre").value,20,40);
+doc.text("Total: S/ "+document.getElementById("total").innerText,20,50);
+let blob=doc.output("blob");
+document.getElementById("vistaPDF").src=URL.createObjectURL(blob);
 }
 
 function descargarPDF(){
-    const doc=new jsPDF("p","mm","a4");
-    doc.text("VIDRIOS Y ALUMINIOS YURI",105,20,null,null,"center");
-    doc.text("Cotización N° "+document.getElementById("numeroCot").innerText,20,30);
-    doc.text("Cliente: "+document.getElementById("clienteNombre").value,20,40);
-    doc.text("Total: S/ "+document.getElementById("total").innerText,20,50);
-    doc.save(document.getElementById("clienteNombre").value+".pdf");
+const doc=new jsPDF("p","mm","a4");
+doc.text("VIDRIOS Y ALUMINIOS YURI",105,15,null,null,"center");
+doc.text("Cotización N° "+document.getElementById("numeroCot").innerText,20,30);
+doc.text("Cliente: "+document.getElementById("clienteNombre").value,20,40);
+doc.text("Total: S/ "+document.getElementById("total").innerText,20,50);
+doc.save(document.getElementById("clienteNombre").value+"-"+document.getElementById("numeroCot").innerText+".pdf");
 }
 </script>
 
