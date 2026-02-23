@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Vidrios y Aluminios Yuri</title>
+<title>VIDRIOS Y ALUMINIOS YURI - Sistema Profesional</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body{
 font-family:'Arial Narrow', Arial, sans-serif;
 margin:0;
-background:#f2f4f8;
+background:#e9edf3;
 }
 
 /* LOGIN */
@@ -20,20 +20,17 @@ justify-content:center;
 align-items:center;
 background:#1f4e79;
 }
-
 .login-box{
 background:white;
 padding:35px;
-width:330px;
-border-radius:8px;
+width:340px;
+border-radius:10px;
 }
-
 .login-box input{
 width:100%;
 margin-bottom:10px;
 padding:6px;
 }
-
 button{
 background:#1f4e79;
 color:white;
@@ -42,10 +39,14 @@ padding:6px 12px;
 border-radius:4px;
 cursor:pointer;
 }
-
 button:hover{background:#163a5a;}
-
 #app{display:none;padding:20px;}
+
+/* CONTROLES */
+.controls{
+text-align:center;
+margin-bottom:20px;
+}
 
 /* A4 */
 #a4{
@@ -56,53 +57,62 @@ margin:auto;
 padding:40px;
 box-sizing:border-box;
 position:relative;
+line-height:1.3;
 }
 
 /* ENCABEZADO */
 .header{
 text-align:center;
 position:relative;
-margin-bottom:20px;
+margin-bottom:15px;
 }
-
 .header h1{
 margin:0;
-font-size:30px;
+font-size:32px;
+letter-spacing:1px;
 }
-
 .header h2{
 margin:0;
 font-size:18px;
 font-weight:bold;
 }
-
 .logo{
-width:90px;
-height:90px;
-object-fit:contain;
+width:85px;
 position:absolute;
 top:0;
 }
-
 .logo-left{left:0;}
 .logo-right{right:0;}
-
 .logo-btn{
 position:absolute;
-top:95px;
+top:90px;
 font-size:12px;
-padding:3px 6px;
 }
-
 .logo-btn-left{left:0;}
 .logo-btn-right{right:0;}
 
-/* INPUTS PANTALLA */
+/* FECHAS */
+.fechas{
+display:flex;
+justify-content:space-between;
+margin-top:10px;
+}
+
+/* CLIENTE */
+.cliente{
+margin-top:15px;
+padding:10px;
+border-radius:6px;
+}
+.preview-mode .cliente{
+background:#d9e8fb;
+}
+
+/* INPUTS */
 .editable{
 border:1px solid #1f4e79;
 padding:3px;
 }
-
 .preview-mode .editable{
 border:none;
 }
@@ -113,29 +123,24 @@ width:100%;
 border-collapse:collapse;
 margin-top:10px;
 }
-
 th{
 background:#1f4e79;
 color:white;
 padding:6px;
 }
-
 td{
 border:1px solid #333;
 padding:5px;
 }
-
-td input, td select{
+td input,td select{
 width:100%;
 border:1px solid #1f4e79;
 }
-
 .preview-mode td input,
 .preview-mode td select{
 border:none;
 }
-
-.colEliminar{width:70px;}
+.colEliminar{width:60px;}
 .preview-mode .colEliminar{display:none;}
 
 /* TOTALES */
@@ -144,30 +149,35 @@ border:none;
 /* FIRMA */
 .firma{
 position:absolute;
-bottom:160px;
+bottom:170px;
 width:100%;
 text-align:center;
 }
 
+/* FOOTER */
 .footer{
 position:absolute;
 bottom:0;
 width:100%;
-text-align:center;
-font-size:13px;
-padding:10px;
 background:#1f4e79;
 color:white;
+text-align:center;
+padding:12px;
 }
-
 .versiculo{
 font-style:italic;
 margin-top:5px;
 }
 
-.controls{
-text-align:center;
-margin-bottom:15px;
+/* HISTORIAL */
+#historial{
+margin-top:30px;
+background:white;
+padding:20px;
+border-radius:8px;
+}
+#historial table th{
+background:#444;
 }
 </style>
 </head>
@@ -186,12 +196,13 @@ margin-bottom:15px;
 </div>
 </div>
 
-<!-- SISTEMA -->
+<!-- APP -->
 <div id="app">
 
 <div class="controls">
 <button onclick="vistaPrevia()">Vista Previa</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
+<button onclick="guardarCotizacion()">Guardar</button>
 </div>
 
 <div id="a4">
@@ -199,9 +210,8 @@ margin-bottom:15px;
 <div class="header">
 <img id="logo1" class="logo logo-left">
 <img id="logo2" class="logo logo-right">
-
-<button class="logo-btn logo-btn-left" onclick="cargarLogo(1)">Modificar Logo</button>
-<button class="logo-btn logo-btn-right" onclick="cargarLogo(2)">Modificar Logo</button>
+<button class="logo-btn logo-btn-left no-print" onclick="cargarLogo(1)">Modificar Logo</button>
+<button class="logo-btn logo-btn-right no-print" onclick="cargarLogo(2)">Modificar Logo</button>
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 <h2>YURI HERMOZA PUELLES</h2>
@@ -210,20 +220,26 @@ Dirección: <input id="direccionLocal" class="editable" value="APV. LAS JOYAS, S
 <hr>
 </div>
 
-<b>COTIZACIÓN N° 2026 - 0002</b><br><br>
+<b>COTIZACIÓN N° <span id="numCot"></span></b>
 
+<div class="fechas">
+<div>
 Fecha emisión:<br>
-<input type="date" class="editable"><br><br>
-
+<input type="date" class="editable">
+</div>
+<div>
 Válido hasta:<br>
 <input type="date" class="editable">
+</div>
+</div>
 
-<br><br>
+<div class="cliente">
 <b>CLIENTE</b><br>
-Nombre: <input class="editable"><br><br>
-DNI/RUC: <input class="editable"><br><br>
-Teléfono: <input class="editable"><br><br>
+Nombre: <input id="clienteNombre" class="editable"><br>
+DNI/RUC: <input class="editable"><br>
+Teléfono: <input class="editable"><br>
 Dirección: <input class="editable">
+</div>
 
 <button onclick="agregarItem()">Agregar Item</button>
 
@@ -237,31 +253,10 @@ Dirección: <input class="editable">
 <th>Unidad</th>
 <th>P.Unit</th>
 <th>Subtotal</th>
-<th class="colEliminar">Eliminar</th>
+<th class="colEliminar">X</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td>1</td>
-<td><input></td>
-<td><input></td>
-<td><input type="number" value="0" onchange="calcular()"></td>
-<td>
-<select>
-<option>UND</option><option>M2</option><option>M</option>
-<option>KG</option><option>PAR</option>
-<option>SET</option><option>LT</option>
-<option>CM</option><option>MM</option>
-<option>GLB</option>
-</select>
-</td>
-<td><input type="number" value="0" onchange="calcular()"></td>
-<td class="sub">0.00</td>
-<td class="colEliminar">
-<button onclick="this.parentElement.parentElement.remove();calcular()">X</button>
-</td>
-</tr>
-</tbody>
+<tbody></tbody>
 </table>
 
 <div class="totales">
@@ -287,14 +282,37 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
 
 </div>
+
+<!-- HISTORIAL -->
+<div id="historial">
+<h3>Historial de Cotizaciones</h3>
+Buscar: <input id="buscar">
+<button onclick="filtrar()">Buscar</button>
+<table>
+<thead>
+<tr>
+<th>N°</th>
+<th>Fecha</th>
+<th>Total</th>
+<th>Ver PDF</th>
+<th>Editar</th>
+<th>Anular</th>
+</tr>
+</thead>
+<tbody id="listaHistorial"></tbody>
+</table>
+</div>
+
 </div>
 
 <script>
-let contador=1;
+let contador=0;
+let historial=[];
 
 function entrar(){
 document.getElementById("login").style.display="none";
 document.getElementById("app").style.display="block";
+nuevaCotizacion();
 }
 
 function mostrarPass(){
@@ -302,11 +320,19 @@ let p=document.getElementById("pass");
 p.type=p.type==="password"?"text":"password";
 }
 
-function agregarItem(){
+function nuevaCotizacion(){
 contador++;
+let numero=String(contador).padStart(4,'0')+"-2026";
+document.getElementById("numCot").innerText=numero;
+agregarItem();
+}
+
+function agregarItem(){
+let tbody=document.querySelector("#tabla tbody");
+let filas=tbody.rows.length+1;
 let fila=document.createElement("tr");
 fila.innerHTML=`
-<td>${contador}</td>
+<td>${filas}</td>
 <td><input></td>
 <td><input></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
@@ -324,13 +350,12 @@ fila.innerHTML=`
 <td class="colEliminar">
 <button onclick="this.parentElement.parentElement.remove();calcular()">X</button>
 </td>`;
-document.querySelector("#tabla tbody").appendChild(fila);
+tbody.appendChild(fila);
 }
 
 function calcular(){
-let filas=document.querySelectorAll("#tabla tbody tr");
 let total=0;
-filas.forEach(f=>{
+document.querySelectorAll("#tabla tbody tr").forEach(f=>{
 let cant=f.children[3].children[0].value;
 let pu=f.children[5].children[0].value;
 let sub=cant*pu;
@@ -348,13 +373,46 @@ document.getElementById("a4").classList.toggle("preview-mode");
 
 function descargarPDF(){
 document.getElementById("a4").classList.add("preview-mode");
+let nombreCliente=document.getElementById("clienteNombre").value || "Cliente";
+let numero=document.getElementById("numCot").innerText;
 html2pdf().set({
 margin:0,
-filename:'Cotizacion_Yuri.pdf',
+filename:`Cotizacion_${numero}_${nombreCliente}.pdf`,
 html2canvas:{scale:2},
-jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'}
+jsPDF:{unit:'px',format:[794,1123]}
 }).from(document.getElementById("a4")).save().then(()=>{
 document.getElementById("a4").classList.remove("preview-mode");
+});
+}
+
+function guardarCotizacion(){
+let numero=document.getElementById("numCot").innerText;
+let fecha=new Date().toLocaleDateString();
+let total=document.getElementById("total").innerText;
+historial.push({numero,fecha,total});
+mostrarHistorial();
+}
+
+function mostrarHistorial(){
+let tbody=document.getElementById("listaHistorial");
+tbody.innerHTML="";
+historial.forEach((h,i)=>{
+tbody.innerHTML+=`
+<tr>
+<td>${h.numero}</td>
+<td>${h.fecha}</td>
+<td>${h.total}</td>
+<td><button onclick="alert('PDF guardado en su equipo')">Ver</button></td>
+<td><button>Editar</button></td>
+<td><button onclick="this.parentElement.parentElement.remove()">Anular</button></td>
+</tr>`;
+});
+}
+
+function filtrar(){
+let f=document.getElementById("buscar").value.toLowerCase();
+document.querySelectorAll("#listaHistorial tr").forEach(r=>{
+r.style.display=r.innerText.toLowerCase().includes(f)?"":"none";
 });
 }
 
