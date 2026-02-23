@@ -13,6 +13,38 @@ margin:0;
 background:linear-gradient(135deg,#e8f0f8,#ffffff);
 }
 
+/* LOGIN */
+#login{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#1f4e79;
+}
+.login-box{
+background:white;
+padding:35px;
+width:340px;
+border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+.login-box input{
+width:100%;
+margin-bottom:10px;
+padding:8px;
+}
+button{
+background:#1f4e79;
+color:white;
+border:none;
+padding:6px 12px;
+border-radius:4px;
+cursor:pointer;
+}
+button:hover{background:#163a5a;}
+#app{display:none;padding:20px;}
+
+/* A4 */
 #a4{
 width:794px;
 height:1123px;
@@ -28,29 +60,26 @@ box-shadow:0 5px 20px rgba(0,0,0,0.1);
 /* ENCABEZADO */
 .header{
 text-align:center;
-margin-bottom:12px;
+margin-bottom:15px;
 }
-
 .header h1{
 margin:0;
-font-size:32px;
+font-size:30px;
 font-weight:900;
 color:#1f4e79;
 letter-spacing:0.5px;
 }
-
 .header h2{
-margin:3px 0 0 0;
-font-size:16px;
+margin:2px 0;
+font-size:17px;
 font-weight:700;
 }
-
 .header .direccion{
 margin-top:3px;
+text-align:center;
 }
-
-.header .direccion input{
-width:550px;
+.direccion input{
+width:620px;
 text-align:center;
 }
 
@@ -59,7 +88,7 @@ text-align:center;
 display:flex;
 justify-content:space-between;
 align-items:flex-start;
-margin-top:15px;
+margin-top:10px;
 }
 
 .cot-izq{
@@ -69,19 +98,19 @@ font-weight:bold;
 
 .cot-der{
 text-align:right;
-line-height:1.1;
+line-height:1.05;
 }
-
 .cot-der h3{
-margin:0;
+margin:0 0 4px 0;
 font-size:26px;
 font-weight:700;
 color:#1f4e79;
 }
-
-.cot-der small{
-display:block;
-margin-top:2px;
+.cot-der span{
+font-size:14px;
+}
+.cot-der input{
+margin-bottom:4px;
 }
 
 /* CLIENTE */
@@ -91,16 +120,15 @@ padding:10px;
 border-radius:6px;
 line-height:1.2;
 }
-
 .preview-mode .cliente{
 background:#d9e8fb;
 }
 
+/* INPUTS */
 .editable{
 border:1px solid #1f4e79;
 padding:3px;
 }
-
 .preview-mode .editable{
 border:none;
 background:transparent;
@@ -112,29 +140,24 @@ width:100%;
 border-collapse:collapse;
 margin-top:10px;
 }
-
 th{
 background:#1f4e79;
 color:white;
 padding:6px;
 }
-
 td{
 border:1px solid #333;
 padding:5px;
 }
-
 td input,td select{
 width:100%;
 border:1px solid #1f4e79;
 }
-
 .preview-mode td input,
 .preview-mode td select{
 border:none;
 background:transparent;
 }
-
 .colEliminar{width:60px;}
 .preview-mode .colEliminar{display:none;}
 .preview-mode button{display:none;}
@@ -162,9 +185,8 @@ width:100%;
 background:#1f4e79;
 color:white;
 text-align:center;
-padding:15px;
+padding:15px 0;
 }
-
 .versiculo{
 font-style:italic;
 margin-top:5px;
@@ -173,6 +195,19 @@ margin-top:5px;
 </head>
 
 <body>
+
+<div id="login">
+<div class="login-box">
+<h3>Inicio de Sesión</h3>
+<input placeholder="RUC / DNI / Correo">
+<input type="password" id="pass" placeholder="Contraseña">
+<label><input type="checkbox" onclick="mostrarPass()"> Mostrar contraseña</label>
+<br><br>
+<button style="width:100%;" onclick="entrar()">Ingresar</button>
+</div>
+</div>
+
+<div id="app">
 
 <div style="text-align:center;margin-bottom:15px;">
 <button onclick="vistaPrevia()">Vista Previa</button>
@@ -186,7 +221,7 @@ margin-top:5px;
 <div class="header">
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 <h2>YURI HERMOZA PUELLES</h2>
-RUC: 10617365036
+RUC: 10617365036<br>
 <div class="direccion">
 Dirección:
 <input class="editable" value="APV. LAS JOYAS, SAN SEBASTIAN - CUSCO - CUSCO">
@@ -196,27 +231,29 @@ Dirección:
 
 <div class="bloque-cot">
 <div class="cot-izq">
-COTIZACIÓN N° <span id="numCot">0001-2026</span>
+COTIZACIÓN N° <span id="numCot"></span>
 </div>
 
 <div class="cot-der">
 <h3>COTIZACIÓN</h3>
-<small>Fecha de emisión:</small>
-<input type="date" class="editable">
-<small>Válida hasta:</small>
+<span>Fecha de emisión:</span><br>
+<input type="date" class="editable"><br>
+<span>Válida hasta:</span><br>
 <input type="date" class="editable">
 </div>
 </div>
 
 <div class="cliente">
 <b>CLIENTE</b><br>
-Nombre: <input class="editable"><br>
+Nombre: <input id="clienteNombre" class="editable"><br>
 DNI/RUC: <input class="editable"><br>
 Teléfono: <input class="editable"><br>
 Dirección: <input class="editable">
 </div>
 
-<table>
+<button onclick="agregarItem()">Agregar Item</button>
+
+<table id="tabla">
 <thead>
 <tr>
 <th>Item</th>
@@ -226,20 +263,17 @@ Dirección: <input class="editable">
 <th>Unidad</th>
 <th>P.Unit</th>
 <th>Subtotal</th>
+<th class="colEliminar">X</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td>1</td>
-<td><input class="editable"></td>
-<td><input class="editable"></td>
-<td><input type="number" class="editable"></td>
-<td><select class="editable"><option>UND</option></select></td>
-<td><input type="number" class="editable"></td>
-<td>0.00</td>
-</tr>
-</tbody>
+<tbody></tbody>
 </table>
+
+<div class="totales">
+Costo: S/ <span id="costo">0.00</span><br>
+IGV (18%): S/ <span id="igv">0.00</span><br>
+<b>Total: S/ <span id="total">0.00</span></b>
+</div>
 
 <div class="metodo">
 <b>MÉTODO DE PAGO</b><br>
@@ -262,17 +296,76 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 </div>
 
 </div>
+</div>
 
 <script>
+let contador=0;
+
+function entrar(){
+document.getElementById("login").style.display="none";
+document.getElementById("app").style.display="block";
+contador++;
+document.getElementById("numCot").innerText=
+String(contador).padStart(4,'0')+"-2026";
+agregarItem();
+}
+
+function mostrarPass(){
+let p=document.getElementById("pass");
+p.type=p.type==="password"?"text":"password";
+}
+
+function agregarItem(){
+let tbody=document.querySelector("#tabla tbody");
+let filas=tbody.rows.length+1;
+let fila=document.createElement("tr");
+fila.innerHTML=`
+<td>${filas}</td>
+<td><input></td>
+<td><input></td>
+<td><input type="number" value="0" onchange="calcular()"></td>
+<td>
+<select>
+<option>UND</option><option>M2</option><option>M</option>
+<option>KG</option><option>PAR</option>
+<option>SET</option><option>LT</option>
+<option>CM</option><option>MM</option>
+<option>GLB</option>
+</select>
+</td>
+<td><input type="number" value="0" onchange="calcular()"></td>
+<td class="sub">0.00</td>
+<td class="colEliminar">
+<button onclick="this.parentElement.parentElement.remove();calcular()">X</button>
+</td>`;
+tbody.appendChild(fila);
+}
+
+function calcular(){
+let total=0;
+document.querySelectorAll("#tabla tbody tr").forEach(f=>{
+let cant=f.children[3].children[0].value;
+let pu=f.children[5].children[0].value;
+let sub=cant*pu;
+f.querySelector(".sub").innerText=sub.toFixed(2);
+total+=sub;
+});
+document.getElementById("costo").innerText=total.toFixed(2);
+document.getElementById("igv").innerText=(total*0.18).toFixed(2);
+document.getElementById("total").innerText=(total*1.18).toFixed(2);
+}
+
 function vistaPrevia(){
 document.getElementById("a4").classList.toggle("preview-mode");
 }
 
 function descargarPDF(){
 document.getElementById("a4").classList.add("preview-mode");
+let nombre=document.getElementById("clienteNombre").value||"Cliente";
+let numero=document.getElementById("numCot").innerText;
 html2pdf().set({
 margin:0,
-filename:`Cotizacion.pdf`,
+filename:`Cotizacion_${numero}_${nombre}.pdf`,
 html2canvas:{scale:2},
 jsPDF:{unit:'px',format:[794,1123]}
 }).from(document.getElementById("a4")).save().then(()=>{
@@ -281,7 +374,8 @@ document.getElementById("a4").classList.remove("preview-mode");
 }
 
 function compartirWhatsApp(){
-window.open(`https://wa.me/?text=Cotización`);
+let numero=document.getElementById("numCot").innerText;
+window.open(`https://wa.me/?text=Cotización ${numero}`);
 }
 
 function compartirImagen(){
