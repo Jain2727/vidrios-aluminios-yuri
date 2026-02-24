@@ -153,7 +153,7 @@ background:transparent;
 }
 .colEliminar{width:60px;}
 .preview-mode .colEliminar{display:none;}
-.preview-mode button{display:none;}
+.preview-mode .edit-only{display:none;}
 
 /* FOOTER */
 .footer{
@@ -166,6 +166,10 @@ color:white;
 text-align:center;
 padding:15px 0;
 }
+.versiculo{
+font-style:italic;
+margin-top:5px;
+}
 
 /* HISTORIAL */
 #historial{
@@ -175,15 +179,9 @@ padding:15px;
 border-radius:8px;
 box-shadow:0 3px 10px rgba(0,0,0,0.1);
 }
-#historial table{
-margin-top:10px;
-}
 .no-data{
 color:red;
 font-weight:bold;
-}
-.preview-mode .edit-only{
-display:none;
 }
 </style>
 </head>
@@ -216,9 +214,12 @@ display:none;
 <div class="header">
 <img id="logoIzq" class="logo">
 <img id="logoDer" class="logo">
-<div class="edit-only">
-<input type="file" onchange="cargarLogo(this,'logoIzq')">
-<input type="file" onchange="cargarLogo(this,'logoDer')">
+
+<div class="edit-only" style="margin-bottom:5px;">
+<button onclick="document.getElementById('fileIzq').click()">Agregar Logo Izquierdo</button>
+<button onclick="document.getElementById('fileDer').click()">Agregar Logo Derecho</button>
+<input type="file" id="fileIzq" style="display:none" onchange="cargarLogo(this,'logoIzq')">
+<input type="file" id="fileDer" style="display:none" onchange="cargarLogo(this,'logoDer')">
 </div>
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
@@ -270,7 +271,11 @@ Dirección: <input class="editable">
 </table>
 
 <div class="footer">
-VIDRIOS Y ALUMINIOS YURI
+CC.HACCA S/N OMACHÁ - PARURO - CUSCO<br>
+Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
+<div class="versiculo">
+"Todo lo puedo en Cristo que me fortalece." - Filipenses 4:13
+</div>
 </div>
 
 </div>
@@ -278,7 +283,6 @@ VIDRIOS Y ALUMINIOS YURI
 <!-- HISTORIAL -->
 <div id="historial">
 <h3>Historial de Cotizaciones</h3>
-
 Buscar:
 <input id="buscarInput">
 <button onclick="buscar()">Buscar</button>
@@ -405,7 +409,7 @@ document.getElementById("mensajeBusqueda").innerHTML=
 "<div class='no-data'>No se encontraron datos</div>";
 }else{
 document.getElementById("mensajeBusqueda").innerHTML="";
-resultados.forEach((h,i)=>{
+resultados.forEach((h)=>{
 tbody.innerHTML+=`
 <tr>
 <td>${h.numero}</td>
