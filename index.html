@@ -40,15 +40,14 @@ border:none;
 padding:6px 12px;
 border-radius:4px;
 cursor:pointer;
+font-size:13px;
 }
 button:hover{background:#163a5a;}
 #app{display:none;padding:20px;}
 
-/* CONTROLES */
-.controls{
-text-align:center;
-margin-bottom:20px;
-}
+.controls{text-align:center;margin-bottom:20px;}
+.preview-mode button{display:none !important;}
+.preview-mode .logo-btn{display:none !important;}
 
 /* A4 */
 #a4{
@@ -59,76 +58,57 @@ margin:auto;
 padding:40px;
 box-sizing:border-box;
 position:relative;
-line-height:1.4;
+line-height:1.35;
 box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 
 /* ENCABEZADO */
-.header{
-text-align:center;
-position:relative;
-margin-bottom:10px;
-}
+.header{text-align:center;position:relative;margin-bottom:10px;}
 .header h1{
 margin:0;
-font-size:30px;
-font-weight:600; /* MÁS MODERADO */
+font-size:40px;
+font-weight:800;
 color:#1f4e79;
 letter-spacing:1px;
 }
 .header h2{
 margin:2px 0;
-font-size:17px;
-font-weight:600;
+font-size:18px;
+font-weight:bold;
 }
-.logo{
-width:90px;
-position:absolute;
-top:0;
-}
+.logo{width:85px;position:absolute;top:0;}
 .logo-left{left:0;}
 .logo-right{right:0;}
-.logo-btn{
-position:absolute;
-top:95px;
-font-size:12px;
-}
+.logo-btn{position:absolute;top:90px;font-size:11px;}
 
-/* DIRECCIÓN MÁS LARGA Y CENTRADA */
 .direccion-input{
-width:85%;
+width:90%;
 text-align:center;
 }
 
-/* BLOQUE SUPERIOR COTIZACIÓN */
 .bloque-superior{
 display:flex;
 justify-content:space-between;
-align-items:flex-start;
 margin-top:15px;
 }
 
-/* FECHAS */
 .fechas{
 text-align:right;
+font-size:14px;
+line-height:1.1;
 }
-.fechas input{
-display:block;
-margin-bottom:5px;
-}
+.fechas input{margin-bottom:4px;}
 
-/* CLIENTE */
 .cliente{
 margin-top:15px;
 padding:10px;
 border-radius:6px;
-line-height:1.2;
+line-height:1.15;
 }
 .preview-mode .cliente{
 background:#d9e8fb;
 }
 
-/* INPUTS */
 .editable{
 border:1px solid #1f4e79;
 padding:3px;
@@ -138,7 +118,6 @@ border:none;
 background:transparent;
 }
 
-/* TABLA */
 table{
 width:100%;
 border-collapse:collapse;
@@ -148,10 +127,12 @@ th{
 background:#1f4e79;
 color:white;
 padding:6px;
+font-size:13px;
 }
 td{
 border:1px solid #333;
 padding:5px;
+font-size:13px;
 }
 td input,td select{
 width:100%;
@@ -164,12 +145,12 @@ background:transparent;
 }
 .colEliminar{width:60px;}
 .preview-mode .colEliminar{display:none;}
-.preview-mode button{display:none;}
 
-/* TOTALES */
-.totales{text-align:right;margin-top:10px;font-size:16px;}
+.totales{text-align:right;margin-top:10px;font-size:15px;}
 
-/* FIRMA */
+.metodo{margin-top:20px;}
+.metodo b{font-size:15px;}
+
 .firma{
 position:absolute;
 bottom:210px;
@@ -177,12 +158,6 @@ width:100%;
 text-align:center;
 }
 
-/* METODO PAGO */
-.metodo{
-margin-top:20px;
-}
-
-/* FOOTER */
 .footer{
 position:absolute;
 bottom:0;
@@ -192,13 +167,10 @@ background:#1f4e79;
 color:white;
 text-align:center;
 padding:15px;
+font-size:13px;
 }
-.versiculo{
-font-style:italic;
-margin-top:5px;
-}
+.versiculo{font-style:italic;margin-top:5px;}
 
-/* HISTORIAL */
 #historial{
 margin-top:30px;
 background:white;
@@ -206,9 +178,8 @@ padding:20px;
 border-radius:8px;
 box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
-#historial table th{
-background:#444;
-}
+#historial table th{background:#444;}
+.no-data{color:red;font-weight:bold;}
 </style>
 </head>
 
@@ -252,20 +223,17 @@ value="APV. LAS JOYAS, SAN SEBASTIAN - CUSCO - CUSCO">
 <hr>
 </div>
 
-<!-- BLOQUE COTIZACIÓN Y FECHAS AL MISMO NIVEL -->
 <div class="bloque-superior">
-
 <div>
 <b>COTIZACIÓN N° <span id="numCot"></span></b>
 </div>
 
 <div class="fechas">
 Fecha emisión:
-<input type="date" class="editable">
+<input type="date" id="fechaEmision" class="editable">
 Válido hasta:
-<input type="date" class="editable">
+<input type="date" id="fechaValidez" class="editable">
 </div>
-
 </div>
 
 <div class="cliente">
@@ -324,10 +292,31 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 
 </div>
 
+<div id="historial">
+<h3>Historial de Cotizaciones</h3>
+Buscar: <input id="buscar">
+<button onclick="filtrar()">Buscar</button>
+<table>
+<thead>
+<tr>
+<th>N°</th>
+<th>Fecha</th>
+<th>Total</th>
+<th>Ver PDF</th>
+<th>Editar</th>
+<th>Anular</th>
+</tr>
+</thead>
+<tbody id="listaHistorial"></tbody>
+</table>
+<div id="mensajeHistorial" class="no-data"></div>
+</div>
+
 </div>
 
 <script>
 let contador=0;
+let historial=[];
 
 function entrar(){
 document.getElementById("login").style.display="none";
@@ -358,15 +347,13 @@ fila.innerHTML=`
 <td><input></td>
 <td><input></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
-<td>
-<select>
+<td><select>
 <option>UND</option><option>M2</option><option>M</option>
 <option>KG</option><option>PAR</option>
 <option>SET</option><option>LT</option>
 <option>CM</option><option>MM</option>
 <option>GLB</option>
-</select>
-</td>
+</select></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
 <td class="sub">0.00</td>
 <td class="colEliminar">
@@ -395,14 +382,22 @@ document.getElementById("a4").classList.toggle("preview-mode");
 
 function descargarPDF(){
 document.getElementById("a4").classList.add("preview-mode");
-html2pdf().from(document.getElementById("a4")).save().then(()=>{
+let nombre=document.getElementById("clienteNombre").value || "Cliente";
+let numero=document.getElementById("numCot").innerText;
+html2pdf().set({
+margin:0,
+filename:`Cotizacion_${numero}_${nombre}.pdf`,
+html2canvas:{scale:2},
+jsPDF:{unit:'px',format:[794,1123]}
+}).from(document.getElementById("a4")).save().then(()=>{
 document.getElementById("a4").classList.remove("preview-mode");
 });
 }
 
 function compartirWhatsApp(){
 let numero=document.getElementById("numCot").innerText;
-window.open(`https://wa.me/?text=Cotización ${numero}`);
+let cliente=document.getElementById("clienteNombre").value || "";
+window.open(`https://wa.me/?text=${encodeURIComponent("Cotización "+numero+" - "+cliente)}`);
 }
 
 function compartirImagen(){
@@ -413,6 +408,52 @@ link.download="Cotizacion.png";
 link.href=canvas.toDataURL();
 link.click();
 document.getElementById("a4").classList.remove("preview-mode");
+});
+}
+
+function guardarCotizacion(){
+let numero=document.getElementById("numCot").innerText;
+let fecha=document.getElementById("fechaEmision").value || new Date().toLocaleDateString();
+let total=document.getElementById("total").innerText;
+historial.push({numero,fecha,total});
+mostrarHistorial();
+}
+
+function mostrarHistorial(){
+let tbody=document.getElementById("listaHistorial");
+let mensaje=document.getElementById("mensajeHistorial");
+tbody.innerHTML="";
+if(historial.length===0){
+mensaje.innerText="NO HAY DATOS";
+return;
+}
+mensaje.innerText="";
+historial.forEach((h,i)=>{
+tbody.innerHTML+=`
+<tr>
+<td>${h.numero}</td>
+<td>${h.fecha}</td>
+<td>${h.total}</td>
+<td><button onclick="alert('PDF generado al descargar')">Ver</button></td>
+<td><button onclick="editar(${i})">Editar</button></td>
+<td><button onclick="anular(${i})">Anular</button></td>
+</tr>`;
+});
+}
+
+function editar(i){
+document.getElementById("numCot").innerText=historial[i].numero;
+}
+
+function anular(i){
+historial.splice(i,1);
+mostrarHistorial();
+}
+
+function filtrar(){
+let f=document.getElementById("buscar").value.toLowerCase();
+document.querySelectorAll("#listaHistorial tr").forEach(r=>{
+r.style.display=r.innerText.toLowerCase().includes(f)?"":"none";
 });
 }
 
