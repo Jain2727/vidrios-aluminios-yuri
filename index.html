@@ -2,16 +2,14 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VIDRIOS Y ALUMINIOS YURI</title>
-
+<title>Vidrios y Aluminios Yuri</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 body{
 font-family:'Arial Narrow', Arial, sans-serif;
 margin:0;
-background:linear-gradient(135deg,#e8f0f8,#ffffff);
+background:#f2f4f8;
 }
 
 /* LOGIN */
@@ -22,18 +20,20 @@ justify-content:center;
 align-items:center;
 background:#1f4e79;
 }
+
 .login-box{
 background:white;
 padding:35px;
-width:340px;
-border-radius:10px;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
+width:330px;
+border-radius:8px;
 }
+
 .login-box input{
 width:100%;
 margin-bottom:10px;
-padding:8px;
+padding:6px;
 }
+
 button{
 background:#1f4e79;
 color:white;
@@ -42,7 +42,9 @@ padding:6px 12px;
 border-radius:4px;
 cursor:pointer;
 }
+
 button:hover{background:#163a5a;}
+
 #app{display:none;padding:20px;}
 
 /* A4 */
@@ -54,105 +56,129 @@ margin:auto;
 padding:40px;
 box-sizing:border-box;
 position:relative;
-line-height:1.35;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 
-/* LOGOS */
-.logo-left, .logo-right{
-position:absolute;
-top:20px;
-width:100px;
-height:80px;
+/* ENCABEZADO */
+.header{
+text-align:center;
+position:relative;
+margin-bottom:20px;
+}
+
+.header h1{
+margin:0;
+font-size:30px;
+}
+
+.header h2{
+margin:0;
+font-size:18px;
+font-weight:bold;
+}
+
+.logo{
+width:90px;
+height:90px;
 object-fit:contain;
-}
-.logo-left{ left:20px; }
-.logo-right{ right:20px; }
-
-/* FIRMA IMG */
-#firmaImg{
-max-height:80px;
-margin-top:5px;
+position:absolute;
+top:0;
 }
 
-/* HEADER */
-.header{text-align:center;margin-bottom:15px;}
-.header h1{margin:0;font-size:30px;font-weight:900;color:#1f4e79;}
-.header h2{margin:2px 0;font-size:17px;font-weight:700;}
+.logo-left{left:0;}
+.logo-right{right:0;}
 
-.preview-mode button,
-.preview-mode input[type="file"]{
-display:none !important;
+.logo-btn{
+position:absolute;
+top:95px;
+font-size:12px;
+padding:3px 6px;
 }
 
+.logo-btn-left{left:0;}
+.logo-btn-right{right:0;}
+
+/* INPUTS PANTALLA */
 .editable{
 border:1px solid #1f4e79;
 padding:3px;
 }
+
 .preview-mode .editable{
 border:none;
-background:transparent;
 }
 
 /* TABLA */
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th{background:#1f4e79;color:white;padding:6px;}
-td{border:1px solid #333;padding:5px;}
-td input,td select{width:100%;border:1px solid #1f4e79;}
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th{
+background:#1f4e79;
+color:white;
+padding:6px;
+}
+
+td{
+border:1px solid #333;
+padding:5px;
+}
+
+td input, td select{
+width:100%;
+border:1px solid #1f4e79;
+}
+
 .preview-mode td input,
 .preview-mode td select{
-border:none;background:transparent;
+border:none;
 }
-.colEliminar{width:60px;}
+
+.colEliminar{width:70px;}
 .preview-mode .colEliminar{display:none;}
 
-.totales{text-align:right;margin-top:10px;font-size:16px;}
+/* TOTALES */
+.totales{text-align:right;margin-top:10px;}
+
+/* FIRMA */
 .firma{
 position:absolute;
-bottom:200px;
+bottom:160px;
 width:100%;
 text-align:center;
 }
+
 .footer{
 position:absolute;
 bottom:0;
-left:0;
 width:100%;
+text-align:center;
+font-size:13px;
+padding:10px;
 background:#1f4e79;
 color:white;
-text-align:center;
-padding:15px 0;
 }
 
-/* HISTORIAL */
-#historial{
-margin-top:40px;
-background:white;
-padding:15px;
-border-radius:8px;
+.versiculo{
+font-style:italic;
+margin-top:5px;
 }
-#historial table{
-width:100%;
-margin-top:10px;
-}
-.no-data{
-color:red;
-font-weight:bold;
+
+.controls{
 text-align:center;
-margin-top:10px;
-}
-.anulada{
-background:#ffd6d6;
+margin-bottom:15px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
 <div id="login">
 <div class="login-box">
 <h3>Inicio de Sesión</h3>
-<input placeholder="Usuario">
+<input placeholder="RUC / DNI / Correo">
 <input type="password" id="pass" placeholder="Contraseña">
 <label><input type="checkbox" onclick="mostrarPass()"> Mostrar contraseña</label>
 <br><br>
@@ -160,35 +186,44 @@ background:#ffd6d6;
 </div>
 </div>
 
+<!-- SISTEMA -->
 <div id="app">
 
-<div style="text-align:center;margin-bottom:15px;">
+<div class="controls">
 <button onclick="vistaPrevia()">Vista Previa</button>
-<button onclick="guardarCotizacion()">Guardar</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
 </div>
 
 <div id="a4">
 
-<img id="logoLeft" class="logo-left">
-<img id="logoRight" class="logo-right">
-
 <div class="header">
+<img id="logo1" class="logo logo-left">
+<img id="logo2" class="logo logo-right">
+
+<button class="logo-btn logo-btn-left" onclick="cargarLogo(1)">Modificar Logo</button>
+<button class="logo-btn logo-btn-right" onclick="cargarLogo(2)">Modificar Logo</button>
+
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 <h2>YURI HERMOZA PUELLES</h2>
 RUC: 10617365036<br>
+Dirección: <input id="direccionLocal" class="editable" value="APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO - CUSCO">
+<hr>
 </div>
 
-<!-- BOTONES LOGO -->
-<div>
-<input type="file" onchange="cargarLogo(event,'logoLeft')">
-<input type="file" onchange="cargarLogo(event,'logoRight')">
-</div>
+<b>COTIZACIÓN N° 2026 - 0002</b><br><br>
 
-COTIZACIÓN N° <span id="numCot"></span><br>
-Fecha: <input type="date" id="fecha" class="editable"><br><br>
+Fecha emisión:<br>
+<input type="date" class="editable"><br><br>
 
-Cliente: <input id="clienteNombre" class="editable"><br><br>
+Válido hasta:<br>
+<input type="date" class="editable">
+
+<br><br>
+<b>CLIENTE</b><br>
+Nombre: <input class="editable"><br><br>
+DNI/RUC: <input class="editable"><br><br>
+Teléfono: <input class="editable"><br><br>
+Dirección: <input class="editable">
 
 <button onclick="agregarItem()">Agregar Item</button>
 
@@ -196,64 +231,70 @@ Cliente: <input id="clienteNombre" class="editable"><br><br>
 <thead>
 <tr>
 <th>Item</th>
+<th>Código</th>
 <th>Descripción</th>
 <th>Cant</th>
+<th>Unidad</th>
 <th>P.Unit</th>
 <th>Subtotal</th>
-<th class="colEliminar">X</th>
+<th class="colEliminar">Eliminar</th>
 </tr>
 </thead>
-<tbody></tbody>
+<tbody>
+<tr>
+<td>1</td>
+<td><input></td>
+<td><input></td>
+<td><input type="number" value="0" onchange="calcular()"></td>
+<td>
+<select>
+<option>UND</option><option>M2</option><option>M</option>
+<option>KG</option><option>PAR</option>
+<option>SET</option><option>LT</option>
+<option>CM</option><option>MM</option>
+<option>GLB</option>
+</select>
+</td>
+<td><input type="number" value="0" onchange="calcular()"></td>
+<td class="sub">0.00</td>
+<td class="colEliminar">
+<button onclick="this.parentElement.parentElement.remove();calcular()">X</button>
+</td>
+</tr>
+</tbody>
 </table>
 
 <div class="totales">
-Total: S/ <span id="total">0.00</span>
+Costo: S/ <span id="costo">0.00</span><br>
+IGV (18%): S/ <span id="igv">0.00</span><br>
+<b>Total: S/ <span id="total">0.00</span></b>
 </div>
 
 <div class="firma">
-<input type="file" onchange="cargarFirma(event)">
-<br>
-<img id="firmaImg">
-<br>Firma
+<img id="firmaImg" width="150"><br>
+<button onclick="agregarFirma()">Añadir / Modificar Firma</button><br>
+_________________________<br>
+Firma<br>
+DNI:
 </div>
 
 <div class="footer">
-CC.HACCA S/N OMACHÁ - PARURO - CUSCO
+CC.HACCA S/N OMACHÁ - PARURO - CUSCO<br>
+Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
+<div class="versiculo">
+"Todo lo puedo en Cristo que me fortalece." — Filipenses 4:13
+</div>
 </div>
 
 </div>
-
-<!-- HISTORIAL -->
-<div id="historial">
-<h3>HISTORIAL DE COTIZACIONES</h3>
-
-Buscar:
-<input id="buscarNumero" placeholder="Número">
-<input id="buscarFecha" type="date">
-<input id="buscarCliente" placeholder="Cliente">
-<button onclick="buscarCotizacion()">Buscar</button>
-
-<div id="resultadoHistorial"></div>
-</div>
-
 </div>
 
 <script>
-let contador = 0;
-let historial = JSON.parse(localStorage.getItem("cotizaciones")) || [];
+let contador=1;
 
 function entrar(){
 document.getElementById("login").style.display="none";
 document.getElementById("app").style.display="block";
-nuevaCotizacion();
-}
-
-function nuevaCotizacion(){
-contador++;
-let numero = String(contador).padStart(4,'0')+"-2026";
-document.getElementById("numCot").innerText = numero;
-document.querySelector("#tabla tbody").innerHTML="";
-agregarItem();
 }
 
 function mostrarPass(){
@@ -262,93 +303,43 @@ p.type=p.type==="password"?"text":"password";
 }
 
 function agregarItem(){
-let tbody=document.querySelector("#tabla tbody");
+contador++;
 let fila=document.createElement("tr");
 fila.innerHTML=`
-<td>${tbody.rows.length+1}</td>
+<td>${contador}</td>
+<td><input></td>
 <td><input></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
+<td>
+<select>
+<option>UND</option><option>M2</option><option>M</option>
+<option>KG</option><option>PAR</option>
+<option>SET</option><option>LT</option>
+<option>CM</option><option>MM</option>
+<option>GLB</option>
+</select>
+</td>
 <td><input type="number" value="0" onchange="calcular()"></td>
 <td class="sub">0.00</td>
 <td class="colEliminar">
 <button onclick="this.parentElement.parentElement.remove();calcular()">X</button>
 </td>`;
-tbody.appendChild(fila);
+document.querySelector("#tabla tbody").appendChild(fila);
 }
 
 function calcular(){
+let filas=document.querySelectorAll("#tabla tbody tr");
 let total=0;
-document.querySelectorAll("#tabla tbody tr").forEach(f=>{
-let cant=f.children[2].children[0].value;
-let pu=f.children[3].children[0].value;
+filas.forEach(f=>{
+let cant=f.children[3].children[0].value;
+let pu=f.children[5].children[0].value;
 let sub=cant*pu;
 f.querySelector(".sub").innerText=sub.toFixed(2);
 total+=sub;
 });
-document.getElementById("total").innerText=total.toFixed(2);
-}
-
-function guardarCotizacion(){
-let cot={
-numero:document.getElementById("numCot").innerText,
-fecha:document.getElementById("fecha").value,
-cliente:document.getElementById("clienteNombre").value,
-total:document.getElementById("total").innerText,
-estado:"ACTIVA"
-};
-historial.push(cot);
-localStorage.setItem("cotizaciones",JSON.stringify(historial));
-alert("Cotización guardada");
-mostrarHistorial(historial);
-}
-
-function mostrarHistorial(lista){
-let div=document.getElementById("resultadoHistorial");
-if(lista.length===0){
-div.innerHTML="<div class='no-data'>NO HAY DATOS</div>";
-return;
-}
-let html="<table><tr><th>N°</th><th>Fecha</th><th>Cliente</th><th>Total</th><th>Estado</th><th>Acciones</th></tr>";
-lista.forEach((c,i)=>{
-html+=`<tr class="${c.estado==='ANULADA'?'anulada':''}">
-<td>${c.numero}</td>
-<td>${c.fecha}</td>
-<td>${c.cliente}</td>
-<td>${c.total}</td>
-<td>${c.estado}</td>
-<td>
-<button onclick="editarCot(${i})">Editar</button>
-<button onclick="anularCot(${i})">Anular</button>
-</td>
-</tr>`;
-});
-html+="</table>";
-div.innerHTML=html;
-}
-
-function buscarCotizacion(){
-let n=document.getElementById("buscarNumero").value;
-let f=document.getElementById("buscarFecha").value;
-let c=document.getElementById("buscarCliente").value.toLowerCase();
-let filtrado=historial.filter(x=>
-(!n||x.numero.includes(n)) &&
-(!f||x.fecha===f) &&
-(!c||x.cliente.toLowerCase().includes(c))
-);
-mostrarHistorial(filtrado);
-}
-
-function editarCot(i){
-let c=historial[i];
-document.getElementById("numCot").innerText=c.numero;
-document.getElementById("fecha").value=c.fecha;
-document.getElementById("clienteNombre").value=c.cliente;
-}
-
-function anularCot(i){
-historial[i].estado="ANULADA";
-localStorage.setItem("cotizaciones",JSON.stringify(historial));
-mostrarHistorial(historial);
+document.getElementById("costo").innerText=total.toFixed(2);
+document.getElementById("igv").innerText=(total*0.18).toFixed(2);
+document.getElementById("total").innerText=(total*1.18).toFixed(2);
 }
 
 function vistaPrevia(){
@@ -357,28 +348,41 @@ document.getElementById("a4").classList.toggle("preview-mode");
 
 function descargarPDF(){
 document.getElementById("a4").classList.add("preview-mode");
-html2pdf().from(document.getElementById("a4")).save().then(()=>{
+html2pdf().set({
+margin:0,
+filename:'Cotizacion_Yuri.pdf',
+html2canvas:{scale:2},
+jsPDF:{unit:'px',format:[794,1123],orientation:'portrait'}
+}).from(document.getElementById("a4")).save().then(()=>{
 document.getElementById("a4").classList.remove("preview-mode");
 });
 }
 
-function cargarLogo(e,id){
+function cargarLogo(n){
+let input=document.createElement("input");
+input.type="file";
+input.onchange=e=>{
 let reader=new FileReader();
 reader.onload=function(){
-document.getElementById(id).src=reader.result;
+document.getElementById("logo"+n).src=reader.result;
 }
 reader.readAsDataURL(e.target.files[0]);
+};
+input.click();
 }
 
-function cargarFirma(e){
+function agregarFirma(){
+let input=document.createElement("input");
+input.type="file";
+input.onchange=e=>{
 let reader=new FileReader();
 reader.onload=function(){
 document.getElementById("firmaImg").src=reader.result;
 }
 reader.readAsDataURL(e.target.files[0]);
+};
+input.click();
 }
-
-mostrarHistorial(historial);
 </script>
 
 </body>
