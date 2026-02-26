@@ -144,6 +144,7 @@ display:none !important;
 </header>
 
 <div class="section">
+<b>N° Cotización:</b> <span id="numeroCotizacion"></span><br><br>
 <b>Fecha Emisión:</b> <input type="date" id="fecha">
 <br><br>
 <b>Cliente:</b> <input placeholder="Nombre completo">
@@ -175,7 +176,7 @@ display:none !important;
 <td>1</td>
 <td contenteditable="true"></td>
 <td contenteditable="true"></td>
-<td contenteditable="true"></td>
+<td contenteditable="true" oninput="calcular()"></td>
 <td>
 <select>
 <option>UND</option>
@@ -190,12 +191,21 @@ display:none !important;
 <option>ROLLO</option>
 </select>
 </td>
-<td contenteditable="true"></td>
-<td></td>
+<td contenteditable="true" oninput="calcular()"></td>
+<td>0.00</td>
 <td class="no-print"><button onclick="eliminar(this)">X</button></td>
 </tr>
 </tbody>
 </table>
+
+<div id="totales" style="text-align:right;margin-top:15px;">
+<b>Subtotal:</b> S/ <span id="subtotal">0.00</span><br>
+<b>IGV (18%):</b> S/ <span id="igv">0.00</span><br>
+<b>Total:</b> S/ <span id="total">0.00</span>
+</div>
+
+<br>
+<button class="no-print" onclick="guardarCotizacion()">Guardar Cotización</button>
 </div>
 
 <div class="section">
@@ -219,15 +229,7 @@ display:none !important;
 <th>Anular</th>
 </tr>
 </thead>
-<tbody id="historialBody">
-<tr>
-<td>0001</td>
-<td>20/02/2026</td>
-<td>S/ 1500</td>
-<td><button>Editar</button></td>
-<td><button>Anular</button></td>
-</tr>
-</tbody>
+<tbody id="historialBody"></tbody>
 </table>
 </div>
 
@@ -247,9 +249,24 @@ DNI: <input>
 </div>
 
 <script>
+
+let bloqueado=false;
+
+/* NUMERACIÓN AUTOMÁTICA ANUAL */
+function generarNumero(){
+let año=new Date().getFullYear();
+let contador=localStorage.getItem("contador_"+año);
+contador=contador?parseInt(contador)+1:1;
+localStorage.setItem("contador_"+año,contador);
+return año+"-"+String(contador).padStart(4,"0");
+}
+
+/* LOGIN */
 function login(){
 document.getElementById("loginPage").style.display="none";
 document.getElementById("app").style.display="block";
+document.getElementById("numeroCotizacion").innerText=generarNumero();
+cargarHistorial();
 }
 
 function mostrarPass(){
@@ -257,39 +274,111 @@ var x=document.getElementById("pass");
 x.type=x.type==="password"?"text":"password";
 }
 
-function agregarItem(){
-var tabla=document.getElementById("tablaItems").getElementsByTagName('tbody')[0];
-var fila=tabla.insertRow();
-fila.innerHTML=`
-<td>${tabla.rows.length}</td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
-<td contenteditable="true"></td>
-<td>
-<select>
-<option>UND</option><option>M2</option><option>ML</option>
-<option>KG</option><option>PAR</option><option>JGO</option>
-<option>SET</option><option>PZA</option>
-<option>CAJA</option><option>ROLLO</option>
-</select>
-</td>
-<td contenteditable="true"></td>
-<td></td>
-<td class="no-print"><button onclick="eliminar(this)">X</button></td>`;
+/* CALCULO AUTOMATICO */
+function calcular(){
+let subtotal=0;
+let filas=document.querySelectorAll("#tablaItems tbody tr");
+filas.forEach((fila,i)=>{
+fila.cells[0].innerText=i+1;
+let cant=parseFloat(fila.cells[3].innerText)||0;
+let precio=parseFloat(fila.cells[5].innerText)||0;
+let sub=cant*precio;
+fila.cells[6].innerText=sub.toFixed(2);
+subtotal+=sub;
+});
+let igv=subtotal*0.18;
+let total=subtotal+igv;
+document.getElementById("subtotal").innerText=subtotal.toFixed(2);
+document.getElementById("igv").innerText=igv.toFixed(2);
+document.getElementById("total").innerText=total.toFixed(2);
 }
 
+/* AGREGAR ITEM */
+function agregarItem(){
+if(bloqueado) return;
+var tabla=document.querySelector("#tablaItems tbody");
+var fila=tabla.insertRow();
+fila.innerHTML=document.querySelector("#tablaItems tbody tr").innerHTML;
+calcular();
+}
+
+/* ELIMINAR */
 function eliminar(btn){
+if(bloqueado) return;
 btn.parentElement.parentElement.remove();
+calcular();
+}
+
+/* GUARDAR */
+function guardarCotizacion(){
+if(bloqueado) return;
+let numero=document.getElementById("numeroCotizacion").innerText;
+let cotizacion={
+numero,
+fecha:document.getElementById("fecha").value,
+total:document.getElementById("total").innerText,
+estado:"ACTIVO",
+items:document.querySelector("#tablaItems tbody").innerHTML
+};
+let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]");
+lista.push(cotizacion);
+localStorage.setItem("cotizaciones",JSON.stringify(lista));
+bloqueado=true;
+cargarHistorial();
+alert("Guardado correctamente");
+}
+
+/* HISTORIAL REAL */
+function cargarHistorial(){
+let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]");
+let historial=document.getElementById("historialBody");
+historial.innerHTML="";
+lista.forEach(c=>{
+let fila=historial.insertRow();
+fila.innerHTML=`
+<td>${c.numero}</td>
+<td>${c.fecha}</td>
+<td>S/ ${c.total}</td>
+<td><button onclick='cargarCotizacion("${c.numero}")'>Editar</button></td>
+<td><button onclick='anular("${c.numero}")'>Anular</button></td>`;
+});
+}
+
+/* CARGAR */
+function cargarCotizacion(numero){
+let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]");
+let c=lista.find(x=>x.numero==numero);
+document.querySelector("#tablaItems tbody").innerHTML=c.items;
+bloqueado=true;
+calcular();
+}
+
+/* ANULAR */
+function anular(numero){
+let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]");
+lista=lista.map(c=>{if(c.numero==numero)c.estado="ANULADO";return c;});
+localStorage.setItem("cotizaciones",JSON.stringify(lista));
+cargarHistorial();
+}
+
+/* BUSCAR */
+function buscarHistorial(){
+let valor=document.getElementById("buscar").value;
+let filas=document.querySelectorAll("#historialBody tr");
+filas.forEach(f=>{
+f.style.display=f.innerText.includes(valor)?"":"none";
+});
+}
+
+/* PDF SOLO DOCUMENTO */
+function generarPDF(){
+var element=document.getElementById("app");
+html2pdf().from(element).save("Cotizacion_YURI.pdf");
 }
 
 function generarVista(){
 document.getElementById("vistaPrevia").innerHTML=
 document.getElementById("app").innerHTML;
-}
-
-function generarPDF(){
-var element=document.getElementById("app");
-html2pdf().from(element).save("Cotizacion_YURI.pdf");
 }
 
 function cargarLogo(input,n){
@@ -309,9 +398,6 @@ document.getElementById("firmaImg").src=e.target.result;
 reader.readAsDataURL(input.files[0]);
 }
 
-function buscarHistorial(){
-alert("Función búsqueda simulada");
-}
 </script>
 
 </body>
