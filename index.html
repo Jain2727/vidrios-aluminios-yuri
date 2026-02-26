@@ -13,7 +13,6 @@ margin:0;
 background:linear-gradient(135deg,#dfe9f3,#ffffff);
 }
 
-/* LOGIN */
 #login{
 height:100vh;
 display:flex;
@@ -34,6 +33,7 @@ margin-bottom:10px;
 padding:8px;
 font-family:'Arial Narrow', Arial, sans-serif;
 }
+
 button{
 background:#1f4e79;
 color:white;
@@ -45,13 +45,12 @@ font-size:13px;
 font-family:'Arial Narrow', Arial, sans-serif;
 }
 button:hover{background:#163a5a;}
-#app{display:none;padding:20px;}
 
+#app{display:none;padding:20px;}
 .controls{text-align:center;margin-bottom:20px;}
 .preview-mode button{display:none !important;}
 .preview-mode .logo-btn{display:none !important;}
 
-/* A4 */
 #a4{
 width:794px;
 height:1123px;
@@ -66,38 +65,24 @@ font-family:'Arial Narrow', Arial, sans-serif;
 }
 
 /* ENCABEZADO */
-.header{text-align:center;position:relative;margin-bottom:10px;}
+.header{text-align:center;position:relative;}
 .header h1{
 margin:0;
 font-size:40px;
 font-weight:800;
 color:#1f4e79;
-letter-spacing:1px;
 }
 .header h2{
 margin:2px 0;
 font-size:18px;
 font-weight:bold;
 }
-
-.logo{
-width:110px;
-position:absolute;
-top:0;
-}
+.logo{width:110px;position:absolute;top:0;}
 .logo-left{left:0;}
 .logo-right{right:0;}
+.logo-btn{position:absolute;top:115px;font-size:11px;}
 
-.logo-btn{
-position:absolute;
-top:115px;
-font-size:11px;
-}
-
-.direccion-input{
-width:95%;
-text-align:center;
-}
+.direccion-input{width:95%;text-align:center;}
 
 .bloque-superior{
 display:flex;
@@ -107,43 +92,34 @@ margin-top:15px;
 
 .fechas{
 text-align:right;
-font-size:14px;
 line-height:1.1;
 }
-.fechas input{
-margin-bottom:3px;
-font-family:'Arial Narrow', Arial, sans-serif;
-}
+.fechas input{margin-bottom:3px;}
 
 .cliente{
 margin-top:15px;
 padding:10px;
 border-radius:6px;
-line-height:1.15;
 }
-.preview-mode .cliente{
-background:#d9e8fb;
-}
+.preview-mode .cliente{background:#d9e8fb;}
+.cliente input{width:98%;}
 
 .editable{
 border:1px solid #1f4e79;
 padding:3px;
 font-family:'Arial Narrow', Arial, sans-serif;
 }
-
 .preview-mode .editable{
 border:none;
 background:transparent;
 }
 
-.cliente input{
-width:95%;
-}
-
+/* TABLA AJUSTADA */
 table{
 width:100%;
 border-collapse:collapse;
 margin-top:10px;
+table-layout:fixed;
 }
 th{
 background:#1f4e79;
@@ -153,26 +129,36 @@ font-size:13px;
 }
 td{
 border:1px solid #333;
-padding:5px;
+padding:4px;
 font-size:13px;
+vertical-align:top;
+word-wrap:break-word;
 }
 td input,td select{
 width:100%;
 border:1px solid #1f4e79;
 font-family:'Arial Narrow', Arial, sans-serif;
+box-sizing:border-box;
 }
 .preview-mode td input,
 .preview-mode td select{
 border:none;
 background:transparent;
 }
-.colEliminar{width:60px;}
+
+th:nth-child(1){width:5%;}
+th:nth-child(2){width:10%;}
+th:nth-child(3){width:35%;}
+th:nth-child(4){width:8%;}
+th:nth-child(5){width:10%;}
+th:nth-child(6){width:12%;}
+th:nth-child(7){width:12%;}
+th:nth-child(8){width:8%;}
+
 .preview-mode .colEliminar{display:none;}
 
 .totales{text-align:right;margin-top:10px;font-size:15px;}
-
 .metodo{margin-top:20px;}
-.metodo b{font-size:15px;}
 
 .firma{
 position:absolute;
@@ -180,10 +166,7 @@ bottom:210px;
 width:100%;
 text-align:center;
 }
-
-.firma img{
-width:190px;
-}
+.firma img{width:190px;}
 
 .footer{
 position:absolute;
@@ -251,13 +234,10 @@ value="APV. LAS JOYAS, SAN SEBASTIAN - CUSCO - CUSCO">
 </div>
 
 <div class="bloque-superior">
-<div>
-<b>COTIZACIÓN N° <span id="numCot"></span></b>
-</div>
-
+<div><b>COTIZACIÓN N° <span id="numCot"></span></b></div>
 <div class="fechas">
 Fecha emisión:
-<input type="date" id="fechaEmision" class="editable">
+<input type="date" id="fechaEmision" class="editable"><br>
 Válido hasta:
 <input type="date" id="fechaValidez" class="editable">
 </div>
@@ -319,15 +299,36 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 
 </div>
 
+<div id="historial">
+<h3>Historial de Cotizaciones</h3>
+Buscar: <input id="buscar">
+<button onclick="filtrar()">Buscar</button>
+<table>
+<thead>
+<tr>
+<th>N°</th>
+<th>Fecha</th>
+<th>Total</th>
+<th>Editar</th>
+<th>Anular</th>
+</tr>
+</thead>
+<tbody id="listaHistorial"></tbody>
+</table>
+<div id="mensajeHistorial" class="no-data"></div>
+</div>
+
 </div>
 
 <script>
 let contador=0;
+let historial=JSON.parse(localStorage.getItem("historial"))||[];
 
 function entrar(){
 document.getElementById("login").style.display="none";
 document.getElementById("app").style.display="block";
 cargarImagenesGuardadas();
+mostrarHistorial();
 nuevaCotizacion();
 }
 
@@ -352,7 +353,7 @@ let fila=document.createElement("tr");
 fila.innerHTML=`
 <td>${filas}</td>
 <td><input></td>
-<td><input></td>
+<td><textarea style="width:100%;resize:vertical;font-family:'Arial Narrow';"></textarea></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
 <td><select>
 <option>UND</option><option>M2</option><option>M</option>
@@ -383,38 +384,50 @@ document.getElementById("igv").innerText=(total*0.18).toFixed(2);
 document.getElementById("total").innerText=(total*1.18).toFixed(2);
 }
 
-function vistaPrevia(){
-document.getElementById("a4").classList.toggle("preview-mode");
+function guardarCotizacion(){
+let numero=document.getElementById("numCot").innerText;
+let fecha=document.getElementById("fechaEmision").value || new Date().toLocaleDateString();
+let total=document.getElementById("total").innerText;
+historial.push({numero,fecha,total});
+localStorage.setItem("historial",JSON.stringify(historial));
+mostrarHistorial();
 }
 
-function descargarPDF(){
-document.getElementById("a4").classList.add("preview-mode");
-let nombre=document.getElementById("clienteNombre").value || "Cliente";
-let numero=document.getElementById("numCot").innerText;
-html2pdf().set({
-margin:0,
-filename:`Cotizacion_${numero}_${nombre}.pdf`,
-html2canvas:{scale:2},
-jsPDF:{unit:'px',format:[794,1123]}
-}).from(document.getElementById("a4")).save().then(()=>{
-document.getElementById("a4").classList.remove("preview-mode");
+function mostrarHistorial(){
+let tbody=document.getElementById("listaHistorial");
+let mensaje=document.getElementById("mensajeHistorial");
+tbody.innerHTML="";
+if(historial.length===0){
+mensaje.innerText="NO HAY DATOS";
+return;
+}
+mensaje.innerText="";
+historial.forEach((h,i)=>{
+tbody.innerHTML+=`
+<tr>
+<td>${h.numero}</td>
+<td>${h.fecha}</td>
+<td>${h.total}</td>
+<td><button onclick="editar(${i})">Editar</button></td>
+<td><button onclick="anular(${i})">Anular</button></td>
+</tr>`;
 });
 }
 
-function compartirWhatsApp(){
-let numero=document.getElementById("numCot").innerText;
-let cliente=document.getElementById("clienteNombre").value || "";
-window.open(`https://wa.me/?text=${encodeURIComponent("Cotización "+numero+" - "+cliente)}`);
+function editar(i){
+document.getElementById("numCot").innerText=historial[i].numero;
 }
 
-function compartirImagen(){
-document.getElementById("a4").classList.add("preview-mode");
-html2canvas(document.getElementById("a4")).then(canvas=>{
-let link=document.createElement("a");
-link.download="Cotizacion.png";
-link.href=canvas.toDataURL();
-link.click();
-document.getElementById("a4").classList.remove("preview-mode");
+function anular(i){
+historial.splice(i,1);
+localStorage.setItem("historial",JSON.stringify(historial));
+mostrarHistorial();
+}
+
+function filtrar(){
+let f=document.getElementById("buscar").value.toLowerCase();
+document.querySelectorAll("#listaHistorial tr").forEach(r=>{
+r.style.display=r.innerText.toLowerCase().includes(f)?"":"none";
 });
 }
 
@@ -447,15 +460,9 @@ input.click();
 }
 
 function cargarImagenesGuardadas(){
-if(localStorage.getItem("logo1")){
-document.getElementById("logo1").src=localStorage.getItem("logo1");
-}
-if(localStorage.getItem("logo2")){
-document.getElementById("logo2").src=localStorage.getItem("logo2");
-}
-if(localStorage.getItem("firmaImg")){
-document.getElementById("firmaImg").src=localStorage.getItem("firmaImg");
-}
+if(localStorage.getItem("logo1")) document.getElementById("logo1").src=localStorage.getItem("logo1");
+if(localStorage.getItem("logo2")) document.getElementById("logo2").src=localStorage.getItem("logo2");
+if(localStorage.getItem("firmaImg")) document.getElementById("firmaImg").src=localStorage.getItem("firmaImg");
 }
 </script>
 
