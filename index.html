@@ -14,6 +14,7 @@ margin:0;
 background:linear-gradient(135deg,#dfe9f3,#ffffff);
 }
 
+/* ===== LOGIN ===== */
 #login{
 height:100vh;
 display:flex;
@@ -35,6 +36,7 @@ padding:8px;
 font-family:'Arial Narrow';
 }
 
+/* ===== BOTONES ===== */
 button{
 background:#1f4e79;
 color:white;
@@ -60,25 +62,26 @@ margin:auto;
 padding:40px;
 box-sizing:border-box;
 position:relative;
-line-height:1.35;
+line-height:1.25;
 box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 
+/* ===== ENCABEZADO ===== */
 .header{text-align:center;position:relative;}
 .header h1{
 margin:0;
-font-size:40px;
+font-size:38px;
 font-weight:800;
 color:#1f4e79;
 }
-.header h2{margin:2px 0;font-size:18px;font-weight:bold;}
+.header h2{margin:2px 0;font-size:17px;font-weight:bold;}
 
-.logo{width:110px;position:absolute;top:0;}
+.logo{width:125px;position:absolute;top:0;}
 .logo-left{left:0;}
 .logo-right{right:0;}
-.logo-btn{position:absolute;top:115px;font-size:11px;}
+.logo-btn{position:absolute;top:120px;font-size:11px;}
 
-.direccion-input{width:95%;text-align:center;}
+.direccion-input{width:90%;text-align:center;}
 
 .bloque-superior{
 display:flex;
@@ -86,8 +89,8 @@ justify-content:space-between;
 margin-top:15px;
 }
 
-.fechas{text-align:right;line-height:1.1;}
-.fechas input{margin-bottom:3px;}
+.fechas{text-align:right;line-height:1.05;}
+.fechas input{margin-bottom:2px;}
 
 .cliente{
 margin-top:15px;
@@ -95,7 +98,8 @@ padding:10px;
 border-radius:6px;
 }
 .preview-mode .cliente{background:#d9e8fb;}
-.cliente input{width:98%;}
+.cliente div{margin-bottom:5px;}
+.cliente input{width:75%;}
 
 .editable{
 border:1px solid #1f4e79;
@@ -106,6 +110,7 @@ border:none;
 background:transparent;
 }
 
+/* ===== TABLA ===== */
 table{
 width:100%;
 border-collapse:collapse;
@@ -137,28 +142,25 @@ border:none;
 background:transparent;
 }
 
-th:nth-child(1){width:5%;}
-th:nth-child(2){width:10%;}
-th:nth-child(3){width:35%;}
-th:nth-child(4){width:8%;}
-th:nth-child(5){width:10%;}
-th:nth-child(6){width:12%;}
-th:nth-child(7){width:12%;}
-th:nth-child(8){width:8%;}
-
 .preview-mode .colEliminar{display:none;}
 
 .totales{text-align:right;margin-top:10px;font-size:15px;}
+
 .metodo{margin-top:20px;}
 
+/* ===== FIRMA ===== */
 .firma{
 position:absolute;
 bottom:210px;
 width:100%;
 text-align:center;
 }
-.firma img{width:190px;}
+.firma img{
+width:210px;
+margin-bottom:2px;
+}
 
+/* ===== FOOTER ===== */
 .footer{
 position:absolute;
 bottom:0;
@@ -172,6 +174,7 @@ font-size:13px;
 }
 .versiculo{font-style:italic;margin-top:5px;}
 
+/* ===== HISTORIAL ===== */
 #historial{
 margin-top:30px;
 background:white;
@@ -181,6 +184,7 @@ box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 #historial table th{background:#444;}
 .no-data{color:red;font-weight:bold;}
+.estado-anulada{color:red;font-weight:bold;}
 </style>
 </head>
 
@@ -237,10 +241,10 @@ Válido hasta:
 
 <div class="cliente">
 <b>CLIENTE</b><br>
-Nombre: <input id="clienteNombre" class="editable"><br>
-DNI/RUC: <input id="clienteDoc" class="editable"><br>
-Teléfono: <input id="clienteTel" class="editable"><br>
-Dirección: <input id="clienteDir" class="editable">
+<div>Nombre: <input id="clienteNombre" class="editable"></div>
+<div>DNI/RUC: <input id="clienteDoc" class="editable"></div>
+<div>Teléfono: <input id="clienteTel" class="editable"></div>
+<div>Dirección: <input id="clienteDir" class="editable"></div>
 </div>
 
 <button onclick="agregarItem()">Agregar Item</button>
@@ -300,6 +304,7 @@ Buscar: <input id="buscar" onkeyup="filtrar()">
 <th>N°</th>
 <th>Fecha</th>
 <th>Total</th>
+<th>Estado</th>
 <th>Cargar</th>
 <th>Anular</th>
 </tr>
@@ -312,7 +317,7 @@ Buscar: <input id="buscar" onkeyup="filtrar()">
 </div>
 
 <script>
-let contador=localStorage.getItem("contador")||0;
+let contador=parseInt(localStorage.getItem("contador"))||0;
 let historial=JSON.parse(localStorage.getItem("historial"))||[];
 
 function entrar(){
@@ -344,16 +349,21 @@ let fila=document.createElement("tr");
 fila.innerHTML=`
 <td>${tbody.rows.length+1}</td>
 <td><input></td>
-<td><textarea rows="2"></textarea></td>
-<td><input type="number" value="0" onchange="calcular()"></td>
+<td><textarea rows="2" oninput="autoResize(this)"></textarea></td>
+<td><input type="number" value="0" oninput="calcular()"></td>
 <td><select>
 <option>UND</option><option>M2</option><option>M</option>
 <option>KG</option><option>PAR</option><option>SET</option>
 </select></td>
-<td><input type="number" value="0" onchange="calcular()"></td>
+<td><input type="number" value="0" oninput="calcular()"></td>
 <td class="sub">0.00</td>
 <td class="colEliminar"><button onclick="eliminarFila(this)">X</button></td>`;
 tbody.appendChild(fila);
+}
+
+function autoResize(t){
+t.style.height="auto";
+t.style.height=t.scrollHeight+"px";
 }
 
 function eliminarFila(btn){
@@ -382,46 +392,12 @@ document.getElementById("igv").innerText=(total*0.18).toFixed(2);
 document.getElementById("total").innerText=(total*1.18).toFixed(2);
 }
 
-function vistaPrevia(){
-document.getElementById("a4").classList.toggle("preview-mode");
-}
-
-function descargarPDF(){
-document.getElementById("a4").classList.add("preview-mode");
-let nombre=document.getElementById("clienteNombre").value||"Cliente";
-let numero=document.getElementById("numCot").innerText;
-html2pdf().set({
-margin:0,
-filename:`Cotizacion_${numero}_${nombre}.pdf`,
-html2canvas:{scale:2},
-jsPDF:{unit:'px',format:[794,1123]}
-}).from(document.getElementById("a4")).save().then(()=>{
-document.getElementById("a4").classList.remove("preview-mode");
-});
-}
-
-function compartirWhatsApp(){
-let numero=document.getElementById("numCot").innerText;
-window.open(`https://wa.me/?text=Cotización ${numero}`);
-}
-
-function compartirImagen(){
-document.getElementById("a4").classList.add("preview-mode");
-html2canvas(document.getElementById("a4")).then(canvas=>{
-let link=document.createElement("a");
-link.download="Cotizacion.png";
-link.href=canvas.toDataURL();
-link.click();
-document.getElementById("a4").classList.remove("preview-mode");
-});
-}
-
 function guardarCotizacion(){
 let data={
 numero:document.getElementById("numCot").innerText,
 fecha:new Date().toLocaleDateString(),
 total:document.getElementById("total").innerText,
-cliente:document.getElementById("clienteNombre").value
+estado:"ACTIVA"
 };
 historial.push(data);
 localStorage.setItem("historial",JSON.stringify(historial));
@@ -442,22 +418,17 @@ tbody.innerHTML+=`
 <td>${h.numero}</td>
 <td>${h.fecha}</td>
 <td>${h.total}</td>
+<td class="${h.estado==='ANULADA'?'estado-anulada':''}">${h.estado}</td>
 <td><button onclick="cargar(${i})">Cargar</button></td>
 <td><button onclick="anular(${i})">Anular</button></td>
 </tr>`;
 });
 }
 
-function cargar(i){
-alert("Cotización "+historial[i].numero+" cargada (solo referencia histórica).");
-}
-
 function anular(i){
-if(confirm("¿Anular cotización?")){
-historial.splice(i,1);
+historial[i].estado="ANULADA";
 localStorage.setItem("historial",JSON.stringify(historial));
 mostrarHistorial();
-}
 }
 
 function filtrar(){
