@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>VIDRIOS Y ALUMINIOS YURI</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
 body{
 font-family: Arial, sans-serif;
@@ -27,6 +26,21 @@ input,select{
 padding:4px;
 border:1px solid #999;
 border-radius:3px;
+}
+
+#loginPage{
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.login-box{
+background:white;
+padding:30px;
+width:320px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+border-radius:6px;
 }
 
 header{
@@ -78,15 +92,23 @@ background:#1f4e79;
 color:white;
 }
 
+.preview{
+margin:20px;
+background:white;
+padding:20px;
+border-radius:6px;
+}
+
 .footer{
 text-align:center;
 margin-top:40px;
 font-style:italic;
 }
 
-.no-print{ }
-
 @media print{
+input,select,button{
+display:none !important;
+}
 .no-print{
 display:none !important;
 }
@@ -95,242 +117,201 @@ display:none !important;
 </head>
 <body>
 
+<!-- LOGIN -->
+<div id="loginPage">
+<div class="login-box">
+<h3>INICIO DE SESIÓN</h3>
+<input type="text" placeholder="RUC / DNI / Correo" style="width:100%;margin-bottom:10px;">
+<input type="password" id="pass" placeholder="Contraseña" style="width:100%;margin-bottom:10px;">
+<label><input type="checkbox" onclick="mostrarPass()"> Mostrar contraseña</label>
+<br><br>
+<button style="width:100%;" onclick="login()">Ingresar</button>
+<br><br>
+<a href="#" onclick="alert('Función recuperación simulada')">¿Recuperar contraseña?</a>
+</div>
+</div>
+
+<!-- SISTEMA -->
+<div id="app" style="display:none;">
+
 <header>
+<img id="logo1" class="logo logo-left" src="" alt="">
+<img id="logo2" class="logo logo-right" src="" alt="">
 <div class="main-title">VIDRIOS Y ALUMINIOS YURI</div>
 <div class="sub-title">YURI HERMOZA PUELLES</div>
+<input type="file" class="no-print" onchange="cargarLogo(this,1)">
+<input type="file" class="no-print" onchange="cargarLogo(this,2)">
 </header>
 
-<div class="section" id="documento">
+<div class="section">
+<b>Fecha Emisión:</b> <input type="date" id="fecha">
+<br><br>
+<b>Cliente:</b> <input placeholder="Nombre completo">
+<input placeholder="DNI/RUC">
+<input placeholder="Teléfono">
+<input placeholder="Dirección">
+<br><br>
+<b>Dirección Local:</b> <input id="direccionLocal" value="APV. LAS JOYAS, SAN SEBASTIÁN - CUSCO">
+</div>
 
-<b>N° Cotización:</b> <span id="numero"></span><br>
-<b>Fecha:</b> <input type="date" id="fecha"><br><br>
-
-<b>Cliente:</b> <input id="cliente">
-<input id="dni">
-<input id="telefono">
-<input id="direccion"><br><br>
-
+<div class="section">
+<h3>Detalle de Ítems</h3>
+<button class="no-print" onclick="agregarItem()">Agregar Ítem</button>
 <table id="tablaItems">
 <thead>
 <tr>
 <th>Item</th>
+<th>Código</th>
 <th>Descripción</th>
 <th>Cant</th>
+<th>Unidad</th>
 <th>P.Unit</th>
 <th>Subtotal</th>
 <th class="no-print">Eliminar</th>
 </tr>
 </thead>
-<tbody></tbody>
+<tbody>
+<tr>
+<td>1</td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td>
+<select>
+<option>UND</option>
+<option>M2</option>
+<option>ML</option>
+<option>KG</option>
+<option>PAR</option>
+<option>JGO</option>
+<option>SET</option>
+<option>PZA</option>
+<option>CAJA</option>
+<option>ROLLO</option>
+</select>
+</td>
+<td contenteditable="true"></td>
+<td></td>
+<td class="no-print"><button onclick="eliminar(this)">X</button></td>
+</tr>
+</tbody>
 </table>
-
-<button class="no-print" onclick="agregarItem()">Agregar Ítem</button>
-
-<br><br>
-
-<div style="text-align:right">
-<b>Subtotal:</b> S/ <span id="subtotal">0.00</span><br>
-<b>IGV (18%):</b> S/ <span id="igv">0.00</span><br>
-<b>Total:</b> S/ <span id="total">0.00</span>
-</div>
-
-<br>
-
-<button class="no-print" onclick="guardarCotizacion()">Guardar</button>
-<button class="no-print" onclick="exportarPDF()">Exportar PDF</button>
-<button class="no-print" onclick="nuevaCotizacion()">Nueva</button>
-
 </div>
 
 <div class="section">
-<h3>Historial</h3>
-<input id="buscar" placeholder="Buscar número">
-<button onclick="buscar()">Buscar</button>
+<button onclick="generarVista()">Vista Previa</button>
+<button onclick="generarPDF()">Generar PDF</button>
+</div>
+
+<div id="vistaPrevia" class="preview"></div>
+
+<div class="section">
+<h3>Historial Cotizaciones</h3>
+<input id="buscar" placeholder="Buscar por número">
+<button onclick="buscarHistorial()">Buscar</button>
 <table>
 <thead>
 <tr>
 <th>N°</th>
 <th>Fecha</th>
 <th>Total</th>
-<th>Estado</th>
-<th>Acción</th>
+<th>Modificar</th>
+<th>Anular</th>
 </tr>
 </thead>
-<tbody id="historial"></tbody>
+<tbody id="historialBody">
+<tr>
+<td>0001</td>
+<td>20/02/2026</td>
+<td>S/ 1500</td>
+<td><button>Editar</button></td>
+<td><button>Anular</button></td>
+</tr>
+</tbody>
 </table>
+</div>
+
+<div class="section">
+<h3>Firma</h3>
+<input type="file" class="no-print" onchange="cargarFirma(this)">
+<br><br>
+<img id="firmaImg" style="height:100px;">
+<br>
+DNI: <input>
 </div>
 
 <div class="footer">
 "El Señor es mi pastor; nada me faltará." - Salmo 23:1
 </div>
 
+</div>
+
 <script>
-
-let bloqueado=false;
-
-function generarNumero(){
-let año=new Date().getFullYear();
-let contador=localStorage.getItem("contador_"+año);
-
-if(!contador){
-contador=1;
-}else{
-contador=parseInt(contador)+1;
+function login(){
+document.getElementById("loginPage").style.display="none";
+document.getElementById("app").style.display="block";
 }
 
-localStorage.setItem("contador_"+año,contador);
-
-return año+"-"+String(contador).padStart(4,"0");
-}
-
-function iniciar(){
-let año=new Date().getFullYear();
-let contador=localStorage.getItem("contador_"+año) || 0;
-let numero=año+"-"+String(contador).padStart(4,"0");
-document.getElementById("numero").innerText=numero;
-cargarHistorial();
+function mostrarPass(){
+var x=document.getElementById("pass");
+x.type=x.type==="password"?"text":"password";
 }
 
 function agregarItem(){
-if(bloqueado) return;
-
-let tbody=document.querySelector("#tablaItems tbody");
-let fila=tbody.insertRow();
-
+var tabla=document.getElementById("tablaItems").getElementsByTagName('tbody')[0];
+var fila=tabla.insertRow();
 fila.innerHTML=`
-<td>${tbody.rows.length}</td>
+<td>${tabla.rows.length}</td>
 <td contenteditable="true"></td>
-<td contenteditable="true" oninput="calcular()"></td>
-<td contenteditable="true" oninput="calcular()"></td>
-<td>0.00</td>
-<td class="no-print"><button onclick="eliminar(this)">X</button></td>
-`;
+<td contenteditable="true"></td>
+<td contenteditable="true"></td>
+<td>
+<select>
+<option>UND</option><option>M2</option><option>ML</option>
+<option>KG</option><option>PAR</option><option>JGO</option>
+<option>SET</option><option>PZA</option>
+<option>CAJA</option><option>ROLLO</option>
+</select>
+</td>
+<td contenteditable="true"></td>
+<td></td>
+<td class="no-print"><button onclick="eliminar(this)">X</button></td>`;
 }
 
 function eliminar(btn){
 btn.parentElement.parentElement.remove();
-calcular();
 }
 
-function calcular(){
-let subtotal=0;
-let filas=document.querySelectorAll("#tablaItems tbody tr");
-
-filas.forEach((fila,i)=>{
-fila.cells[0].innerText=i+1;
-let cant=parseFloat(fila.cells[2].innerText)||0;
-let precio=parseFloat(fila.cells[3].innerText)||0;
-let sub=cant*precio;
-fila.cells[4].innerText=sub.toFixed(2);
-subtotal+=sub;
-});
-
-let igv=subtotal*0.18;
-let total=subtotal+igv;
-
-document.getElementById("subtotal").innerText=subtotal.toFixed(2);
-document.getElementById("igv").innerText=igv.toFixed(2);
-document.getElementById("total").innerText=total.toFixed(2);
+function generarVista(){
+document.getElementById("vistaPrevia").innerHTML=
+document.getElementById("app").innerHTML;
 }
 
-function guardarCotizacion(){
+function generarPDF(){
+var element=document.getElementById("app");
+html2pdf().from(element).save("Cotizacion_YURI.pdf");
+}
 
-if(bloqueado) return;
-
-let numero=generarNumero();
-document.getElementById("numero").innerText=numero;
-
-let cotizacion={
-numero:numero,
-fecha:document.getElementById("fecha").value,
-cliente:document.getElementById("cliente").value,
-total:document.getElementById("total").innerText,
-estado:"ACTIVO",
-items:document.querySelector("#tablaItems tbody").innerHTML
+function cargarLogo(input,n){
+var reader=new FileReader();
+reader.onload=function(e){
+if(n==1)document.getElementById("logo1").src=e.target.result;
+else document.getElementById("logo2").src=e.target.result;
 };
-
-let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]");
-lista.push(cotizacion);
-localStorage.setItem("cotizaciones",JSON.stringify(lista));
-
-bloqueado=true;
-cargarHistorial();
-alert("Cotización guardada correctamente");
+reader.readAsDataURL(input.files[0]);
 }
 
-function cargarHistorial(){
-let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]");
-let historial=document.getElementById("historial");
-historial.innerHTML="";
-
-lista.forEach(c=>{
-let fila=historial.insertRow();
-fila.innerHTML=`
-<td>${c.numero}</td>
-<td>${c.fecha}</td>
-<td>S/ ${c.total}</td>
-<td>${c.estado}</td>
-<td>
-<button onclick='cargar("${c.numero}")'>Cargar</button>
-<button onclick='anular("${c.numero}")'>Anular</button>
-</td>
-`;
-});
+function cargarFirma(input){
+var reader=new FileReader();
+reader.onload=function(e){
+document.getElementById("firmaImg").src=e.target.result;
+};
+reader.readAsDataURL(input.files[0]);
 }
 
-function cargar(numero){
-let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]");
-let c=lista.find(x=>x.numero==numero);
-
-document.getElementById("numero").innerText=c.numero;
-document.getElementById("fecha").value=c.fecha;
-document.querySelector("#tablaItems tbody").innerHTML=c.items;
-
-bloqueado=true;
-calcular();
+function buscarHistorial(){
+alert("Función búsqueda simulada");
 }
-
-function anular(numero){
-let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]");
-lista=lista.map(c=>{
-if(c.numero==numero){c.estado="ANULADO";}
-return c;
-});
-localStorage.setItem("cotizaciones",JSON.stringify(lista));
-cargarHistorial();
-}
-
-function exportarPDF(){
-let element=document.getElementById("documento");
-html2pdf().from(element).save("Cotizacion.pdf");
-}
-
-function nuevaCotizacion(){
-bloqueado=false;
-document.querySelector("#tablaItems tbody").innerHTML="";
-document.getElementById("subtotal").innerText="0.00";
-document.getElementById("igv").innerText="0.00";
-document.getElementById("total").innerText="0.00";
-document.getElementById("fecha").value="";
-document.getElementById("cliente").value="";
-iniciar();
-}
-
-function buscar(){
-let valor=document.getElementById("buscar").value;
-let filas=document.querySelectorAll("#historial tr");
-
-filas.forEach(f=>{
-if(f.innerText.includes(valor)){
-f.style.display="";
-}else{
-f.style.display="none";
-}
-});
-}
-
-iniciar();
-
 </script>
 
 </body>
