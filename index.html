@@ -32,6 +32,7 @@ box-shadow:0 10px 30px rgba(0,0,0,0.3);
 width:100%;
 margin-bottom:10px;
 padding:8px;
+font-family:'Arial Narrow', Arial, sans-serif;
 }
 button{
 background:#1f4e79;
@@ -41,6 +42,7 @@ padding:6px 12px;
 border-radius:4px;
 cursor:pointer;
 font-size:13px;
+font-family:'Arial Narrow', Arial, sans-serif;
 }
 button:hover{background:#163a5a;}
 #app{display:none;padding:20px;}
@@ -60,6 +62,7 @@ box-sizing:border-box;
 position:relative;
 line-height:1.35;
 box-shadow:0 5px 20px rgba(0,0,0,0.1);
+font-family:'Arial Narrow', Arial, sans-serif;
 }
 
 /* ENCABEZADO */
@@ -76,13 +79,23 @@ margin:2px 0;
 font-size:18px;
 font-weight:bold;
 }
-.logo{width:85px;position:absolute;top:0;}
+
+.logo{
+width:110px;
+position:absolute;
+top:0;
+}
 .logo-left{left:0;}
 .logo-right{right:0;}
-.logo-btn{position:absolute;top:90px;font-size:11px;}
+
+.logo-btn{
+position:absolute;
+top:115px;
+font-size:11px;
+}
 
 .direccion-input{
-width:90%;
+width:95%;
 text-align:center;
 }
 
@@ -97,7 +110,10 @@ text-align:right;
 font-size:14px;
 line-height:1.1;
 }
-.fechas input{margin-bottom:4px;}
+.fechas input{
+margin-bottom:3px;
+font-family:'Arial Narrow', Arial, sans-serif;
+}
 
 .cliente{
 margin-top:15px;
@@ -112,10 +128,16 @@ background:#d9e8fb;
 .editable{
 border:1px solid #1f4e79;
 padding:3px;
+font-family:'Arial Narrow', Arial, sans-serif;
 }
+
 .preview-mode .editable{
 border:none;
 background:transparent;
+}
+
+.cliente input{
+width:95%;
 }
 
 table{
@@ -137,6 +159,7 @@ font-size:13px;
 td input,td select{
 width:100%;
 border:1px solid #1f4e79;
+font-family:'Arial Narrow', Arial, sans-serif;
 }
 .preview-mode td input,
 .preview-mode td select{
@@ -156,6 +179,10 @@ position:absolute;
 bottom:210px;
 width:100%;
 text-align:center;
+}
+
+.firma img{
+width:190px;
 }
 
 .footer{
@@ -275,11 +302,11 @@ CCI: 00 2526 1711 0716 4027 21
 </div>
 
 <div class="firma">
-<img id="firmaImg" width="150"><br>
-<button onclick="agregarFirma()">Añadir / Modificar Firma</button><br>
+<img id="firmaImg"><br>
+<button onclick="agregarFirma()">Modificar Firma</button><br>
 _________________________<br>
 Firma<br>
-DNI:
+DNI: <input class="editable" style="width:200px;text-align:center;">
 </div>
 
 <div class="footer">
@@ -292,35 +319,15 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993 963 381
 
 </div>
 
-<div id="historial">
-<h3>Historial de Cotizaciones</h3>
-Buscar: <input id="buscar">
-<button onclick="filtrar()">Buscar</button>
-<table>
-<thead>
-<tr>
-<th>N°</th>
-<th>Fecha</th>
-<th>Total</th>
-<th>Ver PDF</th>
-<th>Editar</th>
-<th>Anular</th>
-</tr>
-</thead>
-<tbody id="listaHistorial"></tbody>
-</table>
-<div id="mensajeHistorial" class="no-data"></div>
-</div>
-
 </div>
 
 <script>
 let contador=0;
-let historial=[];
 
 function entrar(){
 document.getElementById("login").style.display="none";
 document.getElementById("app").style.display="block";
+cargarImagenesGuardadas();
 nuevaCotizacion();
 }
 
@@ -411,52 +418,6 @@ document.getElementById("a4").classList.remove("preview-mode");
 });
 }
 
-function guardarCotizacion(){
-let numero=document.getElementById("numCot").innerText;
-let fecha=document.getElementById("fechaEmision").value || new Date().toLocaleDateString();
-let total=document.getElementById("total").innerText;
-historial.push({numero,fecha,total});
-mostrarHistorial();
-}
-
-function mostrarHistorial(){
-let tbody=document.getElementById("listaHistorial");
-let mensaje=document.getElementById("mensajeHistorial");
-tbody.innerHTML="";
-if(historial.length===0){
-mensaje.innerText="NO HAY DATOS";
-return;
-}
-mensaje.innerText="";
-historial.forEach((h,i)=>{
-tbody.innerHTML+=`
-<tr>
-<td>${h.numero}</td>
-<td>${h.fecha}</td>
-<td>${h.total}</td>
-<td><button onclick="alert('PDF generado al descargar')">Ver</button></td>
-<td><button onclick="editar(${i})">Editar</button></td>
-<td><button onclick="anular(${i})">Anular</button></td>
-</tr>`;
-});
-}
-
-function editar(i){
-document.getElementById("numCot").innerText=historial[i].numero;
-}
-
-function anular(i){
-historial.splice(i,1);
-mostrarHistorial();
-}
-
-function filtrar(){
-let f=document.getElementById("buscar").value.toLowerCase();
-document.querySelectorAll("#listaHistorial tr").forEach(r=>{
-r.style.display=r.innerText.toLowerCase().includes(f)?"":"none";
-});
-}
-
 function cargarLogo(n){
 let input=document.createElement("input");
 input.type="file";
@@ -464,6 +425,7 @@ input.onchange=e=>{
 let reader=new FileReader();
 reader.onload=function(){
 document.getElementById("logo"+n).src=reader.result;
+localStorage.setItem("logo"+n,reader.result);
 }
 reader.readAsDataURL(e.target.files[0]);
 };
@@ -477,10 +439,23 @@ input.onchange=e=>{
 let reader=new FileReader();
 reader.onload=function(){
 document.getElementById("firmaImg").src=reader.result;
+localStorage.setItem("firmaImg",reader.result);
 }
 reader.readAsDataURL(e.target.files[0]);
 };
 input.click();
+}
+
+function cargarImagenesGuardadas(){
+if(localStorage.getItem("logo1")){
+document.getElementById("logo1").src=localStorage.getItem("logo1");
+}
+if(localStorage.getItem("logo2")){
+document.getElementById("logo2").src=localStorage.getItem("logo2");
+}
+if(localStorage.getItem("firmaImg")){
+document.getElementById("firmaImg").src=localStorage.getItem("firmaImg");
+}
 }
 </script>
 
