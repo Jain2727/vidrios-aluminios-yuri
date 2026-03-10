@@ -64,7 +64,7 @@ text-align:center;
 margin-bottom:20px;
 }
 
-/* HOJA A4 */
+/* HOJA */
 
 #a4{
 width:794px;
@@ -76,6 +76,8 @@ box-sizing:border-box;
 position:relative;
 box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
+
+/* HEADER */
 
 .header{
 text-align:center;
@@ -102,16 +104,23 @@ margin:2px 0;
 font-size:18px;
 }
 
+.direccion{
+width:95%;
+}
+
 /* CLIENTE */
 
 .cliente{
 margin-top:15px;
-padding:10px;
+padding:12px;
 background:#d9e8fb;
 border-radius:6px;
+display:flex;
+flex-direction:column;
+gap:6px;
 }
 
-/* CAMPOS EDITABLES */
+/* CAMPOS */
 
 .editable{
 border:1px solid #1f4e79;
@@ -166,7 +175,7 @@ font-size:15px;
 
 .firma{
 position:absolute;
-bottom:210px;
+bottom:230px;
 width:100%;
 text-align:center;
 }
@@ -208,6 +217,8 @@ display:none !important;
 
 <body>
 
+<!-- LOGIN -->
+
 <div id="login">
 <div class="login-box">
 <h3>Inicio de Sesión</h3>
@@ -215,11 +226,13 @@ display:none !important;
 <input id="ruc" placeholder="RUC">
 <input type="password" id="pass" placeholder="Contraseña">
 
-<button style="width:100%" onclick="login()">Ingresar</button>
+<button onclick="login()">Ingresar</button>
 
 <div id="error" style="color:red"></div>
 </div>
 </div>
+
+<!-- APP -->
 
 <div id="app">
 
@@ -227,6 +240,7 @@ display:none !important;
 
 <button onclick="vistaPrevia()">Vista previa</button>
 <button onclick="descargarPDF()">Descargar PDF</button>
+<button onclick="enviarWhatsApp()">Enviar WhatsApp</button>
 <button onclick="guardarCotizacion()">Guardar</button>
 <button onclick="nuevaCotizacion()">Nueva</button>
 
@@ -248,7 +262,7 @@ display:none !important;
 RUC: 10617365036<br>
 
 Dirección:
-<input id="direccionLocal" class="editable" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
+<input id="direccionLocal" class="editable direccion" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
 
 <hr>
 
@@ -258,7 +272,7 @@ Dirección:
 
 <div>
 <b>COTIZACIÓN N° 
-<input id="numCot" class="editable" style="width:120px">
+<input id="numCot" class="editable" style="width:130px">
 </b>
 </div>
 
@@ -276,7 +290,7 @@ Válido hasta
 
 <div class="cliente">
 
-<b>CLIENTE</b><br>
+<b>CLIENTE</b>
 
 Nombre
 <input id="clienteNombre" class="editable" list="clientesLista">
@@ -291,6 +305,13 @@ Teléfono
 
 Dirección
 <input id="clienteDir" class="editable">
+
+<br>
+
+<b>Método de Pago</b>
+
+Cuenta BCP: 52671107164027  
+CCI:  00 2526 1711 0716 4027 21
 
 </div>
 
@@ -349,7 +370,7 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381
 
 <br>
 
-<i>Todo lo puedo en Cristo que me fortalece</i>
+<i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
 
 </div>
 
@@ -357,7 +378,7 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381
 
 <div id="historial">
 
-<h3>Historial</h3>
+<h3>Historial de Cotizaciones</h3>
 
 Buscar <input id="buscar" onkeyup="filtrar()">
 
@@ -371,7 +392,7 @@ Buscar <input id="buscar" onkeyup="filtrar()">
 <th>Cliente</th>
 <th>Fecha</th>
 <th>Total</th>
-<th>Cargar</th>
+<th>Editar</th>
 <th>Eliminar</th>
 
 </tr>
@@ -392,7 +413,6 @@ const RUC="10617365036"
 const PASS="yuri2026"
 
 let contador=localStorage.getItem("contador")||0
-
 let historial=JSON.parse(localStorage.getItem("historial"))||[]
 let clientes=JSON.parse(localStorage.getItem("clientes"))||[]
 
@@ -426,7 +446,6 @@ contador++
 localStorage.setItem("contador",contador)
 
 let year=new Date().getFullYear()
-
 let numero=String(contador).padStart(4,'0')+"-"+year
 
 document.getElementById("numCot").value=numero
@@ -434,7 +453,6 @@ document.getElementById("numCot").value=numero
 document.querySelector("#tabla tbody").innerHTML=""
 
 agregarItem()
-
 calcular()
 
 }
@@ -470,9 +488,7 @@ tbody.appendChild(fila)
 function eliminarFila(btn){
 
 btn.parentElement.parentElement.remove()
-
 reordenar()
-
 calcular()
 
 }
@@ -480,9 +496,7 @@ calcular()
 function reordenar(){
 
 document.querySelectorAll("#tabla tbody tr").forEach((f,i)=>{
-
 f.children[0].innerText=i+1
-
 })
 
 }
@@ -531,6 +545,17 @@ document.getElementById("a4").classList.remove("preview-mode")
 
 }
 
+function enviarWhatsApp(){
+
+let numero=document.getElementById("numCot").value
+let cliente=document.getElementById("clienteNombre").value
+
+let texto=`Hola, te envío la cotización ${numero} para ${cliente}.`
+
+window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`)
+
+}
+
 function guardarCotizacion(){
 
 let data={
@@ -544,37 +569,7 @@ historial.push(data)
 
 localStorage.setItem("historial",JSON.stringify(historial))
 
-guardarCliente()
-
 mostrarHistorial()
-
-}
-
-function guardarCliente(){
-
-let nombre=document.getElementById("clienteNombre").value
-
-if(nombre && !clientes.includes(nombre)){
-
-clientes.push(nombre)
-
-localStorage.setItem("clientes",JSON.stringify(clientes))
-
-cargarClientes()
-
-}
-
-}
-
-function cargarClientes(){
-
-let lista=document.getElementById("clientesLista")
-
-lista.innerHTML=""
-
-clientes.forEach(c=>{
-lista.innerHTML+=`<option value="${c}">`
-})
 
 }
 
@@ -595,7 +590,7 @@ tbody.innerHTML+=`
 <td>${h.fecha}</td>
 <td>${h.total}</td>
 
-<td><button onclick="alert('Carga avanzada próximamente')">Cargar</button></td>
+<td><button onclick="editarCot(${i})">Editar</button></td>
 
 <td><button onclick="eliminarHistorial(${i})">Eliminar</button></td>
 
@@ -604,6 +599,13 @@ tbody.innerHTML+=`
 `
 
 })
+
+}
+
+function editarCot(i){
+
+document.getElementById("numCot").value=historial[i].numero
+document.getElementById("clienteNombre").value=historial[i].cliente
 
 }
 
@@ -630,6 +632,7 @@ r.style.display=r.innerText.toLowerCase().includes(f)?"":"none"
 function cargarLogo(n){
 
 let input=document.createElement("input")
+
 input.type="file"
 
 input.onchange=e=>{
@@ -654,6 +657,7 @@ input.click()
 function subirFirma(){
 
 let input=document.createElement("input")
+
 input.type="file"
 
 input.onchange=e=>{
