@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Sistema Profesional de Cotizaciones - Vidrios y Aluminios Yuri</title>
+<title>VIDRIOS Y ALUMINIOS YURI - Sistema Profesional</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -12,20 +12,7 @@
 body{
 font-family:'Arial Narrow',Arial;
 margin:0;
-background:linear-gradient(135deg,#e8eff7,#ffffff);
-}
-
-button{
-background:#1f4e79;
-color:white;
-border:none;
-padding:6px 12px;
-cursor:pointer;
-border-radius:4px;
-}
-
-button:hover{
-background:#163a5a;
+background:linear-gradient(135deg,#e7eef6,#ffffff);
 }
 
 /* LOGIN */
@@ -59,12 +46,25 @@ display:none;
 padding:20px;
 }
 
-/* CONTROLES */
+button{
+background:#1f4e79;
+color:white;
+border:none;
+padding:6px 12px;
+cursor:pointer;
+border-radius:4px;
+}
+
+button:hover{
+background:#163a5a;
+}
 
 .controls{
 text-align:center;
 margin-bottom:20px;
 }
+
+/* HOJA A4 */
 
 #a4{
 width:794px;
@@ -74,7 +74,7 @@ margin:auto;
 padding:40px;
 box-sizing:border-box;
 position:relative;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
 
 .header{
@@ -93,19 +93,37 @@ top:0;
 
 .header h1{
 margin:0;
-font-size:40px;
+font-size:38px;
 color:#1f4e79;
 }
 
 .header h2{
-margin:3px 0;
+margin:2px 0;
 font-size:18px;
 }
+
+/* CLIENTE */
+
+.cliente{
+margin-top:15px;
+padding:10px;
+background:#d9e8fb;
+border-radius:6px;
+}
+
+/* CAMPOS EDITABLES */
 
 .editable{
 border:1px solid #1f4e79;
 padding:3px;
 }
+
+.preview-mode .editable{
+border:none;
+background:transparent;
+}
+
+/* TABLA */
 
 table{
 width:100%;
@@ -129,28 +147,60 @@ width:100%;
 box-sizing:border-box;
 }
 
+.preview-mode td input,
+.preview-mode td textarea,
+.preview-mode td select{
+border:none;
+background:transparent;
+}
+
+/* TOTALES */
+
 .totales{
 text-align:right;
 margin-top:10px;
-font-size:16px;
+font-size:15px;
 }
+
+/* FIRMA */
+
+.firma{
+position:absolute;
+bottom:210px;
+width:100%;
+text-align:center;
+}
+
+.firma img{
+width:180px;
+}
+
+/* FOOTER */
 
 .footer{
 position:absolute;
 bottom:0;
+left:0;
 width:100%;
 background:#1f4e79;
 color:white;
 text-align:center;
-padding:12px;
-left:0;
+padding:15px;
+font-size:13px;
 }
+
+/* HISTORIAL */
 
 #historial{
 margin-top:30px;
 background:white;
 padding:20px;
 border-radius:8px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+.preview-mode button{
+display:none !important;
 }
 
 </style>
@@ -158,38 +208,26 @@ border-radius:8px;
 
 <body>
 
-<!-- LOGIN -->
-
 <div id="login">
 <div class="login-box">
+<h3>Inicio de Sesión</h3>
 
-<h3>Sistema de Cotizaciones</h3>
+<input id="ruc" placeholder="RUC">
+<input type="password" id="pass" placeholder="Contraseña">
 
-<input id="usuario" placeholder="RUC">
-
-<input id="password" type="password" placeholder="Contraseña">
-
-<button onclick="login()">Ingresar</button>
+<button style="width:100%" onclick="login()">Ingresar</button>
 
 <div id="error" style="color:red"></div>
-
 </div>
 </div>
-
-<!-- APP -->
 
 <div id="app">
 
 <div class="controls">
 
 <button onclick="vistaPrevia()">Vista previa</button>
-
-<button onclick="descargarPDF()">PDF</button>
-
-<button onclick="descargarImagen()">Imagen</button>
-
+<button onclick="descargarPDF()">Descargar PDF</button>
 <button onclick="guardarCotizacion()">Guardar</button>
-
 <button onclick="nuevaCotizacion()">Nueva</button>
 
 </div>
@@ -201,12 +239,13 @@ border-radius:8px;
 <img id="logo1" class="logo logo-left">
 <img id="logo2" class="logo logo-right">
 
+<button style="position:absolute;left:0;top:110px" onclick="cargarLogo(1)">Modificar Logo</button>
+<button style="position:absolute;right:0;top:110px" onclick="cargarLogo(2)">Modificar Logo</button>
+
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 <h2>YURI HERMOZA PUELLES</h2>
 
-RUC: 10617365036
-
-<br>
+RUC: 10617365036<br>
 
 Dirección:
 <input id="direccionLocal" class="editable" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
@@ -218,22 +257,31 @@ Dirección:
 <div style="display:flex;justify-content:space-between">
 
 <div>
-<b>COTIZACIÓN N° <span id="numCot"></span></b>
+<b>COTIZACIÓN N° 
+<input id="numCot" class="editable" style="width:120px">
+</b>
 </div>
 
 <div>
-Fecha:
-<input type="date" id="fechaEmision">
-</div>
+
+Fecha emisión
+<input type="date" id="fechaEmision" class="editable"><br>
+
+Válido hasta
+<input type="date" id="fechaValidez" class="editable">
 
 </div>
 
-<div style="margin-top:10px">
+</div>
+
+<div class="cliente">
 
 <b>CLIENTE</b><br>
 
 Nombre
-<input id="clienteNombre" class="editable">
+<input id="clienteNombre" class="editable" list="clientesLista">
+
+<datalist id="clientesLista"></datalist>
 
 DNI / RUC
 <input id="clienteDoc" class="editable">
@@ -267,37 +315,29 @@ Dirección
 
 </thead>
 
-<tbody>
-
-</tbody>
+<tbody></tbody>
 
 </table>
 
 <div class="totales">
 
-Costo: S/ <span id="costo">0</span><br>
+Costo: S/ <span id="costo">0.00</span><br>
 
-IGV (18%): S/ <span id="igv">0</span><br>
+IGV (18%): S/ <span id="igv">0.00</span><br>
 
-<b>Total: S/ <span id="total">0</span></b>
-
-</div>
-
-<div style="margin-top:20px">
-
-<b>Método de pago</b><br>
-
-BCP: 52671107164027<br>
-
-CCI: 00252617110716402721
+<b>Total: S/ <span id="total">0.00</span></b>
 
 </div>
 
-<div style="margin-top:20px;text-align:center">
+<div class="firma">
 
-<img id="firma" width="180"><br>
+<img id="firmaImg"><br>
 
-<button onclick="subirFirma()">Subir Firma</button>
+<button onclick="subirFirma()">Modificar Firma</button>
+
+<br>_____________________<br>
+
+Firma
 
 </div>
 
@@ -305,7 +345,7 @@ CCI: 00252617110716402721
 
 CC.HACCA S/N OMACHÁ - PARURO - CUSCO<br>
 
-Cel: 993963381
+Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381
 
 <br>
 
@@ -317,10 +357,9 @@ Cel: 993963381
 
 <div id="historial">
 
-<h3>Historial de Cotizaciones</h3>
+<h3>Historial</h3>
 
-Buscar
-<input id="buscar" onkeyup="filtrarHistorial()">
+Buscar <input id="buscar" onkeyup="filtrar()">
 
 <table>
 
@@ -339,9 +378,7 @@ Buscar
 
 </thead>
 
-<tbody id="listaHistorial">
-
-</tbody>
+<tbody id="listaHistorial"></tbody>
 
 </table>
 
@@ -357,16 +394,21 @@ const PASS="yuri2026"
 let contador=localStorage.getItem("contador")||0
 
 let historial=JSON.parse(localStorage.getItem("historial"))||[]
+let clientes=JSON.parse(localStorage.getItem("clientes"))||[]
 
 function login(){
 
-let u=document.getElementById("usuario").value
-let p=document.getElementById("password").value
+let r=document.getElementById("ruc").value
+let p=document.getElementById("pass").value
 
-if(u===RUC && p===PASS){
+if(r===RUC && p===PASS){
 
 document.getElementById("login").style.display="none"
 document.getElementById("app").style.display="block"
+
+cargarImagenes()
+
+cargarClientes()
 
 nuevaCotizacion()
 
@@ -390,7 +432,7 @@ let year=new Date().getFullYear()
 
 let numero=String(contador).padStart(4,'0')+"-"+year
 
-document.getElementById("numCot").innerText=numero
+document.getElementById("numCot").value=numero
 
 document.querySelector("#tabla tbody").innerHTML=""
 
@@ -407,37 +449,21 @@ let tbody=document.querySelector("#tabla tbody")
 let fila=document.createElement("tr")
 
 fila.innerHTML=`
-
 <td>${tbody.rows.length+1}</td>
-
 <td><input></td>
-
 <td><textarea></textarea></td>
-
 <td><input type="number" value="0" onchange="calcular()"></td>
-
 <td>
-
 <select>
-
 <option>UND</option>
-
 <option>M2</option>
-
 <option>M</option>
-
 <option>KG</option>
-
 </select>
-
 </td>
-
 <td><input type="number" value="0" onchange="calcular()"></td>
-
-<td class="sub">0</td>
-
+<td class="sub">0.00</td>
 <td><button onclick="eliminarFila(this)">X</button></td>
-
 `
 
 tbody.appendChild(fila)
@@ -490,51 +516,32 @@ document.getElementById("total").innerText=(total*1.18).toFixed(2)
 
 }
 
+function vistaPrevia(){
+
+document.getElementById("a4").classList.toggle("preview-mode")
+
+}
+
 function descargarPDF(){
 
-html2pdf().from(document.getElementById("a4")).save()
+document.getElementById("a4").classList.add("preview-mode")
 
-}
+let cliente=document.getElementById("clienteNombre").value||"Cliente"
+let numero=document.getElementById("numCot").value
 
-function descargarImagen(){
+html2pdf().set({
 
-html2canvas(document.getElementById("a4")).then(canvas=>{
+filename:`Cotizacion_${numero}_${cliente}.pdf`,
 
-let link=document.createElement("a")
+html2canvas:{scale:2},
 
-link.download="cotizacion.png"
+jsPDF:{unit:'px',format:[794,1123]}
 
-link.href=canvas.toDataURL()
+}).from(document.getElementById("a4")).save().then(()=>{
 
-link.click()
+document.getElementById("a4").classList.remove("preview-mode")
 
 })
-
-}
-
-function subirFirma(){
-
-let input=document.createElement("input")
-
-input.type="file"
-
-input.onchange=e=>{
-
-let reader=new FileReader()
-
-reader.onload=function(){
-
-document.getElementById("firma").src=reader.result
-
-localStorage.setItem("firma",reader.result)
-
-}
-
-reader.readAsDataURL(e.target.files[0])
-
-}
-
-input.click()
 
 }
 
@@ -542,12 +549,9 @@ function guardarCotizacion(){
 
 let data={
 
-numero:document.getElementById("numCot").innerText,
-
+numero:document.getElementById("numCot").value,
 cliente:document.getElementById("clienteNombre").value,
-
 fecha:new Date().toLocaleDateString(),
-
 total:document.getElementById("total").innerText
 
 }
@@ -556,7 +560,39 @@ historial.push(data)
 
 localStorage.setItem("historial",JSON.stringify(historial))
 
+guardarCliente()
+
 mostrarHistorial()
+
+}
+
+function guardarCliente(){
+
+let nombre=document.getElementById("clienteNombre").value
+
+if(nombre && !clientes.includes(nombre)){
+
+clientes.push(nombre)
+
+localStorage.setItem("clientes",JSON.stringify(clientes))
+
+cargarClientes()
+
+}
+
+}
+
+function cargarClientes(){
+
+let lista=document.getElementById("clientesLista")
+
+lista.innerHTML=""
+
+clientes.forEach(c=>{
+
+lista.innerHTML+=`<option value="${c}">`
+
+})
 
 }
 
@@ -573,14 +609,11 @@ tbody.innerHTML+=`
 <tr>
 
 <td>${h.numero}</td>
-
 <td>${h.cliente}</td>
-
 <td>${h.fecha}</td>
-
 <td>${h.total}</td>
 
-<td><button onclick="alert('Función de carga avanzada')">Cargar</button></td>
+<td><button onclick="alert('Cargar edición próximamente')">Cargar</button></td>
 
 <td><button onclick="eliminarHistorial(${i})">Eliminar</button></td>
 
@@ -602,7 +635,7 @@ mostrarHistorial()
 
 }
 
-function filtrarHistorial(){
+function filtrar(){
 
 let f=document.getElementById("buscar").value.toLowerCase()
 
@@ -611,6 +644,68 @@ document.querySelectorAll("#listaHistorial tr").forEach(r=>{
 r.style.display=r.innerText.toLowerCase().includes(f)?"":"none"
 
 })
+
+}
+
+function cargarLogo(n){
+
+let input=document.createElement("input")
+
+input.type="file"
+
+input.onchange=e=>{
+
+let reader=new FileReader()
+
+reader.onload=function(){
+
+document.getElementById("logo"+n).src=reader.result
+
+localStorage.setItem("logo"+n,reader.result)
+
+}
+
+reader.readAsDataURL(e.target.files[0])
+
+}
+
+input.click()
+
+}
+
+function subirFirma(){
+
+let input=document.createElement("input")
+
+input.type="file"
+
+input.onchange=e=>{
+
+let reader=new FileReader()
+
+reader.onload=function(){
+
+document.getElementById("firmaImg").src=reader.result
+
+localStorage.setItem("firma",reader.result)
+
+}
+
+reader.readAsDataURL(e.target.files[0])
+
+}
+
+input.click()
+
+}
+
+function cargarImagenes(){
+
+if(localStorage.getItem("logo1")) document.getElementById("logo1").src=localStorage.getItem("logo1")
+
+if(localStorage.getItem("logo2")) document.getElementById("logo2").src=localStorage.getItem("logo2")
+
+if(localStorage.getItem("firma")) document.getElementById("firmaImg").src=localStorage.getItem("firma")
 
 }
 
