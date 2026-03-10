@@ -10,9 +10,9 @@
 <style>
 
 body{
-font-family:Arial Narrow,Arial;
+font-family:Arial;
 margin:0;
-background:linear-gradient(135deg,#e9f1fb,#ffffff);
+background:linear-gradient(135deg,#eef3fb,#ffffff);
 }
 
 /* LOGIN */
@@ -20,15 +20,15 @@ background:linear-gradient(135deg,#e9f1fb,#ffffff);
 #login{
 height:100vh;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 background:#1f4e79;
 }
 
 .login-box{
 background:white;
 padding:35px;
-width:350px;
+width:360px;
 border-radius:10px;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
@@ -58,6 +58,7 @@ background:#1f4e79;
 color:white;
 border:none;
 padding:6px 12px;
+margin:2px;
 border-radius:4px;
 cursor:pointer;
 }
@@ -70,7 +71,7 @@ background:#163a5a;
 
 #a4{
 width:794px;
-height:1123px;
+min-height:1123px;
 background:white;
 margin:auto;
 padding:40px;
@@ -87,7 +88,7 @@ position:relative;
 }
 
 .logo{
-width:110px;
+width:100px;
 position:absolute;
 top:0;
 }
@@ -95,19 +96,14 @@ top:0;
 .logo-left{left:0}
 .logo-right{right:0}
 
-.header h1{
-margin:0;
-font-size:36px;
-color:#1f4e79;
-}
-
-.header h2{
-margin:3px 0;
-font-size:18px;
+.logo-center{
+width:120px;
+display:block;
+margin:auto;
 }
 
 .direccion{
-width:95%;
+width:90%;
 text-align:center;
 }
 
@@ -118,15 +114,12 @@ margin-top:15px;
 padding:12px;
 background:#d9e8fb;
 border-radius:6px;
-display:flex;
-flex-direction:column;
-gap:6px;
 }
 
 .campo{
 display:flex;
-gap:10px;
 align-items:center;
+margin-bottom:5px;
 }
 
 .campo label{
@@ -166,7 +159,6 @@ padding:4px;
 
 td input,td textarea,td select{
 width:100%;
-box-sizing:border-box;
 }
 
 .preview-mode td input,
@@ -181,24 +173,19 @@ background:transparent;
 .totales{
 text-align:right;
 margin-top:10px;
-font-size:15px;
 }
 
 /* METODO PAGO */
 
 .metodoPago{
 margin-top:20px;
-text-align:left;
-font-size:14px;
 }
 
 /* FIRMA */
 
 .firma{
-position:absolute;
-bottom:230px;
-width:100%;
 text-align:center;
+margin-top:40px;
 }
 
 .firma img{
@@ -208,10 +195,7 @@ width:180px;
 /* FOOTER */
 
 .footer{
-position:absolute;
-bottom:0;
-left:0;
-width:100%;
+margin-top:30px;
 background:#1f4e79;
 color:white;
 text-align:center;
@@ -222,7 +206,7 @@ font-size:13px;
 /* HISTORIAL */
 
 #historial{
-margin-top:30px;
+margin-top:40px;
 background:white;
 padding:20px;
 border-radius:8px;
@@ -245,7 +229,7 @@ display:none !important;
 <h3>Inicio de Sesión</h3>
 
 <input id="ruc" placeholder="RUC">
-<input type="password" id="pass" placeholder="Contraseña">
+<input id="pass" type="password" placeholder="Contraseña">
 
 <button onclick="login()">Ingresar</button>
 
@@ -259,10 +243,11 @@ display:none !important;
 <div class="controls">
 
 <button onclick="vistaPrevia()">Vista previa</button>
-<button onclick="descargarPDF()">Descargar PDF</button>
-<button onclick="enviarWhatsApp()">Enviar WhatsApp</button>
+<button onclick="descargarPDF()">PDF</button>
+<button onclick="exportarImagen()">Imagen</button>
 <button onclick="guardarCotizacion()">Guardar</button>
 <button onclick="nuevaCotizacion()">Nueva</button>
+<button onclick="enviarWhatsApp()">WhatsApp</button>
 
 </div>
 
@@ -272,13 +257,20 @@ display:none !important;
 
 <img id="logo1" class="logo logo-left">
 <img id="logo2" class="logo logo-right">
+<img id="logo3" class="logo-center">
+
+<br>
+
+<button onclick="subirLogo('logo1')">Logo Izq</button>
+<button onclick="subirLogo('logo2')">Logo Der</button>
+<button onclick="subirLogo('logo3')">Logo Centro</button>
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
-<h2>YURI HERMOZA PUELLES</h2>
+<h3>YURI HERMOZA PUELLES</h3>
 
-RUC: 10617365036<br>
+RUC: 10617365036
 
-Dirección:<br>
+<br>
 
 <input id="direccionLocal" class="editable direccion" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
 
@@ -289,17 +281,21 @@ Dirección:<br>
 <div style="display:flex;justify-content:space-between">
 
 <div>
-<b>COTIZACIÓN N° 
-<input id="numCot" class="editable" style="width:130px">
-</b>
+
+<b>COTIZACIÓN N°</b>
+
+<input id="numCot" class="editable">
+
 </div>
 
 <div>
 
 Fecha emisión
+
 <input type="date" id="fechaEmision" class="editable"><br>
 
-Válido hasta
+Validez
+
 <input type="date" id="fechaValidez" class="editable">
 
 </div>
@@ -312,11 +308,11 @@ Válido hasta
 
 <div class="campo">
 <label>Nombre:</label>
-<input id="clienteNombre" class="editable">
+<input id="clienteNombre" class="editable" list="clientesLista">
 </div>
 
 <div class="campo">
-<label>DNI / RUC:</label>
+<label>DNI/RUC:</label>
 <input id="clienteDoc" class="editable">
 </div>
 
@@ -330,6 +326,8 @@ Válido hasta
 <input id="clienteDir" class="editable">
 </div>
 
+<datalist id="clientesLista"></datalist>
+
 </div>
 
 <button onclick="agregarItem()">Agregar Item</button>
@@ -337,7 +335,9 @@ Válido hasta
 <table id="tabla">
 
 <thead>
+
 <tr>
+
 <th>Item</th>
 <th>Código</th>
 <th>Descripción</th>
@@ -346,7 +346,9 @@ Válido hasta
 <th>P.Unit</th>
 <th>Subtotal</th>
 <th>X</th>
+
 </tr>
+
 </thead>
 
 <tbody></tbody>
@@ -355,19 +357,20 @@ Válido hasta
 
 <div class="totales">
 
-Costo: S/ <span id="costo">0.00</span><br>
+Costo: S/ <span id="costo">0</span><br>
 
-IGV (18%): S/ <span id="igv">0.00</span><br>
+IGV: S/ <span id="igv">0</span><br>
 
-<b>Total: S/ <span id="total">0.00</span></b>
+<b>Total: S/ <span id="total">0</span></b>
 
 </div>
 
 <div class="metodoPago">
 
-<b>Método de pago</b><br>
+<b>Método de Pago</b><br>
 
 Cuenta BCP: 52671107164027<br>
+
 CCI: 00 2526 1711 0716 4027 21
 
 </div>
@@ -376,7 +379,7 @@ CCI: 00 2526 1711 0716 4027 21
 
 <img id="firmaImg"><br>
 
-<button onclick="subirFirma()">Modificar Firma</button>
+<button onclick="subirFirma()">Subir Firma</button>
 
 <br>_____________________<br>
 
@@ -398,6 +401,36 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381
 
 </div>
 
+<div id="historial">
+
+<h3>Historial</h3>
+
+Buscar
+<input id="buscar" onkeyup="filtrarHistorial()">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>N°</th>
+<th>Cliente</th>
+<th>Fecha</th>
+<th>Total</th>
+<th>Abrir</th>
+<th>Eliminar</th>
+
+</tr>
+
+</thead>
+
+<tbody id="listaHistorial"></tbody>
+
+</table>
+
+</div>
+
 </div>
 
 <script>
@@ -405,18 +438,22 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381
 const RUC="10617365036"
 const PASS="yuri2026"
 
-let contador=localStorage.getItem("contador")||0
+let historial=JSON.parse(localStorage.getItem("historial"))||[]
+let clientes=JSON.parse(localStorage.getItem("clientes"))||[]
 
 function login(){
 
-let r=document.getElementById("ruc").value
-let p=document.getElementById("pass").value
-
-if(r===RUC && p===PASS){
+if(
+document.getElementById("ruc").value===RUC &&
+document.getElementById("pass").value===PASS
+){
 
 document.getElementById("login").style.display="none"
 document.getElementById("app").style.display="block"
 
+cargarLogos()
+cargarClientes()
+mostrarHistorial()
 nuevaCotizacion()
 
 }else{
@@ -427,23 +464,7 @@ document.getElementById("error").innerText="Datos incorrectos"
 
 }
 
-function nuevaCotizacion(){
-
-contador++
-
-localStorage.setItem("contador",contador)
-
-let year=new Date().getFullYear()
-let numero=String(contador).padStart(4,'0')+"-"+year
-
-document.getElementById("numCot").value=numero
-
-document.querySelector("#tabla tbody").innerHTML=""
-
-agregarItem()
-calcular()
-
-}
+/* ITEMS */
 
 function agregarItem(){
 
@@ -456,16 +477,9 @@ fila.innerHTML=`
 <td><input></td>
 <td><textarea></textarea></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
-<td>
-<select>
-<option>UND</option>
-<option>M2</option>
-<option>M</option>
-<option>KG</option>
-</select>
-</td>
+<td><select><option>UND</option><option>M2</option></select></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
-<td class="sub">0.00</td>
+<td class="sub">0</td>
 <td><button onclick="eliminarFila(this)">X</button></td>
 `
 
@@ -473,22 +487,13 @@ tbody.appendChild(fila)
 
 }
 
-function eliminarFila(btn){
+function eliminarFila(b){
 
-btn.parentElement.parentElement.remove()
-
-reordenar()
-calcular()
+b.parentElement.parentElement.remove()
 
 }
 
-function reordenar(){
-
-document.querySelectorAll("#tabla tbody tr").forEach((f,i)=>{
-f.children[0].innerText=i+1
-})
-
-}
+/* CALCULO */
 
 function calcular(){
 
@@ -496,14 +501,14 @@ let total=0
 
 document.querySelectorAll("#tabla tbody tr").forEach(f=>{
 
-let cant=parseFloat(f.children[3].children[0].value)||0
-let pu=parseFloat(f.children[5].children[0].value)||0
+let c=f.children[3].children[0].value
+let p=f.children[5].children[0].value
 
-let sub=cant*pu
+let s=c*p
 
-f.querySelector(".sub").innerText=sub.toFixed(2)
+f.querySelector(".sub").innerText=s.toFixed(2)
 
-total+=sub
+total+=s
 
 })
 
@@ -513,23 +518,164 @@ document.getElementById("total").innerText=(total*1.18).toFixed(2)
 
 }
 
-function vistaPrevia(){
-document.getElementById("a4").classList.toggle("preview-mode")
+/* GUARDAR */
+
+function guardarCotizacion(){
+
+let data={
+numero:document.getElementById("numCot").value,
+cliente:document.getElementById("clienteNombre").value,
+fecha:document.getElementById("fechaEmision").value,
+total:document.getElementById("total").innerText
 }
+
+historial.push(data)
+
+localStorage.setItem("historial",JSON.stringify(historial))
+
+mostrarHistorial()
+
+}
+
+/* HISTORIAL */
+
+function mostrarHistorial(){
+
+let t=document.getElementById("listaHistorial")
+
+t.innerHTML=""
+
+historial.forEach((h,i)=>{
+
+t.innerHTML+=`
+
+<tr>
+
+<td>${h.numero}</td>
+<td>${h.cliente}</td>
+<td>${h.fecha}</td>
+<td>${h.total}</td>
+
+<td><button onclick="abrirCot(${i})">Abrir</button></td>
+
+<td><button onclick="eliminarCot(${i})">X</button></td>
+
+</tr>
+
+`
+
+})
+
+}
+
+function abrirCot(i){
+
+let c=historial[i]
+
+document.getElementById("numCot").value=c.numero
+document.getElementById("clienteNombre").value=c.cliente
+
+}
+
+function eliminarCot(i){
+
+historial.splice(i,1)
+
+localStorage.setItem("historial",JSON.stringify(historial))
+
+mostrarHistorial()
+
+}
+
+function filtrarHistorial(){
+
+let f=document.getElementById("buscar").value.toLowerCase()
+
+document.querySelectorAll("#listaHistorial tr").forEach(r=>{
+r.style.display=r.innerText.toLowerCase().includes(f)?"":"none"
+})
+
+}
+
+/* LOGOS */
+
+function subirLogo(id){
+
+let input=document.createElement("input")
+input.type="file"
+
+input.onchange=e=>{
+
+let reader=new FileReader()
+
+reader.onload=function(){
+
+document.getElementById(id).src=reader.result
+localStorage.setItem(id,reader.result)
+
+}
+
+reader.readAsDataURL(e.target.files[0])
+
+}
+
+input.click()
+
+}
+
+function cargarLogos(){
+
+["logo1","logo2","logo3"].forEach(id=>{
+
+let d=localStorage.getItem(id)
+
+if(d)document.getElementById(id).src=d
+
+})
+
+}
+
+function subirFirma(){
+
+let input=document.createElement("input")
+input.type="file"
+
+input.onchange=e=>{
+
+let reader=new FileReader()
+
+reader.onload=function(){
+
+document.getElementById("firmaImg").src=reader.result
+localStorage.setItem("firma",reader.result)
+
+}
+
+reader.readAsDataURL(e.target.files[0])
+
+}
+
+input.click()
+
+}
+
+/* EXPORTACIONES */
 
 function descargarPDF(){
 
-document.getElementById("a4").classList.add("preview-mode")
+html2pdf().from(document.getElementById("a4")).save()
 
-let cliente=document.getElementById("clienteNombre").value||"Cliente"
-let numero=document.getElementById("numCot").value
+}
 
-html2pdf().set({
-filename:`Cotizacion_${numero}_${cliente}.pdf`,
-html2canvas:{scale:2},
-jsPDF:{unit:'px',format:[794,1123]}
-}).from(document.getElementById("a4")).save().then(()=>{
-document.getElementById("a4").classList.remove("preview-mode")
+function exportarImagen(){
+
+html2canvas(document.getElementById("a4")).then(canvas=>{
+
+let link=document.createElement("a")
+link.download="cotizacion.png"
+link.href=canvas.toDataURL()
+link.click()
+
 })
 
 }
