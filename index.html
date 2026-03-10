@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VIDRIOS Y ALUMINIOS YURI - Cotizador</title>
+<title>VIDRIOS Y ALUMINIOS YURI - Cotizador Profesional</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
@@ -44,7 +44,7 @@ display:none;
 padding:20px;
 }
 
-/* BOTONES */
+/* CONTROLES */
 
 .controls{
 text-align:center;
@@ -55,8 +55,8 @@ button{
 background:#1f4e79;
 color:white;
 border:none;
-padding:7px 14px;
-margin:3px;
+padding:8px 14px;
+margin:4px;
 cursor:pointer;
 border-radius:4px;
 }
@@ -70,134 +70,100 @@ min-height:297mm;
 background:white;
 margin:auto;
 padding:20mm;
+box-sizing:border-box;
 box-shadow:0 0 10px rgba(0,0,0,0.2);
 position:relative;
-box-sizing:border-box;
 
 }
 
 /* HEADER */
 
 .header{
-
 text-align:center;
 position:relative;
-
 }
 
 .logo{
-
 width:90px;
 position:absolute;
 top:0;
-
 }
 
-.logo-left{ left:0 }
-.logo-right{ right:0 }
+.logo-left{left:0}
+.logo-right{right:0}
 
 .direccion{
-
 width:100%;
 text-align:center;
-
 }
 
 /* CLIENTE */
 
 .cliente{
-
 background:#d9e8fb;
 padding:10px;
 margin-top:15px;
 border-radius:6px;
-
 }
 
 .campo{
-
 display:flex;
 margin-bottom:6px;
-
 }
 
 .campo label{
-
 width:120px;
 font-weight:bold;
-
 }
 
 .editable{
-
 border:1px solid #1f4e79;
 padding:4px;
 flex:1;
-
 }
 
 /* TABLA */
 
 table{
-
 width:100%;
 border-collapse:collapse;
 margin-top:10px;
-
 }
 
 th{
-
 background:#1f4e79;
 color:white;
 padding:6px;
-
 }
 
 td{
-
 border:1px solid #333;
 padding:4px;
-
 }
 
-td input,td textarea{
-
+td input, td textarea{
 width:100%;
 border:none;
-
 }
 
 /* TOTALES */
 
 .totales{
-
 text-align:right;
 margin-top:10px;
-
 }
 
 /* METODO */
 
 .metodoPago{
-
 margin-top:20px;
-
 }
 
 /* FIRMA */
 
 .firma{
-
 text-align:center;
 margin-top:30px;
-
-}
-
-.firma img{
-
-width:140px;
-
 }
 
 /* FOOTER */
@@ -211,7 +177,7 @@ right:0;
 background:#1f4e79;
 color:white;
 text-align:center;
-padding:8px;
+padding:10px;
 font-size:13px;
 
 }
@@ -219,39 +185,22 @@ font-size:13px;
 /* HISTORIAL */
 
 #historial{
-
-margin-top:30px;
+margin-top:40px;
 background:white;
 padding:20px;
 border-radius:8px;
-
 }
 
-/* PRINT / PDF */
+/* MODO PDF LIMPIO */
 
-@media print{
-
-.controls,
-#historial,
-button{
-
-display:none;
-
+.pdf-mode button,
+.pdf-mode .controls,
+.pdf-mode #historial{
+display:none !important;
 }
 
-.editable{
-
-border:none;
-
-}
-
-#a4{
-
-box-shadow:none;
-margin:0;
-
-}
-
+.pdf-mode .editable{
+border:none !important;
 }
 
 </style>
@@ -281,7 +230,7 @@ margin:0;
 <div class="controls">
 
 <button onclick="vistaPrevia()">Vista previa</button>
-<button onclick="descargarPDF()">PDF</button>
+<button onclick="descargarPDF()">Descargar PDF</button>
 <button onclick="guardarCotizacion()">Guardar</button>
 <button onclick="nuevaCotizacion()">Nueva</button>
 
@@ -290,9 +239,6 @@ margin:0;
 <div id="a4">
 
 <div class="header">
-
-<img id="logo1" class="logo logo-left">
-<img id="logo2" class="logo logo-right">
 
 <h2>VIDRIOS Y ALUMINIOS YURI</h2>
 <h4>YURI HERMOZA PUELLES</h4>
@@ -399,7 +345,7 @@ CCI: 00 2526 1711 0716 4027 21
 
 <div class="firma">
 
-<br>_____________________<br>
+<br>________________________<br>
 Firma
 
 </div>
@@ -407,7 +353,6 @@ Firma
 <div class="footer">
 
 CC.HACCA S/N OMACHÁ - PARURO - CUSCO<br>
-
 Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381<br>
 
 <i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
@@ -489,9 +434,7 @@ tbody.appendChild(fila)
 }
 
 function eliminarFila(b){
-
 b.parentElement.parentElement.remove()
-
 }
 
 function calcular(){
@@ -550,29 +493,33 @@ t.innerHTML=""
 historial.forEach(h=>{
 
 t.innerHTML+=`
-
 <tr>
-
 <td>${h.numero}</td>
 <td>${h.cliente}</td>
 <td>${h.fecha}</td>
 <td>${h.total}</td>
-
 </tr>
-
 `
 
 })
 
 }
 
+/* VISTA PREVIA */
+
 function vistaPrevia(){
 
+document.body.classList.add("pdf-mode")
 window.print()
+document.body.classList.remove("pdf-mode")
 
 }
 
+/* PDF */
+
 function descargarPDF(){
+
+document.body.classList.add("pdf-mode")
 
 let numero=document.getElementById("numCot").value || "cotizacion"
 let cliente=document.getElementById("clienteNombre").value || "cliente"
@@ -586,7 +533,11 @@ html2canvas:{scale:3},
 jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
 }
 
-html2pdf().set(opt).from(document.getElementById("a4")).save()
+html2pdf().set(opt).from(document.getElementById("a4")).save().then(()=>{
+
+document.body.classList.remove("pdf-mode")
+
+})
 
 }
 
