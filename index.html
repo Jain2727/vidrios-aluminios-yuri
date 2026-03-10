@@ -10,9 +10,9 @@
 <style>
 
 body{
-font-family:'Arial Narrow',Arial;
+font-family:Arial Narrow,Arial;
 margin:0;
-background:linear-gradient(135deg,#e7eef6,#ffffff);
+background:linear-gradient(135deg,#e9f1fb,#ffffff);
 }
 
 /* LOGIN */
@@ -20,8 +20,8 @@ background:linear-gradient(135deg,#e7eef6,#ffffff);
 #login{
 height:100vh;
 display:flex;
-justify-content:center;
 align-items:center;
+justify-content:center;
 background:#1f4e79;
 }
 
@@ -46,22 +46,24 @@ display:none;
 padding:20px;
 }
 
+/* CONTROLES */
+
+.controls{
+text-align:center;
+margin-bottom:20px;
+}
+
 button{
 background:#1f4e79;
 color:white;
 border:none;
 padding:6px 12px;
-cursor:pointer;
 border-radius:4px;
+cursor:pointer;
 }
 
 button:hover{
 background:#163a5a;
-}
-
-.controls{
-text-align:center;
-margin-bottom:20px;
 }
 
 /* HOJA */
@@ -95,17 +97,18 @@ top:0;
 
 .header h1{
 margin:0;
-font-size:38px;
+font-size:36px;
 color:#1f4e79;
 }
 
 .header h2{
-margin:2px 0;
+margin:3px 0;
 font-size:18px;
 }
 
 .direccion{
 width:95%;
+text-align:center;
 }
 
 /* CLIENTE */
@@ -120,11 +123,21 @@ flex-direction:column;
 gap:6px;
 }
 
-/* CAMPOS */
+.campo{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.campo label{
+width:120px;
+font-weight:bold;
+}
 
 .editable{
 border:1px solid #1f4e79;
 padding:3px;
+flex:1;
 }
 
 .preview-mode .editable{
@@ -169,6 +182,14 @@ background:transparent;
 text-align:right;
 margin-top:10px;
 font-size:15px;
+}
+
+/* METODO PAGO */
+
+.metodoPago{
+margin-top:20px;
+text-align:left;
+font-size:14px;
 }
 
 /* FIRMA */
@@ -217,10 +238,10 @@ display:none !important;
 
 <body>
 
-<!-- LOGIN -->
-
 <div id="login">
+
 <div class="login-box">
+
 <h3>Inicio de Sesión</h3>
 
 <input id="ruc" placeholder="RUC">
@@ -229,10 +250,9 @@ display:none !important;
 <button onclick="login()">Ingresar</button>
 
 <div id="error" style="color:red"></div>
-</div>
-</div>
 
-<!-- APP -->
+</div>
+</div>
 
 <div id="app">
 
@@ -253,15 +273,13 @@ display:none !important;
 <img id="logo1" class="logo logo-left">
 <img id="logo2" class="logo logo-right">
 
-<button style="position:absolute;left:0;top:110px" onclick="cargarLogo(1)">Modificar Logo</button>
-<button style="position:absolute;right:0;top:110px" onclick="cargarLogo(2)">Modificar Logo</button>
-
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 <h2>YURI HERMOZA PUELLES</h2>
 
 RUC: 10617365036<br>
 
-Dirección:
+Dirección:<br>
+
 <input id="direccionLocal" class="editable direccion" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
 
 <hr>
@@ -292,26 +310,25 @@ Válido hasta
 
 <b>CLIENTE</b>
 
-Nombre
-<input id="clienteNombre" class="editable" list="clientesLista">
+<div class="campo">
+<label>Nombre:</label>
+<input id="clienteNombre" class="editable">
+</div>
 
-<datalist id="clientesLista"></datalist>
-
-DNI / RUC
+<div class="campo">
+<label>DNI / RUC:</label>
 <input id="clienteDoc" class="editable">
+</div>
 
-Teléfono
+<div class="campo">
+<label>Teléfono:</label>
 <input id="clienteTel" class="editable">
+</div>
 
-Dirección
+<div class="campo">
+<label>Dirección:</label>
 <input id="clienteDir" class="editable">
-
-<br>
-
-<b>Método de Pago</b>
-
-Cuenta BCP: 52671107164027  
-CCI:  00 2526 1711 0716 4027 21
+</div>
 
 </div>
 
@@ -320,9 +337,7 @@ CCI:  00 2526 1711 0716 4027 21
 <table id="tabla">
 
 <thead>
-
 <tr>
-
 <th>Item</th>
 <th>Código</th>
 <th>Descripción</th>
@@ -331,9 +346,7 @@ CCI:  00 2526 1711 0716 4027 21
 <th>P.Unit</th>
 <th>Subtotal</th>
 <th>X</th>
-
 </tr>
-
 </thead>
 
 <tbody></tbody>
@@ -347,6 +360,15 @@ Costo: S/ <span id="costo">0.00</span><br>
 IGV (18%): S/ <span id="igv">0.00</span><br>
 
 <b>Total: S/ <span id="total">0.00</span></b>
+
+</div>
+
+<div class="metodoPago">
+
+<b>Método de pago</b><br>
+
+Cuenta BCP: 52671107164027<br>
+CCI: 00 2526 1711 0716 4027 21
 
 </div>
 
@@ -376,35 +398,6 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381
 
 </div>
 
-<div id="historial">
-
-<h3>Historial de Cotizaciones</h3>
-
-Buscar <input id="buscar" onkeyup="filtrar()">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>N°</th>
-<th>Cliente</th>
-<th>Fecha</th>
-<th>Total</th>
-<th>Editar</th>
-<th>Eliminar</th>
-
-</tr>
-
-</thead>
-
-<tbody id="listaHistorial"></tbody>
-
-</table>
-
-</div>
-
 </div>
 
 <script>
@@ -413,8 +406,6 @@ const RUC="10617365036"
 const PASS="yuri2026"
 
 let contador=localStorage.getItem("contador")||0
-let historial=JSON.parse(localStorage.getItem("historial"))||[]
-let clientes=JSON.parse(localStorage.getItem("clientes"))||[]
 
 function login(){
 
@@ -426,10 +417,7 @@ if(r===RUC && p===PASS){
 document.getElementById("login").style.display="none"
 document.getElementById("app").style.display="block"
 
-cargarImagenes()
-cargarClientes()
 nuevaCotizacion()
-mostrarHistorial()
 
 }else{
 
@@ -488,6 +476,7 @@ tbody.appendChild(fila)
 function eliminarFila(btn){
 
 btn.parentElement.parentElement.remove()
+
 reordenar()
 calcular()
 
@@ -553,142 +542,6 @@ let cliente=document.getElementById("clienteNombre").value
 let texto=`Hola, te envío la cotización ${numero} para ${cliente}.`
 
 window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`)
-
-}
-
-function guardarCotizacion(){
-
-let data={
-numero:document.getElementById("numCot").value,
-cliente:document.getElementById("clienteNombre").value,
-fecha:new Date().toLocaleDateString(),
-total:document.getElementById("total").innerText
-}
-
-historial.push(data)
-
-localStorage.setItem("historial",JSON.stringify(historial))
-
-mostrarHistorial()
-
-}
-
-function mostrarHistorial(){
-
-let tbody=document.getElementById("listaHistorial")
-
-tbody.innerHTML=""
-
-historial.forEach((h,i)=>{
-
-tbody.innerHTML+=`
-
-<tr>
-
-<td>${h.numero}</td>
-<td>${h.cliente}</td>
-<td>${h.fecha}</td>
-<td>${h.total}</td>
-
-<td><button onclick="editarCot(${i})">Editar</button></td>
-
-<td><button onclick="eliminarHistorial(${i})">Eliminar</button></td>
-
-</tr>
-
-`
-
-})
-
-}
-
-function editarCot(i){
-
-document.getElementById("numCot").value=historial[i].numero
-document.getElementById("clienteNombre").value=historial[i].cliente
-
-}
-
-function eliminarHistorial(i){
-
-historial.splice(i,1)
-
-localStorage.setItem("historial",JSON.stringify(historial))
-
-mostrarHistorial()
-
-}
-
-function filtrar(){
-
-let f=document.getElementById("buscar").value.toLowerCase()
-
-document.querySelectorAll("#listaHistorial tr").forEach(r=>{
-r.style.display=r.innerText.toLowerCase().includes(f)?"":"none"
-})
-
-}
-
-function cargarLogo(n){
-
-let input=document.createElement("input")
-
-input.type="file"
-
-input.onchange=e=>{
-
-let reader=new FileReader()
-
-reader.onload=function(){
-
-document.getElementById("logo"+n).src=reader.result
-localStorage.setItem("logo"+n,reader.result)
-
-}
-
-reader.readAsDataURL(e.target.files[0])
-
-}
-
-input.click()
-
-}
-
-function subirFirma(){
-
-let input=document.createElement("input")
-
-input.type="file"
-
-input.onchange=e=>{
-
-let reader=new FileReader()
-
-reader.onload=function(){
-
-document.getElementById("firmaImg").src=reader.result
-localStorage.setItem("firma",reader.result)
-
-}
-
-reader.readAsDataURL(e.target.files[0])
-
-}
-
-input.click()
-
-}
-
-function cargarImagenes(){
-
-if(localStorage.getItem("logo1"))
-document.getElementById("logo1").src=localStorage.getItem("logo1")
-
-if(localStorage.getItem("logo2"))
-document.getElementById("logo2").src=localStorage.getItem("logo2")
-
-if(localStorage.getItem("firma"))
-document.getElementById("firmaImg").src=localStorage.getItem("firma")
 
 }
 
