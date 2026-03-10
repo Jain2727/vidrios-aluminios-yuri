@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VIDRIOS Y ALUMINIOS YURI - Sistema Profesional</title>
+<title>Sistema de Cotizaciones - Vidrios y Aluminios Yuri</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -12,7 +12,7 @@
 body{
 font-family:Arial;
 margin:0;
-background:linear-gradient(135deg,#eef3fb,#ffffff);
+background:#eef3fb;
 }
 
 /* LOGIN */
@@ -27,10 +27,9 @@ background:#1f4e79;
 
 .login-box{
 background:white;
-padding:35px;
-width:360px;
+padding:30px;
+width:350px;
 border-radius:10px;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
 .login-box input{
@@ -46,8 +45,6 @@ display:none;
 padding:20px;
 }
 
-/* CONTROLES */
-
 .controls{
 text-align:center;
 margin-bottom:20px;
@@ -58,26 +55,19 @@ background:#1f4e79;
 color:white;
 border:none;
 padding:6px 12px;
-margin:2px;
-border-radius:4px;
+margin:3px;
 cursor:pointer;
-}
-
-button:hover{
-background:#163a5a;
+border-radius:4px;
 }
 
 /* HOJA */
 
 #a4{
 width:794px;
-min-height:1123px;
 background:white;
 margin:auto;
 padding:40px;
-box-sizing:border-box;
-position:relative;
-box-shadow:0 5px 20px rgba(0,0,0,0.15);
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
 
 /* HEADER */
@@ -96,12 +86,6 @@ top:0;
 .logo-left{left:0}
 .logo-right{right:0}
 
-.logo-center{
-width:120px;
-display:block;
-margin:auto;
-}
-
 .direccion{
 width:90%;
 text-align:center;
@@ -110,16 +94,15 @@ text-align:center;
 /* CLIENTE */
 
 .cliente{
-margin-top:15px;
-padding:12px;
 background:#d9e8fb;
+padding:12px;
+margin-top:15px;
 border-radius:6px;
 }
 
 .campo{
 display:flex;
-align-items:center;
-margin-bottom:5px;
+margin-bottom:6px;
 }
 
 .campo label{
@@ -131,11 +114,6 @@ font-weight:bold;
 border:1px solid #1f4e79;
 padding:3px;
 flex:1;
-}
-
-.preview-mode .editable{
-border:none;
-background:transparent;
 }
 
 /* TABLA */
@@ -157,15 +135,8 @@ border:1px solid #333;
 padding:4px;
 }
 
-td input,td textarea,td select{
+td input, td textarea{
 width:100%;
-}
-
-.preview-mode td input,
-.preview-mode td textarea,
-.preview-mode td select{
-border:none;
-background:transparent;
 }
 
 /* TOTALES */
@@ -189,13 +160,13 @@ margin-top:40px;
 }
 
 .firma img{
-width:180px;
+width:160px;
 }
 
 /* FOOTER */
 
 .footer{
-margin-top:30px;
+margin-top:40px;
 background:#1f4e79;
 color:white;
 text-align:center;
@@ -210,11 +181,7 @@ margin-top:40px;
 background:white;
 padding:20px;
 border-radius:8px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
-}
-
-.preview-mode button{
-display:none !important;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 </style>
@@ -236,6 +203,7 @@ display:none !important;
 <div id="error" style="color:red"></div>
 
 </div>
+
 </div>
 
 <div id="app">
@@ -257,13 +225,9 @@ display:none !important;
 
 <img id="logo1" class="logo logo-left">
 <img id="logo2" class="logo logo-right">
-<img id="logo3" class="logo-center">
-
-<br>
 
 <button onclick="subirLogo('logo1')">Logo Izq</button>
 <button onclick="subirLogo('logo2')">Logo Der</button>
-<button onclick="subirLogo('logo3')">Logo Centro</button>
 
 <h1>VIDRIOS Y ALUMINIOS YURI</h1>
 <h3>YURI HERMOZA PUELLES</h3>
@@ -281,21 +245,16 @@ RUC: 10617365036
 <div style="display:flex;justify-content:space-between">
 
 <div>
-
 <b>COTIZACIÓN N°</b>
-
 <input id="numCot" class="editable">
-
 </div>
 
 <div>
 
 Fecha emisión
-
 <input type="date" id="fechaEmision" class="editable"><br>
 
 Validez
-
 <input type="date" id="fechaValidez" class="editable">
 
 </div>
@@ -337,7 +296,6 @@ Validez
 <thead>
 
 <tr>
-
 <th>Item</th>
 <th>Código</th>
 <th>Descripción</th>
@@ -346,7 +304,6 @@ Validez
 <th>P.Unit</th>
 <th>Subtotal</th>
 <th>X</th>
-
 </tr>
 
 </thead>
@@ -370,7 +327,6 @@ IGV: S/ <span id="igv">0</span><br>
 <b>Método de Pago</b><br>
 
 Cuenta BCP: 52671107164027<br>
-
 CCI: 00 2526 1711 0716 4027 21
 
 </div>
@@ -403,7 +359,7 @@ Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381
 
 <div id="historial">
 
-<h3>Historial</h3>
+<h3>Historial de Cotizaciones</h3>
 
 Buscar
 <input id="buscar" onkeyup="filtrarHistorial()">
@@ -413,14 +369,12 @@ Buscar
 <thead>
 
 <tr>
-
 <th>N°</th>
 <th>Cliente</th>
 <th>Fecha</th>
 <th>Total</th>
 <th>Abrir</th>
 <th>Eliminar</th>
-
 </tr>
 
 </thead>
@@ -452,8 +406,9 @@ document.getElementById("login").style.display="none"
 document.getElementById("app").style.display="block"
 
 cargarLogos()
-cargarClientes()
+cargarFirma()
 mostrarHistorial()
+cargarClientes()
 nuevaCotizacion()
 
 }else{
@@ -477,7 +432,7 @@ fila.innerHTML=`
 <td><input></td>
 <td><textarea></textarea></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
-<td><select><option>UND</option><option>M2</option></select></td>
+<td><input></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
 <td class="sub">0</td>
 <td><button onclick="eliminarFila(this)">X</button></td>
@@ -518,15 +473,40 @@ document.getElementById("total").innerText=(total*1.18).toFixed(2)
 
 }
 
+/* NUEVA */
+
+function nuevaCotizacion(){
+
+document.querySelector("#tabla tbody").innerHTML=""
+
+agregarItem()
+
+}
+
 /* GUARDAR */
 
 function guardarCotizacion(){
+
+let items=[]
+
+document.querySelectorAll("#tabla tbody tr").forEach(f=>{
+
+items.push({
+codigo:f.children[1].children[0].value,
+desc:f.children[2].children[0].value,
+cant:f.children[3].children[0].value,
+unidad:f.children[4].children[0].value,
+precio:f.children[5].children[0].value
+})
+
+})
 
 let data={
 numero:document.getElementById("numCot").value,
 cliente:document.getElementById("clienteNombre").value,
 fecha:document.getElementById("fechaEmision").value,
-total:document.getElementById("total").innerText
+total:document.getElementById("total").innerText,
+items:items
 }
 
 historial.push(data)
@@ -625,7 +605,7 @@ input.click()
 
 function cargarLogos(){
 
-["logo1","logo2","logo3"].forEach(id=>{
+["logo1","logo2"].forEach(id=>{
 
 let d=localStorage.getItem(id)
 
@@ -634,6 +614,8 @@ if(d)document.getElementById(id).src=d
 })
 
 }
+
+/* FIRMA */
 
 function subirFirma(){
 
@@ -659,7 +641,15 @@ input.click()
 
 }
 
-/* EXPORTACIONES */
+function cargarFirma(){
+
+let f=localStorage.getItem("firma")
+
+if(f)document.getElementById("firmaImg").src=f
+
+}
+
+/* EXPORTAR */
 
 function descargarPDF(){
 
