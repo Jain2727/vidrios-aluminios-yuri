@@ -407,11 +407,8 @@ document.getElementById("login").style.display="none"
 document.getElementById("app").style.display="block"
 
 cargarImagenes()
-
 cargarClientes()
-
 nuevaCotizacion()
-
 mostrarHistorial()
 
 }else{
@@ -497,7 +494,6 @@ let total=0
 document.querySelectorAll("#tabla tbody tr").forEach(f=>{
 
 let cant=parseFloat(f.children[3].children[0].value)||0
-
 let pu=parseFloat(f.children[5].children[0].value)||0
 
 let sub=cant*pu
@@ -509,17 +505,13 @@ total+=sub
 })
 
 document.getElementById("costo").innerText=total.toFixed(2)
-
 document.getElementById("igv").innerText=(total*0.18).toFixed(2)
-
 document.getElementById("total").innerText=(total*1.18).toFixed(2)
 
 }
 
 function vistaPrevia(){
-
 document.getElementById("a4").classList.toggle("preview-mode")
-
 }
 
 function descargarPDF(){
@@ -530,17 +522,11 @@ let cliente=document.getElementById("clienteNombre").value||"Cliente"
 let numero=document.getElementById("numCot").value
 
 html2pdf().set({
-
 filename:`Cotizacion_${numero}_${cliente}.pdf`,
-
 html2canvas:{scale:2},
-
 jsPDF:{unit:'px',format:[794,1123]}
-
 }).from(document.getElementById("a4")).save().then(()=>{
-
 document.getElementById("a4").classList.remove("preview-mode")
-
 })
 
 }
@@ -548,12 +534,10 @@ document.getElementById("a4").classList.remove("preview-mode")
 function guardarCotizacion(){
 
 let data={
-
 numero:document.getElementById("numCot").value,
 cliente:document.getElementById("clienteNombre").value,
 fecha:new Date().toLocaleDateString(),
 total:document.getElementById("total").innerText
-
 }
 
 historial.push(data)
@@ -589,9 +573,7 @@ let lista=document.getElementById("clientesLista")
 lista.innerHTML=""
 
 clientes.forEach(c=>{
-
 lista.innerHTML+=`<option value="${c}">`
-
 })
 
 }
@@ -613,7 +595,7 @@ tbody.innerHTML+=`
 <td>${h.fecha}</td>
 <td>${h.total}</td>
 
-<td><button onclick="alert('Cargar edición próximamente')">Cargar</button></td>
+<td><button onclick="alert('Carga avanzada próximamente')">Cargar</button></td>
 
 <td><button onclick="eliminarHistorial(${i})">Eliminar</button></td>
 
@@ -640,9 +622,7 @@ function filtrar(){
 let f=document.getElementById("buscar").value.toLowerCase()
 
 document.querySelectorAll("#listaHistorial tr").forEach(r=>{
-
 r.style.display=r.innerText.toLowerCase().includes(f)?"":"none"
-
 })
 
 }
@@ -650,7 +630,6 @@ r.style.display=r.innerText.toLowerCase().includes(f)?"":"none"
 function cargarLogo(n){
 
 let input=document.createElement("input")
-
 input.type="file"
 
 input.onchange=e=>{
@@ -660,7 +639,6 @@ let reader=new FileReader()
 reader.onload=function(){
 
 document.getElementById("logo"+n).src=reader.result
-
 localStorage.setItem("logo"+n,reader.result)
 
 }
@@ -676,7 +654,6 @@ input.click()
 function subirFirma(){
 
 let input=document.createElement("input")
-
 input.type="file"
 
 input.onchange=e=>{
@@ -686,7 +663,6 @@ let reader=new FileReader()
 reader.onload=function(){
 
 document.getElementById("firmaImg").src=reader.result
-
 localStorage.setItem("firma",reader.result)
 
 }
@@ -701,11 +677,14 @@ input.click()
 
 function cargarImagenes(){
 
-if(localStorage.getItem("logo1")) document.getElementById("logo1").src=localStorage.getItem("logo1")
+if(localStorage.getItem("logo1"))
+document.getElementById("logo1").src=localStorage.getItem("logo1")
 
-if(localStorage.getItem("logo2")) document.getElementById("logo2").src=localStorage.getItem("logo2")
+if(localStorage.getItem("logo2"))
+document.getElementById("logo2").src=localStorage.getItem("logo2")
 
-if(localStorage.getItem("firma")) document.getElementById("firmaImg").src=localStorage.getItem("firma")
+if(localStorage.getItem("firma"))
+document.getElementById("firmaImg").src=localStorage.getItem("firma")
 
 }
 
