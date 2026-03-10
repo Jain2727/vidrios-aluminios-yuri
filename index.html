@@ -2,19 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>VIDRIOS Y ALUMINIOS YURI - Sistema Profesional</title>
+<title>Sistema Profesional - Vidrios y Aluminios Yuri</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 
 body{
-font-family:"Arial Narrow",Arial,sans-serif;
+font-family:"Arial Narrow",Arial;
 background:#eef3fb;
 margin:0;
 }
-
-/* LOGIN */
 
 #login{
 height:100vh;
@@ -27,43 +25,30 @@ background:#1f4e79;
 .login-box{
 background:white;
 padding:30px;
-border-radius:10px;
 width:350px;
+border-radius:8px;
 }
-
-.login-box input{
-width:100%;
-padding:8px;
-margin-bottom:10px;
-font-family:"Arial Narrow";
-}
-
-/* APP */
 
 #app{
 display:none;
 padding:20px;
 }
 
-/* BOTONES */
-
-.controls{
-text-align:center;
-margin-bottom:20px;
-}
-
 button{
 background:#1f4e79;
 color:white;
 border:none;
-padding:8px 14px;
+padding:7px 14px;
 margin:4px;
 cursor:pointer;
 border-radius:4px;
 font-family:"Arial Narrow";
 }
 
-/* A4 */
+.controls{
+text-align:center;
+margin-bottom:15px;
+}
 
 #a4{
 width:210mm;
@@ -72,11 +57,9 @@ background:white;
 margin:auto;
 padding:20mm;
 box-sizing:border-box;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
 position:relative;
+box-shadow:0 0 10px rgba(0,0,0,.2);
 }
-
-/* HEADER */
 
 .header{
 text-align:center;
@@ -92,38 +75,11 @@ top:0;
 .logo-left{left:0;}
 .logo-right{right:0;}
 
-.direccion{
-width:100%;
-text-align:center;
-}
-
-/* CLIENTE */
-
-.cliente{
-background:#d9e8fb;
-padding:10px;
-margin-top:15px;
-border-radius:6px;
-}
-
-.campo{
-display:flex;
-margin-bottom:6px;
-}
-
-.campo label{
-width:120px;
-font-weight:bold;
-}
-
 .editable{
 border:1px solid #1f4e79;
 padding:4px;
-flex:1;
 font-family:"Arial Narrow";
 }
-
-/* TABLA */
 
 table{
 width:100%;
@@ -142,37 +98,11 @@ border:1px solid #333;
 padding:4px;
 }
 
-td input,td textarea{
+td input, td textarea{
 width:100%;
 border:none;
 font-family:"Arial Narrow";
 }
-
-/* TOTALES */
-
-.totales{
-text-align:right;
-margin-top:10px;
-}
-
-/* METODO */
-
-.metodoPago{
-margin-top:20px;
-}
-
-/* FIRMA */
-
-.firma{
-text-align:center;
-margin-top:40px;
-}
-
-.firma img{
-width:150px;
-}
-
-/* FOOTER */
 
 .footer{
 position:absolute;
@@ -186,8 +116,6 @@ padding:10px;
 font-size:13px;
 }
 
-/* VISTA PREVIA */
-
 #preview{
 display:none;
 position:fixed;
@@ -197,8 +125,8 @@ width:100%;
 height:100%;
 background:white;
 overflow:auto;
-z-index:9999;
 padding:20px;
+z-index:9999;
 }
 
 .preview-box{
@@ -206,15 +134,11 @@ width:210mm;
 margin:auto;
 }
 
-/* MODO LIMPIO */
-
-.pdf-mode button,
-.pdf-mode .controls{
-display:none !important;
-}
-
-.pdf-mode .editable{
-border:none !important;
+#panel{
+margin-top:20px;
+background:white;
+padding:10px;
+border-radius:6px;
 }
 
 </style>
@@ -223,7 +147,6 @@ border:none !important;
 <body>
 
 <div id="login">
-
 <div class="login-box">
 
 <h3>Inicio de Sesión</h3>
@@ -233,10 +156,9 @@ border:none !important;
 
 <button onclick="login()">Ingresar</button>
 
-<div id="error" style="color:red"></div>
+<div id="error"></div>
 
 </div>
-
 </div>
 
 <div id="app">
@@ -244,9 +166,10 @@ border:none !important;
 <div class="controls">
 
 <button onclick="vistaPrevia()">Vista previa</button>
-<button onclick="cerrarPreview()">Cerrar Vista</button>
-<button onclick="descargarPDF()">Descargar PDF</button>
-<button onclick="enviarWhatsApp()">Compartir WhatsApp</button>
+<button onclick="descargarPDF()">PDF</button>
+<button onclick="whatsappPDF()">WhatsApp</button>
+<button onclick="guardarCotizacion()">Guardar</button>
+<button onclick="duplicarCotizacion()">Duplicar</button>
 <button onclick="nuevaCotizacion()">Nueva</button>
 
 </div>
@@ -268,7 +191,7 @@ RUC: 10617365036
 
 <br>
 
-<input class="editable direccion" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
+<input class="editable" style="width:100%" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
 
 <hr>
 
@@ -282,41 +205,17 @@ RUC: 10617365036
 </div>
 
 <div>
-Fecha emisión
-<input type="date" id="fechaEmision" class="editable"><br>
-Validez
-<input type="date" id="fechaValidez" class="editable">
+Fecha
+<input type="date" id="fecha">
 </div>
 
 </div>
 
-<div class="cliente">
+<h4>CLIENTE</h4>
 
-<b>CLIENTE</b>
+<input id="clienteNombre" list="clientes" class="editable" placeholder="Nombre cliente">
 
-<div class="campo">
-<label>Nombre:</label>
-<input id="clienteNombre" class="editable">
-</div>
-
-<div class="campo">
-<label>DNI/RUC:</label>
-<input class="editable">
-</div>
-
-<div class="campo">
-<label>Teléfono:</label>
-<input class="editable">
-</div>
-
-<div class="campo">
-<label>Dirección:</label>
-<input class="editable">
-</div>
-
-</div>
-
-<button onclick="agregarItem()">Agregar Item</button>
+<datalist id="clientes"></datalist>
 
 <table id="tabla">
 
@@ -337,7 +236,10 @@ Validez
 
 </table>
 
-<div class="totales">
+<button onclick="agregarItem()">Agregar Item</button>
+<button onclick="insertarCatalogo()">Catálogo</button>
+
+<div style="text-align:right">
 
 Costo: S/ <span id="costo">0</span><br>
 IGV: S/ <span id="igv">0</span><br>
@@ -345,49 +247,49 @@ IGV: S/ <span id="igv">0</span><br>
 
 </div>
 
-<div class="metodoPago">
+<div style="text-align:center;margin-top:40px">
 
-<b>Método de Pago</b><br>
-
-Cuenta BCP: 52671107164027<br>
-CCI: 00 2526 1711 0716 4027 21
-
-</div>
-
-<div class="firma">
-
-<img id="firmaImg"><br>
+<img id="firmaImg" width="150"><br>
 
 <button onclick="subirFirma()">Subir Firma</button>
 
-<br>_______________________<br>
-Firma
+<br>________________________
 
 </div>
 
 <div class="footer">
 
 CC.HACCA S/N OMACHÁ - PARURO - CUSCO<br>
-Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381<br>
-
-<i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
+Correo: hermozayurihermozapuelles@gmail.com | Cel: 993963381
 
 </div>
+
+</div>
+
+<div id="panel">
+
+<h3>Historial Cotizaciones</h3>
+
+<div id="historial"></div>
+
+<h3>Estadísticas</h3>
+
+<div id="stats"></div>
 
 </div>
 
 </div>
 
 <div id="preview">
-
 <div class="preview-box" id="previewContent"></div>
-
 </div>
 
 <script>
 
 const RUC="10617365036"
 const PASS="yuri2026"
+
+/* LOGIN */
 
 function login(){
 
@@ -401,13 +303,40 @@ document.getElementById("app").style.display="block"
 
 cargarLogos()
 cargarFirma()
+cargarClientes()
+cargarHistorial()
 nuevaCotizacion()
 
 }else{
-
 document.getElementById("error").innerText="Datos incorrectos"
+}
 
 }
+
+/* NUMERACION */
+
+function generarNumero(){
+
+let n=localStorage.getItem("contador")||0
+n++
+
+localStorage.setItem("contador",n)
+
+let año=new Date().getFullYear()
+
+return String(n).padStart(4,"0")+"-"+año
+
+}
+
+/* NUEVA */
+
+function nuevaCotizacion(){
+
+document.getElementById("numCot").value=generarNumero()
+
+document.querySelector("#tabla tbody").innerHTML=""
+
+agregarItem()
 
 }
 
@@ -427,16 +356,14 @@ fila.innerHTML=`
 <td><input></td>
 <td><input type="number" value="0" onchange="calcular()"></td>
 <td class="sub">0</td>
-<td><button onclick="eliminarFila(this)">X</button></td>
+<td><button onclick="this.parentNode.parentNode.remove()">X</button></td>
 `
 
 tbody.appendChild(fila)
 
 }
 
-function eliminarFila(b){
-b.parentElement.parentElement.remove()
-}
+/* CALCULO */
 
 function calcular(){
 
@@ -449,21 +376,193 @@ let p=f.children[5].children[0].value
 
 let s=c*p
 
-f.querySelector(".sub").innerText=s.toFixed(2)
+f.querySelector(".sub").innerText=s
 
 total+=s
 
 })
 
-document.getElementById("costo").innerText=total.toFixed(2)
+document.getElementById("costo").innerText=total
 document.getElementById("igv").innerText=(total*0.18).toFixed(2)
 document.getElementById("total").innerText=(total*1.18).toFixed(2)
 
 }
 
-function nuevaCotizacion(){
-document.querySelector("#tabla tbody").innerHTML=""
-agregarItem()
+/* GUARDAR */
+
+function guardarCotizacion(){
+
+let cliente=document.getElementById("clienteNombre").value
+
+guardarCliente(cliente)
+
+let total=document.getElementById("total").innerText
+
+let cot={
+numero:document.getElementById("numCot").value,
+cliente:cliente,
+total:total
+}
+
+let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]")
+
+lista.push(cot)
+
+localStorage.setItem("cotizaciones",JSON.stringify(lista))
+
+cargarHistorial()
+actualizarStats()
+
+}
+
+/* HISTORIAL */
+
+function cargarHistorial(){
+
+let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]")
+
+let div=document.getElementById("historial")
+
+div.innerHTML=""
+
+lista.forEach(c=>{
+
+div.innerHTML+=`
+<div>
+${c.numero} - ${c.cliente} - S/${c.total}
+</div>
+`
+
+})
+
+}
+
+/* CLIENTES */
+
+function guardarCliente(nombre){
+
+let lista=JSON.parse(localStorage.getItem("clientes")||"[]")
+
+if(!lista.includes(nombre)){
+
+lista.push(nombre)
+
+localStorage.setItem("clientes",JSON.stringify(lista))
+
+cargarClientes()
+
+}
+
+}
+
+function cargarClientes(){
+
+let lista=JSON.parse(localStorage.getItem("clientes")||"[]")
+
+let d=document.getElementById("clientes")
+
+d.innerHTML=""
+
+lista.forEach(c=>{
+d.innerHTML+=`<option value="${c}">`
+})
+
+}
+
+/* ESTADISTICAS */
+
+function actualizarStats(){
+
+let lista=JSON.parse(localStorage.getItem("cotizaciones")||"[]")
+
+let total=0
+
+lista.forEach(c=> total+=Number(c.total))
+
+let promedio=lista.length?total/lista.length:0
+
+document.getElementById("stats").innerHTML=`
+Cotizaciones: ${lista.length}<br>
+Total vendido: S/${total}<br>
+Promedio: S/${promedio.toFixed(2)}
+`
+
+}
+
+/* CATALOGO */
+
+const catalogo=[
+{c:"VID01",d:"Vidrio templado",p:120},
+{c:"VID02",d:"Vidrio laminado",p:140},
+{c:"ALU01",d:"Perfil aluminio",p:35}
+]
+
+function insertarCatalogo(){
+
+let item=catalogo[Math.floor(Math.random()*catalogo.length)]
+
+let tbody=document.querySelector("#tabla tbody")
+
+let fila=tbody.rows[tbody.rows.length-1]
+
+fila.children[1].children[0].value=item.c
+fila.children[2].children[0].value=item.d
+fila.children[5].children[0].value=item.p
+
+calcular()
+
+}
+
+/* DUPLICAR */
+
+function duplicarCotizacion(){
+
+let num=generarNumero()
+
+document.getElementById("numCot").value=num
+
+}
+
+/* PDF */
+
+function descargarPDF(){
+
+let cliente=document.getElementById("clienteNombre").value
+
+let nombre=`Cotizacion_${cliente}.pdf`
+
+html2pdf().from(document.getElementById("a4")).set({
+filename:nombre,
+jsPDF:{unit:"mm",format:"a4"}
+}).save()
+
+}
+
+/* WHATSAPP */
+
+function whatsappPDF(){
+
+let cliente=document.getElementById("clienteNombre").value
+let total=document.getElementById("total").innerText
+
+let texto=`Hola ${cliente}, te envío tu cotización. Total S/ ${total}`
+
+window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`)
+
+}
+
+/* VISTA PREVIA */
+
+function vistaPrevia(){
+
+let copia=document.getElementById("a4").cloneNode(true)
+
+document.getElementById("previewContent").innerHTML=""
+
+document.getElementById("previewContent").appendChild(copia)
+
+document.getElementById("preview").style.display="block"
+
 }
 
 /* LOGOS */
@@ -475,16 +574,16 @@ input.type="file"
 
 input.onchange=e=>{
 
-let reader=new FileReader()
+let r=new FileReader()
 
-reader.onload=function(){
+r.onload=function(){
 
-document.getElementById(id).src=reader.result
-localStorage.setItem(id,reader.result)
+document.getElementById(id).src=r.result
+localStorage.setItem(id,r.result)
 
 }
 
-reader.readAsDataURL(e.target.files[0])
+r.readAsDataURL(e.target.files[0])
 
 }
 
@@ -496,11 +595,9 @@ function cargarLogos(){
 
 ["logo1","logo2"].forEach(id=>{
 
-let data=localStorage.getItem(id)
+let d=localStorage.getItem(id)
 
-if(data){
-document.getElementById(id).src=data
-}
+if(d) document.getElementById(id).src=d
 
 })
 
@@ -511,20 +608,22 @@ document.getElementById(id).src=data
 function subirFirma(){
 
 let input=document.createElement("input")
+
 input.type="file"
 
 input.onchange=e=>{
 
-let reader=new FileReader()
+let r=new FileReader()
 
-reader.onload=function(){
+r.onload=function(){
 
-document.getElementById("firmaImg").src=reader.result
-localStorage.setItem("firma",reader.result)
+document.getElementById("firmaImg").src=r.result
+
+localStorage.setItem("firma",r.result)
 
 }
 
-reader.readAsDataURL(e.target.files[0])
+r.readAsDataURL(e.target.files[0])
 
 }
 
@@ -536,72 +635,7 @@ function cargarFirma(){
 
 let f=localStorage.getItem("firma")
 
-if(f){
-document.getElementById("firmaImg").src=f
-}
-
-}
-
-/* VISTA PREVIA */
-
-function vistaPrevia(){
-
-document.body.classList.add("pdf-mode")
-
-let copia=document.getElementById("a4").cloneNode(true)
-
-document.getElementById("previewContent").innerHTML=""
-document.getElementById("previewContent").appendChild(copia)
-
-document.getElementById("preview").style.display="block"
-
-document.body.classList.remove("pdf-mode")
-
-}
-
-function cerrarPreview(){
-document.getElementById("preview").style.display="none"
-}
-
-/* PDF */
-
-function descargarPDF(){
-
-document.body.classList.add("pdf-mode")
-
-let numero=document.getElementById("numCot").value || "cotizacion"
-let cliente=document.getElementById("clienteNombre").value || "cliente"
-
-let nombre=`Cotizacion_${numero}_${cliente}.pdf`
-
-let opt={
-margin:0,
-filename:nombre,
-html2canvas:{scale:3},
-jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}
-}
-
-html2pdf().set(opt).from(document.getElementById("a4")).save().then(()=>{
-
-document.body.classList.remove("pdf-mode")
-
-})
-
-}
-
-/* WHATSAPP */
-
-function enviarWhatsApp(){
-
-let numero=document.getElementById("numCot").value
-let cliente=document.getElementById("clienteNombre").value
-let total=document.getElementById("total").innerText
-
-let texto=`Hola ${cliente}, te comparto tu cotización N° ${numero}. Total: S/ ${total}`
-
-let url=`https://wa.me/?text=${encodeURIComponent(texto)}`
-
-window.open(url,"_blank")
+if(f) document.getElementById("firmaImg").src=f
 
 }
 
