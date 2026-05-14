@@ -3,105 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Sistema Profesional de Cotizaciones | Vidrios y Aluminios Yuri</title>
+    <title>Vidrios y Aluminios Yuri | Cotizador Profesional</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* ========== ESTILOS PROFESIONALES / PASTEL / ELEGANTES ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* FONDO PRINCIPAL CON SUTIL TEXTURA DE FACHADA / VIDRIO */
         body {
-            font-family: 'Segoe UI', 'Roboto', 'Georgia', serif;
-            background: #eef2f5;  /* Fondo neutro pastel */
-            color: #2c3e4e;
+            font-family: 'Poppins', 'Segoe UI', 'Roboto', sans-serif;
+            background: #eef5fa;
+            background-image: radial-gradient(circle at 10% 20%, rgba(210, 230, 245, 0.4) 2%, transparent 2.5%),
+                              radial-gradient(circle at 85% 70%, rgba(180, 210, 240, 0.3) 1.8%, transparent 2.2%);
+            background-size: 45px 45px, 38px 38px;
+            color: #1f2f3a;
         }
 
-        /* --- LOGIN --- */
+        /* LOGIN */
         #login {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(145deg, #cbdde6 0%, #dfe9ef 100%);
+            background: linear-gradient(125deg, #c9dfef 0%, #dae9f2 100%);
+            backdrop-filter: blur(2px);
         }
         .loginBox {
-            background: #ffffffdd;
-            backdrop-filter: blur(8px);
-            background: #fffef7;
-            padding: 40px 35px;
-            width: 380px;
-            border-radius: 28px;
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(2px);
+            padding: 42px 38px;
+            width: 400px;
+            border-radius: 48px;
+            box-shadow: 0 20px 40px rgba(0, 20, 40, 0.2);
             text-align: center;
-            border: 1px solid #e0d9ce;
+            border: 1px solid rgba(160, 195, 220, 0.6);
         }
         .loginBox h3 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 500;
+            color: #2c6e8f;
+            font-family: 'Times New Roman', serif;
             letter-spacing: 1px;
-            color: #7f8c6d;
-            margin-bottom: 25px;
-            font-family: 'Georgia', serif;
+            margin-bottom: 28px;
         }
         .loginBox input {
             width: 100%;
-            padding: 12px 18px;
-            margin-bottom: 18px;
-            border: 1px solid #d9cdb0;
-            border-radius: 48px;
+            padding: 14px 20px;
+            margin-bottom: 20px;
+            border: 1px solid #cbdbe6;
+            border-radius: 60px;
+            background: #fefefc;
             font-size: 15px;
-            background: #fffcf5;
-            transition: 0.2s;
-        }
-        .loginBox input:focus {
-            border-color: #b1c2a8;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(177, 194, 168, 0.2);
         }
         .loginBox button {
             width: 100%;
             padding: 12px;
-            background: #9bb089;
+            background: #3d7b9b;
             border: none;
-            border-radius: 40px;
-            font-size: 16px;
+            border-radius: 50px;
             font-weight: 600;
-            color: #2c3e2b;
+            color: white;
+            font-size: 16px;
             cursor: pointer;
             transition: 0.2s;
-            letter-spacing: 0.5px;
         }
-        .loginBox button:hover {
-            background: #7d8f6b;
-            color: white;
-        }
-        #error {
-            margin-top: 18px;
-            color: #c75c5c;
-            font-size: 14px;
-        }
+        .loginBox button:hover { background: #2b5f7a; }
 
-        /* --- APP CONTAINER --- */
+        /* APP */
         #app {
             display: none;
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 25px auto;
-            padding: 20px;
+            padding: 20px 25px;
         }
 
-        /* CABECERA DE CONTROL (elegante pastel) */
+        /* HEADER DE CONTROL */
         .dashboard-header {
-            background: #ffffffdb;
-            backdrop-filter: blur(4px);
-            background: #fffef8;
-            border-radius: 32px;
-            padding: 18px 30px;
-            margin-bottom: 28px;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03);
-            border: 1px solid #ede5d4;
+            background: #ffffffde;
+            backdrop-filter: blur(6px);
+            border-radius: 38px;
+            padding: 18px 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e1ecf3;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -109,288 +96,251 @@
         }
         .dashboard-header h2 {
             font-weight: 500;
-            color: #7c8f6b;
+            color: #2b6f8f;
             font-size: 1.7rem;
-            letter-spacing: -0.2px;
             font-family: 'Georgia', serif;
         }
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+        .btn-group { display: flex; gap: 14px; }
         .btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 40px;
+            padding: 9px 24px;
+            border-radius: 44px;
             font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            background: #f1efe7;
-            color: #5b6e4a;
-            border: 1px solid #ddd3c0;
-        }
-        .btn-primary {
-            background: #9bb089;
-            color: white;
             border: none;
+            cursor: pointer;
+            background: #edf3f8;
+            color: #2a6a8a;
+            transition: 0.2s;
         }
-        .btn-primary:hover {
-            background: #7f906b;
-            transform: translateY(-1px);
-        }
-        .btn-secondary {
-            background: #e7e2d4;
-            color: #5f6e52;
-        }
-        .btn-secondary:hover {
-            background: #dbd4c2;
-        }
-        .btn-success {
-            background: #b6c5a3;
-            color: #2c3e2b;
-        }
-        .btn-success:hover {
-            background: #9eb087;
-        }
+        .btn-primary { background: #3e7f9e; color: white; }
+        .btn-primary:hover { background: #2f627d; transform: translateY(-2px); }
+        .btn-secondary { background: #dde6ef; }
+        .btn-success { background: #6f9fb3; color: white; }
 
-        /* LAYOUT 2 COLUMNAS */
+        /* WORKSPACE 2 COLUMNAS */
         .workspace {
             display: flex;
-            gap: 30px;
+            gap: 35px;
             flex-wrap: wrap;
         }
         .quote-area {
-            flex: 2.3;
-            min-width: 300px;
+            flex: 2.4;
+            min-width: 320px;
         }
         .history-area {
             flex: 1.2;
-            background: #fffef7;
-            border-radius: 28px;
-            padding: 22px 18px;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
-            border: 1px solid #e7dfcf;
+            background: #fbfefd;
+            border-radius: 38px;
+            padding: 24px 20px;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.05);
+            border: 1px solid #dde6ef;
             height: fit-content;
         }
         .history-area h3 {
             font-weight: 500;
-            color: #7f8f6d;
-            border-bottom: 2px solid #dfd7c4;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
-            font-family: 'Georgia', serif;
+            color: #2d7395;
+            border-left: 4px solid #7dafc7;
+            padding-left: 14px;
+            margin-bottom: 22px;
         }
         .history-item {
-            background: #faf8f2;
-            padding: 12px 15px;
-            margin-bottom: 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            border-left: 5px solid #b6c6a2;
+            background: #f6fafd;
+            margin-bottom: 14px;
+            padding: 14px 16px;
+            border-radius: 24px;
             cursor: pointer;
+            border: 1px solid #e2ecf3;
             transition: 0.2s;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
         .history-item:hover {
-            background: #f2ede1;
-            transform: translateX(3px);
+            background: #eef4fa;
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
         }
 
-        /* ========== HOJA A4 PROFESIONAL ========== */
+        /* HOJA A4 ESTILO ARQUITECTÓNICO PREMIUM */
         #a4 {
-            background: white;
+            background: #ffffff;
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 15mm 18mm;
-            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
+            padding: 14mm 20mm;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
             position: relative;
             font-family: 'Segoe UI', 'Roboto', sans-serif;
         }
 
-        /* HEADER CON NOMBRE DESTACADO */
+        /* HEADER CON LOGOS Y TÍTULO SIN SOLAPAMIENTO */
         .header {
             text-align: center;
             position: relative;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #e9e2d2;
+            margin-bottom: 32px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid #cce1ed;
         }
-        .logo {
+        .logo-left {
             position: absolute;
+            left: 0;
             top: 0;
-            width: 70px;
+            width: 75px;
             max-height: 70px;
             object-fit: contain;
-            border-radius: 12px;
+            background: #fdfdf5;
+            padding: 4px;
+            border-radius: 20px;
         }
-        .logo-left { left: 0; }
-        .logo-right { right: 0; }
+        .logo-right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 75px;
+            max-height: 70px;
+            object-fit: contain;
+        }
+        .brand-core {
+            display: inline-block;
+            text-align: center;
+            max-width: 70%;
+            margin: 0 auto;
+        }
         .company-name {
             font-size: 32px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: #9eaf87;
-            background: linear-gradient(135deg, #8b9c79, #b9caa5);
+            font-weight: 700;
+            color: #2b5b77;
+            letter-spacing: 1.2px;
+            background: linear-gradient(125deg, #2c6a8a, #518aa7);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.02);
-            margin-bottom: 6px;
-            font-family: 'Georgia', serif;
+            font-family: 'Georgia', 'Times New Roman', serif;
         }
         .company-owner {
-            font-size: 15px;
-            color: #6f7e60;
-            letter-spacing: 0.3px;
+            font-size: 14px;
+            color: #688ea3;
+            margin-top: 4px;
         }
         .company-ruc {
             font-weight: 500;
-            font-size: 14px;
-            color: #7f8c6d;
-            margin: 6px 0;
-        }
-        .direccion {
-            margin-top: 6px;
-        }
-        .editable {
-            border: 1px solid #e2daca;
-            padding: 6px 12px;
-            border-radius: 30px;
-            background: #fefcf7;
-            font-family: inherit;
             font-size: 13px;
-            transition: 0.2s;
+            color: #6f8fa5;
         }
-        .editable:focus {
-            border-color: #b1c2a8;
-            outline: none;
-            background: #fffdf9;
+        .direccion input {
+            text-align: center;
+            background: #fefcf7;
+            border: 1px solid #d4e2ec;
+            border-radius: 40px;
+            padding: 6px 16px;
+            width: 100%;
+            font-size: 12px;
         }
 
-        /* DATOS CLIENTE TARJETA */
+        /* DATOS CLIENTE TARJETA ELEGANTE */
         .client-card {
-            background: #fbf9f2;
-            border-radius: 24px;
-            padding: 18px 20px;
-            margin: 18px 0;
-            border: 1px solid #ede3cf;
+            background: #f7fafd;
+            border-radius: 32px;
+            padding: 20px 26px;
+            margin: 22px 0;
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.02), inset 0 1px 0 white;
+            border: 1px solid #e2edf5;
         }
         .client-card h4 {
-            color: #8f9e7a;
-            margin-bottom: 15px;
+            color: #377c9e;
             font-weight: 500;
+            margin-bottom: 16px;
+            font-size: 1.2rem;
         }
         .campo {
             display: flex;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             align-items: center;
             flex-wrap: wrap;
         }
         .campo label {
-            width: 115px;
+            width: 130px;
             font-weight: 600;
-            font-size: 13px;
-            color: #6d7c5b;
+            color: #3e6d88;
         }
         .campo input {
             flex: 1;
-            min-width: 180px;
+            border: 1px solid #d7e4ef;
+            border-radius: 40px;
+            padding: 8px 15px;
+            background: white;
         }
 
-        /* TABLA DE ÍTEMS */
+        /* TABLA DE ÍTEMS CON SOMBRAS Y DETALLE */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 13px;
+            margin: 28px 0;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
         .items-table th {
-            background: #f0ede3;
-            color: #5a6b49;
-            padding: 12px 6px;
+            background: #e7f0f7;
+            color: #2c6885;
+            padding: 14px 8px;
             font-weight: 600;
+            font-size: 0.85rem;
             text-align: center;
-            border-bottom: 2px solid #ddd0b6;
         }
         .items-table td {
-            border-bottom: 1px solid #ece3d3;
-            padding: 10px 5px;
+            background: white;
+            border-bottom: 1px solid #e3edf4;
+            padding: 12px 6px;
             vertical-align: middle;
         }
-        .items-table input, .items-table textarea {
+        .items-table textarea, .items-table input {
             width: 100%;
-            border: none;
-            background: transparent;
-            padding: 6px 4px;
+            border: 1px solid #e0eaf1;
+            border-radius: 24px;
+            padding: 8px 10px;
             font-family: inherit;
-            font-size: 13px;
+            background: #fffefb;
+            transition: 0.1s;
         }
-        .items-table input:focus, .items-table textarea:focus {
+        .items-table textarea:focus, .items-table input:focus {
+            border-color: #91bbd2;
             outline: none;
-            background: #fffcf0;
-            border-radius: 12px;
+            box-shadow: 0 0 0 2px rgba(100, 150, 180, 0.2);
         }
         .delete-item {
-            background: #e0cfbc;
+            background: #e7eef3;
             border: none;
-            padding: 5px 12px;
-            border-radius: 30px;
+            border-radius: 40px;
+            padding: 6px 14px;
             cursor: pointer;
-            font-size: 12px;
-            color: #5d4c3a;
-        }
-        .delete-item:hover {
-            background: #d1bba2;
+            color: #4f7186;
         }
 
-        /* TOTALES */
+        /* TOTALES ELEGANTES */
         .totals {
             text-align: right;
-            margin-top: 15px;
-            padding: 18px 20px;
-            background: #fcf9f2;
-            border-radius: 28px;
-        }
-        .totals p {
-            margin: 6px 0;
-            font-size: 14px;
+            padding: 20px 24px;
+            background: #f6fafd;
+            border-radius: 32px;
+            margin-top: 20px;
+            border: 1px solid #dee9f0;
         }
         .grand-total {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            color: #7c9065;
-            border-top: 1px dashed #ddcfb5;
-            padding-top: 8px;
-            margin-top: 8px;
+            color: #2f6c8c;
         }
 
-        /* FOOTER CON NUMERO DE PAGINA Y FECHA IMPRESION */
+        /* FOOTER CON PAGINA Y FECHA */
         .footer {
-            margin-top: 28px;
-            text-align: center;
-            font-size: 11px;
-            color: #9aab88;
-            border-top: 1px solid #e9e0ce;
-            padding-top: 16px;
+            margin-top: 32px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-        }
-        .footer-left {
-            text-align: left;
-        }
-        .footer-right {
-            text-align: right;
-        }
-        .print-date {
-            font-style: italic;
+            font-size: 11px;
+            color: #7f9bb0;
+            border-top: 1px solid #cde0ea;
+            padding-top: 18px;
         }
 
-        /* VISTA PREVIA */
+        /* PREVIEW */
         #preview {
             display: none;
             position: fixed;
@@ -398,7 +348,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             overflow: auto;
             padding: 30px;
@@ -408,33 +358,25 @@
             width: 210mm;
             margin: 0 auto;
             padding: 15mm;
-            border-radius: 4px;
         }
         .close-preview {
             position: fixed;
-            top: 20px;
-            right: 30px;
-            background: #fff;
+            top: 25px;
+            right: 35px;
+            background: white;
             border: none;
-            font-size: 26px;
+            font-size: 24px;
+            border-radius: 60px;
+            padding: 6px 18px;
             cursor: pointer;
-            padding: 6px 15px;
-            border-radius: 50px;
-            font-weight: bold;
         }
 
-        /* PDF HIDE BUTTONS */
-        .pdf button, .pdf .delete-item {
-            display: none !important;
-        }
-        .pdf .editable, .pdf input, .pdf textarea {
-            border: none !important;
-            background: white !important;
-        }
-
+        /* PDF CLEAN */
+        .pdf button, .pdf .delete-item { display: none; }
+        .pdf input, .pdf textarea { border: none !important; background: white !important; }
         @media (max-width: 780px) {
-            .dashboard-header { flex-direction: column; gap: 15px; }
             .company-name { font-size: 24px; }
+            .logo-left, .logo-right { width: 50px; }
         }
     </style>
 </head>
@@ -442,22 +384,22 @@
 
 <div id="login">
     <div class="loginBox">
-        <h3>✨ Vidrios & Aluminios ✨</h3>
-        <input type="text" id="ruc" placeholder="RUC / Usuario" autocomplete="off">
+        <h3>🏛️ Vidrios & Aluminios Yuri</h3>
+        <input type="text" id="ruc" placeholder="RUC / Usuario">
         <input type="password" id="pass" placeholder="Contraseña">
-        <button onclick="login()">Ingresar al sistema</button>
+        <button onclick="login()">Ingresar al Sistema</button>
         <div id="error"></div>
     </div>
 </div>
 
 <div id="app">
     <div class="dashboard-header">
-        <h2>📄 Cotizador Profesional</h2>
+        <h2>📐 Cotizador Arquitectónico Premium</h2>
         <div class="btn-group">
-            <button class="btn btn-primary" onclick="vistaPrevia()">👁️ Vista Previa</button>
+            <button class="btn btn-primary" onclick="vistaPrevia()">🔍 Vista Previa</button>
             <button class="btn btn-success" onclick="descargarPDF()">📎 Descargar PDF</button>
-            <button class="btn btn-secondary" onclick="guardarCotizacion()">💾 Guardar</button>
-            <button class="btn btn-secondary" onclick="nuevaCotizacion()">➕ Nueva</button>
+            <button class="btn" onclick="guardarCotizacion()">💾 Guardar</button>
+            <button class="btn" onclick="nuevaCotizacion()">✨ Nueva Cotización</button>
         </div>
     </div>
 
@@ -465,33 +407,28 @@
         <div class="quote-area">
             <div id="a4">
                 <div class="header">
-                    <img id="logo1" class="logo logo-left" style="display:none">
-                    <img id="logo2" class="logo logo-right" style="display:none">
-                    <div style="margin-bottom: 8px;">
-                        <button class="btn" style="padding:3px 12px; font-size:11px;" onclick="subirLogo('logo1')">📁 Logo Izq</button>
-                        <button class="btn" style="padding:3px 12px; font-size:11px;" onclick="subirLogo('logo2')">📁 Logo Der</button>
+                    <img id="logo1" class="logo-left" style="display:none">
+                    <img id="logo2" class="logo-right" style="display:none">
+                    <div style="position:absolute; left: 0; top: 70px; display:flex; gap:6px;">
+                        <button class="btn" style="padding:2px 10px; font-size:10px;" onclick="subirLogo('logo1')">📁 Logo Izq</button>
+                        <button class="btn" style="padding:2px 10px; font-size:10px;" onclick="subirLogo('logo2')">📁 Logo Der</button>
                     </div>
-                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
-                    <div class="company-owner">YURI HERMOZA PUELLES</div>
-                    <div class="company-ruc">RUC: 10617365036</div>
-                    <div class="direccion">
-                        <input class="editable" id="direccionEmpresa" style="width:100%" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
+                    <div class="brand-core">
+                        <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
+                        <div class="company-owner">YURI HERMOZA PUELLES</div>
+                        <div class="company-ruc">RUC: 10617365036</div>
+                        <div class="direccion"><input class="editable" id="direccionEmpresa" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
                     </div>
                 </div>
 
-                <div style="display:flex; justify-content:space-between; margin: 18px 0 12px;">
-                    <div><b>📄 COTIZACIÓN N°</b> <input id="numCot" class="editable" style="width:150px"></div>
-                    <div><b>📅 Fecha Emisión</b> <input type="date" id="fecha" class="editable"></div>
-                    <div><b>💱 Moneda</b>
-                        <select id="moneda" class="editable" onchange="calcular()">
-                            <option value="PEN">Soles (S/)</option>
-                            <option value="USD">Dólares ($)</option>
-                        </select>
-                    </div>
+                <div style="display:flex; justify-content:space-between; margin: 20px 0 12px;">
+                    <div><b>📄 Cotización N°</b> <input id="numCot" class="editable" style="width:140px"></div>
+                    <div><b>📅 Fecha</b> <input type="date" id="fecha" class="editable"></div>
+                    <div><b>💱 Moneda</b> <select id="moneda" class="editable" onchange="calcular()"><option value="PEN">Soles S/</option><option value="USD">Dólar $</option></select></div>
                 </div>
 
                 <div class="client-card">
-                    <h4>🧑 CLIENTE</h4>
+                    <h4>🧾 DATOS DEL CLIENTE</h4>
                     <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable"></div>
                     <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable"></div>
                     <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable"></div>
@@ -499,12 +436,10 @@
                 </div>
 
                 <table class="items-table" id="tabla">
-                    <thead>
-                        <tr><th>#</th><th>Descripción</th><th>Cant.</th><th>P.Unitario</th><th>Subtotal</th><th></th></tr>
-                    </thead>
+                    <thead><tr><th>#</th><th>Descripción (vidrio, aluminio, detalle)</th><th>Cant.</th><th>P.Unitario</th><th>Subtotal</th><th></th></tr></thead>
                     <tbody></tbody>
                 </table>
-                <button class="btn" style="margin-top:6px;" onclick="agregarItem()">+ Agregar Item</button>
+                <button class="btn" style="margin: 5px 0 15px;" onclick="agregarItem()">+ Agregar Item</button>
 
                 <div class="totals">
                     <p>💰 Costo Neto: <span id="costo">0.00</span></p>
@@ -512,54 +447,42 @@
                     <p class="grand-total">💵 Total: <span id="total">0.00</span></p>
                 </div>
 
-                <div style="margin-top: 20px; font-size:13px; background:#faf7ef; padding:12px; border-radius:24px;">
+                <div style="background:#f1f6fa; border-radius: 28px; padding: 14px; margin: 20px 0;">
                     <b>🏦 Método de pago</b><br>
-                    Cuenta BCP: 52671107164027<br>
-                    CCI: 00252617110716402721
+                    Cuenta BCP: 52671107164027 | CCI: 00252617110716402721
                 </div>
 
-                <div style="text-align:center; margin: 20px 0;">
-                    <img id="firmaImg" width="110" style="display:none"><br>
+                <div style="text-align:center; margin: 12px 0;">
+                    <img id="firmaImg" width="100" style="display:none"><br>
                     <button class="btn" onclick="subirFirma()">🖊️ Subir Firma / Sello</button>
                 </div>
 
-                <!-- FOOTER CON NÚMERO DE PÁGINA Y FECHA IMPRESIÓN -->
                 <div class="footer">
-                    <div class="footer-left">
-                        <span>📞 993963381 | ✉ hermozayuri@outlook.com</span>
-                    </div>
-                    <div class="footer-right">
-                        <span>📄 Página <span id="pageNum">1</span> de <span id="totalPages">1</span> &nbsp;|&nbsp;</span>
-                        <span class="print-date">🖨️ Impresión: <span id="printDate"></span></span>
-                    </div>
+                    <div>📞 993963381 | ✉ hermozayurihermozapuelles@gmail.com</div>
+                    <div>📄 Página <span id="pageNum">1</span> de <span id="totalPages">1</span> &nbsp;| 🖨️ Impresión: <span id="printDate"></span></div>
                 </div>
-                <div style="font-size:10px; text-align:center; margin-top:8px; color:#b3ad93;">
-                    CC.HACCA S/N OMACHÁ - PARURO - CUSCO | <i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
-                </div>
+                <div style="font-size:9px; text-align:center; margin-top: 8px; color:#88a7bc;">CC.HACCA S/N OMACHÁ - PARURO - CUSCO | <i>Todo lo puedo en Cristo que me fortalece</i></div>
             </div>
         </div>
 
         <div class="history-area">
             <h3>📋 Historial de Cotizaciones</h3>
             <div id="historial"></div>
-            <button class="btn" style="margin-top:20px; width:100%" onclick="exportarHistorial()">📁 Exportar Historial</button>
+            <button class="btn" style="margin-top: 25px; width:100%" onclick="exportarHistorial()">📁 Exportar Historial</button>
         </div>
     </div>
 </div>
 
-<!-- MODAL PREVIEW -->
 <div id="preview">
     <button class="close-preview" onclick="cerrarPreview()">✖ Cerrar</button>
     <div id="previewContent" class="previewA4"></div>
 </div>
 
 <script>
-    // CREDENCIALES
     const RUC = "10617365036";
     const PASS = "yuri2026";
     let cotizaciones = [];
 
-    // LOGIN
     function login() {
         let ruc = document.getElementById("ruc").value.trim();
         let pass = document.getElementById("pass").value.trim();
@@ -570,31 +493,23 @@
             cargarHistorial();
             cargarLogosGuardados();
             cargarFirmaGuardada();
-            actualizarFechaImpresion();
-            actualizarNumeroPagina();
-        } else {
-            document.getElementById("error").innerText = "⚠️ RUC o Contraseña incorrectos";
-        }
+            setPrintDate();
+        } else document.getElementById("error").innerText = "⚠️ Credenciales incorrectas";
     }
 
-    function actualizarFechaImpresion() {
+    function setPrintDate() {
         let now = new Date();
-        let fechaFormateada = now.toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' }) + ' ' + now.toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' });
-        document.getElementById("printDate").innerText = fechaFormateada;
-    }
-
-    function actualizarNumeroPagina() {
-        // Para la versión impresa se mantendrá 1/1; con vista previa también.
+        let f = now.toLocaleDateString('es-ES') + ' ' + now.toLocaleTimeString('es-ES');
+        document.getElementById("printDate").innerText = f;
         document.getElementById("pageNum").innerText = "1";
         document.getElementById("totalPages").innerText = "1";
     }
 
-    // NÚMERO DE COTIZACIÓN
     function generarNumero() {
-        let contador = parseInt(localStorage.getItem("contador")) || 0;
-        contador++;
-        localStorage.setItem("contador", contador);
-        return String(contador).padStart(4,"0") + "-" + new Date().getFullYear();
+        let cont = parseInt(localStorage.getItem("contador")) || 0;
+        cont++;
+        localStorage.setItem("contador", cont);
+        return String(cont).padStart(4,"0") + "-" + new Date().getFullYear();
     }
 
     function nuevaCotizacion() {
@@ -607,18 +522,16 @@
         document.querySelector("#tabla tbody").innerHTML = "";
         agregarItem();
         calcular();
-        actualizarNumeroPagina();
-        actualizarFechaImpresion();
+        setPrintDate();
     }
 
-    // ITEMS
     function agregarItem() {
         let tbody = document.querySelector("#tabla tbody");
         let rowCount = tbody.rows.length + 1;
         let fila = document.createElement("tr");
         fila.innerHTML = `
             <td style="text-align:center">${rowCount}</td>
-            <td><textarea rows="2" placeholder="Descripción detallada del producto/servicio..."></textarea></td>
+            <td><textarea rows="2" placeholder="Ej: Vidrio templado 6mm, marco aluminio natural ..."></textarea></td>
             <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
             <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
             <td class="subtotal-cell">0.00</td>
@@ -627,76 +540,58 @@
         tbody.appendChild(fila);
     }
 
-    function eliminarItem(boton) {
-        let row = boton.closest("tr");
-        row.remove();
+    function eliminarItem(btn) {
+        btn.closest("tr").remove();
         renumerarItems();
         calcular();
     }
 
     function renumerarItems() {
         let rows = document.querySelectorAll("#tabla tbody tr");
-        rows.forEach((row, idx) => { row.cells[0].innerText = idx + 1; });
+        rows.forEach((r, idx) => r.cells[0].innerText = idx+1);
     }
 
-    // CÁLCULOS + MONEDA
     function calcular() {
-        let subtotalGeneral = 0;
-        let filas = document.querySelectorAll("#tabla tbody tr");
-        filas.forEach(fila => {
-            let cantidad = parseFloat(fila.querySelector("td:nth-child(3) input").value) || 0;
-            let precio = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
-            let subtotal = cantidad * precio;
-            fila.querySelector(".subtotal-cell").innerText = subtotal.toFixed(2);
-            subtotalGeneral += subtotal;
+        let subtotal = 0;
+        document.querySelectorAll("#tabla tbody tr").forEach(row => {
+            let cant = parseFloat(row.querySelector("td:nth-child(3) input").value) || 0;
+            let precio = parseFloat(row.querySelector("td:nth-child(4) input").value) || 0;
+            let sub = cant * precio;
+            row.querySelector(".subtotal-cell").innerText = sub.toFixed(2);
+            subtotal += sub;
         });
-        let igv = subtotalGeneral * 0.18;
-        let total = subtotalGeneral + igv;
+        let igv = subtotal * 0.18;
+        let total = subtotal + igv;
         let moneda = document.getElementById("moneda").value;
-        let simbolo = (moneda === "PEN") ? "S/ " : "$ ";
-        document.getElementById("costo").innerText = simbolo + subtotalGeneral.toFixed(2);
-        document.getElementById("igv").innerText = simbolo + igv.toFixed(2);
-        document.getElementById("total").innerHTML = simbolo + total.toFixed(2);
-        // actualizar textos en totals
+        let sim = moneda === "PEN" ? "S/ " : "$ ";
+        document.getElementById("costo").innerText = sim + subtotal.toFixed(2);
+        document.getElementById("igv").innerText = sim + igv.toFixed(2);
+        document.getElementById("total").innerHTML = sim + total.toFixed(2);
         let totDiv = document.querySelector(".totals");
-        totDiv.querySelector("p:first-child").innerHTML = `💰 Costo Neto: ${simbolo} ${subtotalGeneral.toFixed(2)}`;
-        totDiv.querySelector("p:nth-child(2)").innerHTML = `📊 IGV (18%): ${simbolo} ${igv.toFixed(2)}`;
-        totDiv.querySelector(".grand-total").innerHTML = `💵 Total: ${simbolo} ${total.toFixed(2)}`;
+        totDiv.querySelector("p:first-child").innerHTML = `💰 Costo Neto: ${sim} ${subtotal.toFixed(2)}`;
+        totDiv.querySelector("p:nth-child(2)").innerHTML = `📊 IGV (18%): ${sim} ${igv.toFixed(2)}`;
+        totDiv.querySelector(".grand-total").innerHTML = `💵 Total: ${sim} ${total.toFixed(2)}`;
     }
 
-    // PDF y VISTA PREVIA (con número de página estático)
     async function descargarPDF() {
         let clon = document.getElementById("a4").cloneNode(true);
         clon.classList.add("pdf");
-        // Aseguramos número de página y fecha impresión actualizada
         let now = new Date();
-        let fechaImp = now.toLocaleDateString('es-ES') + ' ' + now.toLocaleTimeString('es-ES');
-        let pageSpan = clon.querySelector("#printDate");
-        if(pageSpan) pageSpan.innerText = fechaImp;
-        let clienteNom = document.getElementById("clienteNombre").value || "SinCliente";
-        let numCot = document.getElementById("numCot").value || "0000";
-        const opt = {
-            margin: [0.5, 0.5, 0.5, 0.5],
-            filename: `Cotizacion_${numCot}_${clienteNom}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, letterRendering: true },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-        await html2pdf().set(opt).from(clon).save();
+        clon.querySelector("#printDate").innerText = now.toLocaleDateString('es-ES') + ' ' + now.toLocaleTimeString('es-ES');
+        let cliente = document.getElementById("clienteNombre").value || "Cliente";
+        let num = document.getElementById("numCot").value;
+        await html2pdf().set({ margin: [0.5,0.5,0.5,0.5], filename: `Cotizacion_${num}_${cliente}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4' } }).from(clon).save();
     }
 
     function vistaPrevia() {
         let clon = document.getElementById("a4").cloneNode(true);
         clon.classList.add("pdf");
-        let previewDiv = document.getElementById("previewContent");
-        previewDiv.innerHTML = "";
-        previewDiv.appendChild(clon);
+        document.getElementById("previewContent").innerHTML = "";
+        document.getElementById("previewContent").appendChild(clon);
         document.getElementById("preview").style.display = "block";
-        actualizarNumeroPagina();
     }
     function cerrarPreview() { document.getElementById("preview").style.display = "none"; }
 
-    // GUARDAR COTIZACIÓN EN LOCALSTORAGE
     function guardarCotizacion() {
         let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
         let items = [];
@@ -708,7 +603,7 @@
                 subtotal: row.querySelector(".subtotal-cell").innerText
             });
         });
-        let cotizacion = {
+        let cot = {
             id: Date.now(),
             numero: document.getElementById("numCot").value,
             fecha: document.getElementById("fecha").value,
@@ -722,7 +617,7 @@
             items: items,
             totalFinal: document.getElementById("total").innerText
         };
-        lista.unshift(cotizacion);
+        lista.unshift(cot);
         localStorage.setItem("cotizaciones", JSON.stringify(lista));
         cargarHistorial();
     }
@@ -731,33 +626,33 @@
         let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
         let div = document.getElementById("historial");
         div.innerHTML = "";
-        if(lista.length === 0) { div.innerHTML = "<p style='color:#ab9f86'>No hay cotizaciones guardadas</p>"; return; }
-        lista.slice(0, 18).forEach(cot => {
-            let itemDiv = document.createElement("div");
-            itemDiv.className = "history-item";
-            let monedaSim = cot.moneda === "PEN" ? "S/" : "$";
-            let totalNumerico = cot.totalFinal.replace(/[^0-9.-]/g, '');
-            itemDiv.innerHTML = `<strong>${cot.numero}</strong> | ${cot.cliente.nombre || "Anónimo"} | ${monedaSim} ${totalNumerico}<br><small>${cot.fecha || "sin fecha"}</small>`;
-            itemDiv.onclick = () => cargarCotizacionParaEditar(cot);
-            div.appendChild(itemDiv);
+        if(lista.length === 0) { div.innerHTML = "<p style='color:#97b3c5'>No hay cotizaciones previas</p>"; return; }
+        lista.slice(0, 20).forEach(c => {
+            let item = document.createElement("div");
+            item.className = "history-item";
+            let mon = c.moneda === "PEN" ? "S/" : "$";
+            let totalNum = c.totalFinal.replace(/[^0-9.-]/g, '');
+            item.innerHTML = `<strong>${c.numero}</strong> | ${c.cliente.nombre || "Anónimo"} | ${mon} ${totalNum}<br><small>${c.fecha}</small>`;
+            item.onclick = () => cargarCotizacionEditar(c);
+            div.appendChild(item);
         });
     }
 
-    function cargarCotizacionParaEditar(cot) {
-        document.getElementById("numCot").value = cot.numero;
-        document.getElementById("fecha").value = cot.fecha || "";
-        document.getElementById("moneda").value = cot.moneda || "PEN";
-        document.getElementById("clienteNombre").value = cot.cliente.nombre || "";
-        document.getElementById("clienteDoc").value = cot.cliente.documento || "";
-        document.getElementById("clienteCel").value = cot.cliente.celular || "";
-        document.getElementById("clienteDir").value = cot.cliente.direccion || "";
+    function cargarCotizacionEditar(c) {
+        document.getElementById("numCot").value = c.numero;
+        document.getElementById("fecha").value = c.fecha;
+        document.getElementById("moneda").value = c.moneda;
+        document.getElementById("clienteNombre").value = c.cliente.nombre || "";
+        document.getElementById("clienteDoc").value = c.cliente.documento || "";
+        document.getElementById("clienteCel").value = c.cliente.celular || "";
+        document.getElementById("clienteDir").value = c.cliente.direccion || "";
         let tbody = document.querySelector("#tabla tbody");
         tbody.innerHTML = "";
-        if(cot.items && cot.items.length) {
-            cot.items.forEach((it, idx) => {
+        if(c.items && c.items.length) {
+            c.items.forEach((it, idx) => {
                 let fila = document.createElement("tr");
                 fila.innerHTML = `
-                    <td style="text-align:center">${idx+1}</td>
+                    <td>${idx+1}</td>
                     <td><textarea rows="2">${escapeHtml(it.desc)}</textarea></td>
                     <td><input type="number" value="${it.cant}" step="1" onchange="calcular()"></td>
                     <td><input type="number" value="${it.precio}" step="0.01" onchange="calcular()"></td>
@@ -770,67 +665,49 @@
         calcular();
     }
 
-    function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
     function exportarHistorial() {
         let data = localStorage.getItem("cotizaciones");
-        if(!data) return alert("No hay historial para exportar");
-        let blob = new Blob([data], {type: "application/json"});
-        let link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "historial_cotizaciones.json";
-        link.click();
-        URL.revokeObjectURL(link.href);
+        if(!data) return alert("Sin historial");
+        let blob = new Blob([data], {type:"application/json"});
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "historial_cotizaciones.json";
+        a.click();
+        URL.revokeObjectURL(a.href);
     }
 
-    // LOGOS Y FIRMA
     function subirLogo(id) {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function(e) {
+        let inp = document.createElement("input");
+        inp.type = "file";
+        inp.accept = "image/*";
+        inp.onchange = e => {
             let file = e.target.files[0];
             let reader = new FileReader();
-            reader.onload = function(ev) {
-                let img = document.getElementById(id);
-                img.src = ev.target.result;
-                img.style.display = "inline-block";
-                localStorage.setItem(id, ev.target.result);
-            };
+            reader.onload = ev => { document.getElementById(id).src = ev.target.result; document.getElementById(id).style.display = "inline-block"; localStorage.setItem(id, ev.target.result); };
             reader.readAsDataURL(file);
         };
-        input.click();
+        inp.click();
     }
     function cargarLogosGuardados() {
-        let logo1 = localStorage.getItem("logo1");
-        if(logo1) { document.getElementById("logo1").src = logo1; document.getElementById("logo1").style.display = "inline-block"; }
-        let logo2 = localStorage.getItem("logo2");
-        if(logo2) { document.getElementById("logo2").src = logo2; document.getElementById("logo2").style.display = "inline-block"; }
+        if(localStorage.getItem("logo1")) { let img1 = document.getElementById("logo1"); img1.src = localStorage.getItem("logo1"); img1.style.display = "inline-block"; }
+        if(localStorage.getItem("logo2")) { let img2 = document.getElementById("logo2"); img2.src = localStorage.getItem("logo2"); img2.style.display = "inline-block"; }
     }
     function subirFirma() {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function(e) {
+        let inp = document.createElement("input");
+        inp.type = "file";
+        inp.accept = "image/*";
+        inp.onchange = e => {
             let reader = new FileReader();
-            reader.onload = function(ev) {
-                let img = document.getElementById("firmaImg");
-                img.src = ev.target.result;
-                img.style.display = "inline-block";
-                localStorage.setItem("firma", ev.target.result);
-            };
+            reader.onload = ev => { let img = document.getElementById("firmaImg"); img.src = ev.target.result; img.style.display = "inline-block"; localStorage.setItem("firma", ev.target.result); };
             reader.readAsDataURL(e.target.files[0]);
         };
-        input.click();
+        inp.click();
     }
     function cargarFirmaGuardada() {
-        let firma = localStorage.getItem("firma");
-        if(firma) { document.getElementById("firmaImg").src = firma; document.getElementById("firmaImg").style.display = "inline-block"; }
+        if(localStorage.getItem("firma")) { let img = document.getElementById("firmaImg"); img.src = localStorage.getItem("firma"); img.style.display = "inline-block"; }
     }
-
-    window.onload = () => {
-        if(!localStorage.getItem("contador")) localStorage.setItem("contador", "0");
-        actualizarFechaImpresion();
-    };
+    window.onload = () => { if(!localStorage.getItem("contador")) localStorage.setItem("contador", "0"); };
 </script>
 </body>
 </html>
