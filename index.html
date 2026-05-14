@@ -6,7 +6,7 @@
     <title>Sistema Profesional de Cotizaciones | Vidrios y Aluminios Yuri</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* ========== ESTILOS PROFESIONALES (Inspirados en Brisk) ========== */
+        /* ========== ESTILOS PROFESIONALES / PASTEL / ELEGANTES ========== */
         * {
             margin: 0;
             padding: 0;
@@ -14,319 +14,383 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f2f5;
-            color: #333;
+            font-family: 'Segoe UI', 'Roboto', 'Georgia', serif;
+            background: #eef2f5;  /* Fondo neutro pastel */
+            color: #2c3e4e;
         }
 
-        /* Login */
+        /* --- LOGIN --- */
         #login {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #1f4e79 0%, #0d2b45 100%);
+            background: linear-gradient(145deg, #cbdde6 0%, #dfe9ef 100%);
         }
         .loginBox {
-            background: white;
-            padding: 35px;
+            background: #ffffffdd;
+            backdrop-filter: blur(8px);
+            background: #fffef7;
+            padding: 40px 35px;
             width: 380px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 28px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
             text-align: center;
+            border: 1px solid #e0d9ce;
         }
         .loginBox h3 {
-            margin-bottom: 20px;
-            color: #1f4e79;
+            font-size: 26px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: #7f8c6d;
+            margin-bottom: 25px;
+            font-family: 'Georgia', serif;
         }
         .loginBox input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 12px 18px;
+            margin-bottom: 18px;
+            border: 1px solid #d9cdb0;
+            border-radius: 48px;
+            font-size: 15px;
+            background: #fffcf5;
+            transition: 0.2s;
+        }
+        .loginBox input:focus {
+            border-color: #b1c2a8;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(177, 194, 168, 0.2);
         }
         .loginBox button {
             width: 100%;
             padding: 12px;
-            background: #1f4e79;
-            color: white;
+            background: #9bb089;
             border: none;
-            border-radius: 6px;
+            border-radius: 40px;
             font-size: 16px;
+            font-weight: 600;
+            color: #2c3e2b;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: 0.2s;
+            letter-spacing: 0.5px;
         }
         .loginBox button:hover {
-            background: #0d3b5a;
+            background: #7d8f6b;
+            color: white;
         }
         #error {
-            color: #d32f2f;
-            margin-top: 15px;
+            margin-top: 18px;
+            color: #c75c5c;
             font-size: 14px;
         }
 
-        /* App Container */
+        /* --- APP CONTAINER --- */
         #app {
             display: none;
             max-width: 1300px;
-            margin: 20px auto;
+            margin: 25px auto;
             padding: 20px;
         }
 
-        /* Panel de Control (Header con botones) */
+        /* CABECERA DE CONTROL (elegante pastel) */
         .dashboard-header {
-            background: white;
-            border-radius: 12px;
-            padding: 15px 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: #ffffffdb;
+            backdrop-filter: blur(4px);
+            background: #fffef8;
+            border-radius: 32px;
+            padding: 18px 30px;
+            margin-bottom: 28px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03);
+            border: 1px solid #ede5d4;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
         }
+        .dashboard-header h2 {
+            font-weight: 500;
+            color: #7c8f6b;
+            font-size: 1.7rem;
+            letter-spacing: -0.2px;
+            font-family: 'Georgia', serif;
+        }
         .btn-group {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
         .btn {
-            padding: 8px 18px;
+            padding: 8px 20px;
             border: none;
-            border-radius: 6px;
-            font-weight: 600;
+            border-radius: 40px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             font-size: 14px;
+            background: #f1efe7;
+            color: #5b6e4a;
+            border: 1px solid #ddd3c0;
         }
         .btn-primary {
-            background: #1f4e79;
+            background: #9bb089;
             color: white;
+            border: none;
         }
         .btn-primary:hover {
-            background: #0d3b5a;
+            background: #7f906b;
             transform: translateY(-1px);
         }
         .btn-secondary {
-            background: #6c757d;
-            color: white;
+            background: #e7e2d4;
+            color: #5f6e52;
         }
         .btn-secondary:hover {
-            background: #5a6268;
+            background: #dbd4c2;
         }
         .btn-success {
-            background: #28a745;
-            color: white;
+            background: #b6c5a3;
+            color: #2c3e2b;
         }
         .btn-success:hover {
-            background: #218838;
-        }
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-        .btn-warning:hover {
-            background: #e0a800;
+            background: #9eb087;
         }
 
-        /* Área de trabajo principal (Dos columnas: Cotización + Historial) */
+        /* LAYOUT 2 COLUMNAS */
         .workspace {
             display: flex;
-            gap: 25px;
+            gap: 30px;
             flex-wrap: wrap;
         }
         .quote-area {
-            flex: 2;
+            flex: 2.3;
             min-width: 300px;
         }
         .history-area {
-            flex: 1;
-            min-width: 250px;
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex: 1.2;
+            background: #fffef7;
+            border-radius: 28px;
+            padding: 22px 18px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e7dfcf;
             height: fit-content;
         }
         .history-area h3 {
-            color: #1f4e79;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 8px;
+            font-weight: 500;
+            color: #7f8f6d;
+            border-bottom: 2px solid #dfd7c4;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            font-family: 'Georgia', serif;
         }
         .history-item {
-            background: #f8f9fa;
-            padding: 10px;
-            margin-bottom: 8px;
-            border-radius: 6px;
-            font-size: 13px;
-            border-left: 3px solid #1f4e79;
+            background: #faf8f2;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            border-left: 5px solid #b6c6a2;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
         .history-item:hover {
-            background: #e9ecef;
+            background: #f2ede1;
+            transform: translateX(3px);
         }
 
-        /* Hoja A4 (Formato de Cotización) */
+        /* ========== HOJA A4 PROFESIONAL ========== */
         #a4 {
             background: white;
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
             padding: 15mm 18mm;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            border-radius: 8px;
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
             position: relative;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
         }
 
-        /* Header */
+        /* HEADER CON NOMBRE DESTACADO */
         .header {
             text-align: center;
             position: relative;
             margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e9e2d2;
         }
         .logo {
             position: absolute;
             top: 0;
-            width: 80px;
-            max-height: 80px;
+            width: 70px;
+            max-height: 70px;
             object-fit: contain;
+            border-radius: 12px;
         }
         .logo-left { left: 0; }
         .logo-right { right: 0; }
         .company-name {
-            font-size: 24px;
-            color: #1f4e79;
-            margin-bottom: 5px;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #9eaf87;
+            background: linear-gradient(135deg, #8b9c79, #b9caa5);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.02);
+            margin-bottom: 6px;
+            font-family: 'Georgia', serif;
         }
         .company-owner {
-            font-size: 14px;
-            color: #555;
+            font-size: 15px;
+            color: #6f7e60;
+            letter-spacing: 0.3px;
         }
         .company-ruc {
-            font-weight: bold;
-            margin: 5px 0;
+            font-weight: 500;
+            font-size: 14px;
+            color: #7f8c6d;
+            margin: 6px 0;
         }
         .direccion {
-            margin-top: 8px;
+            margin-top: 6px;
         }
         .editable {
-            border: 1px solid #cbd5e0;
-            padding: 6px 10px;
-            border-radius: 4px;
+            border: 1px solid #e2daca;
+            padding: 6px 12px;
+            border-radius: 30px;
+            background: #fefcf7;
             font-family: inherit;
             font-size: 13px;
+            transition: 0.2s;
         }
         .editable:focus {
+            border-color: #b1c2a8;
             outline: none;
-            border-color: #1f4e79;
-            box-shadow: 0 0 0 2px rgba(31,78,121,0.2);
+            background: #fffdf9;
         }
 
-        /* Datos del Cliente (estilo Brisk) */
+        /* DATOS CLIENTE TARJETA */
         .client-card {
-            background: #f8fafc;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            border: 1px solid #e2e8f0;
+            background: #fbf9f2;
+            border-radius: 24px;
+            padding: 18px 20px;
+            margin: 18px 0;
+            border: 1px solid #ede3cf;
         }
         .client-card h4 {
-            color: #1f4e79;
-            margin-bottom: 12px;
+            color: #8f9e7a;
+            margin-bottom: 15px;
+            font-weight: 500;
         }
         .campo {
             display: flex;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             align-items: center;
             flex-wrap: wrap;
         }
         .campo label {
-            width: 100px;
+            width: 115px;
             font-weight: 600;
             font-size: 13px;
+            color: #6d7c5b;
         }
         .campo input {
             flex: 1;
             min-width: 180px;
         }
 
-        /* Tabla de Items */
+        /* TABLA DE ÍTEMS */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
+            margin: 20px 0;
+            font-size: 13px;
         }
         .items-table th {
-            background: #1f4e79;
-            color: white;
-            padding: 10px 5px;
+            background: #f0ede3;
+            color: #5a6b49;
+            padding: 12px 6px;
             font-weight: 600;
-            font-size: 13px;
             text-align: center;
+            border-bottom: 2px solid #ddd0b6;
         }
         .items-table td {
-            border: 1px solid #ddd;
-            padding: 8px 5px;
+            border-bottom: 1px solid #ece3d3;
+            padding: 10px 5px;
             vertical-align: middle;
         }
         .items-table input, .items-table textarea {
             width: 100%;
             border: none;
-            padding: 6px;
+            background: transparent;
+            padding: 6px 4px;
             font-family: inherit;
             font-size: 13px;
-            background: transparent;
         }
         .items-table input:focus, .items-table textarea:focus {
             outline: none;
-            background: #fef9e6;
+            background: #fffcf0;
+            border-radius: 12px;
         }
         .delete-item {
-            background: #dc3545;
-            color: white;
+            background: #e0cfbc;
             border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 5px 12px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 12px;
+            color: #5d4c3a;
         }
         .delete-item:hover {
-            background: #c82333;
+            background: #d1bba2;
         }
 
-        /* Totales */
+        /* TOTALES */
         .totals {
             text-align: right;
             margin-top: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            padding: 18px 20px;
+            background: #fcf9f2;
+            border-radius: 28px;
         }
         .totals p {
-            margin: 5px 0;
+            margin: 6px 0;
             font-size: 14px;
         }
-        .totals .grand-total {
-            font-size: 18px;
-            font-weight: bold;
-            color: #1f4e79;
+        .grand-total {
+            font-size: 20px;
+            font-weight: 700;
+            color: #7c9065;
+            border-top: 1px dashed #ddcfb5;
+            padding-top: 8px;
+            margin-top: 8px;
         }
 
-        /* Footer */
+        /* FOOTER CON NUMERO DE PAGINA Y FECHA IMPRESION */
         .footer {
-            margin-top: 30px;
+            margin-top: 28px;
             text-align: center;
             font-size: 11px;
-            color: #666;
-            border-top: 1px solid #ddd;
-            padding-top: 15px;
+            color: #9aab88;
+            border-top: 1px solid #e9e0ce;
+            padding-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-left {
+            text-align: left;
+        }
+        .footer-right {
+            text-align: right;
+        }
+        .print-date {
+            font-style: italic;
         }
 
-        /* Preview Modal */
+        /* VISTA PREVIA */
         #preview {
             display: none;
             position: fixed;
@@ -334,7 +398,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 1000;
             overflow: auto;
             padding: 30px;
@@ -344,32 +408,33 @@
             width: 210mm;
             margin: 0 auto;
             padding: 15mm;
+            border-radius: 4px;
         }
         .close-preview {
             position: fixed;
             top: 20px;
             right: 30px;
-            background: white;
+            background: #fff;
             border: none;
-            font-size: 24px;
+            font-size: 26px;
             cursor: pointer;
-            padding: 5px 12px;
-            border-radius: 50%;
+            padding: 6px 15px;
+            border-radius: 50px;
             font-weight: bold;
         }
 
-        /* Para PDF: quitar bordes y botones */
-        .pdf input, .pdf textarea, .pdf .editable {
-            border: none !important;
-            padding: 2px !important;
-        }
-        .pdf button {
+        /* PDF HIDE BUTTONS */
+        .pdf button, .pdf .delete-item {
             display: none !important;
         }
+        .pdf .editable, .pdf input, .pdf textarea {
+            border: none !important;
+            background: white !important;
+        }
 
-        @media (max-width: 768px) {
-            .btn-group { width: 100%; justify-content: center; margin-bottom: 10px; }
-            .dashboard-header { flex-direction: column; }
+        @media (max-width: 780px) {
+            .dashboard-header { flex-direction: column; gap: 15px; }
+            .company-name { font-size: 24px; }
         }
     </style>
 </head>
@@ -377,10 +442,10 @@
 
 <div id="login">
     <div class="loginBox">
-        <h3>🔐 Acceso al Sistema</h3>
-        <input type="text" id="ruc" placeholder="RUC" autocomplete="off">
+        <h3>✨ Vidrios & Aluminios ✨</h3>
+        <input type="text" id="ruc" placeholder="RUC / Usuario" autocomplete="off">
         <input type="password" id="pass" placeholder="Contraseña">
-        <button onclick="login()">Ingresar</button>
+        <button onclick="login()">Ingresar al sistema</button>
         <div id="error"></div>
     </div>
 </div>
@@ -391,21 +456,20 @@
         <div class="btn-group">
             <button class="btn btn-primary" onclick="vistaPrevia()">👁️ Vista Previa</button>
             <button class="btn btn-success" onclick="descargarPDF()">📎 Descargar PDF</button>
-            <button class="btn btn-warning" onclick="guardarCotizacion()">💾 Guardar</button>
+            <button class="btn btn-secondary" onclick="guardarCotizacion()">💾 Guardar</button>
             <button class="btn btn-secondary" onclick="nuevaCotizacion()">➕ Nueva</button>
         </div>
     </div>
 
     <div class="workspace">
-        <!-- ÁREA DE COTIZACIÓN -->
         <div class="quote-area">
             <div id="a4">
                 <div class="header">
                     <img id="logo1" class="logo logo-left" style="display:none">
                     <img id="logo2" class="logo logo-right" style="display:none">
-                    <div style="margin-bottom: 10px;">
-                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo1')">📁 Logo Izq</button>
-                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo2')">📁 Logo Der</button>
+                    <div style="margin-bottom: 8px;">
+                        <button class="btn" style="padding:3px 12px; font-size:11px;" onclick="subirLogo('logo1')">📁 Logo Izq</button>
+                        <button class="btn" style="padding:3px 12px; font-size:11px;" onclick="subirLogo('logo2')">📁 Logo Der</button>
                     </div>
                     <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
                     <div class="company-owner">YURI HERMOZA PUELLES</div>
@@ -413,13 +477,12 @@
                     <div class="direccion">
                         <input class="editable" id="direccionEmpresa" style="width:100%" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
                     </div>
-                    <hr>
                 </div>
 
-                <div style="display:flex; justify-content:space-between; margin:15px 0;">
-                    <div><b>COTIZACIÓN N°</b> <input id="numCot" class="editable" style="width:140px"></div>
-                    <div><b>Fecha</b> <input type="date" id="fecha" class="editable"></div>
-                    <div><b>Moneda</b>
+                <div style="display:flex; justify-content:space-between; margin: 18px 0 12px;">
+                    <div><b>📄 COTIZACIÓN N°</b> <input id="numCot" class="editable" style="width:150px"></div>
+                    <div><b>📅 Fecha Emisión</b> <input type="date" id="fecha" class="editable"></div>
+                    <div><b>💱 Moneda</b>
                         <select id="moneda" class="editable" onchange="calcular()">
                             <option value="PEN">Soles (S/)</option>
                             <option value="USD">Dólares ($)</option>
@@ -428,7 +491,7 @@
                 </div>
 
                 <div class="client-card">
-                    <h4>🧑 DATOS DEL CLIENTE</h4>
+                    <h4>🧑 CLIENTE</h4>
                     <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable"></div>
                     <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable"></div>
                     <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable"></div>
@@ -437,59 +500,66 @@
 
                 <table class="items-table" id="tabla">
                     <thead>
-                        <tr><th>Item</th><th>Descripción</th><th>Cant.</th><th>P.Unitario</th><th>Subtotal</th><th></th></tr>
+                        <tr><th>#</th><th>Descripción</th><th>Cant.</th><th>P.Unitario</th><th>Subtotal</th><th></th></tr>
                     </thead>
                     <tbody></tbody>
                 </table>
-                <button class="btn btn-primary" style="margin-top:5px;" onclick="agregarItem()">+ Agregar Item</button>
+                <button class="btn" style="margin-top:6px;" onclick="agregarItem()">+ Agregar Item</button>
 
                 <div class="totals">
-                    <p>💰 Costo Neto: S/ <span id="costo">0.00</span></p>
-                    <p>📊 IGV (18%): S/ <span id="igv">0.00</span></p>
-                    <p class="grand-total">💵 Total: S/ <span id="total">0.00</span></p>
+                    <p>💰 Costo Neto: <span id="costo">0.00</span></p>
+                    <p>📊 IGV (18%): <span id="igv">0.00</span></p>
+                    <p class="grand-total">💵 Total: <span id="total">0.00</span></p>
                 </div>
 
-                <div style="margin-top:20px; font-size:13px;">
+                <div style="margin-top: 20px; font-size:13px; background:#faf7ef; padding:12px; border-radius:24px;">
                     <b>🏦 Método de pago</b><br>
                     Cuenta BCP: 52671107164027<br>
                     CCI: 00252617110716402721
                 </div>
 
-                <div style="text-align:center; margin:20px 0;">
-                    <img id="firmaImg" width="120" style="display:none"><br>
-                    <button class="btn btn-secondary" onclick="subirFirma()">🖊️ Subir Firma / Sello</button>
+                <div style="text-align:center; margin: 20px 0;">
+                    <img id="firmaImg" width="110" style="display:none"><br>
+                    <button class="btn" onclick="subirFirma()">🖊️ Subir Firma / Sello</button>
                 </div>
 
+                <!-- FOOTER CON NÚMERO DE PÁGINA Y FECHA IMPRESIÓN -->
                 <div class="footer">
-                    CC.HACCA S/N OMACHÁ - PARURO - CUSCO<br>
-                    ✉ hermozayurihermozapuelles@gmail.com | 📞 993963381<br>
-                    🙏 <i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
+                    <div class="footer-left">
+                        <span>📞 993963381 | ✉ hermozayuri@outlook.com</span>
+                    </div>
+                    <div class="footer-right">
+                        <span>📄 Página <span id="pageNum">1</span> de <span id="totalPages">1</span> &nbsp;|&nbsp;</span>
+                        <span class="print-date">🖨️ Impresión: <span id="printDate"></span></span>
+                    </div>
+                </div>
+                <div style="font-size:10px; text-align:center; margin-top:8px; color:#b3ad93;">
+                    CC.HACCA S/N OMACHÁ - PARURO - CUSCO | <i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
                 </div>
             </div>
         </div>
 
-        <!-- HISTORIAL DE COTIZACIONES -->
         <div class="history-area">
             <h3>📋 Historial de Cotizaciones</h3>
             <div id="historial"></div>
-            <button class="btn btn-secondary" style="margin-top:15px; width:100%" onclick="exportarHistorial()">📁 Exportar Historial</button>
+            <button class="btn" style="margin-top:20px; width:100%" onclick="exportarHistorial()">📁 Exportar Historial</button>
         </div>
     </div>
 </div>
 
-<!-- MODAL DE VISTA PREVIA -->
+<!-- MODAL PREVIEW -->
 <div id="preview">
-    <button class="close-preview" onclick="cerrarPreview()">✖</button>
+    <button class="close-preview" onclick="cerrarPreview()">✖ Cerrar</button>
     <div id="previewContent" class="previewA4"></div>
 </div>
 
 <script>
-    // ========== CONFIGURACIÓN ==========
+    // CREDENCIALES
     const RUC = "10617365036";
     const PASS = "yuri2026";
     let cotizaciones = [];
 
-    // ========== LOGIN ==========
+    // LOGIN
     function login() {
         let ruc = document.getElementById("ruc").value.trim();
         let pass = document.getElementById("pass").value.trim();
@@ -500,12 +570,26 @@
             cargarHistorial();
             cargarLogosGuardados();
             cargarFirmaGuardada();
+            actualizarFechaImpresion();
+            actualizarNumeroPagina();
         } else {
             document.getElementById("error").innerText = "⚠️ RUC o Contraseña incorrectos";
         }
     }
 
-    // ========== GESTIÓN DE NÚMERO DE COTIZACIÓN ==========
+    function actualizarFechaImpresion() {
+        let now = new Date();
+        let fechaFormateada = now.toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' }) + ' ' + now.toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' });
+        document.getElementById("printDate").innerText = fechaFormateada;
+    }
+
+    function actualizarNumeroPagina() {
+        // Para la versión impresa se mantendrá 1/1; con vista previa también.
+        document.getElementById("pageNum").innerText = "1";
+        document.getElementById("totalPages").innerText = "1";
+    }
+
+    // NÚMERO DE COTIZACIÓN
     function generarNumero() {
         let contador = parseInt(localStorage.getItem("contador")) || 0;
         contador++;
@@ -521,18 +605,20 @@
         document.getElementById("clienteCel").value = "";
         document.getElementById("clienteDir").value = "";
         document.querySelector("#tabla tbody").innerHTML = "";
-        agregarItem(); // al menos una fila
+        agregarItem();
         calcular();
+        actualizarNumeroPagina();
+        actualizarFechaImpresion();
     }
 
-    // ========== MANEJO DE ÍTEMS ==========
+    // ITEMS
     function agregarItem() {
         let tbody = document.querySelector("#tabla tbody");
         let rowCount = tbody.rows.length + 1;
         let fila = document.createElement("tr");
         fila.innerHTML = `
             <td style="text-align:center">${rowCount}</td>
-            <td><textarea rows="2" placeholder="Descripción del producto/servicio..."></textarea></td>
+            <td><textarea rows="2" placeholder="Descripción detallada del producto/servicio..."></textarea></td>
             <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
             <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
             <td class="subtotal-cell">0.00</td>
@@ -550,16 +636,13 @@
 
     function renumerarItems() {
         let rows = document.querySelectorAll("#tabla tbody tr");
-        rows.forEach((row, idx) => {
-            row.cells[0].innerText = idx + 1;
-        });
+        rows.forEach((row, idx) => { row.cells[0].innerText = idx + 1; });
     }
 
-    // ========== CÁLCULO CON IGV Y MONEDA ==========
+    // CÁLCULOS + MONEDA
     function calcular() {
         let subtotalGeneral = 0;
         let filas = document.querySelectorAll("#tabla tbody tr");
-        
         filas.forEach(fila => {
             let cantidad = parseFloat(fila.querySelector("td:nth-child(3) input").value) || 0;
             let precio = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
@@ -567,31 +650,31 @@
             fila.querySelector(".subtotal-cell").innerText = subtotal.toFixed(2);
             subtotalGeneral += subtotal;
         });
-
         let igv = subtotalGeneral * 0.18;
         let total = subtotalGeneral + igv;
-        
         let moneda = document.getElementById("moneda").value;
         let simbolo = (moneda === "PEN") ? "S/ " : "$ ";
-        
         document.getElementById("costo").innerText = simbolo + subtotalGeneral.toFixed(2);
         document.getElementById("igv").innerText = simbolo + igv.toFixed(2);
         document.getElementById("total").innerHTML = simbolo + total.toFixed(2);
-        
-        // También actualizar el texto en los totales para que el PDF muestre bien
-        document.querySelector(".totals p:first-child").innerHTML = `💰 Costo Neto: ${simbolo} ${subtotalGeneral.toFixed(2)}`;
-        document.querySelector(".totals p:nth-child(2)").innerHTML = `📊 IGV (18%): ${simbolo} ${igv.toFixed(2)}`;
-        document.querySelector(".grand-total").innerHTML = `💵 Total: ${simbolo} ${total.toFixed(2)}`;
+        // actualizar textos en totals
+        let totDiv = document.querySelector(".totals");
+        totDiv.querySelector("p:first-child").innerHTML = `💰 Costo Neto: ${simbolo} ${subtotalGeneral.toFixed(2)}`;
+        totDiv.querySelector("p:nth-child(2)").innerHTML = `📊 IGV (18%): ${simbolo} ${igv.toFixed(2)}`;
+        totDiv.querySelector(".grand-total").innerHTML = `💵 Total: ${simbolo} ${total.toFixed(2)}`;
     }
 
-    // ========== PDF Y PREVISUALIZACIÓN ==========
+    // PDF y VISTA PREVIA (con número de página estático)
     async function descargarPDF() {
-        let originalA4 = document.getElementById("a4");
-        let clon = originalA4.cloneNode(true);
+        let clon = document.getElementById("a4").cloneNode(true);
         clon.classList.add("pdf");
+        // Aseguramos número de página y fecha impresión actualizada
+        let now = new Date();
+        let fechaImp = now.toLocaleDateString('es-ES') + ' ' + now.toLocaleTimeString('es-ES');
+        let pageSpan = clon.querySelector("#printDate");
+        if(pageSpan) pageSpan.innerText = fechaImp;
         let clienteNom = document.getElementById("clienteNombre").value || "SinCliente";
         let numCot = document.getElementById("numCot").value || "0000";
-        
         const opt = {
             margin: [0.5, 0.5, 0.5, 0.5],
             filename: `Cotizacion_${numCot}_${clienteNom}.pdf`,
@@ -609,12 +692,11 @@
         previewDiv.innerHTML = "";
         previewDiv.appendChild(clon);
         document.getElementById("preview").style.display = "block";
+        actualizarNumeroPagina();
     }
-    function cerrarPreview() {
-        document.getElementById("preview").style.display = "none";
-    }
+    function cerrarPreview() { document.getElementById("preview").style.display = "none"; }
 
-    // ========== GUARDAR COTIZACIÓN CON DATOS COMPLETOS ==========
+    // GUARDAR COTIZACIÓN EN LOCALSTORAGE
     function guardarCotizacion() {
         let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
         let items = [];
@@ -626,7 +708,6 @@
                 subtotal: row.querySelector(".subtotal-cell").innerText
             });
         });
-        
         let cotizacion = {
             id: Date.now(),
             numero: document.getElementById("numCot").value,
@@ -639,12 +720,9 @@
                 direccion: document.getElementById("clienteDir").value
             },
             items: items,
-            totalNeto: document.getElementById("costo").innerText,
-            totalIGV: document.getElementById("igv").innerText,
             totalFinal: document.getElementById("total").innerText
         };
-        
-        lista.unshift(cotizacion); // más reciente al inicio
+        lista.unshift(cotizacion);
         localStorage.setItem("cotizaciones", JSON.stringify(lista));
         cargarHistorial();
     }
@@ -653,22 +731,19 @@
         let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
         let div = document.getElementById("historial");
         div.innerHTML = "";
-        if(lista.length === 0) {
-            div.innerHTML = "<p style='color:gray'>No hay cotizaciones guardadas</p>";
-            return;
-        }
-        lista.slice(0, 15).forEach(cot => {
+        if(lista.length === 0) { div.innerHTML = "<p style='color:#ab9f86'>No hay cotizaciones guardadas</p>"; return; }
+        lista.slice(0, 18).forEach(cot => {
             let itemDiv = document.createElement("div");
             itemDiv.className = "history-item";
             let monedaSim = cot.moneda === "PEN" ? "S/" : "$";
-            itemDiv.innerHTML = `<strong>${cot.numero}</strong> | ${cot.cliente.nombre || "Anónimo"} | ${monedaSim} ${cot.totalFinal}<br><small>${cot.fecha || "sin fecha"}</small>`;
+            let totalNumerico = cot.totalFinal.replace(/[^0-9.-]/g, '');
+            itemDiv.innerHTML = `<strong>${cot.numero}</strong> | ${cot.cliente.nombre || "Anónimo"} | ${monedaSim} ${totalNumerico}<br><small>${cot.fecha || "sin fecha"}</small>`;
             itemDiv.onclick = () => cargarCotizacionParaEditar(cot);
             div.appendChild(itemDiv);
         });
     }
-    
+
     function cargarCotizacionParaEditar(cot) {
-        // Cargar datos de cabecera
         document.getElementById("numCot").value = cot.numero;
         document.getElementById("fecha").value = cot.fecha || "";
         document.getElementById("moneda").value = cot.moneda || "PEN";
@@ -676,8 +751,6 @@
         document.getElementById("clienteDoc").value = cot.cliente.documento || "";
         document.getElementById("clienteCel").value = cot.cliente.celular || "";
         document.getElementById("clienteDir").value = cot.cliente.direccion || "";
-        
-        // Limpiar y regenerar items
         let tbody = document.querySelector("#tabla tbody");
         tbody.innerHTML = "";
         if(cot.items && cot.items.length) {
@@ -693,22 +766,11 @@
                 `;
                 tbody.appendChild(fila);
             });
-        } else {
-            agregarItem();
-        }
+        } else agregarItem();
         calcular();
     }
-    
-    function escapeHtml(str) {
-        if(!str) return "";
-        return str.replace(/[&<>]/g, function(m) {
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
-        });
-    }
 
+    function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
     function exportarHistorial() {
         let data = localStorage.getItem("cotizaciones");
         if(!data) return alert("No hay historial para exportar");
@@ -720,7 +782,7 @@
         URL.revokeObjectURL(link.href);
     }
 
-    // ========== LOGOS Y FIRMA (persistentes) ==========
+    // LOGOS Y FIRMA
     function subirLogo(id) {
         let input = document.createElement("input");
         input.type = "file";
@@ -738,14 +800,12 @@
         };
         input.click();
     }
-    
     function cargarLogosGuardados() {
         let logo1 = localStorage.getItem("logo1");
         if(logo1) { document.getElementById("logo1").src = logo1; document.getElementById("logo1").style.display = "inline-block"; }
         let logo2 = localStorage.getItem("logo2");
         if(logo2) { document.getElementById("logo2").src = logo2; document.getElementById("logo2").style.display = "inline-block"; }
     }
-    
     function subirFirma() {
         let input = document.createElement("input");
         input.type = "file";
@@ -762,19 +822,14 @@
         };
         input.click();
     }
-    
     function cargarFirmaGuardada() {
         let firma = localStorage.getItem("firma");
-        if(firma) {
-            document.getElementById("firmaImg").src = firma;
-            document.getElementById("firmaImg").style.display = "inline-block";
-        }
+        if(firma) { document.getElementById("firmaImg").src = firma; document.getElementById("firmaImg").style.display = "inline-block"; }
     }
-    
-    // Inicializar algunos campos
+
     window.onload = () => {
-        // Si no hay contador, empezar desde 1
         if(!localStorage.getItem("contador")) localStorage.setItem("contador", "0");
+        actualizarFechaImpresion();
     };
 </script>
 </body>
