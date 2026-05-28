@@ -364,6 +364,17 @@
             cursor: pointer;
         }
 
+        /* Firma estática */
+        .firma-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .firma-img {
+            width: 140px;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
         /* Footer con número de página y fecha de impresión */
         .footer {
             margin-top: 30px;
@@ -463,12 +474,9 @@
         <div class="quote-area">
             <div id="a4">
                 <div class="header">
-                    <img id="logo1" class="logo logo-left" style="display:none">
-                    <img id="logo2" class="logo logo-right" style="display:none">
-                    <div style="margin-bottom: 10px;">
-                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo1')">Logo Izq</button>
-                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo2')">Logo Der</button>
-                    </div>
+                    <!-- LOGOS ESTÁTICOS PREDETERMINADOS (BASE64) -->
+                    <img id="logo1" class="logo logo-left" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231f4e79'/%3E%3Ctext x='50' y='55' font-size='14' text-anchor='middle' fill='white' font-family='Arial'%3EVIDRIOS%3C/text%3E%3C/svg%3E" alt="Logo Yuri">
+                    <img id="logo2" class="logo logo-right" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231f4e79'/%3E%3Ctext x='50' y='55' font-size='14' text-anchor='middle' fill='white' font-family='Arial'%3EYURI%3C/text%3E%3C/svg%3E" alt="Logo Hermoza">
                     <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
                     <div class="company-owner">YURI HERMOZA PUELLES</div>
                     <div class="company-ruc">RUC: 10617365036</div>
@@ -522,9 +530,9 @@
                     CCI: 00252617110716402721
                 </div>
 
-                <div style="text-align:center; margin:20px 0;">
-                    <img id="firmaImg" width="120" style="display:none"><br>
-                    <button class="btn btn-secondary" onclick="subirFirma()">Subir Firma / Sello</button>
+                <!-- FIRMA ESTÁTICA PREDETERMINADA -->
+                <div class="firma-container">
+                    <img id="firmaImg" class="firma-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%23f8fafc' stroke='%231f4e79' stroke-width='1'/%3E%3Ctext x='100' y='35' font-size='14' text-anchor='middle' fill='%231f4e79' font-family='Script, cursive'%3EYuri Hermoza Puelles%3C/text%3E%3Ctext x='100' y='50' font-size='9' text-anchor='middle' fill='%23666'%3EFirma Autorizada%3C/text%3E%3C/svg%3E" alt="Firma Yuri Hermoza">
                 </div>
 
                 <div class="footer">
@@ -569,8 +577,6 @@
             document.getElementById("app").style.display = "block";
             nuevaCotizacion();
             cargarHistorial();
-            cargarLogosGuardados();
-            cargarFirmaGuardada();
             actualizarFechaImpresion();
         } else {
             document.getElementById("error").innerText = "RUC o Contraseña incorrectos";
@@ -823,57 +829,6 @@
         URL.revokeObjectURL(link.href);
     }
 
-    // ========== LOGOS Y FIRMA ==========
-    function subirLogo(id) {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function(e) {
-            let file = e.target.files[0];
-            let reader = new FileReader();
-            reader.onload = function(ev) {
-                let img = document.getElementById(id);
-                img.src = ev.target.result;
-                img.style.display = "inline-block";
-                localStorage.setItem(id, ev.target.result);
-            };
-            reader.readAsDataURL(file);
-        };
-        input.click();
-    }
-    
-    function cargarLogosGuardados() {
-        let logo1 = localStorage.getItem("logo1");
-        if(logo1) { document.getElementById("logo1").src = logo1; document.getElementById("logo1").style.display = "inline-block"; }
-        let logo2 = localStorage.getItem("logo2");
-        if(logo2) { document.getElementById("logo2").src = logo2; document.getElementById("logo2").style.display = "inline-block"; }
-    }
-    
-    function subirFirma() {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function(e) {
-            let reader = new FileReader();
-            reader.onload = function(ev) {
-                let img = document.getElementById("firmaImg");
-                img.src = ev.target.result;
-                img.style.display = "inline-block";
-                localStorage.setItem("firma", ev.target.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        };
-        input.click();
-    }
-    
-    function cargarFirmaGuardada() {
-        let firma = localStorage.getItem("firma");
-        if(firma) {
-            document.getElementById("firmaImg").src = firma;
-            document.getElementById("firmaImg").style.display = "inline-block";
-        }
-    }
-    
     // Inicializar
     window.onload = () => {
         if(!localStorage.getItem("contador")) localStorage.setItem("contador", "0");
