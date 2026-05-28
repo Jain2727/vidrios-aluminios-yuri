@@ -6,7 +6,7 @@
     <title>Sistema Profesional de Cotizaciones | Vidrios y Aluminios Yuri</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* ========== ESTILOS PROFESIONALES (Inspirados en Brisk) ========== */
+        /* ========== ESTILOS PROFESIONALES ========== */
         * {
             margin: 0;
             padding: 0;
@@ -75,7 +75,7 @@
             padding: 20px;
         }
 
-        /* Panel de Control (Header con botones) */
+        /* Panel de Control */
         .dashboard-header {
             background: white;
             border-radius: 12px;
@@ -131,7 +131,7 @@
             background: #e0a800;
         }
 
-        /* Área de trabajo principal (Dos columnas: Cotización + Historial) */
+        /* Área de trabajo principal */
         .workspace {
             display: flex;
             gap: 25px;
@@ -170,7 +170,7 @@
             background: #e9ecef;
         }
 
-        /* Hoja A4 (Formato de Cotización) */
+        /* Hoja A4 con marca de agua */
         #a4 {
             background: white;
             width: 100%;
@@ -180,6 +180,26 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
             border-radius: 8px;
             position: relative;
+            overflow: hidden;
+        }
+        
+        /* MARCA DE AGUA */
+        #a4::before {
+            content: "VIDRIOS Y ALUMINIOS YURI";
+            position: absolute;
+            bottom: 15%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 42px;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            color: rgba(31, 78, 121, 0.06);
+            transform: rotate(-25deg);
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            letter-spacing: 4px;
         }
 
         /* Header */
@@ -187,6 +207,8 @@
             text-align: center;
             position: relative;
             margin-bottom: 20px;
+            z-index: 1;
+            background: white;
         }
         .logo {
             position: absolute;
@@ -226,13 +248,15 @@
             box-shadow: 0 0 0 2px rgba(31,78,121,0.2);
         }
 
-        /* Datos del Cliente (estilo Brisk) */
+        /* Datos del Cliente */
         .client-card {
             background: #f8fafc;
             border-radius: 8px;
             padding: 15px;
             margin: 15px 0;
             border: 1px solid #e2e8f0;
+            z-index: 1;
+            position: relative;
         }
         .client-card h4 {
             color: #1f4e79;
@@ -259,6 +283,8 @@
             width: 100%;
             border-collapse: collapse;
             margin: 15px 0;
+            z-index: 1;
+            position: relative;
         }
         .items-table th {
             background: #1f4e79;
@@ -298,13 +324,15 @@
             background: #c82333;
         }
 
-        /* Totales */
+        /* Totales con IGV toggle */
         .totals {
             text-align: right;
             margin-top: 15px;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 8px;
+            z-index: 1;
+            position: relative;
         }
         .totals p {
             margin: 5px 0;
@@ -315,15 +343,49 @@
             font-weight: bold;
             color: #1f4e79;
         }
+        .igv-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .igv-toggle label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1f4e79;
+            cursor: pointer;
+        }
+        .igv-toggle input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
 
-        /* Footer */
+        /* Footer con número de página y fecha de impresión */
         .footer {
             margin-top: 30px;
             text-align: center;
-            font-size: 11px;
+            font-size: 10px;
             color: #666;
             border-top: 1px solid #ddd;
-            padding-top: 15px;
+            padding-top: 12px;
+            z-index: 1;
+            position: relative;
+        }
+        .footer-print-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 9px;
+        }
+        .footer-left {
+            text-align: left;
+        }
+        .footer-right {
+            text-align: right;
         }
 
         /* Preview Modal */
@@ -377,7 +439,7 @@
 
 <div id="login">
     <div class="loginBox">
-        <h3>🔐 Acceso al Sistema</h3>
+        <h3>Acceso al Sistema</h3>
         <input type="text" id="ruc" placeholder="RUC" autocomplete="off">
         <input type="password" id="pass" placeholder="Contraseña">
         <button onclick="login()">Ingresar</button>
@@ -387,12 +449,12 @@
 
 <div id="app">
     <div class="dashboard-header">
-        <h2>📄 Cotizador Profesional</h2>
+        <h2>Cotizador Profesional</h2>
         <div class="btn-group">
-            <button class="btn btn-primary" onclick="vistaPrevia()">👁️ Vista Previa</button>
-            <button class="btn btn-success" onclick="descargarPDF()">📎 Descargar PDF</button>
-            <button class="btn btn-warning" onclick="guardarCotizacion()">💾 Guardar</button>
-            <button class="btn btn-secondary" onclick="nuevaCotizacion()">➕ Nueva</button>
+            <button class="btn btn-primary" onclick="vistaPrevia()">Vista Previa</button>
+            <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
+            <button class="btn btn-warning" onclick="guardarCotizacion()">Guardar</button>
+            <button class="btn btn-secondary" onclick="nuevaCotizacion()">Nueva</button>
         </div>
     </div>
 
@@ -404,8 +466,8 @@
                     <img id="logo1" class="logo logo-left" style="display:none">
                     <img id="logo2" class="logo logo-right" style="display:none">
                     <div style="margin-bottom: 10px;">
-                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo1')">📁 Logo Izq</button>
-                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo2')">📁 Logo Der</button>
+                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo1')">Logo Izq</button>
+                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo2')">Logo Der</button>
                     </div>
                     <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
                     <div class="company-owner">YURI HERMOZA PUELLES</div>
@@ -418,7 +480,8 @@
 
                 <div style="display:flex; justify-content:space-between; margin:15px 0;">
                     <div><b>COTIZACIÓN N°</b> <input id="numCot" class="editable" style="width:140px"></div>
-                    <div><b>Fecha</b> <input type="date" id="fecha" class="editable"></div>
+                    <div><b>Fecha Emisión</b> <input type="date" id="fecha" class="editable"></div>
+                    <div><b>Fecha Validez</b> <input type="date" id="fechaValidez" class="editable"></div>
                     <div><b>Moneda</b>
                         <select id="moneda" class="editable" onchange="calcular()">
                             <option value="PEN">Soles (S/)</option>
@@ -428,7 +491,7 @@
                 </div>
 
                 <div class="client-card">
-                    <h4>🧑 DATOS DEL CLIENTE</h4>
+                    <h4>DATOS DEL CLIENTE</h4>
                     <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable"></div>
                     <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable"></div>
                     <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable"></div>
@@ -444,35 +507,43 @@
                 <button class="btn btn-primary" style="margin-top:5px;" onclick="agregarItem()">+ Agregar Item</button>
 
                 <div class="totals">
-                    <p>💰 Costo Neto: S/ <span id="costo">0.00</span></p>
-                    <p>📊 IGV (18%): S/ <span id="igv">0.00</span></p>
-                    <p class="grand-total">💵 Total: S/ <span id="total">0.00</span></p>
+                    <div class="igv-toggle">
+                        <input type="checkbox" id="incluirIGV" checked onchange="calcular()">
+                        <label for="incluirIGV">Incluir IGV (18%)</label>
+                    </div>
+                    <p>Costo Neto: <span id="costo">0.00</span></p>
+                    <p id="igvLine">IGV (18%): <span id="igv">0.00</span></p>
+                    <p class="grand-total">Total: <span id="total">0.00</span></p>
                 </div>
 
                 <div style="margin-top:20px; font-size:13px;">
-                    <b>🏦 Método de pago</b><br>
+                    <b>Método de pago</b><br>
                     Cuenta BCP: 52671107164027<br>
                     CCI: 00252617110716402721
                 </div>
 
                 <div style="text-align:center; margin:20px 0;">
                     <img id="firmaImg" width="120" style="display:none"><br>
-                    <button class="btn btn-secondary" onclick="subirFirma()">🖊️ Subir Firma / Sello</button>
+                    <button class="btn btn-secondary" onclick="subirFirma()">Subir Firma / Sello</button>
                 </div>
 
                 <div class="footer">
-                    CC.HACCA S/N OMACHÁ - PARURO - CUSCO<br>
-                    ✉ hermozayurihermozapuelles@gmail.com | 📞 993963381<br>
-                    🙏 <i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
+                    <div>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</div>
+                    <div>hermozayurihermozapuelles@gmail.com | 993963381</div>
+                    <div><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></div>
+                    <div class="footer-print-info">
+                        <div class="footer-left">Documento generado por Vidrios y Aluminios Yuri</div>
+                        <div class="footer-right">Página <span id="pageNum">1</span> de <span id="totalPages">1</span> | Impresión: <span id="printDate"></span></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- HISTORIAL DE COTIZACIONES -->
         <div class="history-area">
-            <h3>📋 Historial de Cotizaciones</h3>
+            <h3>Historial de Cotizaciones</h3>
             <div id="historial"></div>
-            <button class="btn btn-secondary" style="margin-top:15px; width:100%" onclick="exportarHistorial()">📁 Exportar Historial</button>
+            <button class="btn btn-secondary" style="margin-top:15px; width:100%" onclick="exportarHistorial()">Exportar Historial</button>
         </div>
     </div>
 </div>
@@ -500,12 +571,22 @@
             cargarHistorial();
             cargarLogosGuardados();
             cargarFirmaGuardada();
+            actualizarFechaImpresion();
         } else {
-            document.getElementById("error").innerText = "⚠️ RUC o Contraseña incorrectos";
+            document.getElementById("error").innerText = "RUC o Contraseña incorrectos";
         }
     }
 
-    // ========== GESTIÓN DE NÚMERO DE COTIZACIÓN ==========
+    // ========== FECHA DE IMPRESIÓN ==========
+    function actualizarFechaImpresion() {
+        let ahora = new Date();
+        let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+        document.getElementById("printDate").innerText = fechaStr;
+        document.getElementById("pageNum").innerText = "1";
+        document.getElementById("totalPages").innerText = "1";
+    }
+
+    // ========== NÚMERO DE COTIZACIÓN ==========
     function generarNumero() {
         let contador = parseInt(localStorage.getItem("contador")) || 0;
         contador++;
@@ -515,14 +596,21 @@
 
     function nuevaCotizacion() {
         document.getElementById("numCot").value = generarNumero();
-        document.getElementById("fecha").valueAsDate = new Date();
+        let hoy = new Date();
+        document.getElementById("fecha").valueAsDate = hoy;
+        let validez = new Date();
+        validez.setDate(hoy.getDate() + 15);
+        document.getElementById("fechaValidez").valueAsDate = validez;
+        document.getElementById("moneda").value = "PEN";
+        document.getElementById("incluirIGV").checked = true;
         document.getElementById("clienteNombre").value = "";
         document.getElementById("clienteDoc").value = "";
         document.getElementById("clienteCel").value = "";
         document.getElementById("clienteDir").value = "";
         document.querySelector("#tabla tbody").innerHTML = "";
-        agregarItem(); // al menos una fila
+        agregarItem();
         calcular();
+        actualizarFechaImpresion();
     }
 
     // ========== MANEJO DE ÍTEMS ==========
@@ -555,7 +643,7 @@
         });
     }
 
-    // ========== CÁLCULO CON IGV Y MONEDA ==========
+    // ========== CÁLCULO CON IGV OPCIONAL ==========
     function calcular() {
         let subtotalGeneral = 0;
         let filas = document.querySelectorAll("#tabla tbody tr");
@@ -568,7 +656,8 @@
             subtotalGeneral += subtotal;
         });
 
-        let igv = subtotalGeneral * 0.18;
+        let incluirIGV = document.getElementById("incluirIGV").checked;
+        let igv = incluirIGV ? (subtotalGeneral * 0.18) : 0;
         let total = subtotalGeneral + igv;
         
         let moneda = document.getElementById("moneda").value;
@@ -578,10 +667,14 @@
         document.getElementById("igv").innerText = simbolo + igv.toFixed(2);
         document.getElementById("total").innerHTML = simbolo + total.toFixed(2);
         
-        // También actualizar el texto en los totales para que el PDF muestre bien
-        document.querySelector(".totals p:first-child").innerHTML = `💰 Costo Neto: ${simbolo} ${subtotalGeneral.toFixed(2)}`;
-        document.querySelector(".totals p:nth-child(2)").innerHTML = `📊 IGV (18%): ${simbolo} ${igv.toFixed(2)}`;
-        document.querySelector(".grand-total").innerHTML = `💵 Total: ${simbolo} ${total.toFixed(2)}`;
+        let igvLine = document.getElementById("igvLine");
+        igvLine.style.display = incluirIGV ? "block" : "none";
+        
+        document.querySelector(".totals p:first-child").innerHTML = `Costo Neto: ${simbolo} ${subtotalGeneral.toFixed(2)}`;
+        if(incluirIGV) {
+            document.querySelector(".totals p:nth-child(2)").innerHTML = `IGV (18%): ${simbolo} ${igv.toFixed(2)}`;
+        }
+        document.querySelector(".grand-total").innerHTML = `Total: ${simbolo} ${total.toFixed(2)}`;
     }
 
     // ========== PDF Y PREVISUALIZACIÓN ==========
@@ -589,6 +682,11 @@
         let originalA4 = document.getElementById("a4");
         let clon = originalA4.cloneNode(true);
         clon.classList.add("pdf");
+        let ahora = new Date();
+        let fechaImp = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
+        let printSpan = clon.querySelector("#printDate");
+        if(printSpan) printSpan.innerText = fechaImp;
+        
         let clienteNom = document.getElementById("clienteNombre").value || "SinCliente";
         let numCot = document.getElementById("numCot").value || "0000";
         
@@ -610,11 +708,12 @@
         previewDiv.appendChild(clon);
         document.getElementById("preview").style.display = "block";
     }
+    
     function cerrarPreview() {
         document.getElementById("preview").style.display = "none";
     }
 
-    // ========== GUARDAR COTIZACIÓN CON DATOS COMPLETOS ==========
+    // ========== GUARDAR COTIZACIÓN ==========
     function guardarCotizacion() {
         let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
         let items = [];
@@ -631,7 +730,9 @@
             id: Date.now(),
             numero: document.getElementById("numCot").value,
             fecha: document.getElementById("fecha").value,
+            fechaValidez: document.getElementById("fechaValidez").value,
             moneda: document.getElementById("moneda").value,
+            incluirIGV: document.getElementById("incluirIGV").checked,
             cliente: {
                 nombre: document.getElementById("clienteNombre").value,
                 documento: document.getElementById("clienteDoc").value,
@@ -644,7 +745,7 @@
             totalFinal: document.getElementById("total").innerText
         };
         
-        lista.unshift(cotizacion); // más reciente al inicio
+        lista.unshift(cotizacion);
         localStorage.setItem("cotizaciones", JSON.stringify(lista));
         cargarHistorial();
     }
@@ -661,23 +762,24 @@
             let itemDiv = document.createElement("div");
             itemDiv.className = "history-item";
             let monedaSim = cot.moneda === "PEN" ? "S/" : "$";
-            itemDiv.innerHTML = `<strong>${cot.numero}</strong> | ${cot.cliente.nombre || "Anónimo"} | ${monedaSim} ${cot.totalFinal}<br><small>${cot.fecha || "sin fecha"}</small>`;
+            let totalNum = cot.totalFinal.replace(/[^0-9.-]/g, '');
+            itemDiv.innerHTML = `<strong>${cot.numero}</strong> | ${cot.cliente.nombre || "Anónimo"} | ${monedaSim} ${totalNum}<br><small>Emisión: ${cot.fecha || "sin fecha"}</small>`;
             itemDiv.onclick = () => cargarCotizacionParaEditar(cot);
             div.appendChild(itemDiv);
         });
     }
     
     function cargarCotizacionParaEditar(cot) {
-        // Cargar datos de cabecera
         document.getElementById("numCot").value = cot.numero;
         document.getElementById("fecha").value = cot.fecha || "";
+        document.getElementById("fechaValidez").value = cot.fechaValidez || "";
         document.getElementById("moneda").value = cot.moneda || "PEN";
+        document.getElementById("incluirIGV").checked = cot.incluirIGV !== undefined ? cot.incluirIGV : true;
         document.getElementById("clienteNombre").value = cot.cliente.nombre || "";
         document.getElementById("clienteDoc").value = cot.cliente.documento || "";
         document.getElementById("clienteCel").value = cot.cliente.celular || "";
         document.getElementById("clienteDir").value = cot.cliente.direccion || "";
         
-        // Limpiar y regenerar items
         let tbody = document.querySelector("#tabla tbody");
         tbody.innerHTML = "";
         if(cot.items && cot.items.length) {
@@ -697,6 +799,7 @@
             agregarItem();
         }
         calcular();
+        actualizarFechaImpresion();
     }
     
     function escapeHtml(str) {
@@ -720,7 +823,7 @@
         URL.revokeObjectURL(link.href);
     }
 
-    // ========== LOGOS Y FIRMA (persistentes) ==========
+    // ========== LOGOS Y FIRMA ==========
     function subirLogo(id) {
         let input = document.createElement("input");
         input.type = "file";
@@ -771,10 +874,10 @@
         }
     }
     
-    // Inicializar algunos campos
+    // Inicializar
     window.onload = () => {
-        // Si no hay contador, empezar desde 1
         if(!localStorage.getItem("contador")) localStorage.setItem("contador", "0");
+        actualizarFechaImpresion();
     };
 </script>
 </body>
