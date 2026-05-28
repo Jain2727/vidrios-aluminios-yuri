@@ -14,12 +14,9 @@
 
     body {
         font-family: 'Inter', 'Arial Narrow', 'Segoe UI', sans-serif;
-        background: #eef3fc;
-        background-image: radial-gradient(circle at 10% 20%, rgba(80, 130, 170, 0.08) 2%, transparent 2.5%),
-                          radial-gradient(circle at 85% 70%, rgba(60, 110, 150, 0.06) 1.8%, transparent 2.2%);
-        background-size: 48px 48px, 40px 40px;
-        margin: 0;
+        background: linear-gradient(145deg, #dcebf5 0%, #eef3fc 100%);
         min-height: 100vh;
+        position: relative;
     }
 
     /* LOGIN */
@@ -28,8 +25,20 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background: linear-gradient(145deg, #1a4f72 0%, #2a6e92 100%);
+        background: linear-gradient(135deg, #0a3a5a 0%, #1a6a8a 50%, #2a8aaa 100%);
         position: relative;
+    }
+    #login::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><path fill="white" d="M10,10 L30,10 L20,25 Z M50,10 L70,10 L60,25 Z M90,10 L95,10 L92.5,20 Z M30,40 L70,40 L50,60 Z M10,70 L40,70 L25,85 Z M60,70 L90,70 L75,85 Z"/></svg>');
+        background-repeat: repeat;
+        background-size: 40px;
+        pointer-events: none;
     }
     #login::after {
         content: "VIDRIOS Y ALUMINIOS YURI";
@@ -37,43 +46,52 @@
         bottom: 25px;
         right: 35px;
         font-size: 12px;
-        opacity: 0.25;
+        opacity: 0.4;
         color: white;
         letter-spacing: 2px;
         font-weight: 300;
+        font-family: 'Playfair Display', serif;
     }
     .loginBox {
-        background: rgba(255, 255, 255, 0.97);
-        backdrop-filter: blur(4px);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(8px);
         padding: 42px 38px;
         width: 380px;
-        border-radius: 28px;
-        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+        border-radius: 32px;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.25);
         text-align: center;
-        border: 1px solid rgba(100, 150, 180, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.5);
     }
     .loginBox h3 {
         font-family: 'Playfair Display', 'Montserrat', serif;
         font-size: 28px;
-        font-weight: 600;
-        color: #1a5a7a;
+        font-weight: 700;
+        background: linear-gradient(135deg, #1a5a7a, #2a8aaa);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
         margin-bottom: 28px;
-        letter-spacing: -0.3px;
     }
     .loginBox input {
         width: 100%;
         padding: 12px 20px;
         margin-bottom: 20px;
-        border: 1px solid #cbdfea;
+        border: 2px solid #cde0ec;
         border-radius: 50px;
         font-family: 'Inter', sans-serif;
         font-size: 15px;
         background: #fefefe;
+        transition: 0.2s;
+    }
+    .loginBox input:focus {
+        border-color: #2a8aaa;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(42, 138, 170, 0.2);
     }
     .loginBox button {
         width: 100%;
         padding: 12px;
-        background: #2c6e8f;
+        background: linear-gradient(135deg, #1a6a8a, #2a8aaa);
         border: none;
         border-radius: 50px;
         font-family: 'Montserrat', sans-serif;
@@ -81,10 +99,10 @@
         font-size: 16px;
         color: white;
         cursor: pointer;
-        transition: 0.2s;
+        transition: 0.3s;
     }
-    .loginBox button:hover { background: #1d5470; transform: translateY(-2px); }
-    #error { margin-top: 18px; color: #bc6f6f; font-size: 14px; }
+    .loginBox button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(26, 106, 138, 0.4); }
+    #error { margin-top: 18px; color: #c75c5c; font-size: 14px; }
 
     /* APP */
     #app {
@@ -96,7 +114,7 @@
 
     /* CONTROLES */
     .controls {
-        background: rgba(255, 255, 255, 0.92);
+        background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(5px);
         border-radius: 60px;
         padding: 12px 28px;
@@ -105,27 +123,29 @@
         justify-content: center;
         gap: 18px;
         flex-wrap: wrap;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-        border: 1px solid #d4e4ef;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(42, 138, 170, 0.2);
     }
     button {
-        background: #eef3f8;
-        color: #2a6a8a;
+        background: linear-gradient(135deg, #eef3f8, #e2ecf3);
+        color: #1a5a7a;
         border: none;
-        padding: 8px 24px;
+        padding: 10px 28px;
         margin: 0;
         cursor: pointer;
         border-radius: 40px;
         font-family: 'Montserrat', 'Inter', sans-serif;
-        font-weight: 500;
+        font-weight: 600;
         font-size: 14px;
-        transition: 0.2s;
-        letter-spacing: 0.2px;
+        transition: 0.3s;
+        letter-spacing: 0.3px;
+        border: 1px solid rgba(42, 138, 170, 0.2);
     }
     button:hover {
-        background: #2c6e8f;
+        background: linear-gradient(135deg, #2a8aaa, #1a6a8a);
         color: white;
         transform: translateY(-2px);
+        box-shadow: 0 5px 12px rgba(26, 106, 138, 0.3);
     }
 
     /* HOJA A4 PROFESIONAL */
@@ -137,28 +157,28 @@
         padding: 15mm 20mm;
         box-sizing: border-box;
         position: relative;
-        box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
-        border-radius: 6px;
+        box-shadow: 0 30px 45px -15px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
         font-family: 'Inter', 'Arial Narrow', sans-serif;
     }
 
-    /* MARCA DE AGUA SUTIL */
+    /* MARCA DE AGUA MEJORADA */
     #a4::before {
         content: "VIDRIOS Y ALUMINIOS YURI";
         position: absolute;
-        bottom: 28%;
+        bottom: 25%;
         left: 0;
         right: 0;
         text-align: center;
-        font-size: 52px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 700;
-        color: rgba(60, 110, 140, 0.04);
-        transform: rotate(-22deg);
+        font-size: 58px;
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        color: rgba(26, 106, 138, 0.045);
+        transform: rotate(-20deg);
         pointer-events: none;
         z-index: 0;
         white-space: nowrap;
-        letter-spacing: 6px;
+        letter-spacing: 8px;
     }
 
     /* HEADER */
@@ -167,7 +187,7 @@
         position: relative;
         margin-bottom: 28px;
         padding-bottom: 18px;
-        border-bottom: 2px solid #d4e4ef;
+        border-bottom: 2px solid rgba(42, 138, 170, 0.3);
         z-index: 2;
         background: white;
     }
@@ -179,7 +199,8 @@
         object-fit: contain;
         background: #fafcfd;
         padding: 4px;
-        border-radius: 14px;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     .logo-left { left: 0; }
     .logo-right { right: 0; }
@@ -194,36 +215,37 @@
         z-index: 3;
     }
     .logo-buttons button {
-        background: #e2ecf3;
-        color: #1f5a7a;
+        background: #e8f0f6;
         padding: 3px 14px;
         font-size: 11px;
-        font-weight: 500;
     }
     .company-name {
-        font-size: 36px;
+        font-size: 38px;
         font-family: 'Playfair Display', 'Montserrat', serif;
-        font-weight: 700;
-        color: #1f5777;
-        letter-spacing: 1px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #1a5a7a, #2a8aaa, #3a9aba);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        letter-spacing: 1.5px;
         margin-bottom: 6px;
     }
     .company-owner {
         font-size: 15px;
         font-weight: 500;
         color: #547a92;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.5px;
     }
     .company-ruc {
         font-size: 13px;
-        font-weight: 500;
+        font-weight: 600;
         color: #6f8fa5;
         margin: 6px 0;
     }
     .direccion input {
         text-align: center;
         background: #fefcf7;
-        border: 1px solid #d4e2ec;
+        border: 1px solid #cde0ec;
         border-radius: 40px;
         padding: 6px 18px;
         width: 90%;
@@ -231,11 +253,17 @@
         font-size: 13px;
     }
     .editable {
-        border: 1px solid #c2d6e3;
+        border: 1px solid #cde0ec;
         padding: 6px 12px;
         border-radius: 30px;
         font-family: 'Inter', sans-serif;
         background: #fffefb;
+        transition: 0.2s;
+    }
+    .editable:focus {
+        border-color: #2a8aaa;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(42, 138, 170, 0.2);
     }
 
     /* INFO FECHAS */
@@ -247,30 +275,30 @@
         gap: 12px;
     }
     .dates-row div {
-        background: #f8fbfe;
-        padding: 6px 14px;
+        background: linear-gradient(135deg, #f8fbfe, #f0f6fc);
+        padding: 6px 16px;
         border-radius: 40px;
-        border: 1px solid #e0ecf4;
+        border: 1px solid #cde0ec;
     }
     .dates-row b {
-        font-weight: 600;
-        color: #2c6e8f;
+        font-weight: 700;
+        color: #1a6a8a;
         margin-right: 8px;
     }
 
     /* CLIENTE */
     .cliente {
-        background: #f6fafd;
+        background: linear-gradient(135deg, #f6fafd, #f0f6fc);
         padding: 20px 24px;
         border-radius: 28px;
         margin: 20px 0;
-        border: 1px solid #e2edf5;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        border: 1px solid #cde0ec;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
     .cliente b {
         font-size: 16px;
-        font-weight: 600;
-        color: #2c6e8f;
+        font-weight: 700;
+        color: #1a6a8a;
         display: block;
         margin-bottom: 14px;
     }
@@ -282,38 +310,41 @@
     }
     .campo label {
         width: 130px;
-        font-weight: 600;
-        color: #2c6e8f;
+        font-weight: 700;
+        color: #1a6a8a;
         font-size: 14px;
     }
     .campo input {
         flex: 1;
         padding: 8px 16px;
-        border: 1px solid #d0e2ef;
+        border: 1px solid #cde0ec;
         border-radius: 40px;
         font-family: 'Inter', sans-serif;
+        background: white;
     }
 
-    /* TABLA DE ITEMS MEJORADA */
+    /* TABLA DE ITEMS */
     table {
         width: 100%;
         border-collapse: collapse;
         margin: 24px 0;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
     th {
-        background: #e8f0f6;
-        color: #1f5a7a;
+        background: linear-gradient(135deg, #d4e4ef, #c8dce8);
+        color: #1a5a7a;
         padding: 12px 8px;
         font-weight: 700;
         font-size: 14px;
-        border-bottom: 2px solid #cfe0eb;
         text-align: center;
     }
     td {
-        border-bottom: 1px solid #e6edf3;
+        border-bottom: 1px solid #e0ecf4;
         padding: 10px 6px;
         vertical-align: middle;
+        background: white;
     }
     td input, td textarea {
         width: 100%;
@@ -326,19 +357,19 @@
     }
     td input:focus, td textarea:focus {
         outline: none;
-        border-color: #8fb4cb;
-        box-shadow: 0 0 0 2px rgba(80, 120, 150, 0.15);
+        border-color: #2a8aaa;
+        box-shadow: 0 0 0 2px rgba(42, 138, 170, 0.15);
     }
-    .sub { font-weight: 600; text-align: right; padding-right: 12px; }
+    .sub { font-weight: 700; text-align: right; padding-right: 12px; color: #1a6a8a; }
 
     /* TOTALES */
     .totales {
         text-align: right;
         margin-top: 20px;
         padding: 18px 24px;
-        background: #f6fafd;
+        background: linear-gradient(135deg, #f6fafd, #f0f6fc);
         border-radius: 32px;
-        border: 1px solid #e2edf5;
+        border: 1px solid #cde0ec;
     }
     .totales p {
         margin: 8px 0;
@@ -346,43 +377,47 @@
         font-weight: 500;
     }
     .totales b {
-        font-size: 20px;
-        color: #1f5a7a;
-        font-weight: 700;
+        font-size: 22px;
+        background: linear-gradient(135deg, #1a5a7a, #2a8aaa);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 800;
     }
     .igv-option {
         display: flex;
         align-items: center;
         justify-content: flex-end;
         gap: 12px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
     }
     .igv-option label {
-        font-weight: 500;
-        color: #2c6e8f;
+        font-weight: 600;
+        color: #1a6a8a;
         cursor: pointer;
     }
     .igv-option input {
         width: 18px;
         height: 18px;
         cursor: pointer;
+        accent-color: #2a8aaa;
     }
 
     /* PAGO */
     .payment-box {
         margin-top: 24px;
-        background: #f1f6fa;
+        background: linear-gradient(135deg, #f1f6fa, #e8f0f6);
         border-radius: 28px;
         padding: 14px 20px;
         font-size: 13px;
-        border: 1px solid #e2edf5;
+        border: 1px solid #cde0ec;
     }
 
-    /* FOOTER CON FECHA IMPRESION Y PAGINA - MEJORADO */
+    /* FOOTER */
     .footer-details {
         margin-top: 32px;
         padding-top: 14px;
-        border-top: 1px solid #cde0ea;
+        border-top: 1px solid #cde0ec;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -413,7 +448,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.85);
+        background: rgba(0, 0, 0, 0.9);
         overflow: auto;
         padding: 30px;
         z-index: 9999;
@@ -423,6 +458,7 @@
         margin: auto;
         background: white;
         padding: 15mm;
+        border-radius: 4px;
     }
     .close-preview {
         position: fixed;
@@ -434,8 +470,9 @@
         border-radius: 50px;
         padding: 6px 20px;
         cursor: pointer;
-        font-weight: 600;
+        font-weight: 700;
         z-index: 10000;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     /* HISTORIAL */
@@ -444,8 +481,11 @@
     }
     .historial-container h3 {
         font-family: 'Playfair Display', serif;
-        color: #2c6e8f;
-        font-weight: 600;
+        background: linear-gradient(135deg, #1a5a7a, #2a8aaa);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 700;
         margin-bottom: 12px;
     }
     .historial-list {
@@ -453,17 +493,23 @@
         border-radius: 28px;
         padding: 18px;
         margin-top: 12px;
+        border: 1px solid #cde0ec;
     }
     .historial-item {
-        background: #f8fbfe;
+        background: linear-gradient(135deg, #f8fbfe, white);
         margin: 10px 0;
         padding: 12px 18px;
         border-radius: 28px;
-        border-left: 4px solid #6f9fb3;
+        border-left: 4px solid #2a8aaa;
+        transition: 0.2s;
+    }
+    .historial-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 2px 8px rgba(42, 138, 170, 0.15);
     }
 
     /* PDF CLEAN */
-    .pdf input, .pdf textarea { border: none !important; background: white !important; }
+    .pdf input, .pdf textarea { border: none !important; background: white !important; box-shadow: none !important; }
     .pdf button { display: none !important; }
     .pdf .logo-buttons { display: none; }
 
@@ -643,7 +689,7 @@
             <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
             <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
             <td class="sub">0.00</td>
-            <td><button onclick="eliminarFila(this)">X</button></td>
+            <td><button onclick="eliminarFila(this)" style="background:#e8f0f6; padding:4px 12px;">X</button></td>
         `;
         tbody.appendChild(fila);
     }
@@ -681,11 +727,7 @@
         document.getElementById("total").innerHTML = sim + total.toFixed(2);
         
         let igvLine = document.getElementById("igvLine");
-        if (incluirIGV) {
-            igvLine.style.display = "block";
-        } else {
-            igvLine.style.display = "none";
-        }
+        igvLine.style.display = incluirIGV ? "block" : "none";
         
         let totalDiv = document.querySelector(".totales");
         totalDiv.querySelector("p:first-child").innerHTML = `Costo Neto: ${sim} ${subtotal.toFixed(2)}`;
