@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Sistema Profesional de Cotizaciones | Vidrios y Aluminios Yuri</title>
+    <title>Vidrios y Aluminios Yuri | Sistema Profesional de Cotizaciones</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* ========== ESTILOS PROFESIONALES ========== */
         * {
             margin: 0;
             padding: 0;
@@ -14,47 +13,87 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f2f5;
-            color: #333;
+            font-family: 'Arial Narrow', 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #e8f0f8 0%, #d4e4f0 100%);
+            min-height: 100vh;
         }
 
-        /* Login */
+        /* ========== LOGIN ========== */
         #login {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #1f4e79 0%, #0d2b45 100%);
+            background: linear-gradient(135deg, #1a4a6f 0%, #0d2b45 100%);
+            position: relative;
+        }
+        #login::after {
+            content: "VIDRIOS Y ALUMINIOS YURI";
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 12px;
+            opacity: 0.3;
+            color: white;
+            font-family: 'Arial Narrow', sans-serif;
+            letter-spacing: 2px;
         }
         .loginBox {
             background: white;
-            padding: 35px;
+            padding: 40px 35px;
             width: 380px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             text-align: center;
         }
         .loginBox h3 {
-            margin-bottom: 20px;
-            color: #1f4e79;
+            font-family: 'Arial Narrow', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a4a6f;
+            margin-bottom: 25px;
         }
         .loginBox input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 15px;
             margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            border: 1px solid #c0d4e5;
+            border-radius: 8px;
+            font-family: 'Arial Narrow', sans-serif;
+            font-size: 15px;
+        }
+        .password-wrapper {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .password-wrapper input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            margin-bottom: 0;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #1a4a6f;
+            font-weight: bold;
             font-size: 14px;
+            background: none;
+            border: none;
+            padding: 0;
         }
         .loginBox button {
             width: 100%;
             padding: 12px;
-            background: #1f4e79;
+            background: #1a4a6f;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-family: 'Arial Narrow', sans-serif;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
             transition: background 0.3s;
         }
@@ -67,10 +106,10 @@
             font-size: 14px;
         }
 
-        /* App Container */
+        /* ========== APP ========== */
         #app {
             display: none;
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 20px auto;
             padding: 20px;
         }
@@ -78,188 +117,230 @@
         /* Panel de Control */
         .dashboard-header {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 15px 25px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
         }
+        .dashboard-header h2 {
+            font-family: 'Arial Narrow', sans-serif;
+            font-weight: 700;
+            color: #1a4a6f;
+        }
         .btn-group {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
         .btn {
-            padding: 8px 18px;
+            padding: 8px 20px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            font-family: 'Arial Narrow', sans-serif;
             font-size: 14px;
         }
-        .btn-primary {
-            background: #1f4e79;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #0d3b5a;
-            transform: translateY(-1px);
-        }
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        .btn-secondary:hover {
-            background: #5a6268;
-        }
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-        .btn-success:hover {
-            background: #218838;
-        }
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-        .btn-warning:hover {
-            background: #e0a800;
-        }
+        .btn-primary { background: #1a4a6f; color: white; }
+        .btn-primary:hover { background: #0d3b5a; transform: translateY(-1px); }
+        .btn-success { background: #28a745; color: white; }
+        .btn-success:hover { background: #218838; }
+        .btn-warning { background: #ffc107; color: #333; }
+        .btn-warning:hover { background: #e0a800; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-secondary:hover { background: #5a6268; }
 
-        /* Área de trabajo principal */
+        /* Workspace */
         .workspace {
             display: flex;
             gap: 25px;
             flex-wrap: wrap;
         }
         .quote-area {
-            flex: 2;
-            min-width: 300px;
+            flex: 2.5;
+            min-width: 320px;
         }
         .history-area {
             flex: 1;
-            min-width: 250px;
+            min-width: 260px;
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             height: fit-content;
         }
         .history-area h3 {
-            color: #1f4e79;
+            font-family: 'Arial Narrow', sans-serif;
+            font-weight: 700;
+            color: #1a4a6f;
             margin-bottom: 15px;
             border-bottom: 2px solid #e0e0e0;
             padding-bottom: 8px;
         }
         .history-item {
             background: #f8f9fa;
-            padding: 10px;
-            margin-bottom: 8px;
-            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
             font-size: 13px;
-            border-left: 3px solid #1f4e79;
+            border-left: 4px solid #1a4a6f;
             cursor: pointer;
             transition: background 0.2s;
         }
         .history-item:hover {
             background: #e9ecef;
+            transform: translateX(3px);
         }
 
-        /* Hoja A4 con marca de agua */
+        /* ========== HOJA A4 ========== */
         #a4 {
             background: white;
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
-            padding: 15mm 18mm;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            border-radius: 8px;
+            padding: 12mm 15mm;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 4px;
             position: relative;
-            overflow: hidden;
+            font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
         }
-        
-        /* MARCA DE AGUA */
+
+        /* MARCA DE AGUA CENTRADA */
         #a4::before {
             content: "VIDRIOS Y ALUMINIOS YURI";
             position: absolute;
-            bottom: 15%;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 42px;
-            font-family: 'Georgia', serif;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 55px;
+            font-family: 'Arial Narrow', sans-serif;
             font-weight: bold;
-            color: rgba(31, 78, 121, 0.06);
-            transform: rotate(-25deg);
+            color: rgba(26, 74, 111, 0.045);
             pointer-events: none;
             z-index: 0;
             white-space: nowrap;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
         }
 
-        /* Header */
+        /* HEADER */
         .header {
             text-align: center;
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #c0d4e5;
             z-index: 1;
             background: white;
         }
         .logo {
             position: absolute;
             top: 0;
-            width: 80px;
-            max-height: 80px;
+            width: 75px;
+            max-height: 70px;
             object-fit: contain;
+            background: white;
+            padding: 4px;
+            border-radius: 10px;
         }
         .logo-left { left: 0; }
         .logo-right { right: 0; }
+        .logo-buttons {
+            position: absolute;
+            top: 75px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            z-index: 3;
+        }
+        .logo-buttons button, .firma-container button {
+            background: #e8f0f8;
+            color: #1a4a6f;
+            padding: 3px 14px;
+            font-size: 11px;
+            border: 1px solid #c0d4e5;
+        }
         .company-name {
-            font-size: 24px;
-            color: #1f4e79;
+            font-size: 28px;
+            font-family: 'Arial Narrow', sans-serif;
+            font-weight: 800;
+            color: #1a4a6f;
+            letter-spacing: 1px;
             margin-bottom: 5px;
         }
+        .slogan {
+            font-size: 12px;
+            font-family: 'Arial Narrow', sans-serif;
+            font-style: italic;
+            color: #5a8aae;
+            margin-top: 3px;
+        }
         .company-owner {
-            font-size: 14px;
-            color: #555;
+            font-size: 13px;
+            color: #5a6e7a;
         }
         .company-ruc {
             font-weight: bold;
+            font-size: 12px;
+            color: #5a6e7a;
             margin: 5px 0;
         }
-        .direccion {
-            margin-top: 8px;
+        .direccion input {
+            text-align: center;
+            background: #fefcf7;
+            border: 1px solid #c0d4e5;
+            border-radius: 20px;
+            padding: 5px 15px;
+            width: 100%;
+            font-family: 'Arial Narrow', sans-serif;
         }
         .editable {
-            border: 1px solid #cbd5e0;
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-family: inherit;
-            font-size: 13px;
-        }
-        .editable:focus {
-            outline: none;
-            border-color: #1f4e79;
-            box-shadow: 0 0 0 2px rgba(31,78,121,0.2);
+            border: 1px solid #c0d4e5;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: 'Arial Narrow', sans-serif;
+            background: #fffefb;
         }
 
-        /* Datos del Cliente */
+        /* Fechas */
+        .dates-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .dates-row div {
+            background: #f8fafc;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid #c0d4e5;
+        }
+        .dates-row b {
+            font-weight: 700;
+            color: #1a4a6f;
+            margin-right: 6px;
+        }
+
+        /* Cliente */
         .client-card {
             background: #f8fafc;
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 15px 20px;
             margin: 15px 0;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #c0d4e5;
             z-index: 1;
             position: relative;
         }
         .client-card h4 {
-            color: #1f4e79;
+            font-weight: 700;
+            color: #1a4a6f;
             margin-bottom: 12px;
         }
         .campo {
@@ -269,45 +350,58 @@
             flex-wrap: wrap;
         }
         .campo label {
-            width: 100px;
-            font-weight: 600;
+            width: 120px;
+            font-weight: 700;
+            color: #1a4a6f;
             font-size: 13px;
         }
         .campo input {
             flex: 1;
-            min-width: 180px;
+            padding: 7px 14px;
+            border: 1px solid #c0d4e5;
+            border-radius: 20px;
+            font-family: 'Arial Narrow', sans-serif;
         }
 
-        /* Tabla de Items */
+        /* Tabla de Items - Descripción visible */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
+            margin: 20px 0;
             z-index: 1;
             position: relative;
         }
         .items-table th {
-            background: #1f4e79;
+            background: #1a4a6f;
             color: white;
-            padding: 10px 5px;
-            font-weight: 600;
+            padding: 10px 6px;
+            font-weight: 700;
             font-size: 13px;
             text-align: center;
         }
         .items-table td {
-            border: 1px solid #ddd;
-            padding: 8px 5px;
-            vertical-align: middle;
+            border: 1px solid #c0d4e5;
+            padding: 8px 6px;
+            vertical-align: top;
         }
-        .items-table input, .items-table textarea {
+        .items-table textarea {
             width: 100%;
             border: none;
             padding: 6px;
-            font-family: inherit;
-            font-size: 13px;
+            font-family: 'Arial Narrow', sans-serif;
+            font-size: 12px;
+            resize: vertical;
             background: transparent;
+            min-height: 50px;
         }
-        .items-table input:focus, .items-table textarea:focus {
+        .items-table input {
+            width: 100%;
+            border: none;
+            padding: 8px 5px;
+            font-family: 'Arial Narrow', sans-serif;
+            text-align: center;
+        }
+        .items-table textarea:focus, .items-table input:focus {
             outline: none;
             background: #fef9e6;
         }
@@ -315,22 +409,20 @@
             background: #dc3545;
             color: white;
             border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 5px 10px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
         }
-        .delete-item:hover {
-            background: #c82333;
-        }
 
-        /* Totales con IGV toggle */
+        /* Totales */
         .totals {
             text-align: right;
             margin-top: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            padding: 15px 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #c0d4e5;
             z-index: 1;
             position: relative;
         }
@@ -338,10 +430,10 @@
             margin: 5px 0;
             font-size: 14px;
         }
-        .totals .grand-total {
-            font-size: 18px;
-            font-weight: bold;
-            color: #1f4e79;
+        .grand-total {
+            font-size: 20px;
+            font-weight: 800;
+            color: #1a4a6f;
         }
         .igv-toggle {
             display: flex;
@@ -350,42 +442,43 @@
             gap: 10px;
             margin-bottom: 10px;
             padding-bottom: 8px;
-            border-bottom: 1px dashed #ddd;
+            border-bottom: 1px solid #c0d4e5;
         }
         .igv-toggle label {
-            font-size: 13px;
             font-weight: 600;
-            color: #1f4e79;
-            cursor: pointer;
-        }
-        .igv-toggle input {
-            width: 18px;
-            height: 18px;
+            color: #1a4a6f;
             cursor: pointer;
         }
 
-        /* Footer con número de página y fecha de impresión */
-        .footer {
-            margin-top: 30px;
+        /* Firma */
+        .firma-container {
             text-align: center;
-            font-size: 10px;
-            color: #666;
-            border-top: 1px solid #ddd;
-            padding-top: 12px;
-            z-index: 1;
-            position: relative;
+            margin: 20px 0;
         }
-        .footer-print-info {
+        .firma-img {
+            width: 160px;
+            max-height: 70px;
+            object-fit: contain;
+        }
+
+        /* Footer con número de página y fecha de impresión */
+        .footer-pages {
+            margin-top: 25px;
+            padding-top: 12px;
+            border-top: 1px solid #c0d4e5;
+            font-size: 9px;
+            color: #7a9aba;
             display: flex;
             justify-content: space-between;
-            margin-top: 8px;
+            z-index: 1;
+            position: relative;
+            background: white;
+        }
+        .footer-center-text {
+            text-align: center;
+            margin-top: 10px;
             font-size: 9px;
-        }
-        .footer-left {
-            text-align: left;
-        }
-        .footer-right {
-            text-align: right;
+            color: #7a9aba;
         }
 
         /* Preview Modal */
@@ -396,7 +489,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             z-index: 1000;
             overflow: auto;
             padding: 30px;
@@ -405,7 +498,7 @@
             background: white;
             width: 210mm;
             margin: 0 auto;
-            padding: 15mm;
+            padding: 12mm;
         }
         .close-preview {
             position: fixed;
@@ -413,25 +506,27 @@
             right: 30px;
             background: white;
             border: none;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 5px 12px;
+            font-size: 20px;
             border-radius: 50%;
+            padding: 8px 18px;
+            cursor: pointer;
             font-weight: bold;
+            z-index: 1001;
         }
 
-        /* Para PDF: quitar bordes y botones */
+        /* PDF Clean */
+        .pdf button, .pdf .logo-buttons, .pdf .firma-container button {
+            display: none !important;
+        }
         .pdf input, .pdf textarea, .pdf .editable {
             border: none !important;
             padding: 2px !important;
         }
-        .pdf button {
-            display: none !important;
-        }
 
-        @media (max-width: 768px) {
-            .btn-group { width: 100%; justify-content: center; margin-bottom: 10px; }
-            .dashboard-header { flex-direction: column; }
+        @media (max-width: 800px) {
+            .company-name { font-size: 22px; }
+            .logo { width: 55px; }
+            .logo-buttons { top: 60px; }
         }
     </style>
 </head>
@@ -439,53 +534,55 @@
 
 <div id="login">
     <div class="loginBox">
-        <h3>Acceso al Sistema</h3>
-        <input type="text" id="ruc" placeholder="RUC" autocomplete="off">
-        <input type="password" id="pass" placeholder="Contraseña">
-        <button onclick="login()">Ingresar</button>
+        <h3>VIDRIOS Y ALUMINIOS YURI</h3>
+        <input type="text" id="ruc" placeholder="RUC / Usuario" autocomplete="off">
+        <div class="password-wrapper">
+            <input type="password" id="pass" placeholder="Contraseña">
+            <button type="button" class="toggle-password" onclick="togglePassword()">Mostrar</button>
+        </div>
+        <button onclick="login()">Ingresar al Sistema</button>
         <div id="error"></div>
     </div>
 </div>
 
 <div id="app">
     <div class="dashboard-header">
-        <h2>Cotizador Profesional</h2>
+        <h2>Sistema de Cotizaciones</h2>
         <div class="btn-group">
             <button class="btn btn-primary" onclick="vistaPrevia()">Vista Previa</button>
             <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
             <button class="btn btn-warning" onclick="guardarCotizacion()">Guardar</button>
-            <button class="btn btn-secondary" onclick="nuevaCotizacion()">Nueva</button>
+            <button class="btn btn-secondary" onclick="nuevaCotizacion()">Nueva Cotización</button>
         </div>
     </div>
 
     <div class="workspace">
-        <!-- ÁREA DE COTIZACIÓN -->
         <div class="quote-area">
             <div id="a4">
                 <div class="header">
                     <img id="logo1" class="logo logo-left" style="display:none">
                     <img id="logo2" class="logo logo-right" style="display:none">
-                    <div style="margin-bottom: 10px;">
-                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo1')">Logo Izq</button>
-                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo2')">Logo Der</button>
+                    <div class="logo-buttons">
+                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
+                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
                     </div>
                     <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
+                    <div class="slogan">Calidad y transparencia en cada detalle</div>
                     <div class="company-owner">YURI HERMOZA PUELLES</div>
                     <div class="company-ruc">RUC: 10617365036</div>
                     <div class="direccion">
-                        <input class="editable" id="direccionEmpresa" style="width:100%" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
+                        <input class="editable" id="direccionEmpresa" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
                     </div>
-                    <hr>
                 </div>
 
-                <div style="display:flex; justify-content:space-between; margin:15px 0;">
-                    <div><b>COTIZACIÓN N°</b> <input id="numCot" class="editable" style="width:140px"></div>
+                <div class="dates-row">
+                    <div><b>Cotización N°</b> <input id="numCot" class="editable" style="width:130px"></div>
                     <div><b>Fecha Emisión</b> <input type="date" id="fecha" class="editable"></div>
                     <div><b>Fecha Validez</b> <input type="date" id="fechaValidez" class="editable"></div>
                     <div><b>Moneda</b>
                         <select id="moneda" class="editable" onchange="calcular()">
-                            <option value="PEN">Soles (S/)</option>
-                            <option value="USD">Dólares ($)</option>
+                            <option value="PEN">Soles S/</option>
+                            <option value="USD">Dólares USD $</option>
                         </select>
                     </div>
                 </div>
@@ -500,11 +597,11 @@
 
                 <table class="items-table" id="tabla">
                     <thead>
-                        <tr><th>Item</th><th>Descripción</th><th>Cant.</th><th>P.Unitario</th><th>Subtotal</th><th></th></tr>
+                        <tr><th style="width:5%">#</th><th style="width:40%">Descripción</th><th style="width:10%">Cant.</th><th style="width:15%">Precio Unit.</th><th style="width:15%">Subtotal</th><th style="width:8%"></th></tr>
                     </thead>
                     <tbody></tbody>
                 </table>
-                <button class="btn btn-primary" style="margin-top:5px;" onclick="agregarItem()">+ Agregar Item</button>
+                <button class="btn btn-primary" style="margin:5px 0" onclick="agregarItem()">+ Agregar Item</button>
 
                 <div class="totals">
                     <div class="igv-toggle">
@@ -516,30 +613,30 @@
                     <p class="grand-total">Total: <span id="total">0.00</span></p>
                 </div>
 
-                <div style="margin-top:20px; font-size:13px;">
+                <div style="margin-top:15px; font-size:12px; padding:10px; background:#f8fafc; border-radius:10px;">
                     <b>Método de pago</b><br>
-                    Cuenta BCP: 52671107164027<br>
-                    CCI: 00252617110716402721
+                    Cuenta BCP: 52671107164027 | CCI: 00252617110716402721
                 </div>
 
-                <div style="text-align:center; margin:20px 0;">
-                    <img id="firmaImg" width="120" style="display:none"><br>
-                    <button class="btn btn-secondary" onclick="subirFirma()">Subir Firma / Sello</button>
+                <div class="firma-container">
+                    <img id="firmaImg" class="firma-img" style="display:none">
+                    <br>
+                    <button onclick="subirFirma()">Subir Firma / Sello</button>
                 </div>
 
-                <div class="footer">
-                    <div>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</div>
-                    <div>hermozayurihermozapuelles@gmail.com | 993963381</div>
-                    <div><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></div>
-                    <div class="footer-print-info">
-                        <div class="footer-left">Documento generado por Vidrios y Aluminios Yuri</div>
-                        <div class="footer-right">Página <span id="pageNum">1</span> de <span id="totalPages">1</span> | Impresión: <span id="printDate"></span></div>
-                    </div>
+                <!-- Footer que se repetirá en cada página del PDF -->
+                <div class="footer-pages">
+                    <span>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</span>
+                    <span class="page-number">Página <span class="pageNum">1</span> de <span class="totalPages">1</span></span>
+                    <span class="print-date">Impresión: <span class="printDateSpan"></span></span>
+                </div>
+                <div class="footer-center-text">
+                    hermozayurihermozapuelles@gmail.com | 993963381<br>
+                    <i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
                 </div>
             </div>
         </div>
 
-        <!-- HISTORIAL DE COTIZACIONES -->
         <div class="history-area">
             <h3>Historial de Cotizaciones</h3>
             <div id="historial"></div>
@@ -548,29 +645,39 @@
     </div>
 </div>
 
-<!-- MODAL DE VISTA PREVIA -->
 <div id="preview">
-    <button class="close-preview" onclick="cerrarPreview()">✖</button>
+    <button class="close-preview" onclick="cerrarPreview()">✖ Cerrar</button>
     <div id="previewContent" class="previewA4"></div>
 </div>
 
 <script>
-    // ========== CONFIGURACIÓN ==========
+    // ========== CREDENCIALES ==========
     const RUC = "10617365036";
     const PASS = "yuri2026";
-    let cotizaciones = [];
+
+    // ========== TOGGLE PASSWORD ==========
+    function togglePassword() {
+        let passInput = document.getElementById("pass");
+        let btn = document.querySelector(".toggle-password");
+        if (passInput.type === "password") {
+            passInput.type = "text";
+            btn.textContent = "Ocultar";
+        } else {
+            passInput.type = "password";
+            btn.textContent = "Mostrar";
+        }
+    }
 
     // ========== LOGIN ==========
     function login() {
         let ruc = document.getElementById("ruc").value.trim();
         let pass = document.getElementById("pass").value.trim();
-        if(ruc === RUC && pass === PASS) {
+        if (ruc === RUC && pass === PASS) {
             document.getElementById("login").style.display = "none";
             document.getElementById("app").style.display = "block";
             nuevaCotizacion();
             cargarHistorial();
-            cargarLogosGuardados();
-            cargarFirmaGuardada();
+            cargarImagenesGuardadas();
             actualizarFechaImpresion();
         } else {
             document.getElementById("error").innerText = "RUC o Contraseña incorrectos";
@@ -581,9 +688,60 @@
     function actualizarFechaImpresion() {
         let ahora = new Date();
         let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById("printDate").innerText = fechaStr;
-        document.getElementById("pageNum").innerText = "1";
-        document.getElementById("totalPages").innerText = "1";
+        let printSpans = document.querySelectorAll('.printDateSpan');
+        printSpans.forEach(span => span.innerText = fechaStr);
+        document.querySelectorAll('.pageNum').forEach(span => span.innerText = "1");
+        document.querySelectorAll('.totalPages').forEach(span => span.innerText = "1");
+    }
+
+    // ========== IMÁGENES PERSISTENTES ==========
+    function cargarImagenesGuardadas() {
+        let logo1 = localStorage.getItem("logo1");
+        if (logo1) { document.getElementById("logo1").src = logo1; document.getElementById("logo1").style.display = "inline-block"; }
+        let logo2 = localStorage.getItem("logo2");
+        if (logo2) { document.getElementById("logo2").src = logo2; document.getElementById("logo2").style.display = "inline-block"; }
+        let firma = localStorage.getItem("firma");
+        if (firma) { document.getElementById("firmaImg").src = firma; document.getElementById("firmaImg").style.display = "inline-block"; }
+    }
+
+    function subirLogo(id) {
+        let input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = function(e) {
+            let file = e.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(ev) {
+                let imgData = ev.target.result;
+                document.getElementById(id).src = imgData;
+                document.getElementById(id).style.display = "inline-block";
+                localStorage.setItem(id, imgData);
+                alert("Logo guardado correctamente.");
+            };
+            reader.readAsDataURL(file);
+        };
+        input.click();
+    }
+
+    function subirFirma() {
+        let input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = function(e) {
+            let file = e.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(ev) {
+                let imgData = ev.target.result;
+                document.getElementById("firmaImg").src = imgData;
+                document.getElementById("firmaImg").style.display = "inline-block";
+                localStorage.setItem("firma", imgData);
+                alert("Firma guardada correctamente.");
+            };
+            reader.readAsDataURL(file);
+        };
+        input.click();
     }
 
     // ========== NÚMERO DE COTIZACIÓN ==========
@@ -591,7 +749,7 @@
         let contador = parseInt(localStorage.getItem("contador")) || 0;
         contador++;
         localStorage.setItem("contador", contador);
-        return String(contador).padStart(4,"0") + "-" + new Date().getFullYear();
+        return String(contador).padStart(4, "0") + "-" + new Date().getFullYear();
     }
 
     function nuevaCotizacion() {
@@ -613,41 +771,37 @@
         actualizarFechaImpresion();
     }
 
-    // ========== MANEJO DE ÍTEMS ==========
+    // ========== ITEMS ==========
     function agregarItem() {
         let tbody = document.querySelector("#tabla tbody");
         let rowCount = tbody.rows.length + 1;
         let fila = document.createElement("tr");
         fila.innerHTML = `
             <td style="text-align:center">${rowCount}</td>
-            <td><textarea rows="2" placeholder="Descripción del producto/servicio..."></textarea></td>
+            <td><textarea rows="2" placeholder="Detalle del producto (vidrio, aluminio, medidas, acabado...)"></textarea></td>
             <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
             <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
-            <td class="subtotal-cell">0.00</td>
-            <td><button class="delete-item" onclick="eliminarItem(this)">X</button></td>
+            <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
+            <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>
         `;
         tbody.appendChild(fila);
     }
 
     function eliminarItem(boton) {
-        let row = boton.closest("tr");
-        row.remove();
+        boton.closest("tr").remove();
         renumerarItems();
         calcular();
     }
 
     function renumerarItems() {
         let rows = document.querySelectorAll("#tabla tbody tr");
-        rows.forEach((row, idx) => {
-            row.cells[0].innerText = idx + 1;
-        });
+        rows.forEach((row, idx) => { row.cells[0].innerText = idx + 1; });
     }
 
-    // ========== CÁLCULO CON IGV OPCIONAL ==========
+    // ========== CÁLCULOS ==========
     function calcular() {
         let subtotalGeneral = 0;
         let filas = document.querySelectorAll("#tabla tbody tr");
-        
         filas.forEach(fila => {
             let cantidad = parseFloat(fila.querySelector("td:nth-child(3) input").value) || 0;
             let precio = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
@@ -659,40 +813,30 @@
         let incluirIGV = document.getElementById("incluirIGV").checked;
         let igv = incluirIGV ? (subtotalGeneral * 0.18) : 0;
         let total = subtotalGeneral + igv;
-        
         let moneda = document.getElementById("moneda").value;
         let simbolo = (moneda === "PEN") ? "S/ " : "$ ";
-        
-        document.getElementById("costo").innerText = simbolo + subtotalGeneral.toFixed(2);
-        document.getElementById("igv").innerText = simbolo + igv.toFixed(2);
+
+        document.getElementById("costo").innerHTML = simbolo + subtotalGeneral.toFixed(2);
+        document.getElementById("igv").innerHTML = simbolo + igv.toFixed(2);
         document.getElementById("total").innerHTML = simbolo + total.toFixed(2);
-        
-        let igvLine = document.getElementById("igvLine");
-        igvLine.style.display = incluirIGV ? "block" : "none";
-        
-        document.querySelector(".totals p:first-child").innerHTML = `Costo Neto: ${simbolo} ${subtotalGeneral.toFixed(2)}`;
-        if(incluirIGV) {
-            document.querySelector(".totals p:nth-child(2)").innerHTML = `IGV (18%): ${simbolo} ${igv.toFixed(2)}`;
-        }
-        document.querySelector(".grand-total").innerHTML = `Total: ${simbolo} ${total.toFixed(2)}`;
+        document.getElementById("igvLine").style.display = incluirIGV ? "block" : "none";
     }
 
-    // ========== PDF Y PREVISUALIZACIÓN ==========
+    // ========== PDF ==========
     async function descargarPDF() {
-        let originalA4 = document.getElementById("a4");
-        let clon = originalA4.cloneNode(true);
+        let cliente = document.getElementById("clienteNombre").value || "Cliente";
+        let numCot = document.getElementById("numCot").value || "0000";
+        let clon = document.getElementById("a4").cloneNode(true);
         clon.classList.add("pdf");
         let ahora = new Date();
         let fechaImp = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
-        let printSpan = clon.querySelector("#printDate");
-        if(printSpan) printSpan.innerText = fechaImp;
-        
-        let clienteNom = document.getElementById("clienteNombre").value || "SinCliente";
-        let numCot = document.getElementById("numCot").value || "0000";
-        
+        clon.querySelectorAll('.printDateSpan').forEach(span => span.innerText = fechaImp);
+        clon.querySelectorAll('.pageNum').forEach(span => span.innerText = "1");
+        clon.querySelectorAll('.totalPages').forEach(span => span.innerText = "1");
+
         const opt = {
             margin: [0.5, 0.5, 0.5, 0.5],
-            filename: `Cotizacion_${numCot}_${clienteNom}.pdf`,
+            filename: `Cotizacion_${numCot}_${cliente}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, letterRendering: true },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -703,17 +847,16 @@
     function vistaPrevia() {
         let clon = document.getElementById("a4").cloneNode(true);
         clon.classList.add("pdf");
-        let previewDiv = document.getElementById("previewContent");
-        previewDiv.innerHTML = "";
-        previewDiv.appendChild(clon);
+        document.getElementById("previewContent").innerHTML = "";
+        document.getElementById("previewContent").appendChild(clon);
         document.getElementById("preview").style.display = "block";
     }
-    
+
     function cerrarPreview() {
         document.getElementById("preview").style.display = "none";
     }
 
-    // ========== GUARDAR COTIZACIÓN ==========
+    // ========== GUARDAR Y HISTORIAL ==========
     function guardarCotizacion() {
         let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
         let items = [];
@@ -725,8 +868,7 @@
                 subtotal: row.querySelector(".subtotal-cell").innerText
             });
         });
-        
-        let cotizacion = {
+        lista.unshift({
             id: Date.now(),
             numero: document.getElementById("numCot").value,
             fecha: document.getElementById("fecha").value,
@@ -740,12 +882,8 @@
                 direccion: document.getElementById("clienteDir").value
             },
             items: items,
-            totalNeto: document.getElementById("costo").innerText,
-            totalIGV: document.getElementById("igv").innerText,
             totalFinal: document.getElementById("total").innerText
-        };
-        
-        lista.unshift(cotizacion);
+        });
         localStorage.setItem("cotizaciones", JSON.stringify(lista));
         cargarHistorial();
     }
@@ -754,131 +892,5 @@
         let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
         let div = document.getElementById("historial");
         div.innerHTML = "";
-        if(lista.length === 0) {
-            div.innerHTML = "<p style='color:gray'>No hay cotizaciones guardadas</p>";
-            return;
-        }
-        lista.slice(0, 15).forEach(cot => {
-            let itemDiv = document.createElement("div");
-            itemDiv.className = "history-item";
-            let monedaSim = cot.moneda === "PEN" ? "S/" : "$";
-            let totalNum = cot.totalFinal.replace(/[^0-9.-]/g, '');
-            itemDiv.innerHTML = `<strong>${cot.numero}</strong> | ${cot.cliente.nombre || "Anónimo"} | ${monedaSim} ${totalNum}<br><small>Emisión: ${cot.fecha || "sin fecha"}</small>`;
-            itemDiv.onclick = () => cargarCotizacionParaEditar(cot);
-            div.appendChild(itemDiv);
-        });
-    }
-    
-    function cargarCotizacionParaEditar(cot) {
-        document.getElementById("numCot").value = cot.numero;
-        document.getElementById("fecha").value = cot.fecha || "";
-        document.getElementById("fechaValidez").value = cot.fechaValidez || "";
-        document.getElementById("moneda").value = cot.moneda || "PEN";
-        document.getElementById("incluirIGV").checked = cot.incluirIGV !== undefined ? cot.incluirIGV : true;
-        document.getElementById("clienteNombre").value = cot.cliente.nombre || "";
-        document.getElementById("clienteDoc").value = cot.cliente.documento || "";
-        document.getElementById("clienteCel").value = cot.cliente.celular || "";
-        document.getElementById("clienteDir").value = cot.cliente.direccion || "";
-        
-        let tbody = document.querySelector("#tabla tbody");
-        tbody.innerHTML = "";
-        if(cot.items && cot.items.length) {
-            cot.items.forEach((it, idx) => {
-                let fila = document.createElement("tr");
-                fila.innerHTML = `
-                    <td style="text-align:center">${idx+1}</td>
-                    <td><textarea rows="2">${escapeHtml(it.desc)}</textarea></td>
-                    <td><input type="number" value="${it.cant}" step="1" onchange="calcular()"></td>
-                    <td><input type="number" value="${it.precio}" step="0.01" onchange="calcular()"></td>
-                    <td class="subtotal-cell">${it.subtotal}</td>
-                    <td><button class="delete-item" onclick="eliminarItem(this)">X</button></td>
-                `;
-                tbody.appendChild(fila);
-            });
-        } else {
-            agregarItem();
-        }
-        calcular();
-        actualizarFechaImpresion();
-    }
-    
-    function escapeHtml(str) {
-        if(!str) return "";
-        return str.replace(/[&<>]/g, function(m) {
-            if(m === '&') return '&amp;';
-            if(m === '<') return '&lt;';
-            if(m === '>') return '&gt;';
-            return m;
-        });
-    }
-
-    function exportarHistorial() {
-        let data = localStorage.getItem("cotizaciones");
-        if(!data) return alert("No hay historial para exportar");
-        let blob = new Blob([data], {type: "application/json"});
-        let link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "historial_cotizaciones.json";
-        link.click();
-        URL.revokeObjectURL(link.href);
-    }
-
-    // ========== LOGOS Y FIRMA ==========
-    function subirLogo(id) {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function(e) {
-            let file = e.target.files[0];
-            let reader = new FileReader();
-            reader.onload = function(ev) {
-                let img = document.getElementById(id);
-                img.src = ev.target.result;
-                img.style.display = "inline-block";
-                localStorage.setItem(id, ev.target.result);
-            };
-            reader.readAsDataURL(file);
-        };
-        input.click();
-    }
-    
-    function cargarLogosGuardados() {
-        let logo1 = localStorage.getItem("logo1");
-        if(logo1) { document.getElementById("logo1").src = logo1; document.getElementById("logo1").style.display = "inline-block"; }
-        let logo2 = localStorage.getItem("logo2");
-        if(logo2) { document.getElementById("logo2").src = logo2; document.getElementById("logo2").style.display = "inline-block"; }
-    }
-    
-    function subirFirma() {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function(e) {
-            let reader = new FileReader();
-            reader.onload = function(ev) {
-                let img = document.getElementById("firmaImg");
-                img.src = ev.target.result;
-                img.style.display = "inline-block";
-                localStorage.setItem("firma", ev.target.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        };
-        input.click();
-    }
-    
-    function cargarFirmaGuardada() {
-        let firma = localStorage.getItem("firma");
-        if(firma) {
-            document.getElementById("firmaImg").src = firma;
-            document.getElementById("firmaImg").style.display = "inline-block";
-        }
-    }
-    
-    // Inicializar
-    window.onload = () => {
-        if(!localStorage.getItem("contador")) localStorage.setItem("contador", "0");
-        actualizarFechaImpresion();
-    };
-</script>
-</body>
-</html>
+        if (lista.length === 0) {
+            div.innerHTML = "<p style='color:#8aaec
