@@ -614,35 +614,35 @@
         <div class="subtitle">Sistema de Cotizaciones Profesional</div>
         
         <div class="login-tabs">
-            <button class="login-tab active" onclick="switchLoginTab('ruc')">RUC</button>
-            <button class="login-tab" onclick="switchLoginTab('celular')">Celular</button>
-            <button class="login-tab" onclick="switchLoginTab('codigo')">Código SMS</button>
+            <button class="login-tab active" data-tab="ruc">RUC</button>
+            <button class="login-tab" data-tab="celular">Celular</button>
+            <button class="login-tab" data-tab="codigo">Código SMS</button>
         </div>
         
         <div id="form-ruc" class="login-form active">
-            <input type="text" id="rucInput" placeholder="RUC / Usuario" autocomplete="off">
+            <input type="text" id="rucInput" placeholder="RUC / Usuario" autocomplete="off" value="10617365036">
             <div class="password-wrapper">
-                <input type="password" id="passRuc" placeholder="Contraseña">
-                <button type="button" class="toggle-password" onclick="togglePassword('passRuc', this)">Mostrar</button>
+                <input type="password" id="passRuc" placeholder="Contraseña" value="yuri2026">
+                <button type="button" class="toggle-password" data-pass="passRuc">Mostrar</button>
             </div>
-            <button class="btn-login" onclick="loginRuc()">Ingresar con RUC</button>
+            <button class="btn-login" data-login="ruc">Ingresar con RUC</button>
         </div>
         
         <div id="form-celular" class="login-form">
-            <input type="tel" id="celularInput" placeholder="Número de celular" autocomplete="off">
+            <input type="tel" id="celularInput" placeholder="Número de celular" autocomplete="off" value="993963381">
             <div class="password-wrapper">
-                <input type="password" id="passCel" placeholder="Contraseña">
-                <button type="button" class="toggle-password" onclick="togglePassword('passCel', this)">Mostrar</button>
+                <input type="password" id="passCel" placeholder="Contraseña" value="yuri2026">
+                <button type="button" class="toggle-password" data-pass="passCel">Mostrar</button>
             </div>
-            <button class="btn-login" onclick="loginCelular()">Ingresar con Celular</button>
+            <button class="btn-login" data-login="celular">Ingresar con Celular</button>
         </div>
         
         <div id="form-codigo" class="login-form">
-            <input type="tel" id="celularCodeInput" placeholder="Número de celular">
-            <button class="btn-login btn-verify" id="btnEnviarCodigo" onclick="enviarCodigo()">Enviar código SMS</button>
+            <input type="tel" id="celularCodeInput" placeholder="Número de celular" value="993963381">
+            <button class="btn-login btn-verify" data-verify="enviar">Enviar código SMS</button>
             <div id="codeGroup" class="code-group">
                 <input type="text" id="codigoInput" placeholder="Código de 6 dígitos" maxlength="6">
-                <button class="btn-login" onclick="verificarCodigo()">Verificar y acceder</button>
+                <button class="btn-login" data-verify="codigo">Verificar y acceder</button>
             </div>
         </div>
         
@@ -661,10 +661,10 @@
     <div class="dashboard-header">
         <h2>Sistema de Cotizaciones</h2>
         <div class="btn-group">
-            <button class="btn btn-primary" onclick="vistaPrevia()">Vista Previa</button>
-            <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
-            <button class="btn btn-warning" onclick="guardarCotizacion()">Guardar</button>
-            <button class="btn btn-secondary" onclick="nuevaCotizacion()">Nueva Cotización</button>
+            <button class="btn btn-primary" id="btnVistaPrevia">Vista Previa</button>
+            <button class="btn btn-success" id="btnDescargarPDF">Descargar PDF</button>
+            <button class="btn btn-warning" id="btnGuardar">Guardar</button>
+            <button class="btn btn-secondary" id="btnNueva">Nueva Cotización</button>
         </div>
     </div>
 
@@ -675,8 +675,8 @@
                     <img id="logo1" class="logo logo-left" style="display:none">
                     <img id="logo2" class="logo logo-right" style="display:none">
                     <div class="logo-buttons">
-                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
-                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
+                        <button id="subirLogo1">Subir Logo Izquierdo</button>
+                        <button id="subirLogo2">Subir Logo Derecho</button>
                     </div>
                     <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
                     <div class="slogan">Calidad y transparencia en cada detalle</div>
@@ -692,7 +692,7 @@
                     <div><b>Fecha Emisión</b> <input type="date" id="fecha" class="editable"></div>
                     <div><b>Fecha Validez</b> <input type="date" id="fechaValidez" class="editable"></div>
                     <div><b>Moneda</b>
-                        <select id="moneda" class="editable" onchange="calcular()">
+                        <select id="moneda" class="editable">
                             <option value="PEN">Soles S/</option>
                             <option value="USD">Dólares USD $</option>
                         </select>
@@ -712,12 +712,12 @@
                         <tr><th style="width:5%">#</th><th style="width:40%">Descripción</th><th style="width:10%">Cantidad</th><th style="width:15%">Precio Unitario</th><th style="width:15%">Subtotal</th><th style="width:8%"></th></tr>
                     </thead>
                     <tbody></tbody>
-                <tr>
-                <button class="btn btn-primary" style="margin:5px 0" onclick="agregarItem()">+ Agregar Item</button>
+                </table>
+                <button class="btn btn-primary" id="agregarItemBtn">+ Agregar Item</button>
 
                 <div class="totals">
                     <div class="igv-toggle">
-                        <input type="checkbox" id="incluirIGV" checked onchange="calcular()">
+                        <input type="checkbox" id="incluirIGV" checked>
                         <label for="incluirIGV">Incluir IGV (18%)</label>
                     </div>
                     <p>Costo Neto: <span id="costo">0.00</span></p>
@@ -733,13 +733,13 @@
                 <div class="firma-container">
                     <img id="firmaImg" class="firma-img" style="display:none">
                     <br>
-                    <button onclick="subirFirma()">Subir Firma / Sello</button>
+                    <button id="subirFirmaBtn">Subir Firma / Sello</button>
                 </div>
 
                 <div class="footer-pages">
                     <span>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</span>
-                    <span>Página <span class="pageNum">1</span> de <span class="totalPages">1</span></span>
-                    <span class="print-date">Impresión: <span class="printDateSpan"></span></span>
+                    <span>Página <span id="pageNum">1</span> de <span id="totalPages">1</span></span>
+                    <span class="print-date">Impresión: <span id="printDate"></span></span>
                 </div>
                 <div class="footer-center-text">
                     hermozayurihermozapuelles@gmail.com | 993963381<br>
@@ -751,13 +751,13 @@
         <div class="history-area">
             <h3>Historial de Cotizaciones</h3>
             <div id="historial"></div>
-            <button class="btn btn-secondary" style="margin-top:15px; width:100%" onclick="exportarHistorial()">Exportar Historial</button>
+            <button class="btn btn-secondary" id="exportarHistorialBtn">Exportar Historial</button>
         </div>
     </div>
 </div>
 
 <div id="preview">
-    <button class="close-preview" onclick="cerrarPreview()">✖ Cerrar</button>
+    <button class="close-preview" id="cerrarPreviewBtn">✖ Cerrar</button>
     <div id="previewContent" class="previewA4"></div>
 </div>
 
@@ -767,176 +767,154 @@
     const USUARIO_CELULAR = "993963381";
     const CONTRASENA = "yuri2026";
     let codigoEnviado = null;
-    let celularVerificado = null;
+    let cotizaciones = [];
 
-    // ========== FUNCIONES GLOBALES DE LOGIN ==========
-    window.switchLoginTab = function(tab) {
-        let tabs = document.querySelectorAll('.login-tab');
-        tabs.forEach(btn => btn.classList.remove('active'));
-        if (event && event.target) event.target.classList.add('active');
+    // ========== INICIALIZAR EVENTOS ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Login - cambio de tabs
+        document.querySelectorAll('.login-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
+                document.getElementById(`form-${tabName}`).classList.add('active');
+                document.getElementById('loginError').innerText = '';
+                document.getElementById('loginSuccess').innerText = '';
+            });
+        });
         
-        document.getElementById('form-ruc').classList.remove('active');
-        document.getElementById('form-celular').classList.remove('active');
-        document.getElementById('form-codigo').classList.remove('active');
+        // Mostrar/ocultar contraseña
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const passId = this.getAttribute('data-pass');
+                const passInput = document.getElementById(passId);
+                if (passInput.type === 'password') {
+                    passInput.type = 'text';
+                    this.textContent = 'Ocultar';
+                } else {
+                    passInput.type = 'password';
+                    this.textContent = 'Mostrar';
+                }
+            });
+        });
         
-        if (tab === 'ruc') document.getElementById('form-ruc').classList.add('active');
-        if (tab === 'celular') document.getElementById('form-celular').classList.add('active');
-        if (tab === 'codigo') document.getElementById('form-codigo').classList.add('active');
+        // Login RUC
+        document.querySelector('[data-login="ruc"]').addEventListener('click', function() {
+            const ruc = document.getElementById('rucInput').value.trim();
+            const pass = document.getElementById('passRuc').value.trim();
+            if (ruc === USUARIO_RUC && pass === CONTRASENA) {
+                ingresarAlSistema();
+            } else {
+                document.getElementById('loginError').innerText = "RUC o Contraseña incorrectos";
+            }
+        });
         
-        document.getElementById('loginError').innerText = "";
-        document.getElementById('loginSuccess').innerText = "";
-    };
+        // Login Celular
+        document.querySelector('[data-login="celular"]').addEventListener('click', function() {
+            const celular = document.getElementById('celularInput').value.trim();
+            const pass = document.getElementById('passCel').value.trim();
+            if (celular === USUARIO_CELULAR && pass === CONTRASENA) {
+                ingresarAlSistema();
+            } else {
+                document.getElementById('loginError').innerText = "Celular o Contraseña incorrectos";
+            }
+        });
+        
+        // Enviar código SMS
+        document.querySelector('[data-verify="enviar"]').addEventListener('click', function() {
+            const celular = document.getElementById('celularCodeInput').value.trim();
+            if (celular !== USUARIO_CELULAR) {
+                document.getElementById('loginError').innerText = "Número de celular no registrado";
+                return;
+            }
+            codigoEnviado = Math.floor(100000 + Math.random() * 900000).toString();
+            document.getElementById('codeGroup').style.display = "block";
+            document.getElementById('loginSuccess').innerText = `Código enviado: ${codigoEnviado} (simulado)`;
+            document.getElementById('loginError').innerText = "";
+            document.getElementById('codigoInput').value = "";
+        });
+        
+        // Verificar código
+        document.querySelector('[data-verify="codigo"]').addEventListener('click', function() {
+            const codigo = document.getElementById('codigoInput').value.trim();
+            if (!codigoEnviado) {
+                document.getElementById('loginError').innerText = "Primero solicita un código";
+                return;
+            }
+            if (codigo === codigoEnviado) {
+                ingresarAlSistema();
+            } else {
+                document.getElementById('loginError').innerText = "Código incorrecto";
+            }
+        });
+        
+        // Botones de la app (se inicializan después del login)
+        document.getElementById('btnVistaPrevia').addEventListener('click', vistaPrevia);
+        document.getElementById('btnDescargarPDF').addEventListener('click', descargarPDF);
+        document.getElementById('btnGuardar').addEventListener('click', guardarCotizacion);
+        document.getElementById('btnNueva').addEventListener('click', nuevaCotizacion);
+        document.getElementById('agregarItemBtn').addEventListener('click', agregarItem);
+        document.getElementById('exportarHistorialBtn').addEventListener('click', exportarHistorial);
+        document.getElementById('cerrarPreviewBtn').addEventListener('click', cerrarPreview);
+        document.getElementById('subirLogo1').addEventListener('click', () => subirLogo('logo1'));
+        document.getElementById('subirLogo2').addEventListener('click', () => subirLogo('logo2'));
+        document.getElementById('subirFirmaBtn').addEventListener('click', subirFirma);
+        document.getElementById('moneda').addEventListener('change', calcular);
+        document.getElementById('incluirIGV').addEventListener('change', calcular);
+        
+        // Cargar datos guardados
+        cargarImagenesGuardadas();
+        if(!localStorage.getItem('contador')) localStorage.setItem('contador', '0');
+    });
     
-    window.togglePassword = function(inputId, btn) {
-        let passInput = document.getElementById(inputId);
-        if (passInput.type === "password") {
-            passInput.type = "text";
-            btn.textContent = "Ocultar";
-        } else {
-            passInput.type = "password";
-            btn.textContent = "Mostrar";
-        }
-    };
-    
-    window.loginRuc = function() {
-        let ruc = document.getElementById('rucInput').value.trim();
-        let pass = document.getElementById('passRuc').value.trim();
-        let errorDiv = document.getElementById('loginError');
-        
-        if (ruc === USUARIO_RUC && pass === CONTRASENA) {
-            ingresarAlSistema();
-        } else {
-            errorDiv.innerText = "RUC o Contraseña incorrectos";
-        }
-    };
-    
-    window.loginCelular = function() {
-        let celular = document.getElementById('celularInput').value.trim();
-        let pass = document.getElementById('passCel').value.trim();
-        let errorDiv = document.getElementById('loginError');
-        
-        if (celular === USUARIO_CELULAR && pass === CONTRASENA) {
-            ingresarAlSistema();
-        } else {
-            errorDiv.innerText = "Celular o Contraseña incorrectos";
-        }
-    };
-    
-    window.enviarCodigo = function() {
-        let celular = document.getElementById('celularCodeInput').value.trim();
-        let errorDiv = document.getElementById('loginError');
-        let successDiv = document.getElementById('loginSuccess');
-        
-        if (celular !== USUARIO_CELULAR) {
-            errorDiv.innerText = "Número de celular no registrado";
-            return;
-        }
-        
-        codigoEnviado = Math.floor(100000 + Math.random() * 900000).toString();
-        celularVerificado = celular;
-        
-        document.getElementById('codeGroup').style.display = "block";
-        successDiv.innerText = `Código enviado: ${codigoEnviado} (simulado)`;
-        errorDiv.innerText = "";
-        document.getElementById('codigoInput').value = "";
-    };
-    
-    window.verificarCodigo = function() {
-        let codigo = document.getElementById('codigoInput').value.trim();
-        let errorDiv = document.getElementById('loginError');
-        
-        if (!codigoEnviado) {
-            errorDiv.innerText = "Primero solicita un código";
-            return;
-        }
-        
-        if (codigo === codigoEnviado) {
-            ingresarAlSistema();
-        } else {
-            errorDiv.innerText = "Código incorrecto";
-        }
-    };
-    
-    // ========== INGRESO AL SISTEMA ==========
     function ingresarAlSistema() {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("app").style.display = "block";
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
         nuevaCotizacion();
         cargarHistorial();
-        cargarImagenesGuardadas();
         actualizarFechaImpresion();
     }
-
-    // ========== FECHA DE IMPRESIÓN ==========
+    
     function actualizarFechaImpresion() {
-        let ahora = new Date();
-        let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
-        let printSpans = document.querySelectorAll('.printDateSpan');
-        printSpans.forEach(span => span.innerText = fechaStr);
+        const ahora = new Date();
+        const fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+        document.getElementById('printDate').innerText = fechaStr;
     }
-
-    // ========== IMÁGENES PERSISTENTES ==========
-    function cargarImagenesGuardadas() {
-        let logo1 = localStorage.getItem("logo1");
-        if (logo1 && logo1 !== "") { 
-            document.getElementById("logo1").src = logo1; 
-            document.getElementById("logo1").style.display = "inline-block"; 
-        }
-        let logo2 = localStorage.getItem("logo2");
-        if (logo2 && logo2 !== "") { 
-            document.getElementById("logo2").src = logo2; 
-            document.getElementById("logo2").style.display = "inline-block"; 
-        }
-        let firma = localStorage.getItem("firma");
-        if (firma && firma !== "") { 
-            document.getElementById("firmaImg").src = firma; 
-            document.getElementById("firmaImg").style.display = "inline-block"; 
-        }
-    }
-
-    window.subirLogo = function(id) {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function(e) {
-            let file = e.target.files[0];
-            if (!file) return;
-            let reader = new FileReader();
-            reader.onload = function(ev) {
-                let imgData = ev.target.result;
-                document.getElementById(id).src = imgData;
-                document.getElementById(id).style.display = "inline-block";
-                localStorage.setItem(id, imgData);
-                alert("Logo guardado correctamente.");
-            };
-            reader.readAsDataURL(file);
-        };
-        input.click();
-    };
-
-    window.subirFirma = function() {
-        let input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = function(e) {
-            let file = e.target.files[0];
-            if (!file) return;
-            let reader = new FileReader();
-            reader.onload = function(ev) {
-                let imgData = ev.target.result;
-                document.getElementById("firmaImg").src = imgData;
-                document.getElementById("firmaImg").style.display = "inline-block";
-                localStorage.setItem("firma", imgData);
-                alert("Firma guardada correctamente.");
-            };
-            reader.readAsDataURL(file);
-        };
-        input.click();
-    };
-
-    // ========== NÚMERO DE COTIZACIÓN ==========
+    
     function generarNumero() {
-        let contador = parseInt(localStorage.getItem("contador")) || 0;
+        let contador = parseInt(localStorage.getItem('contador')) || 0;
         contador++;
-        localStorage.setItem("contador", contador);
-        return String(contador).padStart(4, "0") + "-" + new
+        localStorage.setItem('contador', contador);
+        return String(contador).padStart(4, '0') + '-' + new Date().getFullYear();
+    }
+    
+    function nuevaCotizacion() {
+        document.getElementById('numCot').value = generarNumero();
+        const hoy = new Date();
+        document.getElementById('fecha').valueAsDate = hoy;
+        const validez = new Date();
+        validez.setDate(hoy.getDate() + 15);
+        document.getElementById('fechaValidez').valueAsDate = validez;
+        document.getElementById('moneda').value = 'PEN';
+        document.getElementById('incluirIGV').checked = true;
+        document.getElementById('clienteNombre').value = '';
+        document.getElementById('clienteDoc').value = '';
+        document.getElementById('clienteCel').value = '';
+        document.getElementById('clienteDir').value = '';
+        document.querySelector('#tabla tbody').innerHTML = '';
+        agregarItem();
+        calcular();
+        actualizarFechaImpresion();
+    }
+    
+    function agregarItem() {
+        const tbody = document.querySelector('#tabla tbody');
+        const rowCount = tbody.rows.length + 1;
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td style="text-align:center">${rowCount}</td>
+            <td><textarea rows="2" placeholder="Detalle del producto..."></textarea></td>
+            <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
+            <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
+            <td class="subtotal-cell"
