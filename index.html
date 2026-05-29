@@ -253,14 +253,6 @@
         .btn-delete { background: #dc3545; color: white; }
 
         /* HOJA A4 MEJORADA */
-        .page-container {
-            position: relative;
-            background: white;
-            break-after: page;
-            page-break-after: always;
-            margin-bottom: 20px;
-        }
-        
         #a4 {
             background: white;
             width: 100%;
@@ -274,31 +266,30 @@
             border: 1px solid #e0e8f0;
         }
         
-        /* MARCA DE AGUA SUPER NOTORIA */
+        /* MARCA DE AGUA DENTRO DE LA HOJA A4 */
         .watermark {
-            position: fixed;
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 70px;
+            font-size: 55px;
             font-family: 'Arial Narrow', sans-serif;
             font-weight: 900;
-            color: rgba(31, 78, 121, 0.12);
+            color: rgba(31, 78, 121, 0.1);
             pointer-events: none;
-            z-index: 999;
+            z-index: 0;
             white-space: nowrap;
-            letter-spacing: 8px;
+            letter-spacing: 6px;
             text-transform: uppercase;
             width: 100%;
             text-align: center;
         }
         
-        /* Encabezado que se repite */
-        .header-repeat {
+        /* Encabezado fijo */
+        .header-fixed {
             background: white;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #1f4e79;
+            position: relative;
+            z-index: 2;
         }
         
         .header {
@@ -314,8 +305,8 @@
         .logo {
             position: absolute;
             top: 0;
-            width: 85px;
-            max-height: 80px;
+            width: 100px;
+            max-height: 95px;
             object-fit: contain;
             background: transparent;
         }
@@ -324,7 +315,7 @@
         
         .logo-buttons {
             position: absolute;
-            top: 80px;
+            top: 90px;
             left: 0;
             right: 0;
             display: flex;
@@ -379,7 +370,7 @@
             font-family: 'Arial Narrow', sans-serif;
         }
         
-        /* FECHAS EN LADO DERECHO */
+        /* FECHAS JUSTIFICADAS A LA DERECHA */
         .dates-right {
             text-align: right;
             margin: 15px 0 20px 0;
@@ -393,6 +384,8 @@
             margin: 5px 0;
             font-size: 12px;
             font-family: 'Arial Narrow', sans-serif;
+            text-align: right;
+            justify-content: flex-end;
         }
         
         .dates-right b {
@@ -408,9 +401,10 @@
             padding: 4px 10px;
             font-size: 11px;
             font-family: 'Arial Narrow', sans-serif;
+            text-align: right;
         }
         
-        /* NÚMERO DE COTIZACIÓN NOTORIO */
+        /* NÚMERO DE COTIZACIÓN - LETRAS BLANCAS */
         .quote-number {
             text-align: center;
             margin: 15px 0;
@@ -434,12 +428,12 @@
             width: auto;
             min-width: 180px;
             text-align: center;
-            background: white;
-            border: none;
+            background: transparent;
+            border: 2px solid white;
             border-radius: 8px;
             font-family: 'Arial Narrow', monospace;
             letter-spacing: 1px;
-            color: #1f4e79;
+            color: white;
         }
         
         /* CLIENTE CON FONDO AZUL PASTEL */
@@ -489,7 +483,7 @@
             background: white;
         }
         
-        /* TABLA MEJORADA - DESCRIPCIÓN COMPLETA */
+        /* TABLA MEJORADA */
         .items-table {
             width: 100%;
             border-collapse: collapse;
@@ -586,10 +580,10 @@
         
         .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-family: 'Arial Narrow', sans-serif; font-size: 12px; }
         
-        /* FIRMA Y PAGO EN MISMA LÍNEA (AMBOS A LA DERECHA) */
+        /* FIRMA Y PAGO EN MISMA LÍNEA */
         .signature-payment-row {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             gap: 30px;
             margin: 25px 0 20px 0;
             z-index: 1;
@@ -599,7 +593,6 @@
         
         .payment-methods {
             flex: 1;
-            max-width: 250px;
             background: #f0f7ff;
             padding: 12px;
             border-radius: 10px;
@@ -624,7 +617,6 @@
         
         .signature-area {
             flex: 1;
-            max-width: 280px;
             text-align: center;
             background: #f8fafc;
             padding: 12px;
@@ -649,13 +641,14 @@
             background: white;
         }
         
-        .digital-signature {
+        .firma-fisica, .firma-digital {
             margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px dashed #c0d4e5;
+            padding: 8px;
+            border: 1px dashed #c0d4e5;
+            border-radius: 8px;
         }
         
-        .digital-signature button {
+        .firma-fisica button, .firma-digital button {
             background: #1f4e79;
             color: white;
             border: none;
@@ -673,26 +666,30 @@
             margin-top: 6px;
             font-style: italic;
             font-family: 'Arial Narrow', sans-serif;
-            word-break: break-all;
+            text-align: left;
         }
         
-        /* PIE DE PÁGINA EN CADA HOJA */
-        .footer-pages {
+        /* PIE DE PÁGINA FIJO */
+        .footer-fixed {
             margin-top: 20px;
             padding-top: 10px;
             border-top: 1px solid #c0d4e5;
+            background: white;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-pages {
             font-size: 9px;
             color: #7a9aba;
             display: flex;
             justify-content: space-between;
-            z-index: 1;
-            background: white;
             font-family: 'Arial Narrow', sans-serif;
+            margin-bottom: 8px;
         }
         
         .footer-center {
             text-align: center;
-            margin-top: 8px;
             font-size: 8px;
             font-family: 'Arial Narrow', sans-serif;
             color: #7a9aba;
@@ -732,7 +729,7 @@
             font-family: 'Arial Narrow', sans-serif;
         }
         
-        .pdf button, .pdf .logo-buttons, .pdf .digital-signature button { display: none !important; }
+        .pdf button, .pdf .logo-buttons, .pdf .firma-fisica button, .pdf .firma-digital button { display: none !important; }
         .pdf input, .pdf textarea, .pdf .editable { border: none !important; padding: 2px !important; background: transparent !important; }
         .pdf .items-table td { border: 1px solid #ccc !important; }
         .pdf .watermark { position: absolute; }
@@ -741,17 +738,17 @@
             body * { visibility: hidden; }
             #a4, #a4 * { visibility: visible; }
             #a4 { position: absolute; left: 0; top: 0; margin: 0; padding: 0; box-shadow: none; }
-            .digital-signature button, .logo-buttons button { display: none !important; }
-            .watermark { position: absolute; }
+            .firma-fisica button, .firma-digital button, .logo-buttons button { display: none !important; }
         }
         
         @media (max-width: 800px) {
             .company-name { font-size: 22px; }
-            .logo { width: 55px; }
-            .logo-buttons { top: 60px; gap: 8px; }
-            .signature-payment-row { justify-content: center; }
+            .logo { width: 70px; }
+            .logo-buttons { top: 70px; gap: 8px; }
+            .signature-payment-row { flex-direction: column; }
             .quote-number input { font-size: 16px; min-width: 140px; }
             .dates-right { text-align: left; }
+            .dates-right div { text-align: left; }
         }
     </style>
 </head>
@@ -812,20 +809,22 @@
     <div class="workspace">
         <div class="quote-area">
             <div id="a4">
-                <!-- Marca de agua notoria -->
+                <!-- Marca de agua dentro de la hoja A4 -->
                 <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
                 
-                <div class="header">
-                    <img id="logo1" class="logo logo-left" style="display:none">
-                    <img id="logo2" class="logo logo-right" style="display:none">
-                    <div class="logo-buttons">
-                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
-                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
+                <div class="header-fixed">
+                    <div class="header">
+                        <img id="logo1" class="logo logo-left" style="display:none">
+                        <img id="logo2" class="logo logo-right" style="display:none">
+                        <div class="logo-buttons">
+                            <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
+                            <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
+                        </div>
+                        <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
+                        <div class="company-owner">YURI HERMOZA PUELLES</div>
+                        <div class="company-ruc">RUC: 10617365036</div>
+                        <div class="direccion"><input class="editable" id="direccionEmpresa" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
                     </div>
-                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
-                    <div class="company-owner">YURI HERMOZA PUELLES</div>
-                    <div class="company-ruc">RUC: 10617365036</div>
-                    <div class="direccion"><input class="editable" id="direccionEmpresa" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
                 </div>
                 
                 <div class="quote-number">
@@ -872,24 +871,31 @@
                     
                     <div class="signature-area">
                         <h5>FIRMA AUTORIZADA</h5>
-                        <img id="firmaImg" class="firma-img" style="display:none"><br>
-                        <button onclick="subirFirma()">Subir Firma Escaneada</button>
-                        <div class="digital-signature">
-                            <button onclick="generarFirmaDigital()">Firma Digital</button>
-                            <button onclick="limpiarFirma()">Limpiar</button>
+                        
+                        <div class="firma-fisica">
+                            <img id="firmaImg" class="firma-img" style="display:none"><br>
+                            <button onclick="subirFirma()">Subir Firma Física (Escaneada)</button>
+                            <button onclick="limpiarFirmaFisica()">Limpiar</button>
+                        </div>
+                        
+                        <div class="firma-digital">
+                            <button onclick="generarFirmaDigital()">Generar Firma Digital</button>
+                            <button onclick="limpiarFirmaDigital()">Limpiar</button>
                             <div id="digitalSignInfo" class="signature-info"></div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="footer-pages">
-                    <span>Página <span id="pageNum">1</span> de <span id="totalPages">1</span></span>
-                    <span>Impresión: <span id="printDate"></span></span>
-                </div>
-                <div class="footer-center">
-                    <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
-                    <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
-                    <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
+                <div class="footer-fixed">
+                    <div class="footer-pages">
+                        <span>Página <span id="pageNum">1</span> de <span id="totalPages">1</span></span>
+                        <span>Impresión: <span id="printDate"></span></span>
+                    </div>
+                    <div class="footer-center">
+                        <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
+                        <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
+                        <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -916,7 +922,7 @@
     const CONTRASENA = "yuri2026";
     let codigoEnviado = null;
     let cotizaciones = [];
-    let firmaDigitalData = null;
+    let firmaDigitalHTML = "";
 
     function mostrarFormulario(tipo) {
         document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
@@ -969,7 +975,7 @@
         nuevaCotizacion();
         cargarHistorial();
         cargarLogosGuardados();
-        cargarFirmaGuardada();
+        cargarFirmasGuardadas();
         actualizarFechaImpresion();
     }
 
@@ -1085,7 +1091,7 @@
         let fechaImpresion = clon.querySelector('#printDate');
         if (fechaImpresion) fechaImpresion.innerText = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
         
-        // Asegurar que las descripciones largas se muestren completas
+        // Convertir textareas a divs para que el texto completo se vea en PDF
         let textareas = clon.querySelectorAll('textarea');
         textareas.forEach(ta => {
             let div = document.createElement('div');
@@ -1094,6 +1100,7 @@
             div.style.fontFamily = 'Arial Narrow';
             div.style.fontSize = '11px';
             div.style.padding = '6px';
+            div.style.minHeight = '60px';
             div.innerText = ta.value;
             ta.parentNode.replaceChild(div, ta);
         });
@@ -1129,6 +1136,12 @@
         document.getElementById('previewContent').innerHTML = '';
         document.getElementById('previewContent').appendChild(clon);
         document.getElementById('preview').style.display = 'block';
+        
+        // Calcular páginas aproximadas
+        let alturaContenido = clon.scrollHeight;
+        let alturaPagina = 1122; // Altura aproximada de A4 en pixeles
+        let paginas = Math.ceil(alturaContenido / alturaPagina);
+        document.getElementById('totalPages').innerText = paginas;
     }
     
     function cerrarPreview() { document.getElementById('preview').style.display = 'none'; }
@@ -1305,6 +1318,7 @@
         if (logo2) { document.getElementById('logo2').src = logo2; document.getElementById('logo2').style.display = 'block'; }
     }
 
+    // FIRMA FÍSICA
     function subirFirma() {
         let input = document.createElement('input');
         input.type = 'file';
@@ -1317,9 +1331,8 @@
                     let img = document.getElementById('firmaImg');
                     img.src = event.target.result;
                     img.style.display = 'block';
-                    localStorage.setItem('firma', event.target.result);
-                    document.getElementById('digitalSignInfo').innerHTML = '';
-                    alert('Firma subida');
+                    localStorage.setItem('firmaFisica', event.target.result);
+                    alert('Firma física subida correctamente');
                 };
                 reader.readAsDataURL(file);
             }
@@ -1327,58 +1340,57 @@
         input.click();
     }
 
-    function generarFirmaDigital() {
-        let nombre = document.getElementById('clienteNombre').value || 'CLIENTE';
-        let doc = document.getElementById('clienteDoc').value || 'XXXXXXXX';
-        let fecha = new Date().toLocaleString('es-ES');
-        let hashUnico = btoa(`${nombre}|${doc}|${fecha}|${Date.now()}`).substring(0, 20);
-        
-        firmaDigitalData = { nombre: nombre, documento: doc, fecha: fecha, hash: hashUnico };
-        
-        let canvas = document.createElement('canvas');
-        let ctx = canvas.getContext('2d');
-        canvas.width = 320;
-        canvas.height = 60;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = 'bold 10px "Arial Narrow"';
-        ctx.fillStyle = '#1f4e79';
-        ctx.fillText(`Firma Digital: ${nombre.substring(0, 20)}`, 10, 18);
-        ctx.font = '9px "Arial Narrow"';
-        ctx.fillStyle = '#333';
-        ctx.fillText(`Doc: ${doc}`, 10, 32);
-        ctx.fillText(`Hash: ${hashUnico}`, 10, 46);
-        
-        let firmaImg = canvas.toDataURL();
-        document.getElementById('firmaImg').src = firmaImg;
-        document.getElementById('firmaImg').style.display = 'block';
-        localStorage.setItem('firma', firmaImg);
-        localStorage.setItem('firmaDigitalData', JSON.stringify(firmaDigitalData));
-        document.getElementById('digitalSignInfo').innerHTML = `Hash: ${hashUnico}`;
-        alert('Firma digital generada');
-    }
-
-    function limpiarFirma() {
-        if (confirm('¿Eliminar firma?')) {
+    function limpiarFirmaFisica() {
+        if (confirm('¿Eliminar firma física?')) {
             document.getElementById('firmaImg').style.display = 'none';
             document.getElementById('firmaImg').src = '';
-            document.getElementById('digitalSignInfo').innerHTML = '';
-            localStorage.removeItem('firma');
-            localStorage.removeItem('firmaDigitalData');
-            firmaDigitalData = null;
+            localStorage.removeItem('firmaFisica');
         }
     }
 
-    function cargarFirmaGuardada() {
-        let firma = localStorage.getItem('firma');
-        let firmaData = localStorage.getItem('firmaDigitalData');
-        if (firma) {
-            document.getElementById('firmaImg').src = firma;
+    // FIRMA DIGITAL (sin hash, solo datos de Yuri)
+    function generarFirmaDigital() {
+        let fechaActual = new Date();
+        let fechaStr = fechaActual.toLocaleDateString('es-ES');
+        let horaStr = fechaActual.toLocaleTimeString('es-ES');
+        
+        let firmaDigitalHTML = `
+            <div style="font-family:'Arial Narrow'; font-size:9px; text-align:left; margin-top:8px; padding:6px; border-top:1px solid #c0d4e5;">
+                <strong>FIRMA DIGITAL AUTORIZADA</strong><br>
+                YURI HERMOZA PUELLES<br>
+                DNI: 41735058<br>
+                Fecha: ${fechaStr} - ${horaStr}<br>
+                <em>Autorización legal según Ley N° 27269 - Ley de Firmas Digitales</em>
+            </div>
+        `;
+        
+        // Guardar en localStorage
+        localStorage.setItem('firmaDigitalHTML', firmaDigitalHTML);
+        
+        // Mostrar en el div
+        document.getElementById('digitalSignInfo').innerHTML = firmaDigitalHTML;
+        alert('Firma digital generada correctamente');
+    }
+
+    function limpiarFirmaDigital() {
+        if (confirm('¿Eliminar firma digital?')) {
+            document.getElementById('digitalSignInfo').innerHTML = '';
+            localStorage.removeItem('firmaDigitalHTML');
+        }
+    }
+
+    function cargarFirmasGuardadas() {
+        // Cargar firma física
+        let firmaFisica = localStorage.getItem('firmaFisica');
+        if (firmaFisica) {
+            document.getElementById('firmaImg').src = firmaFisica;
             document.getElementById('firmaImg').style.display = 'block';
         }
-        if (firmaData) {
-            firmaDigitalData = JSON.parse(firmaData);
-            document.getElementById('digitalSignInfo').innerHTML = `Hash: ${firmaDigitalData.hash}`;
+        
+        // Cargar firma digital
+        let firmaDigital = localStorage.getItem('firmaDigitalHTML');
+        if (firmaDigital) {
+            document.getElementById('digitalSignInfo').innerHTML = firmaDigital;
         }
     }
 </script>
