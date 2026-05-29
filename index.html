@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Vidrios y Aluminios Yuri | Sistema Profesional de Cotizaciones</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -198,15 +199,19 @@
             gap: 25px;
             flex-wrap: wrap;
         }
-        .quote-area { flex: 2.5; min-width: 320px; }
+        .quote-area {
+            flex: 2.5;
+            min-width: 320px;
+            max-width: 100%;
+            overflow-x: auto;
+        }
         .history-area {
             flex: 1;
-            min-width: 300px;
+            min-width: 280px;
             background: white;
             border-radius: 16px;
             padding: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            height: fit-content;
             max-height: 80vh;
             overflow-y: auto;
         }
@@ -253,7 +258,7 @@
         .btn-edit { background: #ffc107; color: #333; }
         .btn-delete { background: #dc3545; color: white; }
 
-        /* ESTILOS DE PÁGINA A4 PARA PANTALLA */
+        /* ESTILOS DE PÁGINA A4 */
         .a4-page {
             background: white;
             width: 210mm;
@@ -264,10 +269,12 @@
             font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border: 1px solid #e0e8f0;
+            page-break-after: always;
+            break-after: page;
             box-sizing: border-box;
         }
         
-        /* MARCA DE AGUA */
+        /* MARCA DE AGUA AL FRENTE */
         .watermark {
             position: absolute;
             top: 50%;
@@ -278,17 +285,20 @@
             font-weight: 900;
             color: rgba(31, 78, 121, 0.12);
             pointer-events: none;
-            z-index: 0;
+            z-index: 100;
             white-space: nowrap;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             width: 100%;
             text-align: center;
         }
         
-        .page-content {
+        /* Encabezado */
+        .header-fixed {
+            background: white;
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            margin-bottom: 10px;
         }
         
         .header {
@@ -297,6 +307,8 @@
             margin-bottom: 10px;
             padding-bottom: 8px;
             border-bottom: 2px solid #1f4e79;
+            z-index: 2;
+            background: white;
         }
         
         .logo {
@@ -306,13 +318,14 @@
             max-height: 75px;
             object-fit: contain;
             background: transparent;
+            z-index: 2;
         }
         .logo-left { left: 0; }
         .logo-right { right: 0; }
         
         .logo-buttons {
             position: absolute;
-            top: 70px;
+            top: 75px;
             left: 0;
             right: 0;
             display: flex;
@@ -323,8 +336,8 @@
         .logo-buttons button {
             background: #e8f0f8;
             color: #1f4e79;
-            padding: 2px 12px;
-            font-size: 9px;
+            padding: 3px 12px;
+            font-size: 10px;
             border: 1px solid #c0d4e5;
             border-radius: 15px;
             cursor: pointer;
@@ -367,6 +380,7 @@
             font-family: 'Arial Narrow', sans-serif;
         }
         
+        /* FECHAS DERECHA */
         .dates-right {
             text-align: right;
             margin: 8px 0 12px 0;
@@ -399,6 +413,7 @@
             text-align: right;
         }
         
+        /* NÚMERO DE COTIZACIÓN */
         .quote-number {
             text-align: center;
             margin: 10px 0;
@@ -412,7 +427,7 @@
             font-size: 14px;
             font-weight: bold;
             font-family: 'Arial Narrow', sans-serif;
-            margin-right: 12px;
+            margin-right: 10px;
         }
         
         .quote-number input {
@@ -430,12 +445,15 @@
             color: white;
         }
         
+        /* CLIENTE */
         .client-card {
             background: #e8f4fd;
             border-radius: 10px;
             padding: 10px 15px;
             margin: 10px 0;
             border: 1px solid #c0d8e8;
+            z-index: 2;
+            position: relative;
         }
         
         .client-card h4 {
@@ -473,10 +491,13 @@
             background: white;
         }
         
+        /* TABLA DE ITEMS */
         .items-table {
             width: 100%;
             border-collapse: collapse;
             margin: 8px 0;
+            z-index: 2;
+            position: relative;
             table-layout: fixed;
         }
         
@@ -500,6 +521,7 @@
             border: 1px solid #c0d4e5;
             padding: 4px 3px;
             vertical-align: top;
+            font-family: 'Arial Narrow', sans-serif;
             font-size: 9px;
             word-break: break-word;
         }
@@ -549,6 +571,8 @@
             background: #f8fafc;
             border-radius: 8px;
             border: 1px solid #c0d4e5;
+            z-index: 2;
+            position: relative;
         }
         
         .totals p { margin: 2px 0; font-size: 10px; }
@@ -566,11 +590,14 @@
         
         .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-size: 9px; }
         
+        /* FIRMA Y PAGO EN MISMA LÍNEA */
         .signature-payment-row {
             display: flex;
             justify-content: space-between;
             gap: 20px;
             margin: 15px 0 10px 0;
+            z-index: 2;
+            position: relative;
             flex-wrap: wrap;
         }
         
@@ -647,10 +674,14 @@
             text-align: left;
         }
         
-        .footer {
+        /* PIE DE PÁGINA */
+        .footer-fixed {
             margin-top: 15px;
             padding-top: 6px;
             border-top: 1px solid #c0d4e5;
+            background: white;
+            position: relative;
+            z-index: 2;
         }
         
         .footer-pages {
@@ -671,7 +702,12 @@
             margin: 1px 0;
         }
         
-        /* VISTA PREVIA */
+        /* CONTENEDOR DE PÁGINAS PARA PDF */
+        .pages-container {
+            background: white;
+        }
+        
+        /* Vista previa */
         #preview {
             display: none;
             position: fixed;
@@ -685,10 +721,10 @@
             padding: 30px;
         }
         
-        .previewA4 {
-            background: white;
-            width: 210mm;
-            margin: 0 auto;
+        .previewA4 { 
+            background: white; 
+            width: 210mm; 
+            margin: 0 auto; 
         }
         
         .close-preview {
@@ -705,39 +741,31 @@
             z-index: 1001;
         }
         
-        /* ESTILOS PARA IMPRESIÓN - LO MÁS IMPORTANTE */
-        @media print {
-            body {
-                background: white;
-                margin: 0;
-                padding: 0;
-            }
-            #app, .dashboard-header, .history-area, .btn-group, .logo-buttons, 
-            .firma-fisica button, .firma-digital button, .add-item-btn, .delete-item,
-            .btn, .workspace .history-area {
-                display: none !important;
-            }
-            .a4-page {
-                box-shadow: none;
-                border: none;
-                margin: 0;
-                page-break-after: always;
-                break-inside: avoid;
-            }
-            .quote-area {
-                margin: 0;
-                padding: 0;
-            }
-            .watermark {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
+        /* ESTILOS PARA PDF - MANTIENE EL MISMO ASPECTO */
+        .pdf-export .logo-buttons, 
+        .pdf-export .firma-fisica button, 
+        .pdf-export .firma-digital button, 
+        .pdf-export .delete-item, 
+        .pdf-export .add-item-btn {
+            display: none !important;
+        }
+        
+        .pdf-export input, 
+        .pdf-export textarea, 
+        .pdf-export .editable {
+            border: none !important;
+            padding: 2px !important;
+            background: transparent !important;
+        }
+        
+        .pdf-export .items-table td {
+            border: 1px solid #ccc !important;
         }
         
         @media (max-width: 800px) {
             .company-name { font-size: 20px; }
             .logo { width: 60px; }
-            .logo-buttons { top: 55px; gap: 5px; }
+            .logo-buttons { top: 60px; gap: 8px; }
             .signature-payment-row { flex-direction: column; }
             .quote-number input { font-size: 14px; min-width: 130px; }
             .dates-right { text-align: left; }
@@ -793,7 +821,7 @@
         <h2>Sistema de Cotizaciones</h2>
         <div class="btn-group">
             <button class="btn btn-primary" onclick="vistaPrevia()">Vista Previa</button>
-            <button class="btn btn-success" onclick="imprimirPDF()">Imprimir / Guardar PDF</button>
+            <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
             <button class="btn btn-warning" onclick="guardarCotizacion()">Guardar</button>
             <button class="btn btn-secondary" onclick="nuevaCotizacion()">Nueva Cotización</button>
             <button class="btn btn-info" onclick="limpiarTodoHistorial()">Limpiar Historial</button>
@@ -802,10 +830,11 @@
     </div>
     <div class="workspace">
         <div class="quote-area">
-            <div id="printContainer">
+            <div id="originalPage" class="a4-page" style="display:none;"></div>
+            <div id="editorContainer">
                 <div class="a4-page">
                     <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
-                    <div class="page-content">
+                    <div class="header-fixed">
                         <div class="header">
                             <img id="logo1" class="logo logo-left" style="display:none">
                             <img id="logo2" class="logo logo-right" style="display:none">
@@ -818,73 +847,73 @@
                             <div class="company-ruc">RUC: 10617365036</div>
                             <div class="direccion"><input class="editable" id="direccionEmpresa" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
                         </div>
-                        
-                        <div class="quote-number">
-                            <label>COTIZACIÓN N°</label>
-                            <input id="numCot" class="editable" placeholder="0000-2026">
+                    </div>
+                    
+                    <div class="quote-number">
+                        <label>COTIZACIÓN N°</label>
+                        <input id="numCot" class="editable" placeholder="0000-2026">
+                    </div>
+                    
+                    <div class="dates-right">
+                        <div><b>FECHA DE EMISIÓN:</b> <input type="date" id="fecha" class="editable" onchange="validarFechas()"></div>
+                        <div><b>FECHA DE VALIDEZ:</b> <input type="date" id="fechaValidez" class="editable" onchange="validarFechas()"></div>
+                        <div><b>MONEDA:</b> <select id="moneda" class="editable" onchange="calcular()"><option value="PEN">Soles S/</option><option value="USD">Dólares $</option></select></div>
+                    </div>
+                    
+                    <div class="client-card">
+                        <h4>DATOS DEL CLIENTE</h4>
+                        <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable" placeholder="Ej: Juan Pérez"></div>
+                        <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable" placeholder="Ej: 12345678"></div>
+                        <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable" placeholder="Ej: 993963381"></div>
+                        <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable" placeholder="Ej: Av. Principal 123"></div>
+                    </div>
+                    
+                    <table class="items-table" id="tabla">
+                        <thead>
+                            <tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <button class="btn btn-primary add-item-btn" onclick="agregarItem()">+ Agregar Item</button>
+                    
+                    <div class="totals">
+                        <div class="igv-toggle"><input type="checkbox" id="incluirIGV" checked onchange="calcular()"><label>Incluir IGV (18%)</label></div>
+                        <p>Costo Neto: <span id="costo">0.00</span></p>
+                        <p id="igvLine">IGV (18%): <span id="igv">0.00</span></p>
+                        <p class="grand-total">Total: <span id="total">0.00</span></p>
+                    </div>
+                    
+                    <div class="signature-payment-row">
+                        <div class="payment-methods">
+                            <h5>MÉTODOS DE PAGO</h5>
+                            <p><strong>BCP:</strong> 52671107164027</p>
+                            <p><strong>CCI:</strong> 00252617110716402721</p>
+                            <p><strong>Yape/Plin:</strong> 993963381</p>
                         </div>
-                        
-                        <div class="dates-right">
-                            <div><b>FECHA DE EMISIÓN:</b> <input type="date" id="fecha" class="editable" onchange="validarFechas()"></div>
-                            <div><b>FECHA DE VALIDEZ:</b> <input type="date" id="fechaValidez" class="editable" onchange="validarFechas()"></div>
-                            <div><b>MONEDA:</b> <select id="moneda" class="editable" onchange="calcular()"><option value="PEN">Soles S/</option><option value="USD">Dólares $</option></select></div>
-                        </div>
-                        
-                        <div class="client-card">
-                            <h4>DATOS DEL CLIENTE</h4>
-                            <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable" placeholder="Ej: Juan Pérez"></div>
-                            <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable" placeholder="Ej: 12345678"></div>
-                            <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable" placeholder="Ej: 993963381"></div>
-                            <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable" placeholder="Ej: Av. Principal 123"></div>
-                        </div>
-                        
-                        <table class="items-table" id="tabla">
-                            <thead>
-                                <tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                        <button class="btn btn-primary add-item-btn" onclick="agregarItem()">+ Agregar Item</button>
-                        
-                        <div class="totals">
-                            <div class="igv-toggle"><input type="checkbox" id="incluirIGV" checked onchange="calcular()"><label>Incluir IGV (18%)</label></div>
-                            <p>Costo Neto: <span id="costo">0.00</span></p>
-                            <p id="igvLine">IGV (18%): <span id="igv">0.00</span></p>
-                            <p class="grand-total">Total: <span id="total">0.00</span></p>
-                        </div>
-                        
-                        <div class="signature-payment-row">
-                            <div class="payment-methods">
-                                <h5>MÉTODOS DE PAGO</h5>
-                                <p><strong>BCP:</strong> 52671107164027</p>
-                                <p><strong>CCI:</strong> 00252617110716402721</p>
-                                <p><strong>Yape/Plin:</strong> 993963381</p>
+                        <div class="signature-area">
+                            <h5>FIRMA AUTORIZADA</h5>
+                            <div class="firma-fisica">
+                                <img id="firmaImg" class="firma-img" style="display:none"><br>
+                                <button onclick="subirFirma()">Subir Firma Física</button>
+                                <button onclick="limpiarFirmaFisica()">Limpiar</button>
                             </div>
-                            <div class="signature-area">
-                                <h5>FIRMA AUTORIZADA</h5>
-                                <div class="firma-fisica">
-                                    <img id="firmaImg" class="firma-img" style="display:none"><br>
-                                    <button onclick="subirFirma()">Subir Firma Física</button>
-                                    <button onclick="limpiarFirmaFisica()">Limpiar</button>
-                                </div>
-                                <div class="firma-digital">
-                                    <button onclick="generarFirmaDigital()">Generar Firma Digital</button>
-                                    <button onclick="limpiarFirmaDigital()">Limpiar</button>
-                                    <div id="digitalSignInfo" class="signature-info"></div>
-                                </div>
+                            <div class="firma-digital">
+                                <button onclick="generarFirmaDigital()">Generar Firma Digital</button>
+                                <button onclick="limpiarFirmaDigital()">Limpiar</button>
+                                <div id="digitalSignInfo" class="signature-info"></div>
                             </div>
                         </div>
-                        
-                        <div class="footer">
-                            <div class="footer-pages">
-                                <span>Página 1 de 1</span>
-                                <span>Impresión: <span id="printDate"></span></span>
-                            </div>
-                            <div class="footer-center">
-                                <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
-                                <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
-                                <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
-                            </div>
+                    </div>
+                    
+                    <div class="footer-fixed">
+                        <div class="footer-pages">
+                            <span>Página <span class="page-num">1</span> de <span class="total-pages">1</span></span>
+                            <span>Impresión: <span id="printDate"></span></span>
+                        </div>
+                        <div class="footer-center">
+                            <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
+                            <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
+                            <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
                         </div>
                     </div>
                 </div>
@@ -970,12 +999,30 @@
         cargarLogosGuardados();
         cargarFirmasGuardadas();
         actualizarFechaImpresion();
+        
+        // Agregar event listeners para tabs
+        document.querySelectorAll('.login-tab').forEach(tab => {
+            tab.removeEventListener('click', handleTabClick);
+            tab.addEventListener('click', handleTabClick);
+        });
+    }
+    
+    function handleTabClick(e) {
+        const tipo = e.currentTarget.getAttribute('data-tab');
+        if(tipo) mostrarFormulario(tipo);
     }
 
     function cerrarSesion() {
         if (confirm('¿Cerrar sesión?')) {
             document.getElementById('login').style.display = 'flex';
             document.getElementById('app').style.display = 'none';
+            document.getElementById('rucInput').value = '';
+            document.getElementById('passRuc').value = '';
+            document.getElementById('celularInput').value = '';
+            document.getElementById('passCel').value = '';
+            document.getElementById('celularCodeInput').value = '';
+            document.getElementById('codigoInput').value = '';
+            document.getElementById('codeGroup').style.display = 'none';
             codigoEnviado = null;
         }
     }
@@ -1070,31 +1117,191 @@
         document.getElementById('igvLine').style.display = incluirIGV ? 'block' : 'none';
     }
 
-    // --- Funciones de Impresión y Vista Previa ---
-    function imprimirPDF() {
-        // Ocultar elementos que no deben imprimirse
-        const originalTitle = document.title;
-        document.title = `Cotizacion_${document.getElementById('numCot').value || '0000'}`;
+    // --- Funciones para generar el PDF exactamente igual a la vista previa ---
+    function getDatosActuales() {
+        return {
+            empresaDir: document.getElementById('direccionEmpresa').value,
+            numCot: document.getElementById('numCot').value,
+            fecha: document.getElementById('fecha').value,
+            fechaValidez: document.getElementById('fechaValidez').value,
+            moneda: document.getElementById('moneda').value,
+            clienteNombre: document.getElementById('clienteNombre').value,
+            clienteDoc: document.getElementById('clienteDoc').value,
+            clienteCel: document.getElementById('clienteCel').value,
+            clienteDir: document.getElementById('clienteDir').value,
+            incluirIGV: document.getElementById('incluirIGV').checked,
+            totalGeneral: document.getElementById('total').innerHTML
+        };
+    }
+
+    function getItemsActuales() {
+        const items = [];
+        document.querySelectorAll('#tabla tbody tr').forEach(row => {
+            items.push({
+                desc: row.querySelector('textarea').value,
+                cant: row.querySelector('td:nth-child(3) input').value,
+                precio: row.querySelector('td:nth-child(4) input').value,
+                subtotal: row.querySelector('.subtotal-cell').innerText
+            });
+        });
+        return items;
+    }
+
+    function clonarPaginaParaPDF() {
+        const datos = getDatosActuales();
+        const items = getItemsActuales();
+        const logo1Src = localStorage.getItem('logo1');
+        const logo2Src = localStorage.getItem('logo2');
+        const firmaFisicaSrc = localStorage.getItem('firmaFisica');
+        const firmaDigitalHTML = localStorage.getItem('firmaDigitalHTML');
         
-        // Mostrar el diálogo de impresión
-        window.print();
+        // Crear una página única con todo el contenido (html2pdf manejará el salto de página automáticamente)
+        const page = document.createElement('div');
+        page.className = 'a4-page pdf-export';
+        page.style.margin = '0';
+        page.style.boxShadow = 'none';
         
-        // Restaurar título
-        document.title = originalTitle;
+        // Construir el HTML completo de la página
+        page.innerHTML = `
+            <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
+            <div class="header-fixed">
+                <div class="header">
+                    <img class="logo logo-left" style="display:none" id="pdf_logo1">
+                    <img class="logo logo-right" style="display:none" id="pdf_logo2">
+                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
+                    <div class="company-owner">YURI HERMOZA PUELLES</div>
+                    <div class="company-ruc">RUC: 10617365036</div>
+                    <div class="direccion"><input class="editable" value="${escapeHtml(datos.empresaDir)}"></div>
+                </div>
+            </div>
+            
+            <div class="quote-number">
+                <label>COTIZACIÓN N°</label>
+                <input class="editable" value="${escapeHtml(datos.numCot)}">
+            </div>
+            
+            <div class="dates-right">
+                <div><b>FECHA DE EMISIÓN:</b> <input type="date" class="editable" value="${datos.fecha}"></div>
+                <div><b>FECHA DE VALIDEZ:</b> <input type="date" class="editable" value="${datos.fechaValidez}"></div>
+                <div><b>MONEDA:</b> <select class="editable"><option value="PEN" ${datos.moneda === 'PEN' ? 'selected' : ''}>Soles S/</option><option value="USD" ${datos.moneda === 'USD' ? 'selected' : ''}>Dólares $</option></select></div>
+            </div>
+            
+            <div class="client-card">
+                <h4>DATOS DEL CLIENTE</h4>
+                <div class="campo"><label>Nombre / Razón Social:</label><input class="editable" value="${escapeHtml(datos.clienteNombre)}"></div>
+                <div class="campo"><label>DNI / RUC:</label><input class="editable" value="${escapeHtml(datos.clienteDoc)}"></div>
+                <div class="campo"><label>Teléfono / Celular:</label><input class="editable" value="${escapeHtml(datos.clienteCel)}"></div>
+                <div class="campo"><label>Dirección:</label><input class="editable" value="${escapeHtml(datos.clienteDir)}"></div>
+            </div>
+            
+            <table class="items-table">
+                <thead><tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr></thead>
+                <tbody>
+                    ${items.map((item, idx) => `
+                        <tr>
+                            <td style="text-align:center">${idx + 1}</td>
+                            <td><div style="white-space:pre-wrap; word-wrap:break-word;">${escapeHtml(item.desc)}</div></td>
+                            <td style="text-align:center">${item.cant}</td>
+                            <td style="text-align:right">${parseFloat(item.precio).toFixed(2)}</td>
+                            <td class="subtotal-cell" style="text-align:right">${item.subtotal}</td>
+                            <td></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+            
+            <div class="totals">
+                <div class="igv-toggle"><input type="checkbox" ${datos.incluirIGV ? 'checked' : ''} disabled><label>Incluir IGV (18%)</label></div>
+                <p>Costo Neto: <span id="costo_pdf">${document.getElementById('costo').innerHTML}</span></p>
+                <p id="igvLine_pdf" style="${!datos.incluirIGV ? 'display:none;' : ''}">IGV (18%): <span id="igv_pdf">${document.getElementById('igv').innerHTML}</span></p>
+                <p class="grand-total">Total: <span id="total_pdf">${document.getElementById('total').innerHTML}</span></p>
+            </div>
+            
+            <div class="signature-payment-row">
+                <div class="payment-methods">
+                    <h5>MÉTODOS DE PAGO</h5>
+                    <p><strong>BCP:</strong> 52671107164027</p>
+                    <p><strong>CCI:</strong> 00252617110716402721</p>
+                    <p><strong>Yape/Plin:</strong> 993963381</p>
+                </div>
+                <div class="signature-area">
+                    <h5>FIRMA AUTORIZADA</h5>
+                    <div class="firma-fisica">
+                        <img class="firma-img" style="display:none" id="pdf_firmaImg"><br>
+                    </div>
+                    <div class="firma-digital">
+                        <div class="signature-info" id="pdf_digitalSignInfo"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-fixed">
+                <div class="footer-pages">
+                    <span>Página 1 de 1</span>
+                    <span>Impresión: <span id="pdf_printDate">${new Date().toLocaleString('es-ES')}</span></span>
+                </div>
+                <div class="footer-center">
+                    <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
+                    <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
+                    <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
+                </div>
+            </div>
+        `;
+        
+        // Agregar logos después de crear el DOM
+        setTimeout(() => {
+            if (logo1Src) {
+                const logo1Elem = page.querySelector('#pdf_logo1');
+                if (logo1Elem) { logo1Elem.src = logo1Src; logo1Elem.style.display = 'block'; }
+            }
+            if (logo2Src) {
+                const logo2Elem = page.querySelector('#pdf_logo2');
+                if (logo2Elem) { logo2Elem.src = logo2Src; logo2Elem.style.display = 'block'; }
+            }
+            if (firmaFisicaSrc) {
+                const firmaElem = page.querySelector('#pdf_firmaImg');
+                if (firmaElem) { firmaElem.src = firmaFisicaSrc; firmaElem.style.display = 'block'; }
+            }
+            if (firmaDigitalHTML) {
+                const digitalElem = page.querySelector('#pdf_digitalSignInfo');
+                if (digitalElem) digitalElem.innerHTML = firmaDigitalHTML;
+            }
+        }, 10);
+        
+        return page;
+    }
+
+    async function descargarPDF() {
+        const page = clonarPaginaParaPDF();
+        const container = document.createElement('div');
+        container.appendChild(page);
+        
+        const opt = {
+            margin: [0.4, 0.4, 0.4, 0.4],
+            filename: `Cotizacion_${document.getElementById('numCot').value || '0000'}_${document.getElementById('clienteNombre').value.replace(/[^a-z0-9]/gi, '_') || 'Cliente'}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                letterRendering: true,
+                logging: false
+            },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        
+        try {
+            await html2pdf().set(opt).from(container).save();
+        } catch (error) {
+            console.error('Error al generar PDF:', error);
+            alert('Error al generar el PDF. Por favor, intenta de nuevo.');
+        }
     }
 
     function vistaPrevia() {
+        const page = clonarPaginaParaPDF();
         const previewDiv = document.getElementById('previewContent');
-        const container = document.getElementById('printContainer');
-        const clone = container.cloneNode(true);
-        
-        // Limpiar botones de edición en la vista previa
-        clone.querySelectorAll('.logo-buttons, .add-item-btn, .delete-item, .firma-fisica button, .firma-digital button').forEach(el => {
-            if(el) el.style.display = 'none';
-        });
-        
         previewDiv.innerHTML = '';
-        previewDiv.appendChild(clone);
+        previewDiv.appendChild(page);
         document.getElementById('preview').style.display = 'block';
     }
     
@@ -1150,11 +1357,11 @@
     }
 
     function limpiarTodoHistorial() {
-        if (confirm('⚠️ ¿Eliminar TODAS las cotizaciones?')) {
+        if (confirm('⚠️ ¿Eliminar TODAS las cotizaciones? Esta acción no se puede deshacer.')) {
             cotizaciones = [];
             localStorage.setItem('cotizaciones', JSON.stringify(cotizaciones));
             cargarHistorial();
-            alert('Historial limpiado');
+            alert('Historial limpiado completamente');
         }
     }
 
@@ -1182,13 +1389,13 @@
             let item = document.createElement('div');
             item.className = 'history-item';
             item.innerHTML = `
-                <div class="history-info" onclick='cargarCotizacion(${cot.id})'>
+                <div class="history-info" onclick='cargarCotizacionPorId(${cot.id})'>
                     <strong>${cot.numero}</strong><br>
                     ${cot.cliente.nombre || 'Anónimo'}<br>
                     <small>${cot.fecha} | ${cot.totalFinal}</small>
                 </div>
                 <div class="history-actions">
-                    <button class="btn-edit" onclick='cargarCotizacion(${cot.id})'>✏️</button>
+                    <button class="btn-edit" onclick='cargarCotizacionPorId(${cot.id})'>✏️</button>
                     <button class="btn-delete" onclick='eliminarCotizacion(${cot.id}, event)'>🗑️</button>
                 </div>
             `;
@@ -1196,7 +1403,7 @@
         });
     }
 
-    function cargarCotizacion(id) {
+    window.cargarCotizacionPorId = function(id) {
         let cot = cotizaciones.find(c => c.id === id);
         if (!cot) return;
         
@@ -1218,9 +1425,9 @@
                 cot.items.forEach((item, idx) => {
                     let fila = document.createElement('tr');
                     fila.innerHTML = `<td style="text-align:center">${idx+1}</td>
-                                      <td><textarea rows="2" style="width:100%; min-height:40px; white-space:pre-wrap;">${escapeHtml(item.desc || '')}</textarea></td>
-                                      <td><input type="number" value="${item.cant || 0}" onchange="calcular()"></td>
-                                      <td><input type="number" value="${item.precio || 0}" onchange="calcular()"></td>
+                                       <td><textarea rows="2" style="width:100%; min-height:40px; white-space:pre-wrap;">${escapeHtml(item.desc || '')}</textarea></td>
+                                       <td><input type="number" value="${item.cant || 0}" onchange="calcular()"></td>
+                                       <td><input type="number" value="${item.precio || 0}" onchange="calcular()"></td>
                                       <td class="subtotal-cell" style="text-align:right;">${item.subtotal || '0.00'}</td>
                                       <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>`;
                     tbody.appendChild(fila);
@@ -1229,7 +1436,7 @@
             calcular();
             actualizarFechaImpresion();
         }
-    }
+    };
 
     function escapeHtml(text) {
         if (!text) return '';
@@ -1311,12 +1518,12 @@
         let horaStr = fechaActual.toLocaleTimeString('es-ES');
         
         let firmaDigitalHTML = `
-            <div style="font-family:'Arial Narrow'; font-size:7px; text-align:left; margin-top:4px; padding:4px; border-top:1px solid #c0d4e5;">
+            <div style="font-family:'Arial Narrow'; font-size:8px; text-align:left; margin-top:5px; padding:4px; border-top:1px solid #c0d4e5;">
                 <strong>FIRMA DIGITAL AUTORIZADA</strong><br>
                 YURI HERMOZA PUELLES<br>
                 DNI: 61736503<br>
                 Fecha: ${fechaStr} - ${horaStr}<br>
-                <em>Ley N° 27269 - Firmas Digitales</em>
+                <em>Autorización legal según Ley N° 27269 - Ley de Firmas Digitales</em>
             </div>
         `;
         
@@ -1345,7 +1552,7 @@
         }
     }
     
-    // Inicializar event listeners
+    // Inicialización
     document.querySelectorAll('.login-tab').forEach(tab => {
         tab.addEventListener('click', (e) => {
             const tipo = tab.getAttribute('data-tab');
@@ -1353,7 +1560,7 @@
         });
     });
     
-    // Exponer funciones globalmente
+    // Para compatibilidad con onclick
     window.agregarItem = agregarItem;
     window.eliminarItem = eliminarItem;
     window.calcular = calcular;
@@ -1368,10 +1575,9 @@
     window.limpiarFirmaFisica = limpiarFirmaFisica;
     window.generarFirmaDigital = generarFirmaDigital;
     window.limpiarFirmaDigital = limpiarFirmaDigital;
-    window.imprimirPDF = imprimirPDF;
+    window.descargarPDF = descargarPDF;
     window.vistaPrevia = vistaPrevia;
     window.cerrarPreview = cerrarPreview;
-    window.cargarCotizacion = cargarCotizacion;
     window.mostrarFormulario = mostrarFormulario;
     window.togglePassword = togglePassword;
     window.loginRuc = loginRuc;
