@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: 'Arial Narrow', 'Segoe UI', 'Roboto', sans-serif;
+            font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #e8f0f8 0%, #d4e4f0 100%);
             min-height: 100vh;
         }
@@ -68,7 +68,7 @@
         }
         .password-wrapper input {
             width: 100%;
-            padding: 12px 40px 12px 15px;
+            padding: 12px 80px 12px 15px;
             margin-bottom: 0;
         }
         .toggle-password {
@@ -79,10 +79,11 @@
             cursor: pointer;
             color: #1a4a6f;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             background: none;
             border: none;
-            padding: 0;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
         .loginBox button {
             width: 100%;
@@ -265,6 +266,7 @@
             padding: 3px 14px;
             font-size: 11px;
             border: 1px solid #c0d4e5;
+            border-radius: 15px;
         }
         .company-name {
             font-size: 28px;
@@ -363,7 +365,7 @@
             font-family: 'Arial Narrow', sans-serif;
         }
 
-        /* Tabla de Items - Descripción visible */
+        /* Tabla de Items */
         .items-table {
             width: 100%;
             border-collapse: collapse;
@@ -461,7 +463,7 @@
             object-fit: contain;
         }
 
-        /* Footer con número de página y fecha de impresión */
+        /* Footer */
         .footer-pages {
             margin-top: 25px;
             padding-top: 12px;
@@ -535,9 +537,9 @@
 <div id="login">
     <div class="loginBox">
         <h3>VIDRIOS Y ALUMINIOS YURI</h3>
-        <input type="text" id="ruc" placeholder="RUC / Usuario" autocomplete="off">
+        <input type="text" id="ruc" placeholder="RUC / Usuario" autocomplete="off" value="10617365036">
         <div class="password-wrapper">
-            <input type="password" id="pass" placeholder="Contraseña">
+            <input type="password" id="pass" placeholder="Contraseña" value="yuri2026">
             <button type="button" class="toggle-password" onclick="togglePassword()">Mostrar</button>
         </div>
         <button onclick="login()">Ingresar al Sistema</button>
@@ -624,10 +626,9 @@
                     <button onclick="subirFirma()">Subir Firma / Sello</button>
                 </div>
 
-                <!-- Footer que se repetirá en cada página del PDF -->
                 <div class="footer-pages">
                     <span>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</span>
-                    <span class="page-number">Página <span class="pageNum">1</span> de <span class="totalPages">1</span></span>
+                    <span>Página <span class="pageNum">1</span> de <span class="totalPages">1</span></span>
                     <span class="print-date">Impresión: <span class="printDateSpan"></span></span>
                 </div>
                 <div class="footer-center-text">
@@ -652,8 +653,8 @@
 
 <script>
     // ========== CREDENCIALES ==========
-    const RUC = "10617365036";
-    const PASS = "yuri2026";
+    const USUARIO_RUC = "10617365036";
+    const CONTRASENA = "yuri2026";
 
     // ========== TOGGLE PASSWORD ==========
     function togglePassword() {
@@ -672,7 +673,8 @@
     function login() {
         let ruc = document.getElementById("ruc").value.trim();
         let pass = document.getElementById("pass").value.trim();
-        if (ruc === RUC && pass === PASS) {
+        
+        if (ruc === USUARIO_RUC && pass === CONTRASENA) {
             document.getElementById("login").style.display = "none";
             document.getElementById("app").style.display = "block";
             nuevaCotizacion();
@@ -690,18 +692,25 @@
         let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
         let printSpans = document.querySelectorAll('.printDateSpan');
         printSpans.forEach(span => span.innerText = fechaStr);
-        document.querySelectorAll('.pageNum').forEach(span => span.innerText = "1");
-        document.querySelectorAll('.totalPages').forEach(span => span.innerText = "1");
     }
 
     // ========== IMÁGENES PERSISTENTES ==========
     function cargarImagenesGuardadas() {
         let logo1 = localStorage.getItem("logo1");
-        if (logo1) { document.getElementById("logo1").src = logo1; document.getElementById("logo1").style.display = "inline-block"; }
+        if (logo1 && logo1 !== "") { 
+            document.getElementById("logo1").src = logo1; 
+            document.getElementById("logo1").style.display = "inline-block"; 
+        }
         let logo2 = localStorage.getItem("logo2");
-        if (logo2) { document.getElementById("logo2").src = logo2; document.getElementById("logo2").style.display = "inline-block"; }
+        if (logo2 && logo2 !== "") { 
+            document.getElementById("logo2").src = logo2; 
+            document.getElementById("logo2").style.display = "inline-block"; 
+        }
         let firma = localStorage.getItem("firma");
-        if (firma) { document.getElementById("firmaImg").src = firma; document.getElementById("firmaImg").style.display = "inline-block"; }
+        if (firma && firma !== "") { 
+            document.getElementById("firmaImg").src = firma; 
+            document.getElementById("firmaImg").style.display = "inline-block"; 
+        }
     }
 
     function subirLogo(id) {
@@ -831,8 +840,6 @@
         let ahora = new Date();
         let fechaImp = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
         clon.querySelectorAll('.printDateSpan').forEach(span => span.innerText = fechaImp);
-        clon.querySelectorAll('.pageNum').forEach(span => span.innerText = "1");
-        clon.querySelectorAll('.totalPages').forEach(span => span.innerText = "1");
 
         const opt = {
             margin: [0.5, 0.5, 0.5, 0.5],
@@ -889,8 +896,3 @@
     }
 
     function cargarHistorial() {
-        let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
-        let div = document.getElementById("historial");
-        div.innerHTML = "";
-        if (lista.length === 0) {
-            div.innerHTML = "<p style='color:#8aaec
