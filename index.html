@@ -712,7 +712,7 @@
                         <tr><th style="width:5%">#</th><th style="width:40%">Descripción</th><th style="width:10%">Cantidad</th><th style="width:15%">Precio Unitario</th><th style="width:15%">Subtotal</th><th style="width:8%"></th></tr>
                     </thead>
                     <tbody></tbody>
-                </table>
+                <tr>
                 <button class="btn btn-primary" style="margin:5px 0" onclick="agregarItem()">+ Agregar Item</button>
 
                 <div class="totals">
@@ -769,8 +769,8 @@
     let codigoEnviado = null;
     let celularVerificado = null;
 
-    // ========== SWITCH TABS ==========
-    function switchLoginTab(tab) {
+    // ========== FUNCIONES GLOBALES DE LOGIN ==========
+    window.switchLoginTab = function(tab) {
         let tabs = document.querySelectorAll('.login-tab');
         tabs.forEach(btn => btn.classList.remove('active'));
         if (event && event.target) event.target.classList.add('active');
@@ -785,10 +785,9 @@
         
         document.getElementById('loginError').innerText = "";
         document.getElementById('loginSuccess').innerText = "";
-    }
+    };
     
-    // ========== TOGGLE PASSWORD ==========
-    function togglePassword(inputId, btn) {
+    window.togglePassword = function(inputId, btn) {
         let passInput = document.getElementById(inputId);
         if (passInput.type === "password") {
             passInput.type = "text";
@@ -797,10 +796,9 @@
             passInput.type = "password";
             btn.textContent = "Mostrar";
         }
-    }
+    };
     
-    // ========== LOGIN CON RUC ==========
-    function loginRuc() {
+    window.loginRuc = function() {
         let ruc = document.getElementById('rucInput').value.trim();
         let pass = document.getElementById('passRuc').value.trim();
         let errorDiv = document.getElementById('loginError');
@@ -810,10 +808,9 @@
         } else {
             errorDiv.innerText = "RUC o Contraseña incorrectos";
         }
-    }
+    };
     
-    // ========== LOGIN CON CELULAR ==========
-    function loginCelular() {
+    window.loginCelular = function() {
         let celular = document.getElementById('celularInput').value.trim();
         let pass = document.getElementById('passCel').value.trim();
         let errorDiv = document.getElementById('loginError');
@@ -823,10 +820,9 @@
         } else {
             errorDiv.innerText = "Celular o Contraseña incorrectos";
         }
-    }
+    };
     
-    // ========== ENVIAR CÓDIGO SMS ==========
-    function enviarCodigo() {
+    window.enviarCodigo = function() {
         let celular = document.getElementById('celularCodeInput').value.trim();
         let errorDiv = document.getElementById('loginError');
         let successDiv = document.getElementById('loginSuccess');
@@ -843,10 +839,9 @@
         successDiv.innerText = `Código enviado: ${codigoEnviado} (simulado)`;
         errorDiv.innerText = "";
         document.getElementById('codigoInput').value = "";
-    }
+    };
     
-    // ========== VERIFICAR CÓDIGO ==========
-    function verificarCodigo() {
+    window.verificarCodigo = function() {
         let codigo = document.getElementById('codigoInput').value.trim();
         let errorDiv = document.getElementById('loginError');
         
@@ -860,7 +855,7 @@
         } else {
             errorDiv.innerText = "Código incorrecto";
         }
-    }
+    };
     
     // ========== INGRESO AL SISTEMA ==========
     function ingresarAlSistema() {
@@ -899,7 +894,7 @@
         }
     }
 
-    function subirLogo(id) {
+    window.subirLogo = function(id) {
         let input = document.createElement("input");
         input.type = "file";
         input.accept = "image/*";
@@ -917,9 +912,9 @@
             reader.readAsDataURL(file);
         };
         input.click();
-    }
+    };
 
-    function subirFirma() {
+    window.subirFirma = function() {
         let input = document.createElement("input");
         input.type = "file";
         input.accept = "image/*";
@@ -937,8 +932,11 @@
             reader.readAsDataURL(file);
         };
         input.click();
-    }
+    };
 
     // ========== NÚMERO DE COTIZACIÓN ==========
     function generarNumero() {
-        let contador = parseInt(localStorage.getItem("contador")) || 0
+        let contador = parseInt(localStorage.getItem("contador")) || 0;
+        contador++;
+        localStorage.setItem("contador", contador);
+        return String(contador).padStart(4, "0") + "-" + new
