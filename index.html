@@ -537,9 +537,9 @@
 <div id="login">
     <div class="loginBox">
         <h3>VIDRIOS Y ALUMINIOS YURI</h3>
-        <input type="text" id="ruc" placeholder="RUC / Usuario" autocomplete="off" value="10617365036">
+        <input type="text" id="ruc" placeholder="RUC / Usuario" autocomplete="off">
         <div class="password-wrapper">
-            <input type="password" id="pass" placeholder="Contraseña" value="yuri2026">
+            <input type="password" id="pass" placeholder="Contraseña">
             <button type="button" class="toggle-password" onclick="togglePassword()">Mostrar</button>
         </div>
         <button onclick="login()">Ingresar al Sistema</button>
@@ -599,7 +599,7 @@
 
                 <table class="items-table" id="tabla">
                     <thead>
-                        <tr><th style="width:5%">#</th><th style="width:40%">Descripción</th><th style="width:10%">Cant.</th><th style="width:15%">Precio Unit.</th><th style="width:15%">Subtotal</th><th style="width:8%"></th></tr>
+                        <tr><th style="width:5%">#</th><th style="width:40%">Descripción</th><th style="width:10%">Cantidad</th><th style="width:15%">Precio Unitario</th><th style="width:15%">Subtotal</th><th style="width:8%"></th></tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -671,18 +671,24 @@
 
     // ========== LOGIN ==========
     function login() {
-        let ruc = document.getElementById("ruc").value.trim();
-        let pass = document.getElementById("pass").value.trim();
+        let rucInput = document.getElementById("ruc");
+        let passInput = document.getElementById("pass");
+        let errorDiv = document.getElementById("error");
+        
+        let ruc = rucInput ? rucInput.value.trim() : "";
+        let pass = passInput ? passInput.value.trim() : "";
         
         if (ruc === USUARIO_RUC && pass === CONTRASENA) {
+            // Login exitoso
             document.getElementById("login").style.display = "none";
             document.getElementById("app").style.display = "block";
             nuevaCotizacion();
             cargarHistorial();
             cargarImagenesGuardadas();
             actualizarFechaImpresion();
+            if (errorDiv) errorDiv.innerText = "";
         } else {
-            document.getElementById("error").innerText = "RUC o Contraseña incorrectos";
+            if (errorDiv) errorDiv.innerText = "RUC o Contraseña incorrectos";
         }
     }
 
@@ -828,7 +834,9 @@
         document.getElementById("costo").innerHTML = simbolo + subtotalGeneral.toFixed(2);
         document.getElementById("igv").innerHTML = simbolo + igv.toFixed(2);
         document.getElementById("total").innerHTML = simbolo + total.toFixed(2);
-        document.getElementById("igvLine").style.display = incluirIGV ? "block" : "none";
+        
+        let igvLine = document.getElementById("igvLine");
+        if (igvLine) igvLine.style.display = incluirIGV ? "block" : "none";
     }
 
     // ========== PDF ==========
@@ -839,7 +847,8 @@
         clon.classList.add("pdf");
         let ahora = new Date();
         let fechaImp = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
-        clon.querySelectorAll('.printDateSpan').forEach(span => span.innerText = fechaImp);
+        let printSpans = clon.querySelectorAll('.printDateSpan');
+        printSpans.forEach(span => span.innerText = fechaImp);
 
         const opt = {
             margin: [0.5, 0.5, 0.5, 0.5],
@@ -854,8 +863,9 @@
     function vistaPrevia() {
         let clon = document.getElementById("a4").cloneNode(true);
         clon.classList.add("pdf");
-        document.getElementById("previewContent").innerHTML = "";
-        document.getElementById("previewContent").appendChild(clon);
+        let previewDiv = document.getElementById("previewContent");
+        previewDiv.innerHTML = "";
+        previewDiv.appendChild(clon);
         document.getElementById("preview").style.display = "block";
     }
 
@@ -875,7 +885,7 @@
                 subtotal: row.querySelector(".subtotal-cell").innerText
             });
         });
-        lista.unshift({
+        let cotizacion = {
             id: Date.now(),
             numero: document.getElementById("numCot").value,
             fecha: document.getElementById("fecha").value,
@@ -890,9 +900,21 @@
             },
             items: items,
             totalFinal: document.getElementById("total").innerText
-        });
+        };
+        lista.unshift(cotizacion);
         localStorage.setItem("cotizaciones", JSON.stringify(lista));
         cargarHistorial();
+        alert("Cotización guardada correctamente");
     }
 
     function cargarHistorial() {
+        let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
+        let div = document.getElementById("historial");
+        if (!div) return;
+        div.innerHTML = "";
+        if (lista.length === 0) {
+            div.innerHTML = "<p style='color:#8aaec0; padding:12px;'>No hay cotizaciones guardadas</p>";
+            return;
+        }
+        lista.slice(0, 15).forEach(cot => {
+            let itemDiv = document
