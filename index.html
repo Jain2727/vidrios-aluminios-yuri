@@ -1,10 +1,3 @@
-Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutando la función correctamente debido a un error en la asignación del evento `onclick`. Aquí está el código **completamente corregido** con el login funcionando perfectamente y todas las características solicitadas.
-
-**Credenciales de acceso:**
-- RUC: `10617365036`
-- Contraseña: `yuri2026`
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,14 +18,15 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
             min-height: 100vh;
         }
 
-        /* ========== LOGIN ========== */
+        /* ========== LOGIN MODERNO ========== */
         #login {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #1a4a6f 0%, #0d2b45 100%);
             position: relative;
+            padding: 20px;
         }
         #login::after {
             content: "VIDRIOS Y ALUMINIOS YURI";
@@ -47,36 +41,83 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
         }
         .loginBox {
             background: white;
-            padding: 40px 35px;
-            width: 380px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 35px 30px;
+            width: 420px;
+            max-width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
             text-align: center;
         }
         .loginBox h3 {
             font-family: 'Arial Narrow', sans-serif;
             font-size: 26px;
-            font-weight: 700;
+            font-weight: 800;
             color: #1a4a6f;
+            margin-bottom: 10px;
+        }
+        .loginBox .subtitle {
+            font-size: 13px;
+            color: #6c8daa;
             margin-bottom: 25px;
         }
-        .loginBox input {
+        
+        /* Pestañas de login */
+        .login-tabs {
+            display: flex;
+            gap: 5px;
+            background: #f0f4f8;
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 25px;
+        }
+        .login-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            border-radius: 40px;
+            font-family: 'Arial Narrow', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #5a7a9a;
+        }
+        .login-tab.active {
+            background: #1a4a6f;
+            color: white;
+            box-shadow: 0 2px 8px rgba(26,74,111,0.3);
+        }
+        
+        .login-form {
+            display: none;
+            text-align: left;
+        }
+        .login-form.active {
+            display: block;
+        }
+        
+        .login-form input {
             width: 100%;
             padding: 12px 15px;
             margin-bottom: 15px;
             border: 1px solid #c0d4e5;
-            border-radius: 8px;
+            border-radius: 12px;
             font-family: 'Arial Narrow', sans-serif;
             font-size: 15px;
+            transition: 0.2s;
         }
+        .login-form input:focus {
+            outline: none;
+            border-color: #1a4a6f;
+            box-shadow: 0 0 0 3px rgba(26,74,111,0.1);
+        }
+        
         .password-wrapper {
             position: relative;
-            margin-bottom: 15px;
         }
         .password-wrapper input {
-            width: 100%;
-            padding: 12px 80px 12px 15px;
-            margin-bottom: 0;
+            padding-right: 70px;
         }
         .toggle-password {
             position: absolute;
@@ -85,33 +126,75 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
             transform: translateY(-50%);
             cursor: pointer;
             color: #1a4a6f;
-            font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
             background: none;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
         }
-        .loginBox button {
+        
+        .btn-login {
             width: 100%;
             padding: 12px;
             background: #1a4a6f;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-family: 'Arial Narrow', sans-serif;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: background 0.3s;
+            margin-top: 10px;
         }
-        .loginBox button:hover {
+        .btn-login:hover {
             background: #0d3b5a;
         }
-        #error {
+        
+        .btn-verify {
+            background: #28a745;
+            margin-bottom: 15px;
+        }
+        .btn-verify:hover {
+            background: #218838;
+        }
+        
+        .code-group {
+            display: none;
+            margin-top: 10px;
+        }
+        .code-group input {
+            text-align: center;
+            letter-spacing: 5px;
+            font-size: 18px;
+        }
+        
+        .error-msg {
             color: #d32f2f;
-            margin-top: 15px;
-            font-size: 14px;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .success-msg {
+            color: #28a745;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #aaa;
+            font-size: 12px;
+        }
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+        .divider span {
+            padding: 0 10px;
         }
 
         /* ========== APP ========== */
@@ -410,10 +493,6 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
             font-family: 'Arial Narrow', sans-serif;
             text-align: center;
         }
-        .items-table textarea:focus, .items-table input:focus {
-            outline: none;
-            background: #fef9e6;
-        }
         .delete-item {
             background: #dc3545;
             color: white;
@@ -536,6 +615,7 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
             .company-name { font-size: 22px; }
             .logo { width: 55px; }
             .logo-buttons { top: 60px; }
+            .loginBox { padding: 25px 20px; }
         }
     </style>
 </head>
@@ -544,13 +624,53 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
 <div id="login">
     <div class="loginBox">
         <h3>VIDRIOS Y ALUMINIOS YURI</h3>
-        <input type="text" id="ruc" placeholder="RUC / Usuario" autocomplete="off">
-        <div class="password-wrapper">
-            <input type="password" id="pass" placeholder="Contraseña">
-            <button type="button" class="toggle-password" onclick="togglePassword()">Mostrar</button>
+        <div class="subtitle">Sistema de Cotizaciones Profesional</div>
+        
+        <!-- Pestañas de acceso -->
+        <div class="login-tabs">
+            <button class="login-tab active" onclick="switchLoginTab('ruc')">RUC</button>
+            <button class="login-tab" onclick="switchLoginTab('celular')">Celular</button>
+            <button class="login-tab" onclick="switchLoginTab('codigo')">Código SMS</button>
         </div>
-        <button id="btnIngresar">Ingresar al Sistema</button>
-        <div id="error"></div>
+        
+        <!-- Formulario RUC -->
+        <div id="form-ruc" class="login-form active">
+            <input type="text" id="rucInput" placeholder="RUC / Usuario" autocomplete="off">
+            <div class="password-wrapper">
+                <input type="password" id="passRuc" placeholder="Contraseña">
+                <button type="button" class="toggle-password" onclick="togglePassword('passRuc', this)">Mostrar</button>
+            </div>
+            <button class="btn-login" onclick="loginRuc()">Ingresar con RUC</button>
+        </div>
+        
+        <!-- Formulario Celular -->
+        <div id="form-celular" class="login-form">
+            <input type="tel" id="celularInput" placeholder="Número de celular" autocomplete="off">
+            <div class="password-wrapper">
+                <input type="password" id="passCel" placeholder="Contraseña">
+                <button type="button" class="toggle-password" onclick="togglePassword('passCel', this)">Mostrar</button>
+            </div>
+            <button class="btn-login" onclick="loginCelular()">Ingresar con Celular</button>
+        </div>
+        
+        <!-- Formulario Código SMS -->
+        <div id="form-codigo" class="login-form">
+            <input type="tel" id="celularCodeInput" placeholder="Número de celular">
+            <button class="btn-login btn-verify" id="btnEnviarCodigo" onclick="enviarCodigo()">Enviar código SMS</button>
+            <div id="codeGroup" class="code-group">
+                <input type="text" id="codigoInput" placeholder="Código de 6 dígitos" maxlength="6">
+                <button class="btn-login" onclick="verificarCodigo()">Verificar y acceder</button>
+            </div>
+        </div>
+        
+        <div class="divider"><span>o</span></div>
+        
+        <div style="text-align: center; font-size: 12px; color: #6c8daa;">
+            ¿Necesitas ayuda? Contacta con el administrador
+        </div>
+        
+        <div id="loginError" class="error-msg"></div>
+        <div id="loginSuccess" class="success-msg"></div>
     </div>
 </div>
 
@@ -661,12 +781,37 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
 <script>
     // ========== CREDENCIALES ==========
     const USUARIO_RUC = "10617365036";
+    const USUARIO_CELULAR = "993963381";
     const CONTRASENA = "yuri2026";
+    let codigoEnviado = null;
+    let celularVerificado = null;
 
+    // ========== SWITCH TABS ==========
+    function switchLoginTab(tab) {
+        document.querySelectorAll('.login-tab').forEach((btn, idx) => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        document.querySelectorAll('.login-form').forEach(form => {
+            form.classList.remove('active');
+        });
+        
+        document.getElementById('form-ruc').classList.remove('active');
+        document.getElementById('form-celular').classList.remove('active');
+        document.getElementById('form-codigo').classList.remove('active');
+        
+        if (tab === 'ruc') document.getElementById('form-ruc').classList.add('active');
+        if (tab === 'celular') document.getElementById('form-celular').classList.add('active');
+        if (tab === 'codigo') document.getElementById('form-codigo').classList.add('active');
+        
+        document.getElementById('loginError').innerText = "";
+        document.getElementById('loginSuccess').innerText = "";
+    }
+    
     // ========== TOGGLE PASSWORD ==========
-    function togglePassword() {
-        let passInput = document.getElementById("pass");
-        let btn = document.querySelector(".toggle-password");
+    function togglePassword(inputId, btn) {
+        let passInput = document.getElementById(inputId);
         if (passInput.type === "password") {
             passInput.type = "text";
             btn.textContent = "Ocultar";
@@ -675,27 +820,83 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
             btn.textContent = "Mostrar";
         }
     }
-
-    // ========== LOGIN ==========
-    function login() {
-        let rucInput = document.getElementById("ruc");
-        let passInput = document.getElementById("pass");
-        let errorDiv = document.getElementById("error");
-        
-        let ruc = rucInput ? rucInput.value.trim() : "";
-        let pass = passInput ? passInput.value.trim() : "";
+    
+    // ========== LOGIN CON RUC ==========
+    function loginRuc() {
+        let ruc = document.getElementById('rucInput').value.trim();
+        let pass = document.getElementById('passRuc').value.trim();
+        let errorDiv = document.getElementById('loginError');
         
         if (ruc === USUARIO_RUC && pass === CONTRASENA) {
-            document.getElementById("login").style.display = "none";
-            document.getElementById("app").style.display = "block";
-            nuevaCotizacion();
-            cargarHistorial();
-            cargarImagenesGuardadas();
-            actualizarFechaImpresion();
-            if (errorDiv) errorDiv.innerText = "";
+            ingresarAlSistema();
         } else {
-            if (errorDiv) errorDiv.innerText = "RUC o Contraseña incorrectos";
+            errorDiv.innerText = "RUC o Contraseña incorrectos";
         }
+    }
+    
+    // ========== LOGIN CON CELULAR ==========
+    function loginCelular() {
+        let celular = document.getElementById('celularInput').value.trim();
+        let pass = document.getElementById('passCel').value.trim();
+        let errorDiv = document.getElementById('loginError');
+        
+        if (celular === USUARIO_CELULAR && pass === CONTRASENA) {
+            ingresarAlSistema();
+        } else {
+            errorDiv.innerText = "Celular o Contraseña incorrectos";
+        }
+    }
+    
+    // ========== ENVIAR CÓDIGO SMS (SIMULADO) ==========
+    function enviarCodigo() {
+        let celular = document.getElementById('celularCodeInput').value.trim();
+        let errorDiv = document.getElementById('loginError');
+        let successDiv = document.getElementById('loginSuccess');
+        
+        if (celular !== USUARIO_CELULAR) {
+            errorDiv.innerText = "Número de celular no registrado";
+            return;
+        }
+        
+        // Generar código de 6 dígitos
+        codigoEnviado = Math.floor(100000 + Math.random() * 900000).toString();
+        celularVerificado = celular;
+        
+        // Mostrar el campo de código
+        document.getElementById('codeGroup').style.display = "block";
+        successDiv.innerText = `Código enviado: ${codigoEnviado} (simulado)`;
+        errorDiv.innerText = "";
+        
+        // Limpiar input de código
+        document.getElementById('codigoInput').value = "";
+    }
+    
+    // ========== VERIFICAR CÓDIGO ==========
+    function verificarCodigo() {
+        let codigo = document.getElementById('codigoInput').value.trim();
+        let errorDiv = document.getElementById('loginError');
+        let successDiv = document.getElementById('loginSuccess');
+        
+        if (!codigoEnviado) {
+            errorDiv.innerText = "Primero solicita un código";
+            return;
+        }
+        
+        if (codigo === codigoEnviado) {
+            ingresarAlSistema();
+        } else {
+            errorDiv.innerText = "Código incorrecto";
+        }
+    }
+    
+    // ========== INGRESO AL SISTEMA ==========
+    function ingresarAlSistema() {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("app").style.display = "block";
+        nuevaCotizacion();
+        cargarHistorial();
+        cargarImagenesGuardadas();
+        actualizarFechaImpresion();
     }
 
     // ========== FECHA DE IMPRESIÓN ==========
@@ -750,177 +951,4 @@ Tienes toda la razón. El problema es que el botón "Ingresar" no está ejecutan
         input.type = "file";
         input.accept = "image/*";
         input.onchange = function(e) {
-            let file = e.target.files[0];
-            if (!file) return;
-            let reader = new FileReader();
-            reader.onload = function(ev) {
-                let imgData = ev.target.result;
-                document.getElementById("firmaImg").src = imgData;
-                document.getElementById("firmaImg").style.display = "inline-block";
-                localStorage.setItem("firma", imgData);
-                alert("Firma guardada correctamente.");
-            };
-            reader.readAsDataURL(file);
-        };
-        input.click();
-    }
-
-    // ========== NÚMERO DE COTIZACIÓN ==========
-    function generarNumero() {
-        let contador = parseInt(localStorage.getItem("contador")) || 0;
-        contador++;
-        localStorage.setItem("contador", contador);
-        return String(contador).padStart(4, "0") + "-" + new Date().getFullYear();
-    }
-
-    function nuevaCotizacion() {
-        document.getElementById("numCot").value = generarNumero();
-        let hoy = new Date();
-        document.getElementById("fecha").valueAsDate = hoy;
-        let validez = new Date();
-        validez.setDate(hoy.getDate() + 15);
-        document.getElementById("fechaValidez").valueAsDate = validez;
-        document.getElementById("moneda").value = "PEN";
-        document.getElementById("incluirIGV").checked = true;
-        document.getElementById("clienteNombre").value = "";
-        document.getElementById("clienteDoc").value = "";
-        document.getElementById("clienteCel").value = "";
-        document.getElementById("clienteDir").value = "";
-        document.querySelector("#tabla tbody").innerHTML = "";
-        agregarItem();
-        calcular();
-        actualizarFechaImpresion();
-    }
-
-    // ========== ITEMS ==========
-    function agregarItem() {
-        let tbody = document.querySelector("#tabla tbody");
-        let rowCount = tbody.rows.length + 1;
-        let fila = document.createElement("tr");
-        fila.innerHTML = `
-            <td style="text-align:center">${rowCount}</td>
-            <td><textarea rows="2" placeholder="Detalle del producto (vidrio, aluminio, medidas, acabado...)"></textarea></td>
-            <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
-            <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
-            <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
-            <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>
-        `;
-        tbody.appendChild(fila);
-    }
-
-    function eliminarItem(boton) {
-        boton.closest("tr").remove();
-        renumerarItems();
-        calcular();
-    }
-
-    function renumerarItems() {
-        let rows = document.querySelectorAll("#tabla tbody tr");
-        rows.forEach((row, idx) => { row.cells[0].innerText = idx + 1; });
-    }
-
-    // ========== CÁLCULOS ==========
-    function calcular() {
-        let subtotalGeneral = 0;
-        let filas = document.querySelectorAll("#tabla tbody tr");
-        filas.forEach(fila => {
-            let cantidad = parseFloat(fila.querySelector("td:nth-child(3) input").value) || 0;
-            let precio = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
-            let subtotal = cantidad * precio;
-            fila.querySelector(".subtotal-cell").innerText = subtotal.toFixed(2);
-            subtotalGeneral += subtotal;
-        });
-
-        let incluirIGV = document.getElementById("incluirIGV").checked;
-        let igv = incluirIGV ? (subtotalGeneral * 0.18) : 0;
-        let total = subtotalGeneral + igv;
-        let moneda = document.getElementById("moneda").value;
-        let simbolo = (moneda === "PEN") ? "S/ " : "$ ";
-
-        document.getElementById("costo").innerHTML = simbolo + subtotalGeneral.toFixed(2);
-        document.getElementById("igv").innerHTML = simbolo + igv.toFixed(2);
-        document.getElementById("total").innerHTML = simbolo + total.toFixed(2);
-        
-        let igvLine = document.getElementById("igvLine");
-        if (igvLine) igvLine.style.display = incluirIGV ? "block" : "none";
-    }
-
-    // ========== PDF ==========
-    async function descargarPDF() {
-        let cliente = document.getElementById("clienteNombre").value || "Cliente";
-        let numCot = document.getElementById("numCot").value || "0000";
-        let clon = document.getElementById("a4").cloneNode(true);
-        clon.classList.add("pdf");
-        let ahora = new Date();
-        let fechaImp = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
-        let printSpans = clon.querySelectorAll('.printDateSpan');
-        printSpans.forEach(span => span.innerText = fechaImp);
-
-        const opt = {
-            margin: [0.5, 0.5, 0.5, 0.5],
-            filename: `Cotizacion_${numCot}_${cliente}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, letterRendering: true },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
-        await html2pdf().set(opt).from(clon).save();
-    }
-
-    function vistaPrevia() {
-        let clon = document.getElementById("a4").cloneNode(true);
-        clon.classList.add("pdf");
-        let previewDiv = document.getElementById("previewContent");
-        previewDiv.innerHTML = "";
-        previewDiv.appendChild(clon);
-        document.getElementById("preview").style.display = "block";
-    }
-
-    function cerrarPreview() {
-        document.getElementById("preview").style.display = "none";
-    }
-
-    // ========== GUARDAR Y HISTORIAL ==========
-    function guardarCotizacion() {
-        let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
-        let items = [];
-        document.querySelectorAll("#tabla tbody tr").forEach(row => {
-            items.push({
-                desc: row.querySelector("textarea").value,
-                cant: row.querySelector("td:nth-child(3) input").value,
-                precio: row.querySelector("td:nth-child(4) input").value,
-                subtotal: row.querySelector(".subtotal-cell").innerText
-            });
-        });
-        let cotizacion = {
-            id: Date.now(),
-            numero: document.getElementById("numCot").value,
-            fecha: document.getElementById("fecha").value,
-            fechaValidez: document.getElementById("fechaValidez").value,
-            moneda: document.getElementById("moneda").value,
-            incluirIGV: document.getElementById("incluirIGV").checked,
-            cliente: {
-                nombre: document.getElementById("clienteNombre").value,
-                documento: document.getElementById("clienteDoc").value,
-                celular: document.getElementById("clienteCel").value,
-                direccion: document.getElementById("clienteDir").value
-            },
-            items: items,
-            totalFinal: document.getElementById("total").innerText
-        };
-        lista.unshift(cotizacion);
-        localStorage.setItem("cotizaciones", JSON.stringify(lista));
-        cargarHistorial();
-        alert("Cotización guardada correctamente");
-    }
-
-    function cargarHistorial() {
-        let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
-        let div = document.getElementById("historial");
-        if (!div) return;
-        div.innerHTML = "";
-        if (lista.length === 0) {
-            div.innerHTML = "<p style='color:#8aaec0; padding:12px;'>No hay cotizaciones guardadas</p>";
-            return;
-        }
-        lista.slice(0, 15).forEach(cot => {
             let
