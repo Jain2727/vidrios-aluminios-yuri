@@ -268,9 +268,10 @@
             page-break-after: always;
             break-after: page;
             box-sizing: border-box;
+            overflow: hidden;
         }
         
-        /* MARCA DE AGUA MÁS PEQUEÑA AL FRENTE */
+        /* MARCA DE AGUA */
         .watermark {
             position: absolute;
             top: 50%;
@@ -410,7 +411,7 @@
             text-align: right;
         }
         
-        /* NÚMERO DE COTIZACIÓN - LETRAS BLANCAS */
+        /* NÚMERO DE COTIZACIÓN */
         .quote-number {
             text-align: center;
             margin: 15px 0;
@@ -442,7 +443,7 @@
             color: white;
         }
         
-        /* CLIENTE CON FONDO AZUL PASTEL */
+        /* CLIENTE - SOLO EN PÁGINA 1 */
         .client-card {
             background: #e8f4fd;
             border-radius: 12px;
@@ -489,11 +490,11 @@
             background: white;
         }
         
-        /* TABLA MEJORADA */
+        /* TABLA DE ITEMS */
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 15px 0;
             z-index: 2;
             position: relative;
             table-layout: fixed;
@@ -502,9 +503,9 @@
         .items-table th {
             background: #1f4e79;
             color: white;
-            padding: 10px 6px;
+            padding: 8px 6px;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11px;
             text-align: center;
             font-family: 'Arial Narrow', sans-serif;
         }
@@ -518,53 +519,58 @@
         
         .items-table td {
             border: 1px solid #c0d4e5;
-            padding: 8px 6px;
+            padding: 6px 4px;
             vertical-align: top;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 11px;
+            font-size: 10px;
         }
         
         .items-table textarea {
             width: 100%;
             border: none;
-            padding: 6px;
+            padding: 4px;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 11px;
+            font-size: 10px;
             resize: vertical;
             background: transparent;
-            min-height: 55px;
+            min-height: 45px;
             white-space: pre-wrap;
             word-wrap: break-word;
             word-break: break-word;
-            line-height: 1.4;
-            overflow: auto;
+            line-height: 1.3;
         }
         
         .items-table input {
             width: 100%;
             border: none;
-            padding: 6px 3px;
+            padding: 4px 2px;
             text-align: center;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 11px;
+            font-size: 10px;
         }
         
         .delete-item {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 4px 8px;
-            border-radius: 5px;
+            padding: 3px 6px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 10px;
             font-family: 'Arial Narrow', sans-serif;
+        }
+        
+        .add-item-btn {
+            margin: 5px 0;
+            padding: 4px 12px;
+            font-size: 11px;
         }
         
         /* Totales de página */
         .page-totals {
             text-align: right;
-            margin-top: 15px;
-            padding: 10px 15px;
+            margin-top: 10px;
+            padding: 8px 15px;
             background: #f8fafc;
             border-radius: 8px;
             border: 1px solid #c0d4e5;
@@ -572,27 +578,27 @@
             position: relative;
         }
         
-        .page-totals p { margin: 3px 0; font-size: 12px; font-family: 'Arial Narrow', sans-serif; }
-        .page-grand-total { font-size: 16px; font-weight: 800; color: #1f4e79; }
+        .page-totals p { margin: 2px 0; font-size: 11px; font-family: 'Arial Narrow', sans-serif; }
+        .page-grand-total { font-size: 14px; font-weight: 800; color: #1f4e79; }
         
         .igv-toggle {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 6px;
-            padding-bottom: 5px;
+            gap: 8px;
+            margin-bottom: 5px;
+            padding-bottom: 4px;
             border-bottom: 1px solid #c0d4e5;
         }
         
-        .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-family: 'Arial Narrow', sans-serif; font-size: 11px; }
+        .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-family: 'Arial Narrow', sans-serif; font-size: 10px; }
         
-        /* FIRMA Y PAGO EN LA MISMA LÍNEA */
+        /* FIRMA Y PAGO EN LA MISMA LÍNEA - SOLO ÚLTIMA PÁGINA */
         .signature-payment-row {
             display: flex;
             justify-content: space-between;
             gap: 30px;
-            margin: 25px 0 20px 0;
+            margin: 20px 0 20px 0;
             z-index: 2;
             position: relative;
             flex-wrap: wrap;
@@ -678,8 +684,8 @@
         
         /* PIE DE PÁGINA FIJO */
         .footer-fixed {
-            margin-top: 20px;
-            padding-top: 10px;
+            margin-top: 15px;
+            padding-top: 8px;
             border-top: 1px solid #c0d4e5;
             background: white;
             position: relative;
@@ -692,7 +698,7 @@
             display: flex;
             justify-content: space-between;
             font-family: 'Arial Narrow', sans-serif;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .footer-center {
@@ -706,18 +712,18 @@
             margin: 2px 0;
         }
         
-        /* Controles de página */
-        .page-controls {
-            margin: 20px 0;
-            padding: 15px;
-            background: white;
-            border-radius: 12px;
-            text-align: center;
+        .total-general-container {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #1f4e79;
+            color: white;
+            border-radius: 10px;
+            text-align: right;
         }
         
-        .page-controls button {
-            margin: 5px;
-            padding: 8px 20px;
+        .total-general-container p {
+            font-size: 18px;
+            font-weight: bold;
         }
         
         /* Vista previa */
@@ -757,7 +763,7 @@
         }
         
         /* ESTILOS PARA PDF */
-        .pdf .logo-buttons, .pdf .firma-fisica button, .pdf .firma-digital button, .pdf .delete-item, .pdf .add-page-btn {
+        .pdf .logo-buttons, .pdf .firma-fisica button, .pdf .firma-digital button, .pdf .delete-item, .pdf .add-item-btn {
             display: none !important;
         }
         
@@ -851,8 +857,8 @@
     <div class="workspace">
         <div class="quote-area">
             <div id="pagesContainer"></div>
-            <div class="page-controls">
-                <button class="btn btn-primary" onclick="agregarPagina()">+ Agregar Nueva Página</button>
+            <div class="page-controls" style="margin: 20px 0; text-align: center;">
+                <button class="btn btn-primary" onclick="agregarPaginaItem()" id="btnAgregarPagina">+ Agregar Nueva Página de Items</button>
             </div>
         </div>
         <div class="history-area">
@@ -878,7 +884,6 @@
     const CONTRASENA = "yuri2026";
     let codigoEnviado = null;
     let cotizaciones = [];
-    let paginas = [];
 
     function mostrarFormulario(tipo) {
         document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
@@ -956,7 +961,7 @@
         if (printDateSpan) printDateSpan.innerText = fechaStr;
     }
 
-    function actualizarNumeroPagina() {
+    function actualizarNumerosPagina() {
         let pages = document.querySelectorAll('.a4-page');
         pages.forEach((page, index) => {
             let pageNumSpan = page.querySelector('.page-num');
@@ -984,7 +989,8 @@
         return String(contador).padStart(4, '0') + '-' + new Date().getFullYear();
     }
 
-    function crearPaginaBlanco(numPagina, totalPaginas) {
+    // Crear página de items (sin datos de cliente, sin firma/pago)
+    function crearPaginaItems(numPagina, totalPaginas, esPaginaItems = true) {
         let div = document.createElement('div');
         div.className = 'a4-page';
         div.innerHTML = `
@@ -1008,11 +1014,139 @@
                 <tbody></tbody>
             </table>
             <button class="btn btn-primary add-item-btn" style="margin:5px 0; padding:4px 12px; font-size:11px;" onclick="agregarItemEnPagina(this)">+ Agregar Item</button>
-            <div class="page-totals" style="display:none;">
+            <div class="page-totals">
                 <div class="igv-toggle"><input type="checkbox" class="incluirIGV" checked onchange="calcularTotalesGlobales()"><label>Incluir IGV (18%)</label></div>
                 <p>Subtotal Página: <span class="page-subtotal">0.00</span></p>
                 <p class="page-igv-line">IGV Página: <span class="page-igv">0.00</span></p>
                 <p class="page-grand-total">Total Página: <span class="page-total">0.00</span></p>
+            </div>
+            <div class="footer-fixed">
+                <div class="footer-pages">
+                    <span>Página <span class="page-num">${numPagina}</span> de <span class="total-pages">${totalPaginas}</span></span>
+                    <span>Impresión: <span id="printDate"></span></span>
+                </div>
+                <div class="footer-center">
+                    <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
+                    <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
+                    <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
+                </div>
+            </div>
+        `;
+        return div;
+    }
+
+    // Crear página principal (con datos de cliente)
+    function crearPaginaPrincipal(numPagina, totalPaginas) {
+        let numero = generarNumero();
+        let hoy = new Date();
+        let fechaStr = hoy.toISOString().split('T')[0];
+        let validez = new Date();
+        validez.setDate(hoy.getDate() + 15);
+        let validezStr = validez.toISOString().split('T')[0];
+        
+        let div = document.createElement('div');
+        div.className = 'a4-page';
+        div.innerHTML = `
+            <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
+            <div class="header-fixed">
+                <div class="header">
+                    <img id="logo1" class="logo logo-left" style="display:none">
+                    <img id="logo2" class="logo logo-right" style="display:none">
+                    <div class="logo-buttons">
+                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
+                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
+                    </div>
+                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
+                    <div class="company-owner">YURI HERMOZA PUELLES</div>
+                    <div class="company-ruc">RUC: 10617365036</div>
+                    <div class="direccion"><input class="editable" id="direccionEmpresa" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
+                </div>
+            </div>
+            <div class="quote-number">
+                <label>COTIZACIÓN N°</label>
+                <input id="numCot" class="editable" value="${numero}">
+            </div>
+            <div class="dates-right">
+                <div><b>FECHA DE EMISIÓN:</b> <input type="date" id="fecha" class="editable" value="${fechaStr}" onchange="validarFechas()"></div>
+                <div><b>FECHA DE VALIDEZ:</b> <input type="date" id="fechaValidez" class="editable" value="${validezStr}" onchange="validarFechas()"></div>
+                <div><b>MONEDA:</b> <select id="moneda" class="editable" onchange="calcularTotalesGlobales()"><option value="PEN">Soles S/</option><option value="USD">Dólares $</option></select></div>
+            </div>
+            <div class="client-card">
+                <h4>DATOS DEL CLIENTE</h4>
+                <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable" placeholder="Ej: Juan Pérez"></div>
+                <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable" placeholder="Ej: 12345678"></div>
+                <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable" placeholder="Ej: 993963381"></div>
+                <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable" placeholder="Ej: Av. Principal 123"></div>
+            </div>
+            <table class="items-table">
+                <thead><tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr></thead>
+                <tbody></tbody>
+            </table>
+            <button class="btn btn-primary add-item-btn" style="margin:5px 0; padding:4px 12px; font-size:11px;" onclick="agregarItemEnPagina(this)">+ Agregar Item</button>
+            <div class="page-totals">
+                <div class="igv-toggle"><input type="checkbox" class="incluirIGV" checked onchange="calcularTotalesGlobales()"><label>Incluir IGV (18%)</label></div>
+                <p>Subtotal Página: <span class="page-subtotal">0.00</span></p>
+                <p class="page-igv-line">IGV Página: <span class="page-igv">0.00</span></p>
+                <p class="page-grand-total">Total Página: <span class="page-total">0.00</span></p>
+            </div>
+            <div class="footer-fixed">
+                <div class="footer-pages">
+                    <span>Página <span class="page-num">${numPagina}</span> de <span class="total-pages">${totalPaginas}</span></span>
+                    <span>Impresión: <span id="printDate"></span></span>
+                </div>
+                <div class="footer-center">
+                    <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
+                    <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
+                    <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
+                </div>
+            </div>
+        `;
+        return div;
+    }
+
+    // Crear página con firma y métodos de pago (última página)
+    function crearPaginaFirma(numPagina, totalPaginas) {
+        let div = document.createElement('div');
+        div.className = 'a4-page';
+        div.innerHTML = `
+            <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
+            <div class="header-fixed">
+                <div class="header">
+                    <img id="logo1" class="logo logo-left" style="display:none">
+                    <img id="logo2" class="logo logo-right" style="display:none">
+                    <div class="logo-buttons">
+                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
+                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
+                    </div>
+                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
+                    <div class="company-owner">YURI HERMOZA PUELLES</div>
+                    <div class="company-ruc">RUC: 10617365036</div>
+                    <div class="direccion"><input class="editable" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
+                </div>
+            </div>
+            <div class="total-general-container">
+                <p>TOTAL GENERAL: <span id="totalGeneral">0.00</span></p>
+            </div>
+            <div class="signature-payment-row">
+                <div class="payment-methods">
+                    <h5>MÉTODOS DE PAGO</h5>
+                    <p><strong>BCP:</strong> 52671107164027</p>
+                    <p><strong>CCI:</strong> 00252617110716402721</p>
+                    <p><strong>Yape/Plin:</strong> 993963381</p>
+                </div>
+                <div class="signature-area">
+                    <h5>FIRMA AUTORIZADA</h5>
+                    <div class="firma-fisica">
+                        <img class="firma-img" style="display:none"><br>
+                        <button onclick="subirFirma()">Subir Firma Física</button>
+                        <button onclick="limpiarFirmaFisica()">Limpiar</button>
+                    </div>
+                    <div class="firma-digital">
+                        <button onclick="generarFirmaDigital()">Generar Firma Digital</button>
+                        <button onclick="limpiarFirmaDigital()">Limpiar</button>
+                        <div class="signature-info"></div>
+                    </div>
+                </div>
             </div>
             <div class="footer-fixed">
                 <div class="footer-pages">
@@ -1035,7 +1169,7 @@
         let rowCount = tbody.rows.length + 1;
         let fila = document.createElement('tr');
         fila.innerHTML = `<td style="text-align:center">${rowCount}</td>
-                          <td><textarea rows="3" placeholder="Detalle completo del producto o servicio..." onchange="calcularTotalesGlobales()" style="width:100%; min-height:55px; white-space:pre-wrap;"></textarea></td>
+                          <td><textarea rows="2" placeholder="Detalle del producto o servicio..." onchange="calcularTotalesGlobales()" style="width:100%; min-height:45px; white-space:pre-wrap;"></textarea></td>
                           <td><input type="number" value="1" min="0" step="1" onchange="calcularTotalesGlobales()"></td>
                           <td><input type="number" value="0" min="0" step="0.01" onchange="calcularTotalesGlobales()"></td>
                           <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
@@ -1060,9 +1194,12 @@
     function calcularTotalesGlobales() {
         let pages = document.querySelectorAll('.a4-page');
         let subtotalGlobal = 0;
-        let incluirIGVGlobal = document.getElementById('incluirIGVGlobal')?.checked || true;
+        let incluirIGVGlobal = true;
         
         pages.forEach(page => {
+            let incluirIGVCheck = page.querySelector('.incluirIGV');
+            if (incluirIGVCheck && incluirIGVCheck.checked === false) incluirIGVGlobal = false;
+            
             let subtotalPagina = 0;
             let rows = page.querySelectorAll('.items-table tbody tr');
             rows.forEach(row => {
@@ -1081,14 +1218,14 @@
             let pageIgvLine = page.querySelector('.page-igv-line');
             
             if (pageSubtotalSpan) {
-                let igvPagina = incluirIGVGlobal ? subtotalPagina * 0.18 : 0;
+                let igvPagina = (incluirIGVCheck ? subtotalPagina * 0.18 : 0);
                 let totalPagina = subtotalPagina + igvPagina;
                 let moneda = document.getElementById('moneda')?.value || 'PEN';
                 let sim = moneda === 'PEN' ? 'S/ ' : '$ ';
                 pageSubtotalSpan.innerText = sim + subtotalPagina.toFixed(2);
                 if (pageIgvSpan) pageIgvSpan.innerText = sim + igvPagina.toFixed(2);
                 if (pageTotalSpan) pageTotalSpan.innerText = sim + totalPagina.toFixed(2);
-                if (pageIgvLine) pageIgvLine.style.display = incluirIGVGlobal ? 'block' : 'none';
+                if (pageIgvLine) pageIgvLine.style.display = incluirIGVCheck ? 'block' : 'none';
             }
         });
         
@@ -1101,15 +1238,29 @@
         if (totalGeneralSpan) totalGeneralSpan.innerText = sim + totalGlobal.toFixed(2);
     }
 
-    function agregarPagina() {
+    function agregarPaginaItem() {
         let container = document.getElementById('pagesContainer');
-        let totalPaginas = document.querySelectorAll('.a4-page').length + 1;
-        let nuevaPagina = crearPaginaBlanco(totalPaginas, totalPaginas);
-        container.appendChild(nuevaPagina);
-        actualizarNumeroPagina();
+        let paginasItems = document.querySelectorAll('.a4-page:not(.firma-page)');
+        let paginaFirma = document.querySelector('.firma-page');
+        
+        let nuevaPaginaItems = crearPaginaItems(paginasItems.length + 1, paginasItems.length + 2);
+        
+        if (paginaFirma) {
+            paginaFirma.remove();
+            container.appendChild(nuevaPaginaItems);
+            let nuevaPaginaFirma = crearPaginaFirma(paginasItems.length + 2, paginasItems.length + 2);
+            container.appendChild(nuevaPaginaFirma);
+        } else {
+            container.appendChild(nuevaPaginaItems);
+            let nuevaPaginaFirma = crearPaginaFirma(paginasItems.length + 1, paginasItems.length + 1);
+            container.appendChild(nuevaPaginaFirma);
+        }
+        
+        actualizarNumerosPagina();
         cargarLogosEnPaginas();
         cargarFirmasEnPaginas();
         actualizarFechasEnPaginas();
+        calcularTotalesGlobales();
     }
 
     function cargarLogosEnPaginas() {
@@ -1127,60 +1278,34 @@
     function cargarFirmasEnPaginas() {
         let firmaFisica = localStorage.getItem('firmaFisica');
         let firmaDigitalHTML = localStorage.getItem('firmaDigitalHTML');
-        let lastPage = document.querySelectorAll('.a4-page:last-child');
-        if (lastPage.length > 0) {
-            let signatureArea = lastPage[0].querySelector('.signature-area');
-            if (!signatureArea) {
-                let signaturePaymentRow = lastPage[0].querySelector('.signature-payment-row');
-                if (!signaturePaymentRow) {
-                    let footerFixed = lastPage[0].querySelector('.footer-fixed');
-                    let row = document.createElement('div');
-                    row.className = 'signature-payment-row';
-                    row.innerHTML = `
-                        <div class="payment-methods">
-                            <h5>MÉTODOS DE PAGO</h5>
-                            <p><strong>BCP:</strong> 52671107164027</p>
-                            <p><strong>CCI:</strong> 00252617110716402721</p>
-                            <p><strong>Yape/Plin:</strong> 993963381</p>
-                        </div>
-                        <div class="signature-area">
-                            <h5>FIRMA AUTORIZADA</h5>
-                            <div class="firma-fisica">
-                                <img class="firma-img" style="display:none"><br>
-                                <button onclick="subirFirma()">Subir Firma Física</button>
-                                <button onclick="limpiarFirmaFisica()">Limpiar</button>
-                            </div>
-                            <div class="firma-digital">
-                                <button onclick="generarFirmaDigital()">Generar Firma Digital</button>
-                                <button onclick="limpiarFirmaDigital()">Limpiar</button>
-                                <div class="signature-info"></div>
-                            </div>
-                        </div>
-                    `;
-                    footerFixed.parentNode.insertBefore(row, footerFixed);
-                }
-            }
-            
-            let firmaImg = lastPage[0].querySelector('.firma-img');
-            let digitalInfo = lastPage[0].querySelector('.firma-digital .signature-info');
-            if (firmaImg && firmaFisica) { firmaImg.src = firmaFisica; firmaImg.style.display = 'block'; }
-            if (digitalInfo && firmaDigitalHTML) digitalInfo.innerHTML = firmaDigitalHTML;
-        }
+        
+        let firmaImgs = document.querySelectorAll('.firma-img');
+        if (firmaFisica) firmaImgs.forEach(img => { img.src = firmaFisica; img.style.display = 'block'; });
+        
+        let digitalInfos = document.querySelectorAll('.firma-digital .signature-info');
+        if (firmaDigitalHTML) digitalInfos.forEach(info => info.innerHTML = firmaDigitalHTML);
     }
 
     function actualizarFechasEnPaginas() {
-        let fecha = document.getElementById('fecha')?.value || new Date().toISOString().split('T')[0];
-        let fechaValidez = document.getElementById('fechaValidez')?.value || (() => { let d = new Date(); d.setDate(d.getDate() + 15); return d.toISOString().split('T')[0]; })();
-        let moneda = document.getElementById('moneda')?.value || 'PEN';
+        let fecha = document.getElementById('fecha')?.value;
+        let fechaValidez = document.getElementById('fechaValidez')?.value;
+        let moneda = document.getElementById('moneda')?.value;
         
         let pages = document.querySelectorAll('.a4-page');
         pages.forEach(page => {
             let fechaInput = page.querySelector('#fecha');
             let validezInput = page.querySelector('#fechaValidez');
             let monedaSelect = page.querySelector('#moneda');
-            if (fechaInput && !fechaInput.value) fechaInput.value = fecha;
-            if (validezInput && !validezInput.value) validezInput.value = fechaValidez;
-            if (monedaSelect && !monedaSelect.value) monedaSelect.value = moneda;
+            if (fechaInput && fecha && !fechaInput.value) fechaInput.value = fecha;
+            if (validezInput && fechaValidez && !validezInput.value) validezInput.value = fechaValidez;
+            if (monedaSelect && moneda && !monedaSelect.value) monedaSelect.value = moneda;
+            
+            let printDateSpan = page.querySelector('#printDate');
+            if (printDateSpan) {
+                let ahora = new Date();
+                let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+                printDateSpan.innerText = fechaStr;
+            }
         });
     }
 
@@ -1189,88 +1314,18 @@
             let container = document.getElementById('pagesContainer');
             container.innerHTML = '';
             
-            let numero = generarNumero();
-            let hoy = new Date();
-            let fechaStr = hoy.toISOString().split('T')[0];
-            let validez = new Date();
-            validez.setDate(hoy.getDate() + 15);
-            let validezStr = validez.toISOString().split('T')[0];
+            let paginaPrincipal = crearPaginaPrincipal(1, 2);
+            let paginaFirma = crearPaginaFirma(2, 2);
             
-            let primeraPagina = crearPaginaBlanco(1, 1);
+            container.appendChild(paginaPrincipal);
+            container.appendChild(paginaFirma);
             
-            let headerRepeat = primeraPagina.querySelector('.header-fixed');
-            let quoteNumberDiv = document.createElement('div');
-            quoteNumberDiv.className = 'quote-number';
-            quoteNumberDiv.innerHTML = `<label>COTIZACIÓN N°</label><input id="numCot" class="editable" value="${numero}">`;
-            let datesRightDiv = document.createElement('div');
-            datesRightDiv.className = 'dates-right';
-            datesRightDiv.innerHTML = `
-                <div><b>FECHA DE EMISIÓN:</b> <input type="date" id="fecha" class="editable" value="${fechaStr}" onchange="validarFechas()"></div>
-                <div><b>FECHA DE VALIDEZ:</b> <input type="date" id="fechaValidez" class="editable" value="${validezStr}" onchange="validarFechas()"></div>
-                <div><b>MONEDA:</b> <select id="moneda" class="editable" onchange="calcularTotalesGlobales()"><option value="PEN">Soles S/</option><option value="USD">Dólares $</option></select></div>
-            `;
-            let clientCard = document.createElement('div');
-            clientCard.className = 'client-card';
-            clientCard.innerHTML = `
-                <h4>DATOS DEL CLIENTE</h4>
-                <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable" placeholder="Ej: Juan Pérez"></div>
-                <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable" placeholder="Ej: 12345678"></div>
-                <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable" placeholder="Ej: 993963381"></div>
-                <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable" placeholder="Ej: Av. Principal 123"></div>
-            `;
+            agregarItemEnPagina(paginaPrincipal.querySelector('.add-item-btn'));
             
-            headerRepeat.parentNode.insertBefore(quoteNumberDiv, headerRepeat.nextSibling);
-            headerRepeat.parentNode.insertBefore(datesRightDiv, headerRepeat.nextSibling.nextSibling);
-            headerRepeat.parentNode.insertBefore(clientCard, headerRepeat.nextSibling.nextSibling.nextSibling);
-            
-            container.appendChild(primeraPagina);
-            
-            agregarItemEnPagina(primeraPagina.querySelector('.add-item-btn'));
-            
-            let totalsDiv = document.createElement('div');
-            totalsDiv.className = 'totals';
-            totalsDiv.style.marginTop = '20px';
-            totalsDiv.style.padding = '12px 20px';
-            totalsDiv.style.background = '#1f4e79';
-            totalsDiv.style.color = 'white';
-            totalsDiv.style.borderRadius = '10px';
-            totalsDiv.style.textAlign = 'right';
-            totalsDiv.innerHTML = `
-                <div class="igv-toggle" style="justify-content:flex-end; border-bottom-color:#fff;"><input type="checkbox" id="incluirIGVGlobal" checked onchange="calcularTotalesGlobales()" style="margin-right:8px"><label style="color:white">Incluir IGV (18%)</label></div>
-                <p style="color:white">TOTAL GENERAL: <span id="totalGeneral" style="font-size:22px; font-weight:bold;">0.00</span></p>
-            `;
-            container.appendChild(totalsDiv);
-            
-            let signaturePaymentRow = document.createElement('div');
-            signaturePaymentRow.className = 'signature-payment-row';
-            signaturePaymentRow.innerHTML = `
-                <div class="payment-methods">
-                    <h5>MÉTODOS DE PAGO</h5>
-                    <p><strong>BCP:</strong> 52671107164027</p>
-                    <p><strong>CCI:</strong> 00252617110716402721</p>
-                    <p><strong>Yape/Plin:</strong> 993963381</p>
-                </div>
-                <div class="signature-area">
-                    <h5>FIRMA AUTORIZADA</h5>
-                    <div class="firma-fisica">
-                        <img class="firma-img" style="display:none"><br>
-                        <button onclick="subirFirma()">Subir Firma Física</button>
-                        <button onclick="limpiarFirmaFisica()">Limpiar</button>
-                    </div>
-                    <div class="firma-digital">
-                        <button onclick="generarFirmaDigital()">Generar Firma Digital</button>
-                        <button onclick="limpiarFirmaDigital()">Limpiar</button>
-                        <div class="signature-info"></div>
-                    </div>
-                </div>
-            `;
-            container.appendChild(signaturePaymentRow);
-            
-            actualizarNumeroPagina();
-            cargarFirmasEnPaginas();
+            actualizarNumerosPagina();
             cargarLogosEnPaginas();
+            cargarFirmasEnPaginas();
             calcularTotalesGlobales();
-            actualizarFechaImpresion(primeraPagina);
         }
     }
 
@@ -1385,9 +1440,9 @@
             div.style.whiteSpace = 'pre-wrap';
             div.style.wordWrap = 'break-word';
             div.style.fontFamily = 'Arial Narrow';
-            div.style.fontSize = '11px';
-            div.style.padding = '6px';
-            div.style.minHeight = '55px';
+            div.style.fontSize = '10px';
+            div.style.padding = '4px';
+            div.style.minHeight = '45px';
             div.innerText = ta.value;
             ta.parentNode.replaceChild(div, ta);
         });
@@ -1417,9 +1472,9 @@
             div.style.whiteSpace = 'pre-wrap';
             div.style.wordWrap = 'break-word';
             div.style.fontFamily = 'Arial Narrow';
-            div.style.fontSize = '11px';
-            div.style.padding = '6px';
-            div.style.minHeight = '55px';
+            div.style.fontSize = '10px';
+            div.style.padding = '4px';
+            div.style.minHeight = '45px';
             div.innerText = ta.value;
             ta.parentNode.replaceChild(div, ta);
         });
@@ -1462,8 +1517,7 @@
                 direccion: document.getElementById('clienteDir')?.value
             },
             items: items,
-            totalFinal: document.getElementById('totalGeneral')?.innerText,
-            incluirIGV: document.getElementById('incluirIGVGlobal')?.checked
+            totalFinal: document.getElementById('totalGeneral')?.innerText
         };
         
         cotizaciones = cotizaciones.filter(c => c.id !== cotizacion.id);
@@ -1543,7 +1597,6 @@
                 if (document.getElementById('fecha')) document.getElementById('fecha').value = cot.fecha;
                 if (document.getElementById('fechaValidez')) document.getElementById('fechaValidez').value = cot.fechaValidez || '';
                 if (document.getElementById('moneda')) document.getElementById('moneda').value = cot.moneda || 'PEN';
-                if (document.getElementById('incluirIGVGlobal')) document.getElementById('incluirIGVGlobal').checked = cot.incluirIGV !== undefined ? cot.incluirIGV : true;
                 if (document.getElementById('clienteNombre')) document.getElementById('clienteNombre').value = cot.cliente?.nombre || '';
                 if (document.getElementById('clienteDoc')) document.getElementById('clienteDoc').value = cot.cliente?.documento || '';
                 if (document.getElementById('clienteCel')) document.getElementById('clienteCel').value = cot.cliente?.celular || '';
@@ -1556,9 +1609,9 @@
                         cot.items.forEach((item, idx) => {
                             let fila = document.createElement('tr');
                             fila.innerHTML = `<td style="text-align:center">${idx+1}</td>
-                                              <td><textarea rows="3" style="width:100%; min-height:55px;">${escapeHtml(item.desc || '')}</textarea></td>
-                                              <td><input type="number" value="${item.cant || 0}" onchange="calcularTotalesGlobales()"></td>
-                                              <td><input type="number" value="${item.precio || 0}" onchange="calcularTotalesGlobales()"></td>
+                                               <td><textarea rows="2" style="width:100%; min-height:45px;">${escapeHtml(item.desc || '')}</textarea></td>
+                                               <td><input type="number" value="${item.cant || 0}" onchange="calcularTotalesGlobales()"></td>
+                                               <td><input type="number" value="${item.precio || 0}" onchange="calcularTotalesGlobales()"></td>
                                               <td class="subtotal-cell" style="text-align:right;">${item.subtotal || '0.00'}</td>
                                               <td><button class="delete-item" onclick="eliminarItemDePagina(this)">X</button></td>`;
                             tbody.appendChild(fila);
