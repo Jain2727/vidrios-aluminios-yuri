@@ -253,6 +253,11 @@
         .btn-delete { background: #dc3545; color: white; }
 
         /* HOJA A4 MEJORADA */
+        .page-break {
+            page-break-after: always;
+            break-after: page;
+        }
+        
         #a4 {
             background: white;
             width: 100%;
@@ -266,18 +271,18 @@
             border: 1px solid #e0e8f0;
         }
         
-        /* MARCA DE AGUA DENTRO DE LA HOJA A4 */
+        /* MARCA DE AGUA AL FRENTE (z-index alto) */
         .watermark {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 55px;
+            font-size: 52px;
             font-family: 'Arial Narrow', sans-serif;
             font-weight: 900;
-            color: rgba(31, 78, 121, 0.1);
+            color: rgba(31, 78, 121, 0.15);
             pointer-events: none;
-            z-index: 0;
+            z-index: 999;
             white-space: nowrap;
             letter-spacing: 6px;
             text-transform: uppercase;
@@ -285,7 +290,7 @@
             text-align: center;
         }
         
-        /* Encabezado fijo */
+        /* Encabezado fijo para cada página */
         .header-fixed {
             background: white;
             position: relative;
@@ -385,7 +390,6 @@
             font-size: 12px;
             font-family: 'Arial Narrow', sans-serif;
             text-align: right;
-            justify-content: flex-end;
         }
         
         .dates-right b {
@@ -404,7 +408,7 @@
             text-align: right;
         }
         
-        /* NÚMERO DE COTIZACIÓN - LETRAS BLANCAS */
+        /* NÚMERO DE COTIZACIÓN */
         .quote-number {
             text-align: center;
             margin: 15px 0;
@@ -483,7 +487,7 @@
             background: white;
         }
         
-        /* TABLA MEJORADA */
+        /* TABLA CON CÓDIGO */
         .items-table {
             width: 100%;
             border-collapse: collapse;
@@ -498,22 +502,32 @@
             color: white;
             padding: 10px 6px;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11px;
             text-align: center;
             font-family: 'Arial Narrow', sans-serif;
         }
         
-        .items-table th:nth-child(1) { width: 6%; }
-        .items-table th:nth-child(2) { width: 48%; }
-        .items-table th:nth-child(3) { width: 10%; }
-        .items-table th:nth-child(4) { width: 12%; }
-        .items-table th:nth-child(5) { width: 14%; }
-        .items-table th:nth-child(6) { width: 10%; }
+        .items-table th:nth-child(1) { width: 5%; }
+        .items-table th:nth-child(2) { width: 8%; }
+        .items-table th:nth-child(3) { width: 40%; }
+        .items-table th:nth-child(4) { width: 9%; }
+        .items-table th:nth-child(5) { width: 11%; }
+        .items-table th:nth-child(6) { width: 12%; }
+        .items-table th:nth-child(7) { width: 8%; }
         
         .items-table td {
             border: 1px solid #c0d4e5;
             padding: 8px 6px;
             vertical-align: top;
+            font-family: 'Arial Narrow', sans-serif;
+            font-size: 11px;
+        }
+        
+        .items-table select {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #c0d4e5;
+            border-radius: 5px;
             font-family: 'Arial Narrow', sans-serif;
             font-size: 11px;
         }
@@ -580,7 +594,7 @@
         
         .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-family: 'Arial Narrow', sans-serif; font-size: 12px; }
         
-        /* FIRMA Y PAGO EN MISMA LÍNEA */
+        /* FIRMA Y PAGO */
         .signature-payment-row {
             display: flex;
             justify-content: space-between;
@@ -730,7 +744,7 @@
         }
         
         .pdf button, .pdf .logo-buttons, .pdf .firma-fisica button, .pdf .firma-digital button { display: none !important; }
-        .pdf input, .pdf textarea, .pdf .editable { border: none !important; padding: 2px !important; background: transparent !important; }
+        .pdf input, .pdf textarea, .pdf .editable, .pdf select { border: none !important; padding: 2px !important; background: transparent !important; }
         .pdf .items-table td { border: 1px solid #ccc !important; }
         .pdf .watermark { position: absolute; }
         
@@ -809,7 +823,7 @@
     <div class="workspace">
         <div class="quote-area">
             <div id="a4">
-                <!-- Marca de agua dentro de la hoja A4 -->
+                <!-- Marca de agua al frente -->
                 <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
                 
                 <div class="header-fixed">
@@ -848,7 +862,7 @@
                 
                 <table class="items-table" id="tabla">
                     <thead>
-                        <tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr>
+                        <tr><th>#</th><th>Código</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -874,12 +888,12 @@
                         
                         <div class="firma-fisica">
                             <img id="firmaImg" class="firma-img" style="display:none"><br>
-                            <button onclick="subirFirma()">Subir Firma Física (Escaneada)</button>
+                            <button onclick="subirFirma()">Subir Firma Física</button>
                             <button onclick="limpiarFirmaFisica()">Limpiar</button>
                         </div>
                         
                         <div class="firma-digital">
-                            <button onclick="generarFirmaDigital()">Generar Firma Digital</button>
+                            <button onclick="generarFirmaDigital()">Firma Digital</button>
                             <button onclick="limpiarFirmaDigital()">Limpiar</button>
                             <div id="digitalSignInfo" class="signature-info"></div>
                         </div>
@@ -922,7 +936,7 @@
     const CONTRASENA = "yuri2026";
     let codigoEnviado = null;
     let cotizaciones = [];
-    let firmaDigitalHTML = "";
+    let currentPageCount = 1;
 
     function mostrarFormulario(tipo) {
         document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
@@ -1043,15 +1057,44 @@
         let rowCount = tbody.rows.length + 1;
         let fila = document.createElement('tr');
         fila.innerHTML = `<td style="text-align:center">${rowCount}</td>
-                          <td><textarea rows="4" placeholder="Detalle completo del producto o servicio..." onchange="calcular()" style="width:100%; min-height:70px; white-space:pre-wrap; word-wrap:break-word;"></textarea></td>
+                          <td><select class="codigo-select" onchange="actualizarDescripcion(this)">
+                              <option value="">Seleccionar</option>
+                              <option value="V">V - Ventana</option>
+                              <option value="MP">MP - Mampara</option>
+                              <option value="VD">VD - Ducha</option>
+                              <option value="P">P - Puerta</option>
+                              <option value="VP">VP - Ventana Pivotante</option>
+                              <option value="CA">CA - Corrediza Aluminio</option>
+                          </select></td>
+                          <td><textarea rows="3" placeholder="Detalle completo del producto o servicio..." onchange="calcular()" style="width:100%; min-height:60px; white-space:pre-wrap; word-wrap:break-word;"></textarea></td>
                           <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
                           <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
                           <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
                           <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>`;
         tbody.appendChild(fila);
     }
+    
+    function actualizarDescripcion(select) {
+        let codigo = select.value;
+        let textarea = select.closest('tr').querySelector('textarea');
+        if (codigo === 'V') textarea.value = 'VENTANA DE ALUMINIO - Perfil premium, vidrio templado 6mm, herrajes de acero inoxidable';
+        else if (codigo === 'MP') textarea.value = 'MAMPARA DE BAÑO - Vidrio templado 8mm, bisagras ocultas, perfil de aluminio cepillado';
+        else if (codigo === 'VD') textarea.value = 'PUERTA DE DUCHA - Corrediza, vidrio templado 8mm, rieles de acero inoxidable';
+        else if (codigo === 'P') textarea.value = 'PUERTA PRINCIPAL - Aluminio reforzado, cerradura de alta seguridad, vidrio laminado';
+        else if (codigo === 'VP') textarea.value = 'VENTANA PIVOTANTE - Sistema de giro central, vidrio templado, herrajes alemanes';
+        else if (codigo === 'CA') textarea.value = 'VENTANA CORREDIZA - Aluminio anodizado, rodamientos sellados, vidrio 6mm';
+        calcular();
+    }
 
-    function eliminarItem(boton) { boton.closest('tr').remove(); renumerarItems(); calcular(); }
+    function eliminarItem(boton) { 
+        if (document.querySelectorAll('#tabla tbody tr').length > 1) {
+            boton.closest('tr').remove(); 
+            renumerarItems(); 
+            calcular();
+        } else {
+            alert('Debe haber al menos un item en la cotización');
+        }
+    }
     
     function renumerarItems() { 
         document.querySelectorAll('#tabla tbody tr').forEach((row, idx) => row.cells[0].innerText = idx + 1); 
@@ -1060,8 +1103,8 @@
     function calcular() {
         let subtotal = 0;
         document.querySelectorAll('#tabla tbody tr').forEach(fila => {
-            let cant = parseFloat(fila.querySelector('td:nth-child(3) input').value) || 0;
-            let precio = parseFloat(fila.querySelector('td:nth-child(4) input').value) || 0;
+            let cant = parseFloat(fila.querySelector('td:nth-child(4) input').value) || 0;
+            let precio = parseFloat(fila.querySelector('td:nth-child(5) input').value) || 0;
             let sub = cant * precio;
             fila.querySelector('.subtotal-cell').innerText = sub.toFixed(2);
             subtotal += sub;
@@ -1077,21 +1120,27 @@
         document.getElementById('igvLine').style.display = incluirIGV ? 'block' : 'none';
     }
 
-    function getContenidoCompleto() {
-        let contenido = document.getElementById('a4').cloneNode(true);
-        return contenido;
-    }
-
     async function descargarPDF() {
         let cliente = document.getElementById('clienteNombre').value || 'Cliente';
         let numCot = document.getElementById('numCot').value || '0000';
-        let clon = getContenidoCompleto();
+        let clon = document.getElementById('a4').cloneNode(true);
         clon.classList.add('pdf');
         let ahora = new Date();
         let fechaImpresion = clon.querySelector('#printDate');
         if (fechaImpresion) fechaImpresion.innerText = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
         
-        // Convertir textareas a divs para que el texto completo se vea en PDF
+        // Convertir selects y textareas para PDF
+        let selects = clon.querySelectorAll('.codigo-select');
+        selects.forEach(sel => {
+            let text = sel.options[sel.selectedIndex]?.text || '';
+            let div = document.createElement('div');
+            div.innerText = text;
+            div.style.padding = '4px';
+            div.style.fontFamily = 'Arial Narrow';
+            div.style.fontSize = '11px';
+            sel.parentNode.replaceChild(div, sel);
+        });
+        
         let textareas = clon.querySelectorAll('textarea');
         textareas.forEach(ta => {
             let div = document.createElement('div');
@@ -1116,10 +1165,21 @@
     }
 
     function vistaPrevia() {
-        let clon = getContenidoCompleto();
+        let clon = document.getElementById('a4').cloneNode(true);
         clon.classList.add('pdf');
         
-        // Convertir textareas a divs para vista previa
+        // Convertir selects y textareas para vista previa
+        let selects = clon.querySelectorAll('.codigo-select');
+        selects.forEach(sel => {
+            let text = sel.options[sel.selectedIndex]?.text || '';
+            let div = document.createElement('div');
+            div.innerText = text;
+            div.style.padding = '4px';
+            div.style.fontFamily = 'Arial Narrow';
+            div.style.fontSize = '11px';
+            sel.parentNode.replaceChild(div, sel);
+        });
+        
         let textareas = clon.querySelectorAll('textarea');
         textareas.forEach(ta => {
             let div = document.createElement('div');
@@ -1136,12 +1196,6 @@
         document.getElementById('previewContent').innerHTML = '';
         document.getElementById('previewContent').appendChild(clon);
         document.getElementById('preview').style.display = 'block';
-        
-        // Calcular páginas aproximadas
-        let alturaContenido = clon.scrollHeight;
-        let alturaPagina = 1122; // Altura aproximada de A4 en pixeles
-        let paginas = Math.ceil(alturaContenido / alturaPagina);
-        document.getElementById('totalPages').innerText = paginas;
     }
     
     function cerrarPreview() { document.getElementById('preview').style.display = 'none'; }
@@ -1149,10 +1203,15 @@
     function guardarCotizacion() {
         let items = [];
         document.querySelectorAll('#tabla tbody tr').forEach(row => {
+            let codigoSelect = row.querySelector('.codigo-select');
+            let codigo = codigoSelect ? codigoSelect.value : '';
+            let codigoText = codigoSelect ? codigoSelect.options[codigoSelect.selectedIndex]?.text : '';
             items.push({ 
+                codigo: codigo,
+                codigoText: codigoText,
                 desc: row.querySelector('textarea').value, 
-                cant: row.querySelector('td:nth-child(3) input').value, 
-                precio: row.querySelector('td:nth-child(4) input').value, 
+                cant: row.querySelector('td:nth-child(4) input').value, 
+                precio: row.querySelector('td:nth-child(5) input').value, 
                 subtotal: row.querySelector('.subtotal-cell').innerText 
             });
         });
@@ -1261,11 +1320,20 @@
                 cot.items.forEach((item, idx) => {
                     let fila = document.createElement('tr');
                     fila.innerHTML = `<td style="text-align:center">${idx+1}</td>
-                                      <td><textarea rows="4" style="width:100%; min-height:70px; white-space:pre-wrap;">${escapeHtml(item.desc || '')}</textarea></td>
+                                      <td><select class="codigo-select" onchange="actualizarDescripcion(this)">
+                                          <option value="">Seleccionar</option>
+                                          <option value="V" ${item.codigo === 'V' ? 'selected' : ''}>V - Ventana</option>
+                                          <option value="MP" ${item.codigo === 'MP' ? 'selected' : ''}>MP - Mampara</option>
+                                          <option value="VD" ${item.codigo === 'VD' ? 'selected' : ''}>VD - Ducha</option>
+                                          <option value="P" ${item.codigo === 'P' ? 'selected' : ''}>P - Puerta</option>
+                                          <option value="VP" ${item.codigo === 'VP' ? 'selected' : ''}>VP - Ventana Pivotante</option>
+                                          <option value="CA" ${item.codigo === 'CA' ? 'selected' : ''}>CA - Corrediza Aluminio</option>
+                                      </select></td>
+                                      <td><textarea rows="3" style="width:100%; min-height:60px; white-space:pre-wrap;">${escapeHtml(item.desc || '')}</textarea></td>
                                       <td><input type="number" value="${item.cant || 0}" onchange="calcular()"></td>
                                       <td><input type="number" value="${item.precio || 0}" onchange="calcular()"></td>
                                       <td class="subtotal-cell" style="text-align:right;">${item.subtotal || '0.00'}</td>
-                                      <td><button class="delete-item" onclick="eliminarItem(this)">X</button></td>`;
+                                      <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>`;
                     tbody.appendChild(fila);
                 });
             } else { agregarItem(); }
@@ -1348,7 +1416,7 @@
         }
     }
 
-    // FIRMA DIGITAL (sin hash, solo datos de Yuri)
+    // FIRMA DIGITAL
     function generarFirmaDigital() {
         let fechaActual = new Date();
         let fechaStr = fechaActual.toLocaleDateString('es-ES');
@@ -1358,16 +1426,13 @@
             <div style="font-family:'Arial Narrow'; font-size:9px; text-align:left; margin-top:8px; padding:6px; border-top:1px solid #c0d4e5;">
                 <strong>FIRMA DIGITAL AUTORIZADA</strong><br>
                 YURI HERMOZA PUELLES<br>
-                DNI: 41735058<br>
+                DNI: 61736503<br>
                 Fecha: ${fechaStr} - ${horaStr}<br>
                 <em>Autorización legal según Ley N° 27269 - Ley de Firmas Digitales</em>
             </div>
         `;
         
-        // Guardar en localStorage
         localStorage.setItem('firmaDigitalHTML', firmaDigitalHTML);
-        
-        // Mostrar en el div
         document.getElementById('digitalSignInfo').innerHTML = firmaDigitalHTML;
         alert('Firma digital generada correctamente');
     }
@@ -1380,14 +1445,12 @@
     }
 
     function cargarFirmasGuardadas() {
-        // Cargar firma física
         let firmaFisica = localStorage.getItem('firmaFisica');
         if (firmaFisica) {
             document.getElementById('firmaImg').src = firmaFisica;
             document.getElementById('firmaImg').style.display = 'block';
         }
         
-        // Cargar firma digital
         let firmaDigital = localStorage.getItem('firmaDigitalHTML');
         if (firmaDigital) {
             document.getElementById('digitalSignInfo').innerHTML = firmaDigital;
