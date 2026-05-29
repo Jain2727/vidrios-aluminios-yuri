@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Vidrios y Aluminios Yuri | Sistema Profesional de Cotizaciones</title>
+    <title>Vidrios y Aluminios Yuri | Sistema de Cotizaciones</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
@@ -18,30 +18,18 @@
             min-height: 100vh;
         }
 
-        /* ========== LOGIN MODERNO ========== */
+        /* LOGIN */
         #login {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             background: linear-gradient(135deg, #1a4a6f 0%, #0d2b45 100%);
-            position: relative;
             padding: 20px;
-        }
-        #login::after {
-            content: "VIDRIOS Y ALUMINIOS YURI";
-            position: absolute;
-            bottom: 20px;
-            right: 30px;
-            font-size: 12px;
-            opacity: 0.3;
-            color: white;
-            font-family: 'Arial Narrow', sans-serif;
-            letter-spacing: 2px;
         }
         .loginBox {
             background: white;
-            padding: 35px 30px;
+            padding: 40px 35px;
             width: 420px;
             max-width: 100%;
             border-radius: 24px;
@@ -60,7 +48,6 @@
             color: #6c8daa;
             margin-bottom: 25px;
         }
-        
         .login-tabs {
             display: flex;
             gap: 5px;
@@ -79,15 +66,12 @@
             font-weight: 600;
             font-size: 14px;
             cursor: pointer;
-            transition: all 0.3s;
             color: #5a7a9a;
         }
         .login-tab.active {
             background: #1a4a6f;
             color: white;
-            box-shadow: 0 2px 8px rgba(26,74,111,0.3);
         }
-        
         .login-form {
             display: none;
             text-align: left;
@@ -95,7 +79,6 @@
         .login-form.active {
             display: block;
         }
-        
         .login-form input {
             width: 100%;
             padding: 12px 15px;
@@ -104,14 +87,7 @@
             border-radius: 12px;
             font-family: 'Arial Narrow', sans-serif;
             font-size: 15px;
-            transition: 0.2s;
         }
-        .login-form input:focus {
-            outline: none;
-            border-color: #1a4a6f;
-            box-shadow: 0 0 0 3px rgba(26,74,111,0.1);
-        }
-        
         .password-wrapper {
             position: relative;
         }
@@ -129,7 +105,6 @@
             background: none;
             border: none;
         }
-        
         .btn-login {
             width: 100%;
             padding: 12px;
@@ -141,31 +116,21 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
             margin-top: 10px;
         }
         .btn-login:hover {
             background: #0d3b5a;
         }
-        
         .btn-verify {
             background: #28a745;
-            margin-bottom: 15px;
         }
         .btn-verify:hover {
             background: #218838;
         }
-        
         .code-group {
             display: none;
             margin-top: 10px;
         }
-        .code-group input {
-            text-align: center;
-            letter-spacing: 5px;
-            font-size: 18px;
-        }
-        
         .error-msg {
             color: #d32f2f;
             font-size: 13px;
@@ -178,7 +143,6 @@
             margin-top: 10px;
             text-align: center;
         }
-        
         .divider {
             display: flex;
             align-items: center;
@@ -196,14 +160,13 @@
             padding: 0 10px;
         }
 
-        /* ========== APP ========== */
+        /* APP */
         #app {
             display: none;
             max-width: 1400px;
             margin: 20px auto;
             padding: 20px;
         }
-
         .dashboard-header {
             background: white;
             border-radius: 16px;
@@ -231,12 +194,11 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
             font-family: 'Arial Narrow', sans-serif;
             font-size: 14px;
         }
         .btn-primary { background: #1a4a6f; color: white; }
-        .btn-primary:hover { background: #0d3b5a; transform: translateY(-1px); }
+        .btn-primary:hover { background: #0d3b5a; }
         .btn-success { background: #28a745; color: white; }
         .btn-success:hover { background: #218838; }
         .btn-warning { background: #ffc107; color: #333; }
@@ -278,14 +240,12 @@
             font-size: 13px;
             border-left: 4px solid #1a4a6f;
             cursor: pointer;
-            transition: background 0.2s;
         }
         .history-item:hover {
             background: #e9ecef;
-            transform: translateX(3px);
         }
 
-        /* ========== HOJA A4 ========== */
+        /* HOJA A4 */
         #a4 {
             background: white;
             width: 100%;
@@ -297,7 +257,6 @@
             position: relative;
             font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
         }
-
         #a4::before {
             content: "VIDRIOS Y ALUMINIOS YURI";
             position: absolute;
@@ -313,7 +272,6 @@
             white-space: nowrap;
             letter-spacing: 5px;
         }
-
         .header {
             text-align: center;
             position: relative;
@@ -394,7 +352,6 @@
             font-family: 'Arial Narrow', sans-serif;
             background: #fffefb;
         }
-
         .dates-row {
             display: flex;
             justify-content: space-between;
@@ -413,7 +370,6 @@
             color: #1a4a6f;
             margin-right: 6px;
         }
-
         .client-card {
             background: #f8fafc;
             border-radius: 12px;
@@ -447,7 +403,6 @@
             border-radius: 20px;
             font-family: 'Arial Narrow', sans-serif;
         }
-
         .items-table {
             width: 100%;
             border-collapse: collapse;
@@ -494,7 +449,6 @@
             cursor: pointer;
             font-size: 12px;
         }
-
         .totals {
             text-align: right;
             margin-top: 15px;
@@ -523,12 +477,6 @@
             padding-bottom: 8px;
             border-bottom: 1px solid #c0d4e5;
         }
-        .igv-toggle label {
-            font-weight: 600;
-            color: #1a4a6f;
-            cursor: pointer;
-        }
-
         .firma-container {
             text-align: center;
             margin: 20px 0;
@@ -538,7 +486,6 @@
             max-height: 70px;
             object-fit: contain;
         }
-
         .footer-pages {
             margin-top: 25px;
             padding-top: 12px;
@@ -548,7 +495,6 @@
             display: flex;
             justify-content: space-between;
             z-index: 1;
-            position: relative;
             background: white;
         }
         .footer-center-text {
@@ -557,7 +503,6 @@
             font-size: 9px;
             color: #7a9aba;
         }
-
         #preview {
             display: none;
             position: fixed;
@@ -589,7 +534,6 @@
             font-weight: bold;
             z-index: 1001;
         }
-
         .pdf button, .pdf .logo-buttons, .pdf .firma-container button {
             display: none !important;
         }
@@ -597,12 +541,10 @@
             border: none !important;
             padding: 2px !important;
         }
-
         @media (max-width: 800px) {
             .company-name { font-size: 22px; }
             .logo { width: 55px; }
             .logo-buttons { top: 60px; }
-            .loginBox { padding: 25px 20px; }
         }
     </style>
 </head>
@@ -614,44 +556,40 @@
         <div class="subtitle">Sistema de Cotizaciones Profesional</div>
         
         <div class="login-tabs">
-            <button class="login-tab active" data-tab="ruc">RUC</button>
-            <button class="login-tab" data-tab="celular">Celular</button>
-            <button class="login-tab" data-tab="codigo">Código SMS</button>
+            <button class="login-tab active" onclick="mostrarFormulario('ruc')">RUC</button>
+            <button class="login-tab" onclick="mostrarFormulario('celular')">Celular</button>
+            <button class="login-tab" onclick="mostrarFormulario('codigo')">Código SMS</button>
         </div>
         
         <div id="form-ruc" class="login-form active">
-            <input type="text" id="rucInput" placeholder="RUC / Usuario" autocomplete="off" value="10617365036">
+            <input type="text" id="rucInput" placeholder="RUC / Usuario" autocomplete="off">
             <div class="password-wrapper">
-                <input type="password" id="passRuc" placeholder="Contraseña" value="yuri2026">
-                <button type="button" class="toggle-password" data-pass="passRuc">Mostrar</button>
+                <input type="password" id="passRuc" placeholder="Contraseña">
+                <button type="button" class="toggle-password" onclick="togglePassword('passRuc', this)">Mostrar</button>
             </div>
-            <button class="btn-login" data-login="ruc">Ingresar con RUC</button>
+            <button class="btn-login" onclick="loginRuc()">Ingresar con RUC</button>
         </div>
         
         <div id="form-celular" class="login-form">
-            <input type="tel" id="celularInput" placeholder="Número de celular" autocomplete="off" value="993963381">
+            <input type="tel" id="celularInput" placeholder="Número de celular" autocomplete="off">
             <div class="password-wrapper">
-                <input type="password" id="passCel" placeholder="Contraseña" value="yuri2026">
-                <button type="button" class="toggle-password" data-pass="passCel">Mostrar</button>
+                <input type="password" id="passCel" placeholder="Contraseña">
+                <button type="button" class="toggle-password" onclick="togglePassword('passCel', this)">Mostrar</button>
             </div>
-            <button class="btn-login" data-login="celular">Ingresar con Celular</button>
+            <button class="btn-login" onclick="loginCelular()">Ingresar con Celular</button>
         </div>
         
         <div id="form-codigo" class="login-form">
-            <input type="tel" id="celularCodeInput" placeholder="Número de celular" value="993963381">
-            <button class="btn-login btn-verify" data-verify="enviar">Enviar código SMS</button>
+            <input type="tel" id="celularCodeInput" placeholder="Número de celular" autocomplete="off">
+            <button class="btn-login btn-verify" onclick="enviarCodigo()">Enviar código SMS</button>
             <div id="codeGroup" class="code-group">
                 <input type="text" id="codigoInput" placeholder="Código de 6 dígitos" maxlength="6">
-                <button class="btn-login" data-verify="codigo">Verificar y acceder</button>
+                <button class="btn-login" onclick="verificarCodigo()">Verificar y acceder</button>
             </div>
         </div>
         
         <div class="divider"><span>o</span></div>
-        
-        <div style="text-align: center; font-size: 12px; color: #6c8daa;">
-            ¿Necesitas ayuda? Contacta con el administrador
-        </div>
-        
+        <div style="text-align: center; font-size: 12px; color: #6c8daa;">¿Necesitas ayuda? Contacta con el administrador</div>
         <div id="loginError" class="error-msg"></div>
         <div id="loginSuccess" class="success-msg"></div>
     </div>
@@ -661,10 +599,10 @@
     <div class="dashboard-header">
         <h2>Sistema de Cotizaciones</h2>
         <div class="btn-group">
-            <button class="btn btn-primary" id="btnVistaPrevia">Vista Previa</button>
-            <button class="btn btn-success" id="btnDescargarPDF">Descargar PDF</button>
-            <button class="btn btn-warning" id="btnGuardar">Guardar</button>
-            <button class="btn btn-secondary" id="btnNueva">Nueva Cotización</button>
+            <button class="btn btn-primary" onclick="vistaPrevia()">Vista Previa</button>
+            <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
+            <button class="btn btn-warning" onclick="guardarCotizacion()">Guardar</button>
+            <button class="btn btn-secondary" onclick="nuevaCotizacion()">Nueva Cotización</button>
         </div>
     </div>
 
@@ -675,8 +613,8 @@
                     <img id="logo1" class="logo logo-left" style="display:none">
                     <img id="logo2" class="logo logo-right" style="display:none">
                     <div class="logo-buttons">
-                        <button id="subirLogo1">Subir Logo Izquierdo</button>
-                        <button id="subirLogo2">Subir Logo Derecho</button>
+                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
+                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
                     </div>
                     <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
                     <div class="slogan">Calidad y transparencia en cada detalle</div>
@@ -692,7 +630,7 @@
                     <div><b>Fecha Emisión</b> <input type="date" id="fecha" class="editable"></div>
                     <div><b>Fecha Validez</b> <input type="date" id="fechaValidez" class="editable"></div>
                     <div><b>Moneda</b>
-                        <select id="moneda" class="editable">
+                        <select id="moneda" class="editable" onchange="calcular()">
                             <option value="PEN">Soles S/</option>
                             <option value="USD">Dólares USD $</option>
                         </select>
@@ -713,11 +651,11 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                <button class="btn btn-primary" id="agregarItemBtn">+ Agregar Item</button>
+                <button class="btn btn-primary" style="margin:5px 0" onclick="agregarItem()">+ Agregar Item</button>
 
                 <div class="totals">
                     <div class="igv-toggle">
-                        <input type="checkbox" id="incluirIGV" checked>
+                        <input type="checkbox" id="incluirIGV" checked onchange="calcular()">
                         <label for="incluirIGV">Incluir IGV (18%)</label>
                     </div>
                     <p>Costo Neto: <span id="costo">0.00</span></p>
@@ -733,7 +671,7 @@
                 <div class="firma-container">
                     <img id="firmaImg" class="firma-img" style="display:none">
                     <br>
-                    <button id="subirFirmaBtn">Subir Firma / Sello</button>
+                    <button onclick="subirFirma()">Subir Firma / Sello</button>
                 </div>
 
                 <div class="footer-pages">
@@ -751,13 +689,13 @@
         <div class="history-area">
             <h3>Historial de Cotizaciones</h3>
             <div id="historial"></div>
-            <button class="btn btn-secondary" id="exportarHistorialBtn">Exportar Historial</button>
+            <button class="btn btn-secondary" style="margin-top:15px; width:100%" onclick="exportarHistorial()">Exportar Historial</button>
         </div>
     </div>
 </div>
 
 <div id="preview">
-    <button class="close-preview" id="cerrarPreviewBtn">✖ Cerrar</button>
+    <button class="close-preview" onclick="cerrarPreview()">✖ Cerrar</button>
     <div id="previewContent" class="previewA4"></div>
 </div>
 
@@ -767,133 +705,102 @@
     const USUARIO_CELULAR = "993963381";
     const CONTRASENA = "yuri2026";
     let codigoEnviado = null;
-    let cotizaciones = [];
 
-    // ========== INICIALIZAR EVENTOS ==========
-    document.addEventListener('DOMContentLoaded', function() {
-        // Login - cambio de tabs
-        document.querySelectorAll('.login-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const tabName = this.getAttribute('data-tab');
-                document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
-                document.getElementById(`form-${tabName}`).classList.add('active');
-                document.getElementById('loginError').innerText = '';
-                document.getElementById('loginSuccess').innerText = '';
-            });
-        });
-        
-        // Mostrar/ocultar contraseña
-        document.querySelectorAll('.toggle-password').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const passId = this.getAttribute('data-pass');
-                const passInput = document.getElementById(passId);
-                if (passInput.type === 'password') {
-                    passInput.type = 'text';
-                    this.textContent = 'Ocultar';
-                } else {
-                    passInput.type = 'password';
-                    this.textContent = 'Mostrar';
-                }
-            });
-        });
-        
-        // Login RUC
-        document.querySelector('[data-login="ruc"]').addEventListener('click', function() {
-            const ruc = document.getElementById('rucInput').value.trim();
-            const pass = document.getElementById('passRuc').value.trim();
-            if (ruc === USUARIO_RUC && pass === CONTRASENA) {
-                ingresarAlSistema();
-            } else {
-                document.getElementById('loginError').innerText = "RUC o Contraseña incorrectos";
-            }
-        });
-        
-        // Login Celular
-        document.querySelector('[data-login="celular"]').addEventListener('click', function() {
-            const celular = document.getElementById('celularInput').value.trim();
-            const pass = document.getElementById('passCel').value.trim();
-            if (celular === USUARIO_CELULAR && pass === CONTRASENA) {
-                ingresarAlSistema();
-            } else {
-                document.getElementById('loginError').innerText = "Celular o Contraseña incorrectos";
-            }
-        });
-        
-        // Enviar código SMS
-        document.querySelector('[data-verify="enviar"]').addEventListener('click', function() {
-            const celular = document.getElementById('celularCodeInput').value.trim();
-            if (celular !== USUARIO_CELULAR) {
-                document.getElementById('loginError').innerText = "Número de celular no registrado";
-                return;
-            }
-            codigoEnviado = Math.floor(100000 + Math.random() * 900000).toString();
-            document.getElementById('codeGroup').style.display = "block";
-            document.getElementById('loginSuccess').innerText = `Código enviado: ${codigoEnviado} (simulado)`;
-            document.getElementById('loginError').innerText = "";
-            document.getElementById('codigoInput').value = "";
-        });
-        
-        // Verificar código
-        document.querySelector('[data-verify="codigo"]').addEventListener('click', function() {
-            const codigo = document.getElementById('codigoInput').value.trim();
-            if (!codigoEnviado) {
-                document.getElementById('loginError').innerText = "Primero solicita un código";
-                return;
-            }
-            if (codigo === codigoEnviado) {
-                ingresarAlSistema();
-            } else {
-                document.getElementById('loginError').innerText = "Código incorrecto";
-            }
-        });
-        
-        // Botones de la app (se inicializan después del login)
-        document.getElementById('btnVistaPrevia').addEventListener('click', vistaPrevia);
-        document.getElementById('btnDescargarPDF').addEventListener('click', descargarPDF);
-        document.getElementById('btnGuardar').addEventListener('click', guardarCotizacion);
-        document.getElementById('btnNueva').addEventListener('click', nuevaCotizacion);
-        document.getElementById('agregarItemBtn').addEventListener('click', agregarItem);
-        document.getElementById('exportarHistorialBtn').addEventListener('click', exportarHistorial);
-        document.getElementById('cerrarPreviewBtn').addEventListener('click', cerrarPreview);
-        document.getElementById('subirLogo1').addEventListener('click', () => subirLogo('logo1'));
-        document.getElementById('subirLogo2').addEventListener('click', () => subirLogo('logo2'));
-        document.getElementById('subirFirmaBtn').addEventListener('click', subirFirma);
-        document.getElementById('moneda').addEventListener('change', calcular);
-        document.getElementById('incluirIGV').addEventListener('change', calcular);
-        
-        // Cargar datos guardados
-        cargarImagenesGuardadas();
-        if(!localStorage.getItem('contador')) localStorage.setItem('contador', '0');
-    });
-    
+    // ========== FUNCIONES DEL LOGIN ==========
+    function mostrarFormulario(tipo) {
+        document.querySelectorAll('.login-tab').forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+        document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
+        document.getElementById(`form-${tipo}`).classList.add('active');
+        document.getElementById('loginError').innerText = '';
+        document.getElementById('loginSuccess').innerText = '';
+    }
+
+    function togglePassword(inputId, btn) {
+        let passInput = document.getElementById(inputId);
+        if (passInput.type === 'password') {
+            passInput.type = 'text';
+            btn.textContent = 'Ocultar';
+        } else {
+            passInput.type = 'password';
+            btn.textContent = 'Mostrar';
+        }
+    }
+
+    function loginRuc() {
+        let ruc = document.getElementById('rucInput').value.trim();
+        let pass = document.getElementById('passRuc').value.trim();
+        if (ruc === USUARIO_RUC && pass === CONTRASENA) {
+            ingresarAlSistema();
+        } else {
+            document.getElementById('loginError').innerText = 'RUC o Contraseña incorrectos';
+        }
+    }
+
+    function loginCelular() {
+        let celular = document.getElementById('celularInput').value.trim();
+        let pass = document.getElementById('passCel').value.trim();
+        if (celular === USUARIO_CELULAR && pass === CONTRASENA) {
+            ingresarAlSistema();
+        } else {
+            document.getElementById('loginError').innerText = 'Celular o Contraseña incorrectos';
+        }
+    }
+
+    function enviarCodigo() {
+        let celular = document.getElementById('celularCodeInput').value.trim();
+        if (celular !== USUARIO_CELULAR) {
+            document.getElementById('loginError').innerText = 'Número de celular no registrado';
+            return;
+        }
+        codigoEnviado = '123456';
+        document.getElementById('codeGroup').style.display = 'block';
+        document.getElementById('loginSuccess').innerHTML = 'Código enviado: 123456 (simulado)';
+        document.getElementById('loginError').innerText = '';
+        document.getElementById('codigoInput').value = '';
+    }
+
+    function verificarCodigo() {
+        let codigo = document.getElementById('codigoInput').value.trim();
+        if (!codigoEnviado) {
+            document.getElementById('loginError').innerText = 'Primero solicita un código';
+            return;
+        }
+        if (codigo === codigoEnviado || codigo === '123456') {
+            ingresarAlSistema();
+        } else {
+            document.getElementById('loginError').innerText = 'Código incorrecto';
+        }
+    }
+
     function ingresarAlSistema() {
         document.getElementById('login').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         nuevaCotizacion();
         cargarHistorial();
+        cargarImagenesGuardadas();
         actualizarFechaImpresion();
     }
-    
+
+    // ========== FUNCIONES DEL COTIZADOR ==========
     function actualizarFechaImpresion() {
-        const ahora = new Date();
-        const fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+        let ahora = new Date();
+        let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
         document.getElementById('printDate').innerText = fechaStr;
     }
-    
+
     function generarNumero() {
         let contador = parseInt(localStorage.getItem('contador')) || 0;
         contador++;
         localStorage.setItem('contador', contador);
         return String(contador).padStart(4, '0') + '-' + new Date().getFullYear();
     }
-    
+
     function nuevaCotizacion() {
         document.getElementById('numCot').value = generarNumero();
-        const hoy = new Date();
+        let hoy = new Date();
         document.getElementById('fecha').valueAsDate = hoy;
-        const validez = new Date();
+        let validez = new Date();
         validez.setDate(hoy.getDate() + 15);
         document.getElementById('fechaValidez').valueAsDate = validez;
         document.getElementById('moneda').value = 'PEN';
@@ -907,14 +814,74 @@
         calcular();
         actualizarFechaImpresion();
     }
-    
+
     function agregarItem() {
-        const tbody = document.querySelector('#tabla tbody');
-        const rowCount = tbody.rows.length + 1;
-        const fila = document.createElement('tr');
+        let tbody = document.querySelector('#tabla tbody');
+        let rowCount = tbody.rows.length + 1;
+        let fila = document.createElement('tr');
         fila.innerHTML = `
             <td style="text-align:center">${rowCount}</td>
             <td><textarea rows="2" placeholder="Detalle del producto..."></textarea></td>
             <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
             <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
-            <td class="subtotal-cell"
+            <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
+            <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>
+        `;
+        tbody.appendChild(fila);
+    }
+
+    function eliminarItem(boton) {
+        boton.closest('tr').remove();
+        renumerarItems();
+        calcular();
+    }
+
+    function renumerarItems() {
+        let rows = document.querySelectorAll('#tabla tbody tr');
+        rows.forEach((row, idx) => { row.cells[0].innerText = idx + 1; });
+    }
+
+    function calcular() {
+        let subtotalGeneral = 0;
+        let filas = document.querySelectorAll('#tabla tbody tr');
+        filas.forEach(fila => {
+            let cantidad = parseFloat(fila.querySelector('td:nth-child(3) input').value) || 0;
+            let precio = parseFloat(fila.querySelector('td:nth-child(4) input').value) || 0;
+            let subtotal = cantidad * precio;
+            fila.querySelector('.subtotal-cell').innerText = subtotal.toFixed(2);
+            subtotalGeneral += subtotal;
+        });
+        let incluirIGV = document.getElementById('incluirIGV').checked;
+        let igv = incluirIGV ? (subtotalGeneral * 0.18) : 0;
+        let total = subtotalGeneral + igv;
+        let moneda = document.getElementById('moneda').value;
+        let simbolo = (moneda === 'PEN') ? 'S/ ' : '$ ';
+        document.getElementById('costo').innerHTML = simbolo + subtotalGeneral.toFixed(2);
+        document.getElementById('igv').innerHTML = simbolo + igv.toFixed(2);
+        document.getElementById('total').innerHTML = simbolo + total.toFixed(2);
+        document.getElementById('igvLine').style.display = incluirIGV ? 'block' : 'none';
+    }
+
+    async function descargarPDF() {
+        let cliente = document.getElementById('clienteNombre').value || 'Cliente';
+        let numCot = document.getElementById('numCot').value || '0000';
+        let clon = document.getElementById('a4').cloneNode(true);
+        clon.classList.add('pdf');
+        let ahora = new Date();
+        let fechaImp = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
+        clon.querySelector('#printDate').innerText = fechaImp;
+        const opt = { margin: [0.5, 0.5, 0.5, 0.5], filename: `Cotizacion_${numCot}_${cliente}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4' } };
+        await html2pdf().set(opt).from(clon).save();
+    }
+
+    function vistaPrevia() {
+        let clon = document.getElementById('a4').cloneNode(true);
+        clon.classList.add('pdf');
+        document.getElementById('previewContent').innerHTML = '';
+        document.getElementById('previewContent').appendChild(clon);
+        document.getElementById('preview').style.display = 'block';
+    }
+
+    function cerrarPreview() {
+        document.getElementById('preview').style.display = 'none';
+   
