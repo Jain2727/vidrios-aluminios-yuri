@@ -189,6 +189,8 @@
         .btn-secondary:hover { background: #5a6268; }
         .btn-danger { background: #dc3545; color: white; }
         .btn-danger:hover { background: #c82333; }
+        .btn-info { background: #17a2b8; color: white; }
+        .btn-info:hover { background: #138496; }
 
         .workspace {
             display: flex;
@@ -198,7 +200,7 @@
         .quote-area { flex: 2.5; min-width: 320px; }
         .history-area {
             flex: 1;
-            min-width: 280px;
+            min-width: 300px;
             background: white;
             border-radius: 16px;
             padding: 20px;
@@ -250,44 +252,60 @@
         .btn-edit { background: #ffc107; color: #333; }
         .btn-delete { background: #dc3545; color: white; }
 
-        /* HOJA A4 - TODA FUENTE ARIAL NARROW */
+        /* HOJA A4 MEJORADA */
+        .page-container {
+            position: relative;
+            background: white;
+            break-after: page;
+            page-break-after: always;
+            margin-bottom: 20px;
+        }
+        
         #a4 {
             background: white;
             width: 100%;
             max-width: 210mm;
             margin: 0 auto;
             padding: 10mm 12mm;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-radius: 4px;
+            border-radius: 8px;
             position: relative;
             font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
-            page-break-after: avoid;
-            break-inside: avoid;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #e0e8f0;
         }
         
-        /* MARCA DE AGUA CENTRAL */
-        #a4::before {
-            content: "VIDRIOS Y ALUMINIOS YURI";
-            position: absolute;
+        /* MARCA DE AGUA SUPER NOTORIA */
+        .watermark {
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 65px;
+            font-size: 70px;
             font-family: 'Arial Narrow', sans-serif;
-            font-weight: bold;
-            color: rgba(31, 78, 121, 0.05);
+            font-weight: 900;
+            color: rgba(31, 78, 121, 0.12);
             pointer-events: none;
-            z-index: 0;
+            z-index: 999;
             white-space: nowrap;
-            letter-spacing: 5px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            width: 100%;
+            text-align: center;
         }
         
-        /* Encabezado */
+        /* Encabezado que se repite */
+        .header-repeat {
+            background: white;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #1f4e79;
+        }
+        
         .header {
             text-align: center;
             position: relative;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #1f4e79;
             z-index: 1;
             background: white;
@@ -296,18 +314,17 @@
         .logo {
             position: absolute;
             top: 0;
-            width: 90px;
-            max-height: 85px;
+            width: 85px;
+            max-height: 80px;
             object-fit: contain;
             background: transparent;
-            padding: 0;
         }
         .logo-left { left: 0; }
         .logo-right { right: 0; }
         
         .logo-buttons {
             position: absolute;
-            top: 85px;
+            top: 80px;
             left: 0;
             right: 0;
             display: flex;
@@ -328,28 +345,27 @@
         }
         
         .company-name {
-            font-size: 30px;
+            font-size: 28px;
             font-family: 'Arial Narrow', sans-serif;
             font-weight: 800;
             color: #1f4e79;
             letter-spacing: 1px;
-            margin-bottom: 5px;
         }
         
         .company-owner {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
             font-family: 'Arial Narrow', sans-serif;
             color: #2c5a7a;
-            margin-top: 5px;
+            margin-top: 3px;
         }
         
         .company-ruc {
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
             font-family: 'Arial Narrow', sans-serif;
             color: #5a6e7a;
-            margin: 3px 0;
+            margin: 2px 0;
         }
         
         .direccion input {
@@ -357,9 +373,9 @@
             background: transparent;
             border: 1px solid #c0d4e5;
             border-radius: 20px;
-            padding: 5px 20px;
-            width: 80%;
-            font-size: 12px;
+            padding: 4px 20px;
+            width: 70%;
+            font-size: 11px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
@@ -367,15 +383,15 @@
         .dates-right {
             text-align: right;
             margin: 15px 0 20px 0;
-            padding: 10px;
-            background: #f8fafc;
+            padding: 10px 15px;
+            background: #f0f7ff;
             border-radius: 10px;
-            border: 1px solid #e0e8f0;
+            border: 1px solid #c0d8e8;
         }
         
         .dates-right div {
             margin: 5px 0;
-            font-size: 13px;
+            font-size: 12px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
@@ -389,8 +405,8 @@
             background: white;
             border: 1px solid #c0d4e5;
             border-radius: 15px;
-            padding: 5px 12px;
-            font-size: 12px;
+            padding: 4px 10px;
+            font-size: 11px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
@@ -400,7 +416,7 @@
             margin: 15px 0;
             padding: 12px;
             background: linear-gradient(135deg, #1f4e79 0%, #0d3b5a 100%);
-            border-radius: 12px;
+            border-radius: 10px;
         }
         
         .quote-number label {
@@ -412,27 +428,30 @@
         }
         
         .quote-number input {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
-            padding: 8px 20px;
+            padding: 6px 18px;
             width: auto;
-            min-width: 200px;
+            min-width: 180px;
             text-align: center;
-            background: #fffef7;
-            border: 2px solid #ffd700;
-            border-radius: 10px;
+            background: white;
+            border: none;
+            border-radius: 8px;
             font-family: 'Arial Narrow', monospace;
             letter-spacing: 1px;
+            color: #1f4e79;
         }
         
+        /* CLIENTE CON FONDO AZUL PASTEL */
         .client-card {
-            background: #f8fafc;
+            background: #e8f4fd;
             border-radius: 12px;
             padding: 15px 20px;
             margin: 15px 0;
-            border: 1px solid #c0d4e5;
+            border: 1px solid #c0d8e8;
             z-index: 1;
             position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
         .client-card h4 {
@@ -456,20 +475,21 @@
             width: 130px;
             font-weight: 700;
             color: #1f4e79;
-            font-size: 13px;
+            font-size: 12px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .campo input {
             flex: 1;
-            padding: 7px 14px;
+            padding: 6px 12px;
             border: 1px solid #c0d4e5;
             border-radius: 20px;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 13px;
+            font-size: 12px;
+            background: white;
         }
         
-        /* TABLA MEJORADA PARA DESCRIPCIONES LARGAS */
+        /* TABLA MEJORADA - DESCRIPCIÓN COMPLETA */
         .items-table {
             width: 100%;
             border-collapse: collapse;
@@ -484,16 +504,16 @@
             color: white;
             padding: 10px 6px;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 12px;
             text-align: center;
             font-family: 'Arial Narrow', sans-serif;
         }
         
-        .items-table th:nth-child(1) { width: 5%; }
-        .items-table th:nth-child(2) { width: 50%; }
+        .items-table th:nth-child(1) { width: 6%; }
+        .items-table th:nth-child(2) { width: 48%; }
         .items-table th:nth-child(3) { width: 10%; }
         .items-table th:nth-child(4) { width: 12%; }
-        .items-table th:nth-child(5) { width: 13%; }
+        .items-table th:nth-child(5) { width: 14%; }
         .items-table th:nth-child(6) { width: 10%; }
         
         .items-table td {
@@ -501,7 +521,7 @@
             padding: 8px 6px;
             vertical-align: top;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
         }
         
         .items-table textarea {
@@ -509,65 +529,67 @@
             border: none;
             padding: 6px;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
             resize: vertical;
             background: transparent;
-            min-height: 55px;
+            min-height: 60px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            word-break: break-word;
             line-height: 1.4;
+            overflow: auto;
         }
         
         .items-table input {
             width: 100%;
             border: none;
-            padding: 8px 5px;
+            padding: 6px 3px;
             text-align: center;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
         }
         
         .delete-item {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 4px 8px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .totals {
             text-align: right;
             margin-top: 15px;
-            padding: 15px 20px;
+            padding: 12px 20px;
             background: #f8fafc;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid #c0d4e5;
             z-index: 1;
             position: relative;
         }
         
-        .totals p { margin: 5px 0; font-size: 14px; font-family: 'Arial Narrow', sans-serif; }
-        .grand-total { font-size: 20px; font-weight: 800; color: #1f4e79; }
+        .totals p { margin: 4px 0; font-size: 13px; font-family: 'Arial Narrow', sans-serif; }
+        .grand-total { font-size: 18px; font-weight: 800; color: #1f4e79; }
         
         .igv-toggle {
             display: flex;
             align-items: center;
             justify-content: flex-end;
             gap: 10px;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
             border-bottom: 1px solid #c0d4e5;
         }
         
-        .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-family: 'Arial Narrow', sans-serif; }
+        .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-family: 'Arial Narrow', sans-serif; font-size: 12px; }
         
-        /* FIRMA Y PAGO EN MISMA LÍNEA */
+        /* FIRMA Y PAGO EN MISMA LÍNEA (AMBOS A LA DERECHA) */
         .signature-payment-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             gap: 30px;
             margin: 25px 0 20px 0;
             z-index: 1;
@@ -577,57 +599,59 @@
         
         .payment-methods {
             flex: 1;
+            max-width: 250px;
             background: #f0f7ff;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #c0d4e5;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #c0d8e8;
         }
         
         .payment-methods h5 {
             color: #1f4e79;
             font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 12px;
             border-bottom: 1px solid #c0d4e5;
-            padding-bottom: 5px;
+            padding-bottom: 4px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .payment-methods p {
-            font-size: 11px;
-            margin: 5px 0;
+            font-size: 10px;
+            margin: 4px 0;
             font-family: 'Arial Narrow', monospace;
         }
         
         .signature-area {
             flex: 1;
+            max-width: 280px;
             text-align: center;
             background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             border: 1px solid #c0d4e5;
         }
         
         .signature-area h5 {
             color: #1f4e79;
             font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 12px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .firma-img {
-            max-width: 200px;
-            max-height: 80px;
+            max-width: 180px;
+            max-height: 65px;
             object-fit: contain;
             border: none;
-            padding: 5px;
+            padding: 3px;
             background: white;
         }
         
         .digital-signature {
-            margin-top: 12px;
-            padding-top: 10px;
+            margin-top: 10px;
+            padding-top: 8px;
             border-top: 1px dashed #c0d4e5;
         }
         
@@ -635,23 +659,24 @@
             background: #1f4e79;
             color: white;
             border: none;
-            padding: 6px 15px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 10px;
             cursor: pointer;
             margin: 3px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .signature-info {
-            font-size: 9px;
+            font-size: 8px;
             color: #5a7a9a;
-            margin-top: 8px;
+            margin-top: 6px;
             font-style: italic;
             font-family: 'Arial Narrow', sans-serif;
+            word-break: break-all;
         }
         
-        /* PIE DE PÁGINA CENTRADO */
+        /* PIE DE PÁGINA EN CADA HOJA */
         .footer-pages {
             margin-top: 20px;
             padding-top: 10px;
@@ -668,7 +693,7 @@
         .footer-center {
             text-align: center;
             margin-top: 8px;
-            font-size: 9px;
+            font-size: 8px;
             font-family: 'Arial Narrow', sans-serif;
             color: #7a9aba;
         }
@@ -677,6 +702,7 @@
             margin: 2px 0;
         }
         
+        /* Vista previa */
         #preview {
             display: none;
             position: fixed;
@@ -684,13 +710,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.9);
             z-index: 1000;
             overflow: auto;
             padding: 30px;
         }
         
-        .previewA4 { background: white; width: 210mm; margin: 0 auto; padding: 12mm; }
+        .previewA4 { background: white; width: 210mm; margin: 0 auto; padding: 12mm; position: relative; }
         .close-preview {
             position: fixed;
             top: 20px;
@@ -706,24 +732,26 @@
             font-family: 'Arial Narrow', sans-serif;
         }
         
-        .pdf button, .pdf .logo-buttons, .pdf .digital-signature button, .pdf .history-actions { display: none !important; }
+        .pdf button, .pdf .logo-buttons, .pdf .digital-signature button { display: none !important; }
         .pdf input, .pdf textarea, .pdf .editable { border: none !important; padding: 2px !important; background: transparent !important; }
         .pdf .items-table td { border: 1px solid #ccc !important; }
-        
-        @media (max-width: 800px) {
-            .company-name { font-size: 24px; }
-            .logo { width: 65px; }
-            .logo-buttons { top: 60px; gap: 8px; }
-            .signature-payment-row { flex-direction: column; }
-            .quote-number input { font-size: 16px; min-width: 150px; }
-            .dates-right { text-align: left; }
-        }
+        .pdf .watermark { position: absolute; }
         
         @media print {
             body * { visibility: hidden; }
             #a4, #a4 * { visibility: visible; }
             #a4 { position: absolute; left: 0; top: 0; margin: 0; padding: 0; box-shadow: none; }
             .digital-signature button, .logo-buttons button { display: none !important; }
+            .watermark { position: absolute; }
+        }
+        
+        @media (max-width: 800px) {
+            .company-name { font-size: 22px; }
+            .logo { width: 55px; }
+            .logo-buttons { top: 60px; gap: 8px; }
+            .signature-payment-row { justify-content: center; }
+            .quote-number input { font-size: 16px; min-width: 140px; }
+            .dates-right { text-align: left; }
         }
     </style>
 </head>
@@ -777,12 +805,16 @@
             <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
             <button class="btn btn-warning" onclick="guardarCotizacion()">Guardar</button>
             <button class="btn btn-secondary" onclick="nuevaCotizacion()">Nueva Cotización</button>
+            <button class="btn btn-info" onclick="limpiarTodoHistorial()">Limpiar Historial</button>
             <button class="btn btn-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
         </div>
     </div>
     <div class="workspace">
         <div class="quote-area">
             <div id="a4">
+                <!-- Marca de agua notoria -->
+                <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
+                
                 <div class="header">
                     <img id="logo1" class="logo logo-left" style="display:none">
                     <img id="logo2" class="logo logo-right" style="display:none">
@@ -798,7 +830,7 @@
                 
                 <div class="quote-number">
                     <label>COTIZACIÓN N°</label>
-                    <input id="numCot" class="editable">
+                    <input id="numCot" class="editable" placeholder="0000-2026">
                 </div>
                 
                 <div class="dates-right">
@@ -809,10 +841,10 @@
                 
                 <div class="client-card">
                     <h4>DATOS DEL CLIENTE</h4>
-                    <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable"></div>
-                    <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable"></div>
-                    <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable"></div>
-                    <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable"></div>
+                    <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable" placeholder="Ej: Juan Pérez"></div>
+                    <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable" placeholder="Ej: 12345678"></div>
+                    <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable" placeholder="Ej: 993963381"></div>
+                    <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable" placeholder="Ej: Av. Principal 123"></div>
                 </div>
                 
                 <table class="items-table" id="tabla">
@@ -821,7 +853,7 @@
                     </thead>
                     <tbody></tbody>
                 </table>
-                <button class="btn btn-primary" style="margin:5px 0" onclick="agregarItem()">+ Agregar Item</button>
+                <button class="btn btn-primary" style="margin:5px 0; padding:6px 15px; font-size:12px;" onclick="agregarItem()">+ Agregar Item</button>
                 
                 <div class="totals">
                     <div class="igv-toggle"><input type="checkbox" id="incluirIGV" checked onchange="calcular()"><label>Incluir IGV (18%)</label></div>
@@ -843,12 +875,9 @@
                         <img id="firmaImg" class="firma-img" style="display:none"><br>
                         <button onclick="subirFirma()">Subir Firma Escaneada</button>
                         <div class="digital-signature">
-                            <button onclick="generarFirmaDigital()">Generar Firma Digital</button>
-                            <button onclick="limpiarFirma()">Limpiar Firma</button>
+                            <button onclick="generarFirmaDigital()">Firma Digital</button>
+                            <button onclick="limpiarFirma()">Limpiar</button>
                             <div id="digitalSignInfo" class="signature-info"></div>
-                        </div>
-                        <div class="signature-info">
-                            <small>*Firma digital con validez legal Ley N° 27269</small>
                         </div>
                     </div>
                 </div>
@@ -868,7 +897,10 @@
             <h3>Historial de Cotizaciones</h3>
             <input type="text" id="searchHistory" class="history-search" placeholder="Buscar por número o cliente..." onkeyup="filtrarHistorial()">
             <div id="historial"></div>
-            <button class="btn btn-secondary" style="margin-top:15px; width:100%" onclick="exportarHistorial()">Exportar Historial</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="btn btn-secondary" style="flex:1" onclick="exportarHistorial()">Exportar</button>
+                <button class="btn btn-info" style="flex:1" onclick="limpiarTodoHistorial()">Limpiar Todo</button>
+            </div>
         </div>
     </div>
 </div>
@@ -942,7 +974,7 @@
     }
 
     function cerrarSesion() {
-        if (confirm('¿Cerrar sesión? Los cambios no guardados se perderán.')) {
+        if (confirm('¿Cerrar sesión?')) {
             document.getElementById('login').style.display = 'flex';
             document.getElementById('app').style.display = 'none';
             document.getElementById('rucInput').value = '';
@@ -981,7 +1013,7 @@
     }
 
     function nuevaCotizacion() {
-        if (confirm('¿Crear nueva cotización? Los cambios no guardados se perderán.')) {
+        if (confirm('¿Crear nueva cotización?')) {
             document.getElementById('numCot').value = generarNumero();
             let hoy = new Date();
             document.getElementById('fecha').valueAsDate = hoy;
@@ -1005,11 +1037,11 @@
         let rowCount = tbody.rows.length + 1;
         let fila = document.createElement('tr');
         fila.innerHTML = `<td style="text-align:center">${rowCount}</td>
-                         <td><textarea rows="3" placeholder="Detalle del producto o servicio..." onchange="calcular()" style="width:100%; min-height:60px;"></textarea></td>
-                         <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
-                         <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
-                         <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
-                         <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>`;
+                          <td><textarea rows="4" placeholder="Detalle completo del producto o servicio..." onchange="calcular()" style="width:100%; min-height:70px; white-space:pre-wrap; word-wrap:break-word;"></textarea></td>
+                          <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
+                          <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
+                          <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
+                          <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>`;
         tbody.appendChild(fila);
     }
 
@@ -1039,36 +1071,64 @@
         document.getElementById('igvLine').style.display = incluirIGV ? 'block' : 'none';
     }
 
+    function getContenidoCompleto() {
+        let contenido = document.getElementById('a4').cloneNode(true);
+        return contenido;
+    }
+
     async function descargarPDF() {
         let cliente = document.getElementById('clienteNombre').value || 'Cliente';
         let numCot = document.getElementById('numCot').value || '0000';
-        let clon = document.getElementById('a4').cloneNode(true);
+        let clon = getContenidoCompleto();
         clon.classList.add('pdf');
         let ahora = new Date();
-        clon.querySelector('#printDate').innerText = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
+        let fechaImpresion = clon.querySelector('#printDate');
+        if (fechaImpresion) fechaImpresion.innerText = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
+        
+        // Asegurar que las descripciones largas se muestren completas
+        let textareas = clon.querySelectorAll('textarea');
+        textareas.forEach(ta => {
+            let div = document.createElement('div');
+            div.style.whiteSpace = 'pre-wrap';
+            div.style.wordWrap = 'break-word';
+            div.style.fontFamily = 'Arial Narrow';
+            div.style.fontSize = '11px';
+            div.style.padding = '6px';
+            div.innerText = ta.value;
+            ta.parentNode.replaceChild(div, ta);
+        });
         
         const opt = {
             margin: [0.5, 0.5, 0.5, 0.5],
             filename: `Cotizacion_${numCot}_${cliente.replace(/[^a-z0-9]/gi, '_')}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
         await html2pdf().set(opt).from(clon).save();
     }
 
     function vistaPrevia() {
-        let clon = document.getElementById('a4').cloneNode(true);
+        let clon = getContenidoCompleto();
         clon.classList.add('pdf');
+        
+        // Convertir textareas a divs para vista previa
+        let textareas = clon.querySelectorAll('textarea');
+        textareas.forEach(ta => {
+            let div = document.createElement('div');
+            div.style.whiteSpace = 'pre-wrap';
+            div.style.wordWrap = 'break-word';
+            div.style.fontFamily = 'Arial Narrow';
+            div.style.fontSize = '11px';
+            div.style.padding = '6px';
+            div.style.minHeight = '60px';
+            div.innerText = ta.value;
+            ta.parentNode.replaceChild(div, ta);
+        });
+        
         document.getElementById('previewContent').innerHTML = '';
         document.getElementById('previewContent').appendChild(clon);
         document.getElementById('preview').style.display = 'block';
-        
-        let pageCount = Math.ceil(clon.scrollHeight / 1122);
-        document.getElementById('totalPages').innerText = pageCount;
-        for(let i = 1; i <= pageCount; i++) {
-            document.getElementById('pageNum').innerText = i;
-        }
     }
     
     function cerrarPreview() { document.getElementById('preview').style.display = 'none'; }
@@ -1106,16 +1166,25 @@
         if (cotizaciones.length > 100) cotizaciones = cotizaciones.slice(0, 100);
         localStorage.setItem('cotizaciones', JSON.stringify(cotizaciones));
         cargarHistorial();
-        alert('Cotización guardada exitosamente');
+        alert('Cotización guardada');
     }
 
     function eliminarCotizacion(id, event) {
         event.stopPropagation();
-        if (confirm('¿Eliminar esta cotización permanentemente?')) {
+        if (confirm('¿Eliminar esta cotización?')) {
             cotizaciones = cotizaciones.filter(c => c.id !== id);
             localStorage.setItem('cotizaciones', JSON.stringify(cotizaciones));
             cargarHistorial();
             alert('Cotización eliminada');
+        }
+    }
+
+    function limpiarTodoHistorial() {
+        if (confirm('⚠️ ¿Eliminar TODAS las cotizaciones? Esta acción no se puede deshacer.')) {
+            cotizaciones = [];
+            localStorage.setItem('cotizaciones', JSON.stringify(cotizaciones));
+            cargarHistorial();
+            alert('Historial limpiado completamente');
         }
     }
 
@@ -1135,22 +1204,22 @@
         div.innerHTML = '';
         
         if (filtered.length === 0) {
-            div.innerHTML = '<p style="color:#8aaec0; text-align:center;">No hay cotizaciones</p>';
+            div.innerHTML = '<p style="color:#8aaec0; text-align:center; padding:20px;">No hay cotizaciones</p>';
             return;
         }
         
-        filtered.slice(0, 20).forEach(cot => {
+        filtered.forEach(cot => {
             let item = document.createElement('div');
             item.className = 'history-item';
             item.innerHTML = `
-                <div class="history-info" onclick="cargarCotizacion(${cot.id})">
+                <div class="history-info" onclick='cargarCotizacion(${cot.id})'>
                     <strong>${cot.numero}</strong><br>
                     ${cot.cliente.nombre || 'Anónimo'}<br>
                     <small>${cot.fecha} | ${cot.totalFinal}</small>
                 </div>
                 <div class="history-actions">
-                    <button class="btn-edit" onclick="cargarCotizacion(${cot.id})">📋</button>
-                    <button class="btn-delete" onclick="eliminarCotizacion(${cot.id}, event)">🗑️</button>
+                    <button class="btn-edit" onclick='cargarCotizacion(${cot.id})'>✏️</button>
+                    <button class="btn-delete" onclick='eliminarCotizacion(${cot.id}, event)'>🗑️</button>
                 </div>
             `;
             div.appendChild(item);
@@ -1179,11 +1248,11 @@
                 cot.items.forEach((item, idx) => {
                     let fila = document.createElement('tr');
                     fila.innerHTML = `<td style="text-align:center">${idx+1}</td>
-                                     <td><textarea rows="3">${escapeHtml(item.desc || '')}</textarea></td>
-                                     <td><input type="number" value="${item.cant || 0}" onchange="calcular()"></td>
-                                     <td><input type="number" value="${item.precio || 0}" onchange="calcular()"></td>
-                                     <td class="subtotal-cell" style="text-align:right;">${item.subtotal || '0.00'}</td>
-                                     <td><button class="delete-item" onclick="eliminarItem(this)">X</button></td>`;
+                                      <td><textarea rows="4" style="width:100%; min-height:70px; white-space:pre-wrap;">${escapeHtml(item.desc || '')}</textarea></td>
+                                      <td><input type="number" value="${item.cant || 0}" onchange="calcular()"></td>
+                                      <td><input type="number" value="${item.precio || 0}" onchange="calcular()"></td>
+                                      <td class="subtotal-cell" style="text-align:right;">${item.subtotal || '0.00'}</td>
+                                      <td><button class="delete-item" onclick="eliminarItem(this)">X</button></td>`;
                     tbody.appendChild(fila);
                 });
             } else { agregarItem(); }
@@ -1200,7 +1269,7 @@
     }
 
     function exportarHistorial() {
-        if (cotizaciones.length === 0) { alert('No hay cotizaciones para exportar'); return; }
+        if (cotizaciones.length === 0) { alert('No hay cotizaciones'); return; }
         let dataStr = JSON.stringify(cotizaciones, null, 2);
         let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
         let link = document.createElement('a');
@@ -1250,7 +1319,7 @@
                     img.style.display = 'block';
                     localStorage.setItem('firma', event.target.result);
                     document.getElementById('digitalSignInfo').innerHTML = '';
-                    alert('Firma escaneada subida correctamente');
+                    alert('Firma subida');
                 };
                 reader.readAsDataURL(file);
             }
@@ -1262,51 +1331,41 @@
         let nombre = document.getElementById('clienteNombre').value || 'CLIENTE';
         let doc = document.getElementById('clienteDoc').value || 'XXXXXXXX';
         let fecha = new Date().toLocaleString('es-ES');
-        let hashUnico = btoa(`${nombre}|${doc}|${fecha}|${Date.now()}`).substring(0, 25);
+        let hashUnico = btoa(`${nombre}|${doc}|${fecha}|${Date.now()}`).substring(0, 20);
         
-        firmaDigitalData = {
-            nombre: nombre,
-            documento: doc,
-            fecha: fecha,
-            hash: hashUnico
-        };
+        firmaDigitalData = { nombre: nombre, documento: doc, fecha: fecha, hash: hashUnico };
         
         let canvas = document.createElement('canvas');
         let ctx = canvas.getContext('2d');
-        canvas.width = 350;
-        canvas.height = 70;
+        canvas.width = 320;
+        canvas.height = 60;
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = 'bold 11px "Arial Narrow"';
+        ctx.font = 'bold 10px "Arial Narrow"';
         ctx.fillStyle = '#1f4e79';
-        ctx.fillText(`Firma Digital: ${nombre.substring(0, 25)}`, 15, 22);
+        ctx.fillText(`Firma Digital: ${nombre.substring(0, 20)}`, 10, 18);
         ctx.font = '9px "Arial Narrow"';
         ctx.fillStyle = '#333';
-        ctx.fillText(`Doc: ${doc}`, 15, 38);
-        ctx.fillText(`Hash: ${hashUnico}`, 15, 54);
-        ctx.font = '8px "Arial Narrow"';
-        ctx.fillStyle = '#666';
-        ctx.fillText(fecha, 15, 66);
+        ctx.fillText(`Doc: ${doc}`, 10, 32);
+        ctx.fillText(`Hash: ${hashUnico}`, 10, 46);
         
         let firmaImg = canvas.toDataURL();
-        let img = document.getElementById('firmaImg');
-        img.src = firmaImg;
-        img.style.display = 'block';
+        document.getElementById('firmaImg').src = firmaImg;
+        document.getElementById('firmaImg').style.display = 'block';
         localStorage.setItem('firma', firmaImg);
         localStorage.setItem('firmaDigitalData', JSON.stringify(firmaDigitalData));
-        document.getElementById('digitalSignInfo').innerHTML = `Firma digital - Hash: ${hashUnico}`;
-        alert('Firma digital generada con validez legal');
+        document.getElementById('digitalSignInfo').innerHTML = `Hash: ${hashUnico}`;
+        alert('Firma digital generada');
     }
 
     function limpiarFirma() {
-        if (confirm('¿Eliminar la firma actual?')) {
+        if (confirm('¿Eliminar firma?')) {
             document.getElementById('firmaImg').style.display = 'none';
             document.getElementById('firmaImg').src = '';
             document.getElementById('digitalSignInfo').innerHTML = '';
             localStorage.removeItem('firma');
             localStorage.removeItem('firmaDigitalData');
             firmaDigitalData = null;
-            alert('Firma eliminada');
         }
     }
 
@@ -1319,7 +1378,7 @@
         }
         if (firmaData) {
             firmaDigitalData = JSON.parse(firmaData);
-            document.getElementById('digitalSignInfo').innerHTML = `Firma digital - Hash: ${firmaDigitalData.hash}`;
+            document.getElementById('digitalSignInfo').innerHTML = `Hash: ${firmaDigitalData.hash}`;
         }
     }
 </script>
