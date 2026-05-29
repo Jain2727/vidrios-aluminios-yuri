@@ -61,7 +61,6 @@
             margin-bottom: 25px;
         }
         
-        /* Pestañas de login */
         .login-tabs {
             display: flex;
             gap: 5px;
@@ -205,7 +204,6 @@
             padding: 20px;
         }
 
-        /* Panel de Control */
         .dashboard-header {
             background: white;
             border-radius: 16px;
@@ -246,7 +244,6 @@
         .btn-secondary { background: #6c757d; color: white; }
         .btn-secondary:hover { background: #5a6268; }
 
-        /* Workspace */
         .workspace {
             display: flex;
             gap: 25px;
@@ -301,7 +298,6 @@
             font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
         }
 
-        /* MARCA DE AGUA CENTRADA */
         #a4::before {
             content: "VIDRIOS Y ALUMINIOS YURI";
             position: absolute;
@@ -318,7 +314,6 @@
             letter-spacing: 5px;
         }
 
-        /* HEADER */
         .header {
             text-align: center;
             position: relative;
@@ -400,7 +395,6 @@
             background: #fffefb;
         }
 
-        /* Fechas */
         .dates-row {
             display: flex;
             justify-content: space-between;
@@ -420,7 +414,6 @@
             margin-right: 6px;
         }
 
-        /* Cliente */
         .client-card {
             background: #f8fafc;
             border-radius: 12px;
@@ -455,7 +448,6 @@
             font-family: 'Arial Narrow', sans-serif;
         }
 
-        /* Tabla de Items */
         .items-table {
             width: 100%;
             border-collapse: collapse;
@@ -503,7 +495,6 @@
             font-size: 12px;
         }
 
-        /* Totales */
         .totals {
             text-align: right;
             margin-top: 15px;
@@ -538,7 +529,6 @@
             cursor: pointer;
         }
 
-        /* Firma */
         .firma-container {
             text-align: center;
             margin: 20px 0;
@@ -549,7 +539,6 @@
             object-fit: contain;
         }
 
-        /* Footer */
         .footer-pages {
             margin-top: 25px;
             padding-top: 12px;
@@ -569,7 +558,6 @@
             color: #7a9aba;
         }
 
-        /* Preview Modal */
         #preview {
             display: none;
             position: fixed;
@@ -602,7 +590,6 @@
             z-index: 1001;
         }
 
-        /* PDF Clean */
         .pdf button, .pdf .logo-buttons, .pdf .firma-container button {
             display: none !important;
         }
@@ -626,14 +613,12 @@
         <h3>VIDRIOS Y ALUMINIOS YURI</h3>
         <div class="subtitle">Sistema de Cotizaciones Profesional</div>
         
-        <!-- Pestañas de acceso -->
         <div class="login-tabs">
             <button class="login-tab active" onclick="switchLoginTab('ruc')">RUC</button>
             <button class="login-tab" onclick="switchLoginTab('celular')">Celular</button>
             <button class="login-tab" onclick="switchLoginTab('codigo')">Código SMS</button>
         </div>
         
-        <!-- Formulario RUC -->
         <div id="form-ruc" class="login-form active">
             <input type="text" id="rucInput" placeholder="RUC / Usuario" autocomplete="off">
             <div class="password-wrapper">
@@ -643,7 +628,6 @@
             <button class="btn-login" onclick="loginRuc()">Ingresar con RUC</button>
         </div>
         
-        <!-- Formulario Celular -->
         <div id="form-celular" class="login-form">
             <input type="tel" id="celularInput" placeholder="Número de celular" autocomplete="off">
             <div class="password-wrapper">
@@ -653,7 +637,6 @@
             <button class="btn-login" onclick="loginCelular()">Ingresar con Celular</button>
         </div>
         
-        <!-- Formulario Código SMS -->
         <div id="form-codigo" class="login-form">
             <input type="tel" id="celularCodeInput" placeholder="Número de celular">
             <button class="btn-login btn-verify" id="btnEnviarCodigo" onclick="enviarCodigo()">Enviar código SMS</button>
@@ -788,14 +771,9 @@
 
     // ========== SWITCH TABS ==========
     function switchLoginTab(tab) {
-        document.querySelectorAll('.login-tab').forEach((btn, idx) => {
-            btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
-        
-        document.querySelectorAll('.login-form').forEach(form => {
-            form.classList.remove('active');
-        });
+        let tabs = document.querySelectorAll('.login-tab');
+        tabs.forEach(btn => btn.classList.remove('active'));
+        if (event && event.target) event.target.classList.add('active');
         
         document.getElementById('form-ruc').classList.remove('active');
         document.getElementById('form-celular').classList.remove('active');
@@ -847,7 +825,7 @@
         }
     }
     
-    // ========== ENVIAR CÓDIGO SMS (SIMULADO) ==========
+    // ========== ENVIAR CÓDIGO SMS ==========
     function enviarCodigo() {
         let celular = document.getElementById('celularCodeInput').value.trim();
         let errorDiv = document.getElementById('loginError');
@@ -858,16 +836,12 @@
             return;
         }
         
-        // Generar código de 6 dígitos
         codigoEnviado = Math.floor(100000 + Math.random() * 900000).toString();
         celularVerificado = celular;
         
-        // Mostrar el campo de código
         document.getElementById('codeGroup').style.display = "block";
         successDiv.innerText = `Código enviado: ${codigoEnviado} (simulado)`;
         errorDiv.innerText = "";
-        
-        // Limpiar input de código
         document.getElementById('codigoInput').value = "";
     }
     
@@ -875,7 +849,6 @@
     function verificarCodigo() {
         let codigo = document.getElementById('codigoInput').value.trim();
         let errorDiv = document.getElementById('loginError');
-        let successDiv = document.getElementById('loginSuccess');
         
         if (!codigoEnviado) {
             errorDiv.innerText = "Primero solicita un código";
@@ -951,4 +924,21 @@
         input.type = "file";
         input.accept = "image/*";
         input.onchange = function(e) {
-            let
+            let file = e.target.files[0];
+            if (!file) return;
+            let reader = new FileReader();
+            reader.onload = function(ev) {
+                let imgData = ev.target.result;
+                document.getElementById("firmaImg").src = imgData;
+                document.getElementById("firmaImg").style.display = "inline-block";
+                localStorage.setItem("firma", imgData);
+                alert("Firma guardada correctamente.");
+            };
+            reader.readAsDataURL(file);
+        };
+        input.click();
+    }
+
+    // ========== NÚMERO DE COTIZACIÓN ==========
+    function generarNumero() {
+        let contador = parseInt(localStorage.getItem("contador")) || 0
