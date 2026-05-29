@@ -67,6 +67,7 @@
             font-size: 14px;
             cursor: pointer;
             color: #5a7a9a;
+            transition: all 0.3s ease;
         }
         .login-tab.active {
             background: #1f4e79;
@@ -118,8 +119,9 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 10px;
+            transition: all 0.3s ease;
         }
-        .btn-login:hover { background: #0d3b5a; }
+        .btn-login:hover { background: #0d3b5a; transform: translateY(-1px); }
         .btn-verify { background: #28a745; }
         .btn-verify:hover { background: #218838; }
         .code-group { display: none; margin-top: 10px; }
@@ -252,32 +254,39 @@
         .btn-edit { background: #ffc107; color: #333; }
         .btn-delete { background: #dc3545; color: white; }
 
-        /* HOJA A4 MEJORADA */
-        #a4 {
+        /* CONTENEDOR DE PÁGINAS PARA PDF */
+        .pages-container {
+            position: relative;
+        }
+        
+        /* ESTILOS DE PÁGINA A4 */
+        .a4-page {
             background: white;
-            width: 100%;
-            max-width: 210mm;
-            margin: 0 auto;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto 20px auto;
             padding: 10mm 12mm;
-            border-radius: 8px;
             position: relative;
             font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border: 1px solid #e0e8f0;
+            page-break-after: always;
+            break-after: page;
+            box-sizing: border-box;
         }
         
-        /* MARCA DE AGUA DENTRO DE LA HOJA A4 */
+        /* MARCA DE AGUA AL FRENTE (z-index alto) */
         .watermark {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 55px;
+            font-size: 52px;
             font-family: 'Arial Narrow', sans-serif;
             font-weight: 900;
-            color: rgba(31, 78, 121, 0.1);
+            color: rgba(31, 78, 121, 0.15);
             pointer-events: none;
-            z-index: 0;
+            z-index: 100;
             white-space: nowrap;
             letter-spacing: 6px;
             text-transform: uppercase;
@@ -285,11 +294,12 @@
             text-align: center;
         }
         
-        /* Encabezado fijo */
-        .header-fixed {
+        /* Encabezado que se repite en cada página */
+        .header-repeat {
             background: white;
             position: relative;
             z-index: 2;
+            margin-bottom: 15px;
         }
         
         .header {
@@ -298,7 +308,7 @@
             margin-bottom: 15px;
             padding-bottom: 12px;
             border-bottom: 2px solid #1f4e79;
-            z-index: 1;
+            z-index: 2;
             background: white;
         }
         
@@ -309,6 +319,7 @@
             max-height: 95px;
             object-fit: contain;
             background: transparent;
+            z-index: 2;
         }
         .logo-left { left: 0; }
         .logo-right { right: 0; }
@@ -321,7 +332,7 @@
             display: flex;
             justify-content: center;
             gap: 20px;
-            z-index: 3;
+            z-index: 10;
         }
         .logo-buttons button {
             background: #e8f0f8;
@@ -333,6 +344,7 @@
             cursor: pointer;
             font-family: 'Arial Narrow', sans-serif;
             font-weight: bold;
+            z-index: 10;
         }
         
         .company-name {
@@ -385,7 +397,6 @@
             font-size: 12px;
             font-family: 'Arial Narrow', sans-serif;
             text-align: right;
-            justify-content: flex-end;
         }
         
         .dates-right b {
@@ -443,7 +454,7 @@
             padding: 15px 20px;
             margin: 15px 0;
             border: 1px solid #c0d8e8;
-            z-index: 1;
+            z-index: 2;
             position: relative;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
@@ -488,7 +499,7 @@
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            z-index: 1;
+            z-index: 2;
             position: relative;
             table-layout: fixed;
         }
@@ -561,7 +572,7 @@
             background: #f8fafc;
             border-radius: 10px;
             border: 1px solid #c0d4e5;
-            z-index: 1;
+            z-index: 2;
             position: relative;
         }
         
@@ -586,7 +597,7 @@
             justify-content: space-between;
             gap: 30px;
             margin: 25px 0 20px 0;
-            z-index: 1;
+            z-index: 2;
             position: relative;
             flex-wrap: wrap;
         }
@@ -713,7 +724,13 @@
             padding: 30px;
         }
         
-        .previewA4 { background: white; width: 210mm; margin: 0 auto; padding: 12mm; position: relative; }
+        .previewA4 { 
+            background: white; 
+            width: 210mm; 
+            margin: 0 auto; 
+            position: relative;
+        }
+        
         .close-preview {
             position: fixed;
             top: 20px;
@@ -729,15 +746,34 @@
             font-family: 'Arial Narrow', sans-serif;
         }
         
-        .pdf button, .pdf .logo-buttons, .pdf .firma-fisica button, .pdf .firma-digital button { display: none !important; }
-        .pdf input, .pdf textarea, .pdf .editable { border: none !important; padding: 2px !important; background: transparent !important; }
-        .pdf .items-table td { border: 1px solid #ccc !important; }
-        .pdf .watermark { position: absolute; }
+        /* ESTILOS PARA PDF */
+        .pdf {
+            background: white;
+        }
+        
+        .pdf .logo-buttons, .pdf .firma-fisica button, .pdf .firma-digital button, .pdf .delete-item {
+            display: none !important;
+        }
+        
+        .pdf input, .pdf textarea, .pdf .editable {
+            border: none !important;
+            padding: 2px !important;
+            background: transparent !important;
+        }
+        
+        .pdf .items-table td {
+            border: 1px solid #ccc !important;
+        }
+        
+        .pdf .watermark {
+            position: absolute;
+            z-index: 100;
+        }
         
         @media print {
             body * { visibility: hidden; }
-            #a4, #a4 * { visibility: visible; }
-            #a4 { position: absolute; left: 0; top: 0; margin: 0; padding: 0; box-shadow: none; }
+            .a4-page, .a4-page * { visibility: visible; }
+            .a4-page { position: absolute; left: 0; top: 0; margin: 0; padding: 0; box-shadow: none; }
             .firma-fisica button, .firma-digital button, .logo-buttons button { display: none !important; }
         }
         
@@ -749,6 +785,7 @@
             .quote-number input { font-size: 16px; min-width: 140px; }
             .dates-right { text-align: left; }
             .dates-right div { text-align: left; }
+            .a4-page { width: 100%; }
         }
     </style>
 </head>
@@ -808,11 +845,11 @@
     </div>
     <div class="workspace">
         <div class="quote-area">
-            <div id="a4">
-                <!-- Marca de agua dentro de la hoja A4 -->
+            <div id="a4" class="a4-page">
+                <!-- Marca de agua al frente (z-index alto) -->
                 <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
                 
-                <div class="header-fixed">
+                <div class="header-repeat">
                     <div class="header">
                         <img id="logo1" class="logo logo-left" style="display:none">
                         <img id="logo2" class="logo logo-right" style="display:none">
@@ -874,7 +911,7 @@
                         
                         <div class="firma-fisica">
                             <img id="firmaImg" class="firma-img" style="display:none"><br>
-                            <button onclick="subirFirma()">Subir Firma Física (Escaneada)</button>
+                            <button onclick="subirFirma()">Subir Firma Física</button>
                             <button onclick="limpiarFirmaFisica()">Limpiar</button>
                         </div>
                         
@@ -888,7 +925,7 @@
                 
                 <div class="footer-fixed">
                     <div class="footer-pages">
-                        <span>Página <span id="pageNum">1</span> de <span id="totalPages">1</span></span>
+                        <span>Página <span class="page-num">1</span> de <span class="total-pages">1</span></span>
                         <span>Impresión: <span id="printDate"></span></span>
                     </div>
                     <div class="footer-center">
@@ -922,7 +959,6 @@
     const CONTRASENA = "yuri2026";
     let codigoEnviado = null;
     let cotizaciones = [];
-    let firmaDigitalHTML = "";
 
     function mostrarFormulario(tipo) {
         document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
@@ -1043,7 +1079,7 @@
         let rowCount = tbody.rows.length + 1;
         let fila = document.createElement('tr');
         fila.innerHTML = `<td style="text-align:center">${rowCount}</td>
-                          <td><textarea rows="4" placeholder="Detalle completo del producto o servicio..." onchange="calcular()" style="width:100%; min-height:70px; white-space:pre-wrap; word-wrap:break-word;"></textarea></td>
+                          <td><textarea rows="3" placeholder="Detalle completo del producto o servicio..." onchange="calcular()" style="width:100%; min-height:60px; white-space:pre-wrap; word-wrap:break-word;"></textarea></td>
                           <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
                           <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
                           <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
@@ -1077,22 +1113,22 @@
         document.getElementById('igvLine').style.display = incluirIGV ? 'block' : 'none';
     }
 
-    function getContenidoCompleto() {
-        let contenido = document.getElementById('a4').cloneNode(true);
-        return contenido;
-    }
-
+    // Función para dividir contenido en múltiples páginas A4
     async function descargarPDF() {
         let cliente = document.getElementById('clienteNombre').value || 'Cliente';
         let numCot = document.getElementById('numCot').value || '0000';
-        let clon = getContenidoCompleto();
-        clon.classList.add('pdf');
-        let ahora = new Date();
-        let fechaImpresion = clon.querySelector('#printDate');
-        if (fechaImpresion) fechaImpresion.innerText = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
         
-        // Convertir textareas a divs para que el texto completo se vea en PDF
-        let textareas = clon.querySelectorAll('textarea');
+        // Crear un contenedor de páginas
+        let pagesContainer = document.createElement('div');
+        pagesContainer.className = 'pages-container';
+        
+        // Clonar la página original
+        let originalPage = document.getElementById('a4');
+        let pageClone = originalPage.cloneNode(true);
+        pageClone.classList.add('pdf');
+        
+        // Convertir textareas a divs para texto completo
+        let textareas = pageClone.querySelectorAll('textarea');
         textareas.forEach(ta => {
             let div = document.createElement('div');
             div.style.whiteSpace = 'pre-wrap';
@@ -1104,6 +1140,19 @@
             div.innerText = ta.value;
             ta.parentNode.replaceChild(div, ta);
         });
+        
+        // Ocultar botones
+        let buttons = pageClone.querySelectorAll('.logo-buttons, .firma-fisica button, .firma-digital button, .delete-item');
+        buttons.forEach(btn => { if(btn) btn.style.display = 'none'; });
+        
+        pagesContainer.appendChild(pageClone);
+        
+        // Configurar números de página
+        let pageNumbers = pagesContainer.querySelectorAll('.page-num');
+        let totalPagesSpan = pagesContainer.querySelectorAll('.total-pages');
+        let totalPages = 1;
+        totalPagesSpan.forEach(span => span.innerText = totalPages);
+        pageNumbers.forEach((span, idx) => span.innerText = idx + 1);
         
         const opt = {
             margin: [0.5, 0.5, 0.5, 0.5],
@@ -1112,14 +1161,15 @@
             html2canvas: { scale: 2, useCORS: true, letterRendering: true },
             jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
         };
-        await html2pdf().set(opt).from(clon).save();
+        
+        await html2pdf().set(opt).from(pagesContainer).save();
     }
 
     function vistaPrevia() {
-        let clon = getContenidoCompleto();
+        let clon = document.getElementById('a4').cloneNode(true);
         clon.classList.add('pdf');
         
-        // Convertir textareas a divs para vista previa
+        // Convertir textareas a divs
         let textareas = clon.querySelectorAll('textarea');
         textareas.forEach(ta => {
             let div = document.createElement('div');
@@ -1133,15 +1183,13 @@
             ta.parentNode.replaceChild(div, ta);
         });
         
+        // Ocultar botones en vista previa
+        let buttons = clon.querySelectorAll('.logo-buttons, .firma-fisica button, .firma-digital button, .delete-item');
+        buttons.forEach(btn => { if(btn) btn.style.display = 'none'; });
+        
         document.getElementById('previewContent').innerHTML = '';
         document.getElementById('previewContent').appendChild(clon);
         document.getElementById('preview').style.display = 'block';
-        
-        // Calcular páginas aproximadas
-        let alturaContenido = clon.scrollHeight;
-        let alturaPagina = 1122; // Altura aproximada de A4 en pixeles
-        let paginas = Math.ceil(alturaContenido / alturaPagina);
-        document.getElementById('totalPages').innerText = paginas;
     }
     
     function cerrarPreview() { document.getElementById('preview').style.display = 'none'; }
@@ -1261,7 +1309,7 @@
                 cot.items.forEach((item, idx) => {
                     let fila = document.createElement('tr');
                     fila.innerHTML = `<td style="text-align:center">${idx+1}</td>
-                                      <td><textarea rows="4" style="width:100%; min-height:70px; white-space:pre-wrap;">${escapeHtml(item.desc || '')}</textarea></td>
+                                      <td><textarea rows="3" style="width:100%; min-height:60px; white-space:pre-wrap;">${escapeHtml(item.desc || '')}</textarea></td>
                                       <td><input type="number" value="${item.cant || 0}" onchange="calcular()"></td>
                                       <td><input type="number" value="${item.precio || 0}" onchange="calcular()"></td>
                                       <td class="subtotal-cell" style="text-align:right;">${item.subtotal || '0.00'}</td>
@@ -1348,7 +1396,7 @@
         }
     }
 
-    // FIRMA DIGITAL (sin hash, solo datos de Yuri)
+    // FIRMA DIGITAL (con DNI corregido: 61736503)
     function generarFirmaDigital() {
         let fechaActual = new Date();
         let fechaStr = fechaActual.toLocaleDateString('es-ES');
@@ -1358,16 +1406,13 @@
             <div style="font-family:'Arial Narrow'; font-size:9px; text-align:left; margin-top:8px; padding:6px; border-top:1px solid #c0d4e5;">
                 <strong>FIRMA DIGITAL AUTORIZADA</strong><br>
                 YURI HERMOZA PUELLES<br>
-                DNI: 41735058<br>
+                DNI: 61736503<br>
                 Fecha: ${fechaStr} - ${horaStr}<br>
                 <em>Autorización legal según Ley N° 27269 - Ley de Firmas Digitales</em>
             </div>
         `;
         
-        // Guardar en localStorage
         localStorage.setItem('firmaDigitalHTML', firmaDigitalHTML);
-        
-        // Mostrar en el div
         document.getElementById('digitalSignInfo').innerHTML = firmaDigitalHTML;
         alert('Firma digital generada correctamente');
     }
@@ -1380,14 +1425,12 @@
     }
 
     function cargarFirmasGuardadas() {
-        // Cargar firma física
         let firmaFisica = localStorage.getItem('firmaFisica');
         if (firmaFisica) {
             document.getElementById('firmaImg').src = firmaFisica;
             document.getElementById('firmaImg').style.display = 'block';
         }
         
-        // Cargar firma digital
         let firmaDigital = localStorage.getItem('firmaDigitalHTML');
         if (firmaDigital) {
             document.getElementById('digitalSignInfo').innerHTML = firmaDigital;
