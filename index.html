@@ -199,7 +199,12 @@
             gap: 25px;
             flex-wrap: wrap;
         }
-        .quote-area { flex: 2.5; min-width: 320px; }
+        .quote-area {
+            flex: 2.5;
+            min-width: 320px;
+            max-width: 100%;
+            overflow-x: auto;
+        }
         .history-area {
             flex: 1;
             min-width: 300px;
@@ -254,21 +259,20 @@
         .btn-edit { background: #ffc107; color: #333; }
         .btn-delete { background: #dc3545; color: white; }
 
-        /* ESTILOS DE PÁGINA A4 */
+        /* ESTILOS DE PÁGINA A4 - FIJOS */
         .a4-page {
             background: white;
             width: 210mm;
             min-height: 297mm;
             margin: 0 auto 20px auto;
-            padding: 10mm 12mm;
+            padding: 8mm 10mm;
             position: relative;
             font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             border: 1px solid #e0e8f0;
             page-break-after: always;
             break-after: page;
             box-sizing: border-box;
-            overflow: hidden;
         }
         
         /* MARCA DE AGUA */
@@ -277,32 +281,31 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 38px;
+            font-size: 45px;
             font-family: 'Arial Narrow', sans-serif;
             font-weight: 900;
-            color: rgba(31, 78, 121, 0.12);
+            color: rgba(31, 78, 121, 0.08);
             pointer-events: none;
-            z-index: 100;
+            z-index: 0;
             white-space: nowrap;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             width: 100%;
             text-align: center;
         }
         
-        /* Encabezado fijo */
+        /* ENCABEZADO FIJO - IDÉNTICO EN TODAS LAS PÁGINAS */
         .header-fixed {
             background: white;
             position: relative;
             z-index: 2;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .header {
             text-align: center;
             position: relative;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             border-bottom: 2px solid #1f4e79;
             z-index: 2;
             background: white;
@@ -311,8 +314,8 @@
         .logo {
             position: absolute;
             top: 0;
-            width: 90px;
-            max-height: 85px;
+            width: 80px;
+            max-height: 75px;
             object-fit: contain;
             background: transparent;
             z-index: 2;
@@ -322,19 +325,19 @@
         
         .logo-buttons {
             position: absolute;
-            top: 85px;
+            top: 75px;
             left: 0;
             right: 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             z-index: 10;
         }
         .logo-buttons button {
             background: #e8f0f8;
             color: #1f4e79;
-            padding: 4px 16px;
-            font-size: 11px;
+            padding: 3px 12px;
+            font-size: 10px;
             border: 1px solid #c0d4e5;
             border-radius: 20px;
             cursor: pointer;
@@ -344,7 +347,7 @@
         }
         
         .company-name {
-            font-size: 26px;
+            font-size: 24px;
             font-family: 'Arial Narrow', sans-serif;
             font-weight: 800;
             color: #1f4e79;
@@ -352,45 +355,82 @@
         }
         
         .company-owner {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             font-family: 'Arial Narrow', sans-serif;
             color: #2c5a7a;
-            margin-top: 3px;
+            margin-top: 2px;
         }
         
         .company-ruc {
             font-weight: bold;
-            font-size: 11px;
+            font-size: 10px;
             font-family: 'Arial Narrow', sans-serif;
             color: #5a6e7a;
             margin: 2px 0;
         }
         
+        .direccion {
+            font-size: 10px;
+            color: #5a6e7a;
+            margin-top: 3px;
+        }
         .direccion input {
             text-align: center;
             background: transparent;
             border: 1px solid #c0d4e5;
             border-radius: 20px;
-            padding: 4px 20px;
+            padding: 3px 15px;
             width: 70%;
-            font-size: 11px;
+            font-size: 10px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
-        /* FECHAS JUSTIFICADAS A LA DERECHA */
+        /* DATOS DE COTIZACIÓN */
+        .quote-number {
+            text-align: center;
+            margin: 10px 0;
+            padding: 8px;
+            background: linear-gradient(135deg, #1f4e79 0%, #0d3b5a 100%);
+            border-radius: 8px;
+        }
+        
+        .quote-number label {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: 'Arial Narrow', sans-serif;
+            margin-right: 12px;
+        }
+        
+        .quote-number input {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 4px 15px;
+            width: auto;
+            min-width: 160px;
+            text-align: center;
+            background: transparent;
+            border: 2px solid white;
+            border-radius: 6px;
+            font-family: 'Arial Narrow', monospace;
+            letter-spacing: 1px;
+            color: white;
+        }
+        
+        /* FECHAS DERECHA */
         .dates-right {
             text-align: right;
-            margin: 15px 0 20px 0;
-            padding: 10px 15px;
+            margin: 10px 0 15px 0;
+            padding: 8px 12px;
             background: #f0f7ff;
-            border-radius: 10px;
+            border-radius: 8px;
             border: 1px solid #c0d8e8;
         }
         
         .dates-right div {
-            margin: 5px 0;
-            font-size: 12px;
+            margin: 3px 0;
+            font-size: 11px;
             font-family: 'Arial Narrow', sans-serif;
             text-align: right;
         }
@@ -398,95 +438,63 @@
         .dates-right b {
             color: #1f4e79;
             font-weight: 700;
-            margin-right: 8px;
+            margin-right: 6px;
         }
         
         .dates-right input, .dates-right select {
             background: white;
             border: 1px solid #c0d4e5;
-            border-radius: 15px;
-            padding: 4px 10px;
-            font-size: 11px;
+            border-radius: 12px;
+            padding: 3px 8px;
+            font-size: 10px;
             font-family: 'Arial Narrow', sans-serif;
             text-align: right;
         }
         
-        /* NÚMERO DE COTIZACIÓN */
-        .quote-number {
-            text-align: center;
-            margin: 15px 0;
-            padding: 12px;
-            background: linear-gradient(135deg, #1f4e79 0%, #0d3b5a 100%);
-            border-radius: 10px;
-        }
-        
-        .quote-number label {
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            font-family: 'Arial Narrow', sans-serif;
-            margin-right: 15px;
-        }
-        
-        .quote-number input {
-            font-size: 20px;
-            font-weight: bold;
-            padding: 6px 18px;
-            width: auto;
-            min-width: 180px;
-            text-align: center;
-            background: transparent;
-            border: 2px solid white;
-            border-radius: 8px;
-            font-family: 'Arial Narrow', monospace;
-            letter-spacing: 1px;
-            color: white;
-        }
-        
-        /* CLIENTE - SOLO EN PÁGINA 1 */
+        /* CLIENTE - SOLO PÁGINA 1 */
         .client-card {
             background: #e8f4fd;
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin: 15px 0;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin: 10px 0;
             border: 1px solid #c0d8e8;
             z-index: 2;
             position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
         .client-card h4 {
             font-weight: 700;
             color: #1f4e79;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             border-left: 4px solid #1f4e79;
-            padding-left: 12px;
+            padding-left: 10px;
             font-family: 'Arial Narrow', sans-serif;
+            font-size: 13px;
         }
         
         .campo {
             display: flex;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
         
         .campo label {
-            width: 130px;
+            width: 120px;
             font-weight: 700;
             color: #1f4e79;
-            font-size: 12px;
+            font-size: 10px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .campo input {
             flex: 1;
-            padding: 6px 12px;
+            padding: 4px 10px;
             border: 1px solid #c0d4e5;
-            border-radius: 20px;
+            border-radius: 15px;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 12px;
+            font-size: 10px;
             background: white;
         }
         
@@ -494,7 +502,7 @@
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
+            margin: 10px 0;
             z-index: 2;
             position: relative;
             table-layout: fixed;
@@ -503,37 +511,37 @@
         .items-table th {
             background: #1f4e79;
             color: white;
-            padding: 8px 6px;
+            padding: 6px 4px;
             font-weight: 700;
-            font-size: 11px;
+            font-size: 9px;
             text-align: center;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .items-table th:nth-child(1) { width: 6%; }
-        .items-table th:nth-child(2) { width: 48%; }
+        .items-table th:nth-child(2) { width: 50%; }
         .items-table th:nth-child(3) { width: 10%; }
         .items-table th:nth-child(4) { width: 12%; }
-        .items-table th:nth-child(5) { width: 14%; }
+        .items-table th:nth-child(5) { width: 12%; }
         .items-table th:nth-child(6) { width: 10%; }
         
         .items-table td {
             border: 1px solid #c0d4e5;
-            padding: 6px 4px;
+            padding: 4px 3px;
             vertical-align: top;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 10px;
+            font-size: 9px;
         }
         
         .items-table textarea {
             width: 100%;
             border: none;
-            padding: 4px;
+            padding: 3px;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 10px;
+            font-size: 9px;
             resize: vertical;
             background: transparent;
-            min-height: 45px;
+            min-height: 40px;
             white-space: pre-wrap;
             word-wrap: break-word;
             word-break: break-word;
@@ -543,88 +551,103 @@
         .items-table input {
             width: 100%;
             border: none;
-            padding: 4px 2px;
+            padding: 3px 2px;
             text-align: center;
             font-family: 'Arial Narrow', sans-serif;
-            font-size: 10px;
+            font-size: 9px;
         }
         
         .delete-item {
             background: #dc3545;
             color: white;
             border: none;
-            padding: 3px 6px;
-            border-radius: 4px;
+            padding: 2px 5px;
+            border-radius: 3px;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 9px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .add-item-btn {
             margin: 5px 0;
-            padding: 4px 12px;
-            font-size: 11px;
+            padding: 3px 10px;
+            font-size: 10px;
         }
         
-        /* Totales de página */
+        /* TOTALES POR PÁGINA */
         .page-totals {
             text-align: right;
-            margin-top: 10px;
-            padding: 8px 15px;
+            margin-top: 8px;
+            padding: 6px 12px;
             background: #f8fafc;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid #c0d4e5;
             z-index: 2;
             position: relative;
         }
         
-        .page-totals p { margin: 2px 0; font-size: 11px; font-family: 'Arial Narrow', sans-serif; }
-        .page-grand-total { font-size: 14px; font-weight: 800; color: #1f4e79; }
+        .page-totals p { margin: 2px 0; font-size: 10px; font-family: 'Arial Narrow', sans-serif; }
+        .page-grand-total { font-size: 12px; font-weight: 800; color: #1f4e79; }
         
         .igv-toggle {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 8px;
-            margin-bottom: 5px;
-            padding-bottom: 4px;
+            gap: 6px;
+            margin-bottom: 4px;
+            padding-bottom: 3px;
             border-bottom: 1px solid #c0d4e5;
         }
         
-        .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-family: 'Arial Narrow', sans-serif; font-size: 10px; }
+        .igv-toggle label { font-weight: 600; color: #1f4e79; cursor: pointer; font-family: 'Arial Narrow', sans-serif; font-size: 9px; }
+        
+        /* TOTAL GENERAL (solo en última página) */
+        .total-general-container {
+            margin: 15px 0;
+            padding: 8px 15px;
+            background: #1f4e79;
+            color: white;
+            border-radius: 8px;
+            text-align: right;
+        }
+        
+        .total-general-container p {
+            font-size: 16px;
+            font-weight: bold;
+        }
         
         /* FIRMA Y PAGO EN LA MISMA LÍNEA - SOLO ÚLTIMA PÁGINA */
         .signature-payment-row {
             display: flex;
             justify-content: space-between;
-            gap: 30px;
-            margin: 20px 0 20px 0;
+            gap: 20px;
+            margin: 15px 0 15px 0;
             z-index: 2;
             position: relative;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
         }
         
         .payment-methods {
             flex: 1;
             background: #f0f7ff;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 8px;
             border: 1px solid #c0d8e8;
         }
         
         .payment-methods h5 {
             color: #1f4e79;
             font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 12px;
+            margin-bottom: 6px;
+            font-size: 11px;
             border-bottom: 1px solid #c0d4e5;
-            padding-bottom: 4px;
+            padding-bottom: 3px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .payment-methods p {
-            font-size: 10px;
-            margin: 4px 0;
+            font-size: 9px;
+            margin: 3px 0;
             font-family: 'Arial Narrow', monospace;
         }
         
@@ -632,60 +655,60 @@
             flex: 1;
             text-align: center;
             background: #f8fafc;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 8px;
             border: 1px solid #c0d4e5;
         }
         
         .signature-area h5 {
             color: #1f4e79;
             font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 12px;
+            margin-bottom: 6px;
+            font-size: 11px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .firma-img {
-            max-width: 170px;
-            max-height: 60px;
+            max-width: 150px;
+            max-height: 50px;
             object-fit: contain;
             border: none;
-            padding: 3px;
+            padding: 2px;
             background: white;
         }
         
         .firma-fisica, .firma-digital {
-            margin-top: 8px;
-            padding: 6px;
+            margin-top: 6px;
+            padding: 5px;
             border: 1px dashed #c0d4e5;
-            border-radius: 8px;
+            border-radius: 6px;
         }
         
         .firma-fisica button, .firma-digital button {
             background: #1f4e79;
             color: white;
             border: none;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 8px;
             cursor: pointer;
-            margin: 3px;
+            margin: 2px;
             font-family: 'Arial Narrow', sans-serif;
         }
         
         .signature-info {
-            font-size: 8px;
+            font-size: 7px;
             color: #5a7a9a;
-            margin-top: 5px;
+            margin-top: 4px;
             font-style: italic;
             font-family: 'Arial Narrow', sans-serif;
             text-align: left;
         }
         
-        /* PIE DE PÁGINA FIJO */
+        /* PIE DE PÁGINA FIJO - IDÉNTICO EN TODAS LAS PÁGINAS */
         .footer-fixed {
-            margin-top: 15px;
-            padding-top: 8px;
+            margin-top: 12px;
+            padding-top: 6px;
             border-top: 1px solid #c0d4e5;
             background: white;
             position: relative;
@@ -693,37 +716,23 @@
         }
         
         .footer-pages {
-            font-size: 9px;
+            font-size: 8px;
             color: #7a9aba;
             display: flex;
             justify-content: space-between;
             font-family: 'Arial Narrow', sans-serif;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
         
         .footer-center {
             text-align: center;
-            font-size: 8px;
+            font-size: 7px;
             font-family: 'Arial Narrow', sans-serif;
             color: #7a9aba;
         }
         
         .footer-center p {
-            margin: 2px 0;
-        }
-        
-        .total-general-container {
-            margin-top: 20px;
-            padding: 12px 20px;
-            background: #1f4e79;
-            color: white;
-            border-radius: 10px;
-            text-align: right;
-        }
-        
-        .total-general-container p {
-            font-size: 18px;
-            font-weight: bold;
+            margin: 1px 0;
         }
         
         /* Vista previa */
@@ -789,11 +798,11 @@
         }
         
         @media (max-width: 800px) {
-            .company-name { font-size: 22px; }
-            .logo { width: 65px; }
-            .logo-buttons { top: 65px; gap: 8px; }
+            .company-name { font-size: 20px; }
+            .logo { width: 55px; }
+            .logo-buttons { top: 55px; gap: 6px; }
             .signature-payment-row { flex-direction: column; }
-            .quote-number input { font-size: 16px; min-width: 140px; }
+            .quote-number input { font-size: 14px; min-width: 120px; }
             .dates-right { text-align: left; }
             .dates-right div { text-align: left; }
             .a4-page { width: 100%; }
@@ -858,7 +867,7 @@
         <div class="quote-area">
             <div id="pagesContainer"></div>
             <div class="page-controls" style="margin: 20px 0; text-align: center;">
-                <button class="btn btn-primary" onclick="agregarPaginaItem()" id="btnAgregarPagina">+ Agregar Nueva Página de Items</button>
+                <button class="btn btn-primary" onclick="agregarPaginaItems()">+ Agregar Página de Items</button>
             </div>
         </div>
         <div class="history-area">
@@ -954,20 +963,20 @@
         }
     }
 
-    function actualizarFechaImpresion(page) {
+    function actualizarFechasImpresion() {
         let ahora = new Date();
         let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
-        let printDateSpan = page.querySelector('#printDate');
-        if (printDateSpan) printDateSpan.innerText = fechaStr;
+        let printDates = document.querySelectorAll('#printDate');
+        printDates.forEach(el => el.innerText = fechaStr);
     }
 
     function actualizarNumerosPagina() {
         let pages = document.querySelectorAll('.a4-page');
         pages.forEach((page, index) => {
-            let pageNumSpan = page.querySelector('.page-num');
-            let totalPagesSpan = page.querySelector('.total-pages');
-            if (pageNumSpan) pageNumSpan.innerText = index + 1;
-            if (totalPagesSpan) totalPagesSpan.innerText = pages.length;
+            let pageNum = page.querySelector('.page-num');
+            let totalPages = page.querySelector('.total-pages');
+            if (pageNum) pageNum.innerText = index + 1;
+            if (totalPages) totalPages.innerText = pages.length;
         });
     }
 
@@ -989,65 +998,9 @@
         return String(contador).padStart(4, '0') + '-' + new Date().getFullYear();
     }
 
-    // Crear página de items (sin datos de cliente, sin firma/pago)
-    function crearPaginaItems(numPagina, totalPaginas, esPaginaItems = true) {
-        let div = document.createElement('div');
-        div.className = 'a4-page';
-        div.innerHTML = `
-            <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
-            <div class="header-fixed">
-                <div class="header">
-                    <img id="logo1" class="logo logo-left" style="display:none">
-                    <img id="logo2" class="logo logo-right" style="display:none">
-                    <div class="logo-buttons">
-                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
-                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
-                    </div>
-                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
-                    <div class="company-owner">YURI HERMOZA PUELLES</div>
-                    <div class="company-ruc">RUC: 10617365036</div>
-                    <div class="direccion"><input class="editable" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
-                </div>
-            </div>
-            <table class="items-table">
-                <thead><tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr></thead>
-                <tbody></tbody>
-            </table>
-            <button class="btn btn-primary add-item-btn" style="margin:5px 0; padding:4px 12px; font-size:11px;" onclick="agregarItemEnPagina(this)">+ Agregar Item</button>
-            <div class="page-totals">
-                <div class="igv-toggle"><input type="checkbox" class="incluirIGV" checked onchange="calcularTotalesGlobales()"><label>Incluir IGV (18%)</label></div>
-                <p>Subtotal Página: <span class="page-subtotal">0.00</span></p>
-                <p class="page-igv-line">IGV Página: <span class="page-igv">0.00</span></p>
-                <p class="page-grand-total">Total Página: <span class="page-total">0.00</span></p>
-            </div>
-            <div class="footer-fixed">
-                <div class="footer-pages">
-                    <span>Página <span class="page-num">${numPagina}</span> de <span class="total-pages">${totalPaginas}</span></span>
-                    <span>Impresión: <span id="printDate"></span></span>
-                </div>
-                <div class="footer-center">
-                    <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
-                    <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
-                    <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
-                </div>
-            </div>
-        `;
-        return div;
-    }
-
-    // Crear página principal (con datos de cliente)
-    function crearPaginaPrincipal(numPagina, totalPaginas) {
-        let numero = generarNumero();
-        let hoy = new Date();
-        let fechaStr = hoy.toISOString().split('T')[0];
-        let validez = new Date();
-        validez.setDate(hoy.getDate() + 15);
-        let validezStr = validez.toISOString().split('T')[0];
-        
-        let div = document.createElement('div');
-        div.className = 'a4-page';
-        div.innerHTML = `
-            <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
+    // Crear encabezado común para todas las páginas
+    function crearEncabezadoComun() {
+        return `
             <div class="header-fixed">
                 <div class="header">
                     <img id="logo1" class="logo logo-left" style="display:none">
@@ -1062,6 +1015,61 @@
                     <div class="direccion"><input class="editable" id="direccionEmpresa" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
                 </div>
             </div>
+        `;
+    }
+
+    // Crear pie de página común para todas las páginas
+    function crearPieComun() {
+        let ahora = new Date();
+        let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+        return `
+            <div class="footer-fixed">
+                <div class="footer-pages">
+                    <span>Página <span class="page-num">1</span> de <span class="total-pages">1</span></span>
+                    <span>Impresión: <span id="printDate">${fechaStr}</span></span>
+                </div>
+                <div class="footer-center">
+                    <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
+                    <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
+                    <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
+                </div>
+            </div>
+        `;
+    }
+
+    // Crear tabla de items vacía
+    function crearTablaItems() {
+        return `
+            <table class="items-table">
+                <thead>
+                    <tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button class="btn btn-primary add-item-btn" style="margin:5px 0; padding:3px 10px; font-size:10px;" onclick="agregarItemEnPagina(this)">+ Agregar Item</button>
+            <div class="page-totals">
+                <div class="igv-toggle"><input type="checkbox" class="incluirIGV" checked onchange="calcularTotalesGlobales()"><label>Incluir IGV (18%)</label></div>
+                <p>Subtotal Página: <span class="page-subtotal">0.00</span></p>
+                <p class="page-igv-line">IGV Página: <span class="page-igv">0.00</span></p>
+                <p class="page-grand-total">Total Página: <span class="page-total">0.00</span></p>
+            </div>
+        `;
+    }
+
+    // PÁGINA 1: Con datos de cliente
+    function crearPaginaPrincipal(numPagina, totalPaginas) {
+        let numero = generarNumero();
+        let hoy = new Date();
+        let fechaStr = hoy.toISOString().split('T')[0];
+        let validez = new Date();
+        validez.setDate(hoy.getDate() + 15);
+        let validezStr = validez.toISOString().split('T')[0];
+        
+        let div = document.createElement('div');
+        div.className = 'a4-page';
+        div.innerHTML = `
+            <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
+            ${crearEncabezadoComun()}
             <div class="quote-number">
                 <label>COTIZACIÓN N°</label>
                 <input id="numCot" class="editable" value="${numero}">
@@ -1078,52 +1086,36 @@
                 <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable" placeholder="Ej: 993963381"></div>
                 <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable" placeholder="Ej: Av. Principal 123"></div>
             </div>
-            <table class="items-table">
-                <thead><tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th><th></th></tr></thead>
-                <tbody></tbody>
-            </table>
-            <button class="btn btn-primary add-item-btn" style="margin:5px 0; padding:4px 12px; font-size:11px;" onclick="agregarItemEnPagina(this)">+ Agregar Item</button>
-            <div class="page-totals">
-                <div class="igv-toggle"><input type="checkbox" class="incluirIGV" checked onchange="calcularTotalesGlobales()"><label>Incluir IGV (18%)</label></div>
-                <p>Subtotal Página: <span class="page-subtotal">0.00</span></p>
-                <p class="page-igv-line">IGV Página: <span class="page-igv">0.00</span></p>
-                <p class="page-grand-total">Total Página: <span class="page-total">0.00</span></p>
-            </div>
-            <div class="footer-fixed">
-                <div class="footer-pages">
-                    <span>Página <span class="page-num">${numPagina}</span> de <span class="total-pages">${totalPaginas}</span></span>
-                    <span>Impresión: <span id="printDate"></span></span>
-                </div>
-                <div class="footer-center">
-                    <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
-                    <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
-                    <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
-                </div>
-            </div>
+            ${crearTablaItems()}
+            ${crearPieComun()}
         `;
         return div;
     }
 
-    // Crear página con firma y métodos de pago (última página)
-    function crearPaginaFirma(numPagina, totalPaginas) {
+    // PÁGINA DE ITEMS (sin cliente, sin firma)
+    function crearPaginaItems(numPagina, totalPaginas) {
         let div = document.createElement('div');
         div.className = 'a4-page';
         div.innerHTML = `
             <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
-            <div class="header-fixed">
-                <div class="header">
-                    <img id="logo1" class="logo logo-left" style="display:none">
-                    <img id="logo2" class="logo logo-right" style="display:none">
-                    <div class="logo-buttons">
-                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
-                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
-                    </div>
-                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
-                    <div class="company-owner">YURI HERMOZA PUELLES</div>
-                    <div class="company-ruc">RUC: 10617365036</div>
-                    <div class="direccion"><input class="editable" value="APV LAS JOYAS SAN SEBASTIAN CUSCO"></div>
-                </div>
-            </div>
+            ${crearEncabezadoComun()}
+            ${crearTablaItems()}
+            ${crearPieComun()}
+        `;
+        return div;
+    }
+
+    // ÚLTIMA PÁGINA: Con firma y método de pago
+    function crearPaginaFinal(numPagina, totalPaginas) {
+        let ahora = new Date();
+        let fechaStr = ahora.toLocaleDateString('es-ES');
+        let horaStr = ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+        
+        let div = document.createElement('div');
+        div.className = 'a4-page';
+        div.innerHTML = `
+            <div class="watermark">VIDRIOS Y ALUMINIOS YURI</div>
+            ${crearEncabezadoComun()}
             <div class="total-general-container">
                 <p>TOTAL GENERAL: <span id="totalGeneral">0.00</span></p>
             </div>
@@ -1148,17 +1140,7 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-fixed">
-                <div class="footer-pages">
-                    <span>Página <span class="page-num">${numPagina}</span> de <span class="total-pages">${totalPaginas}</span></span>
-                    <span>Impresión: <span id="printDate"></span></span>
-                </div>
-                <div class="footer-center">
-                    <p>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</p>
-                    <p>hermozayurihermozapuelles@gmail.com | 993963381</p>
-                    <p><i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i></p>
-                </div>
-            </div>
+            ${crearPieComun()}
         `;
         return div;
     }
@@ -1169,10 +1151,10 @@
         let rowCount = tbody.rows.length + 1;
         let fila = document.createElement('tr');
         fila.innerHTML = `<td style="text-align:center">${rowCount}</td>
-                          <td><textarea rows="2" placeholder="Detalle del producto o servicio..." onchange="calcularTotalesGlobales()" style="width:100%; min-height:45px; white-space:pre-wrap;"></textarea></td>
+                          <td><textarea rows="2" placeholder="Detalle del producto..." onchange="calcularTotalesGlobales()" style="width:100%; min-height:40px;"></textarea></td>
                           <td><input type="number" value="1" min="0" step="1" onchange="calcularTotalesGlobales()"></td>
                           <td><input type="number" value="0" min="0" step="0.01" onchange="calcularTotalesGlobales()"></td>
-                          <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
+                          <td class="subtotal-cell" style="text-align:right;">0.00</td>
                           <td style="text-align:center"><button class="delete-item" onclick="eliminarItemDePagina(this)">X</button></td>`;
         tbody.appendChild(fila);
         calcularTotalesGlobales();
@@ -1181,12 +1163,12 @@
     function eliminarItemDePagina(boton) {
         if (confirm('¿Eliminar este item?')) {
             boton.closest('tr').remove();
-            renumerarItemsEnPagina(boton.closest('.a4-page'));
+            renumerarItems(boton.closest('.a4-page'));
             calcularTotalesGlobales();
         }
     }
 
-    function renumerarItemsEnPagina(page) {
+    function renumerarItems(page) {
         let rows = page.querySelectorAll('.items-table tbody tr');
         rows.forEach((row, idx) => row.cells[0].innerText = idx + 1);
     }
@@ -1194,14 +1176,16 @@
     function calcularTotalesGlobales() {
         let pages = document.querySelectorAll('.a4-page');
         let subtotalGlobal = 0;
-        let incluirIGVGlobal = true;
+        let monedaSelect = document.getElementById('moneda');
+        let moneda = monedaSelect ? monedaSelect.value : 'PEN';
+        let sim = moneda === 'PEN' ? 'S/ ' : '$ ';
         
         pages.forEach(page => {
             let incluirIGVCheck = page.querySelector('.incluirIGV');
-            if (incluirIGVCheck && incluirIGVCheck.checked === false) incluirIGVGlobal = false;
-            
+            let incluirIGV = incluirIGVCheck ? incluirIGVCheck.checked : true;
             let subtotalPagina = 0;
             let rows = page.querySelectorAll('.items-table tbody tr');
+            
             rows.forEach(row => {
                 let cant = parseFloat(row.querySelector('td:nth-child(3) input').value) || 0;
                 let precio = parseFloat(row.querySelector('td:nth-child(4) input').value) || 0;
@@ -1218,49 +1202,69 @@
             let pageIgvLine = page.querySelector('.page-igv-line');
             
             if (pageSubtotalSpan) {
-                let igvPagina = (incluirIGVCheck ? subtotalPagina * 0.18 : 0);
+                let igvPagina = incluirIGV ? subtotalPagina * 0.18 : 0;
                 let totalPagina = subtotalPagina + igvPagina;
-                let moneda = document.getElementById('moneda')?.value || 'PEN';
-                let sim = moneda === 'PEN' ? 'S/ ' : '$ ';
                 pageSubtotalSpan.innerText = sim + subtotalPagina.toFixed(2);
                 if (pageIgvSpan) pageIgvSpan.innerText = sim + igvPagina.toFixed(2);
                 if (pageTotalSpan) pageTotalSpan.innerText = sim + totalPagina.toFixed(2);
-                if (pageIgvLine) pageIgvLine.style.display = incluirIGVCheck ? 'block' : 'none';
+                if (pageIgvLine) pageIgvLine.style.display = incluirIGV ? 'block' : 'none';
             }
         });
         
-        let igvGlobal = incluirIGVGlobal ? subtotalGlobal * 0.18 : 0;
+        let igvGlobal = subtotalGlobal * 0.18;
         let totalGlobal = subtotalGlobal + igvGlobal;
-        let moneda = document.getElementById('moneda')?.value || 'PEN';
-        let sim = moneda === 'PEN' ? 'S/ ' : '$ ';
-        
         let totalGeneralSpan = document.getElementById('totalGeneral');
         if (totalGeneralSpan) totalGeneralSpan.innerText = sim + totalGlobal.toFixed(2);
     }
 
-    function agregarPaginaItem() {
+    function agregarPaginaItems() {
         let container = document.getElementById('pagesContainer');
-        let paginasItems = document.querySelectorAll('.a4-page:not(.firma-page)');
-        let paginaFirma = document.querySelector('.firma-page');
+        let paginaFinal = container.querySelector('.final-page');
+        let paginasItems = container.querySelectorAll('.a4-page:not(.final-page)');
         
-        let nuevaPaginaItems = crearPaginaItems(paginasItems.length + 1, paginasItems.length + 2);
+        let nuevaPagina = crearPaginaItems(paginasItems.length + 1, paginasItems.length + 2);
         
-        if (paginaFirma) {
-            paginaFirma.remove();
-            container.appendChild(nuevaPaginaItems);
-            let nuevaPaginaFirma = crearPaginaFirma(paginasItems.length + 2, paginasItems.length + 2);
-            container.appendChild(nuevaPaginaFirma);
+        if (paginaFinal) {
+            paginaFinal.remove();
+            container.appendChild(nuevaPagina);
+            let nuevaPaginaFinal = crearPaginaFinal(paginasItems.length + 2, paginasItems.length + 2);
+            nuevaPaginaFinal.classList.add('final-page');
+            container.appendChild(nuevaPaginaFinal);
         } else {
-            container.appendChild(nuevaPaginaItems);
-            let nuevaPaginaFirma = crearPaginaFirma(paginasItems.length + 1, paginasItems.length + 1);
-            container.appendChild(nuevaPaginaFirma);
+            container.appendChild(nuevaPagina);
+            let nuevaPaginaFinal = crearPaginaFinal(paginasItems.length + 1, paginasItems.length + 1);
+            nuevaPaginaFinal.classList.add('final-page');
+            container.appendChild(nuevaPaginaFinal);
         }
         
         actualizarNumerosPagina();
         cargarLogosEnPaginas();
         cargarFirmasEnPaginas();
-        actualizarFechasEnPaginas();
+        sincronizarDatosPaginas();
         calcularTotalesGlobales();
+    }
+
+    function sincronizarDatosPaginas() {
+        let numCot = document.getElementById('numCot')?.value;
+        let fecha = document.getElementById('fecha')?.value;
+        let fechaValidez = document.getElementById('fechaValidez')?.value;
+        let moneda = document.getElementById('moneda')?.value;
+        let direccion = document.getElementById('direccionEmpresa')?.value;
+        
+        let pages = document.querySelectorAll('.a4-page');
+        pages.forEach(page => {
+            let numCotInput = page.querySelector('#numCot');
+            let fechaInput = page.querySelector('#fecha');
+            let validezInput = page.querySelector('#fechaValidez');
+            let monedaSelect = page.querySelector('#moneda');
+            let direccionInput = page.querySelector('#direccionEmpresa');
+            
+            if (numCotInput && numCot && !numCotInput.value) numCotInput.value = numCot;
+            if (fechaInput && fecha && !fechaInput.value) fechaInput.value = fecha;
+            if (validezInput && fechaValidez && !validezInput.value) validezInput.value = fechaValidez;
+            if (monedaSelect && moneda && !monedaSelect.value) monedaSelect.value = moneda;
+            if (direccionInput && direccion && !direccionInput.value) direccionInput.value = direccion;
+        });
     }
 
     function cargarLogosEnPaginas() {
@@ -1286,45 +1290,24 @@
         if (firmaDigitalHTML) digitalInfos.forEach(info => info.innerHTML = firmaDigitalHTML);
     }
 
-    function actualizarFechasEnPaginas() {
-        let fecha = document.getElementById('fecha')?.value;
-        let fechaValidez = document.getElementById('fechaValidez')?.value;
-        let moneda = document.getElementById('moneda')?.value;
-        
-        let pages = document.querySelectorAll('.a4-page');
-        pages.forEach(page => {
-            let fechaInput = page.querySelector('#fecha');
-            let validezInput = page.querySelector('#fechaValidez');
-            let monedaSelect = page.querySelector('#moneda');
-            if (fechaInput && fecha && !fechaInput.value) fechaInput.value = fecha;
-            if (validezInput && fechaValidez && !validezInput.value) validezInput.value = fechaValidez;
-            if (monedaSelect && moneda && !monedaSelect.value) monedaSelect.value = moneda;
-            
-            let printDateSpan = page.querySelector('#printDate');
-            if (printDateSpan) {
-                let ahora = new Date();
-                let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
-                printDateSpan.innerText = fechaStr;
-            }
-        });
-    }
-
     function nuevaCotizacion() {
         if (confirm('¿Crear nueva cotización?')) {
             let container = document.getElementById('pagesContainer');
             container.innerHTML = '';
             
             let paginaPrincipal = crearPaginaPrincipal(1, 2);
-            let paginaFirma = crearPaginaFirma(2, 2);
+            let paginaFinal = crearPaginaFinal(2, 2);
+            paginaFinal.classList.add('final-page');
             
             container.appendChild(paginaPrincipal);
-            container.appendChild(paginaFirma);
+            container.appendChild(paginaFinal);
             
             agregarItemEnPagina(paginaPrincipal.querySelector('.add-item-btn'));
             
             actualizarNumerosPagina();
             cargarLogosEnPaginas();
             cargarFirmasEnPaginas();
+            actualizarFechasImpresion();
             calcularTotalesGlobales();
         }
     }
@@ -1392,15 +1375,15 @@
     function generarFirmaDigital() {
         let fechaActual = new Date();
         let fechaStr = fechaActual.toLocaleDateString('es-ES');
-        let horaStr = fechaActual.toLocaleTimeString('es-ES');
+        let horaStr = fechaActual.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
         
         let firmaDigitalHTML = `
-            <div style="font-family:'Arial Narrow'; font-size:9px; text-align:left; margin-top:8px; padding:6px; border-top:1px solid #c0d4e5;">
+            <div style="font-family:'Arial Narrow'; font-size:8px; text-align:left; margin-top:6px; padding:5px; border-top:1px solid #c0d4e5;">
                 <strong>FIRMA DIGITAL AUTORIZADA</strong><br>
                 YURI HERMOZA PUELLES<br>
                 DNI: 61736503<br>
                 Fecha: ${fechaStr} - ${horaStr}<br>
-                <em>Autorización legal según Ley N° 27269 - Ley de Firmas Digitales</em>
+                <em>Autorización legal Ley N° 27269</em>
             </div>
         `;
         
@@ -1434,26 +1417,28 @@
         let numCot = document.getElementById('numCot')?.value || '0000';
         let container = document.getElementById('pagesContainer').cloneNode(true);
         
+        // Convertir textareas a divs
         let textareas = container.querySelectorAll('textarea');
         textareas.forEach(ta => {
             let div = document.createElement('div');
             div.style.whiteSpace = 'pre-wrap';
             div.style.wordWrap = 'break-word';
             div.style.fontFamily = 'Arial Narrow';
-            div.style.fontSize = '10px';
-            div.style.padding = '4px';
-            div.style.minHeight = '45px';
+            div.style.fontSize = '9px';
+            div.style.padding = '3px';
+            div.style.minHeight = '40px';
             div.innerText = ta.value;
             ta.parentNode.replaceChild(div, ta);
         });
         
+        // Ocultar botones
         let buttons = container.querySelectorAll('.logo-buttons, .firma-fisica button, .firma-digital button, .delete-item, .add-item-btn');
         buttons.forEach(btn => { if(btn) btn.style.display = 'none'; });
         
         container.classList.add('pdf');
         
         const opt = {
-            margin: [0.5, 0.5, 0.5, 0.5],
+            margin: [0.4, 0.4, 0.4, 0.4],
             filename: `Cotizacion_${numCot}_${cliente.replace(/[^a-z0-9]/gi, '_')}.pdf`,
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, useCORS: true, letterRendering: true },
@@ -1472,9 +1457,9 @@
             div.style.whiteSpace = 'pre-wrap';
             div.style.wordWrap = 'break-word';
             div.style.fontFamily = 'Arial Narrow';
-            div.style.fontSize = '10px';
-            div.style.padding = '4px';
-            div.style.minHeight = '45px';
+            div.style.fontSize = '9px';
+            div.style.padding = '3px';
+            div.style.minHeight = '40px';
             div.innerText = ta.value;
             ta.parentNode.replaceChild(div, ta);
         });
@@ -1609,11 +1594,11 @@
                         cot.items.forEach((item, idx) => {
                             let fila = document.createElement('tr');
                             fila.innerHTML = `<td style="text-align:center">${idx+1}</td>
-                                               <td><textarea rows="2" style="width:100%; min-height:45px;">${escapeHtml(item.desc || '')}</textarea></td>
-                                               <td><input type="number" value="${item.cant || 0}" onchange="calcularTotalesGlobales()"></td>
-                                               <td><input type="number" value="${item.precio || 0}" onchange="calcularTotalesGlobales()"></td>
-                                              <td class="subtotal-cell" style="text-align:right;">${item.subtotal || '0.00'}</td>
-                                              <td><button class="delete-item" onclick="eliminarItemDePagina(this)">X</button></td>`;
+                                                <td><textarea rows="2" style="width:100%; min-height:40px;">${escapeHtml(item.desc || '')}</textarea></td>
+                                                <td><input type="number" value="${item.cant || 0}" onchange="calcularTotalesGlobales()"></td>
+                                                <td><input type="number" value="${item.precio || 0}" onchange="calcularTotalesGlobales()"></td>
+                                                <td class="subtotal-cell" style="text-align:right;">${item.subtotal || '0.00'}</td>
+                                                <td><button class="delete-item" onclick="eliminarItemDePagina(this)">X</button></td>`;
                             tbody.appendChild(fila);
                         });
                     }
