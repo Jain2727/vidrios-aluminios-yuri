@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Vidrios y Aluminios Yuri | Sistema de Cotizaciones</title>
+    <title>Cotizador Online | Crea Cotizaciones Profesionales en PDF</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
@@ -13,875 +13,850 @@
         }
 
         body {
-            font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #e8f0f8 0%, #d4e4f0 100%);
-            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
+            background: #f5f7fa;
+            color: #1e293b;
         }
 
-        /* LOGIN */
-        #login {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #1a4a6f 0%, #0d2b45 100%);
-            padding: 20px;
-        }
-        .loginBox {
-            background: white;
-            padding: 40px 35px;
-            width: 420px;
-            max-width: 100%;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-            text-align: center;
-        }
-        .loginBox h3 {
-            font-family: 'Arial Narrow', sans-serif;
-            font-size: 26px;
-            font-weight: 800;
-            color: #1a4a6f;
-            margin-bottom: 10px;
-        }
-        .loginBox .subtitle {
-            font-size: 13px;
-            color: #6c8daa;
-            margin-bottom: 25px;
-        }
-        .login-tabs {
-            display: flex;
-            gap: 5px;
-            background: #f0f4f8;
-            border-radius: 50px;
-            padding: 5px;
-            margin-bottom: 25px;
-        }
-        .login-tab {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            border-radius: 40px;
-            font-family: 'Arial Narrow', sans-serif;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            color: #5a7a9a;
-        }
-        .login-tab.active {
-            background: #1a4a6f;
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
             color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .login-form {
-            display: none;
-            text-align: left;
-        }
-        .login-form.active {
-            display: block;
-        }
-        .login-form input {
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-            border: 1px solid #c0d4e5;
-            border-radius: 12px;
-            font-family: 'Arial Narrow', sans-serif;
-            font-size: 15px;
-        }
-        .password-wrapper {
-            position: relative;
-        }
-        .password-wrapper input {
-            padding-right: 70px;
-        }
-        .toggle-password {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #1a4a6f;
-            font-size: 12px;
-            background: none;
-            border: none;
-        }
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background: #1a4a6f;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-family: 'Arial Narrow', sans-serif;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .btn-login:hover {
-            background: #0d3b5a;
-        }
-        .btn-verify {
-            background: #28a745;
-        }
-        .btn-verify:hover {
-            background: #218838;
-        }
-        .code-group {
-            display: none;
-            margin-top: 10px;
-        }
-        .error-msg {
-            color: #d32f2f;
-            font-size: 13px;
-            margin-top: 10px;
-            text-align: center;
-        }
-        .success-msg {
-            color: #28a745;
-            font-size: 13px;
-            margin-top: 10px;
-            text-align: center;
-        }
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-            color: #aaa;
-            font-size: 12px;
-        }
-        .divider::before, .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #ddd;
-        }
-        .divider span {
-            padding: 0 10px;
-        }
-
-        /* APP */
-        #app {
-            display: none;
+        .header-content {
             max-width: 1400px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-        .dashboard-header {
-            background: white;
-            border-radius: 16px;
-            padding: 15px 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-        }
-        .dashboard-header h2 {
-            font-family: 'Arial Narrow', sans-serif;
-            font-weight: 700;
-            color: #1a4a6f;
-        }
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Arial Narrow', sans-serif;
-            font-size: 14px;
-        }
-        .btn-primary { background: #1a4a6f; color: white; }
-        .btn-primary:hover { background: #0d3b5a; }
-        .btn-success { background: #28a745; color: white; }
-        .btn-success:hover { background: #218838; }
-        .btn-warning { background: #ffc107; color: #333; }
-        .btn-warning:hover { background: #e0a800; }
-        .btn-secondary { background: #6c757d; color: white; }
-        .btn-secondary:hover { background: #5a6268; }
-
-        .workspace {
-            display: flex;
-            gap: 25px;
-            flex-wrap: wrap;
-        }
-        .quote-area {
-            flex: 2.5;
-            min-width: 320px;
-        }
-        .history-area {
-            flex: 1;
-            min-width: 260px;
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            height: fit-content;
-        }
-        .history-area h3 {
-            font-family: 'Arial Narrow', sans-serif;
-            font-weight: 700;
-            color: #1a4a6f;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 8px;
-        }
-        .history-item {
-            background: #f8f9fa;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            font-size: 13px;
-            border-left: 4px solid #1a4a6f;
-            cursor: pointer;
-        }
-        .history-item:hover {
-            background: #e9ecef;
-        }
-
-        /* HOJA A4 */
-        #a4 {
-            background: white;
-            width: 100%;
-            max-width: 210mm;
-            margin: 0 auto;
-            padding: 12mm 15mm;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-radius: 4px;
-            position: relative;
-            font-family: 'Arial Narrow', 'Segoe UI', sans-serif;
-        }
-        #a4::before {
-            content: "VIDRIOS Y ALUMINIOS YURI";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-25deg);
-            font-size: 55px;
-            font-family: 'Arial Narrow', sans-serif;
-            font-weight: bold;
-            color: rgba(26, 74, 111, 0.045);
-            pointer-events: none;
-            z-index: 0;
-            white-space: nowrap;
-            letter-spacing: 5px;
-        }
-        .header {
-            text-align: center;
-            position: relative;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #c0d4e5;
-            z-index: 1;
-            background: white;
+            gap: 1rem;
         }
         .logo {
-            position: absolute;
-            top: 0;
-            width: 75px;
-            max-height: 70px;
-            object-fit: contain;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-1px);
+        }
+        .btn-primary {
             background: white;
-            padding: 4px;
+            color: #4f46e5;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+        }
+
+        /* Editor Panel */
+        .editor-panel {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+        .editor-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .editor-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #64748b;
+        }
+        .editor-tab.active {
+            color: #4f46e5;
+            border-bottom: 2px solid #4f46e5;
+            background: white;
+        }
+        .editor-content {
+            padding: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #334155;
+            font-size: 0.85rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+        }
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .items-list {
+            margin: 1.5rem 0;
+        }
+        .item-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 80px 100px 100px 40px;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: #f8fafc;
             border-radius: 10px;
         }
-        .logo-left { left: 0; }
-        .logo-right { right: 0; }
-        .logo-buttons {
-            position: absolute;
-            top: 75px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            z-index: 3;
+        .item-row.header {
+            background: #e2e8f0;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #475569;
         }
-        .logo-buttons button, .firma-container button {
-            background: #e8f0f8;
-            color: #1a4a6f;
-            padding: 3px 14px;
-            font-size: 11px;
-            border: 1px solid #c0d4e5;
-            border-radius: 15px;
-        }
-        .company-name {
-            font-size: 28px;
-            font-family: 'Arial Narrow', sans-serif;
-            font-weight: 800;
-            color: #1a4a6f;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-        .slogan {
-            font-size: 12px;
-            font-family: 'Arial Narrow', sans-serif;
-            font-style: italic;
-            color: #5a8aae;
-            margin-top: 3px;
-        }
-        .company-owner {
-            font-size: 13px;
-            color: #5a6e7a;
-        }
-        .company-ruc {
-            font-weight: bold;
-            font-size: 12px;
-            color: #5a6e7a;
-            margin: 5px 0;
-        }
-        .direccion input {
-            text-align: center;
-            background: #fefcf7;
-            border: 1px solid #c0d4e5;
-            border-radius: 20px;
-            padding: 5px 15px;
+        .item-row input, .item-row textarea {
             width: 100%;
-            font-family: 'Arial Narrow', sans-serif;
+            padding: 0.4rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-family: inherit;
         }
-        .editable {
-            border: 1px solid #c0d4e5;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-family: 'Arial Narrow', sans-serif;
-            background: #fffefb;
-        }
-        .dates-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 15px 0;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .dates-row div {
-            background: #f8fafc;
-            padding: 5px 12px;
-            border-radius: 20px;
-            border: 1px solid #c0d4e5;
-        }
-        .dates-row b {
-            font-weight: 700;
-            color: #1a4a6f;
-            margin-right: 6px;
-        }
-        .client-card {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin: 15px 0;
-            border: 1px solid #c0d4e5;
-            z-index: 1;
-            position: relative;
-        }
-        .client-card h4 {
-            font-weight: 700;
-            color: #1a4a6f;
-            margin-bottom: 12px;
-        }
-        .campo {
-            display: flex;
-            margin-bottom: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .campo label {
-            width: 120px;
-            font-weight: 700;
-            color: #1a4a6f;
-            font-size: 13px;
-        }
-        .campo input {
-            flex: 1;
-            padding: 7px 14px;
-            border: 1px solid #c0d4e5;
-            border-radius: 20px;
-            font-family: 'Arial Narrow', sans-serif;
-        }
-        .items-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            z-index: 1;
-            position: relative;
-        }
-        .items-table th {
-            background: #1a4a6f;
-            color: white;
-            padding: 10px 6px;
-            font-weight: 700;
-            font-size: 13px;
-            text-align: center;
-        }
-        .items-table td {
-            border: 1px solid #c0d4e5;
-            padding: 8px 6px;
-            vertical-align: top;
-        }
-        .items-table textarea {
-            width: 100%;
-            border: none;
-            padding: 6px;
-            font-family: 'Arial Narrow', sans-serif;
-            font-size: 12px;
+        .item-row textarea {
             resize: vertical;
-            background: transparent;
             min-height: 50px;
         }
-        .items-table input {
-            width: 100%;
-            border: none;
-            padding: 8px 5px;
-            font-family: 'Arial Narrow', sans-serif;
-            text-align: center;
-        }
         .delete-item {
-            background: #dc3545;
+            background: #ef4444;
             color: white;
             border: none;
-            padding: 5px 10px;
             border-radius: 6px;
+            width: 30px;
+            height: 30px;
             cursor: pointer;
-            font-size: 12px;
+            font-weight: bold;
+        }
+        .delete-item:hover {
+            background: #dc2626;
+        }
+        .btn-add {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .btn-add:hover {
+            background: #4338ca;
         }
         .totals {
-            text-align: right;
-            margin-top: 15px;
-            padding: 15px 20px;
             background: #f8fafc;
+            padding: 1rem;
             border-radius: 12px;
-            border: 1px solid #c0d4e5;
-            z-index: 1;
-            position: relative;
+            margin-top: 1rem;
+            text-align: right;
         }
         .totals p {
-            margin: 5px 0;
-            font-size: 14px;
+            margin: 0.3rem 0;
         }
         .grand-total {
-            font-size: 20px;
+            font-size: 1.3rem;
             font-weight: 800;
-            color: #1a4a6f;
+            color: #4f46e5;
         }
         .igv-toggle {
             display: flex;
-            align-items: center;
             justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #c0d4e5;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
         }
-        .firma-container {
-            text-align: center;
-            margin: 20px 0;
+
+        /* Preview Panel */
+        .preview-panel {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            position: sticky;
+            top: 80px;
+            height: fit-content;
         }
-        .firma-img {
-            width: 160px;
-            max-height: 70px;
-            object-fit: contain;
-        }
-        .footer-pages {
-            margin-top: 25px;
-            padding-top: 12px;
-            border-top: 1px solid #c0d4e5;
-            font-size: 9px;
-            color: #7a9aba;
+        .preview-header {
+            background: #f8fafc;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
-            z-index: 1;
+            align-items: center;
+        }
+        .preview-header h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .preview-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .preview-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.3rem;
+        }
+        .preview-content {
+            padding: 1rem;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .quote-preview {
+            font-size: 12px;
             background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem;
         }
-        .footer-center-text {
+        .quote-preview .header-preview {
             text-align: center;
-            margin-top: 10px;
-            font-size: 9px;
-            color: #7a9aba;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
         }
-        #preview {
+        .quote-preview .company-name-preview {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        .quote-preview .logo-preview {
+            max-width: 60px;
+            margin: 0 auto;
+        }
+        .quote-preview table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+        .quote-preview th, .quote-preview td {
+            border: 1px solid #e2e8f0;
+            padding: 0.3rem;
+            text-align: left;
+        }
+        .quote-preview th {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+        .totals-preview {
+            text-align: right;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* Historial */
+        .historial-panel {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+        .historial-panel h3 {
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+        .historial-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .historial-item {
+            background: #f8fafc;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid #4f46e5;
+        }
+        .historial-item:hover {
+            background: #eef2ff;
+            transform: translateX(3px);
+        }
+
+        /* Modal Preview */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.8);
             z-index: 1000;
             overflow: auto;
-            padding: 30px;
+            padding: 2rem;
         }
-        .previewA4 {
-            background: white;
-            width: 210mm;
+        .modal-content {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 12mm;
-        }
-        .close-preview {
-            position: fixed;
-            top: 20px;
-            right: 30px;
             background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .close-modal {
+            background: none;
             border: none;
-            font-size: 20px;
-            border-radius: 50%;
-            padding: 8px 18px;
+            font-size: 1.5rem;
             cursor: pointer;
-            font-weight: bold;
-            z-index: 1001;
         }
-        .pdf button, .pdf .logo-buttons, .pdf .firma-container button {
-            display: none !important;
+
+        /* Utilities */
+        .hidden {
+            display: none;
         }
-        .pdf input, .pdf textarea, .pdf .editable {
-            border: none !important;
-            padding: 2px !important;
-        }
-        @media (max-width: 800px) {
-            .company-name { font-size: 22px; }
-            .logo { width: 55px; }
-            .logo-buttons { top: 60px; }
+        @media (max-width: 900px) {
+            .main-container { grid-template-columns: 1fr; }
+            .editor-panel, .preview-panel { position: static; }
         }
     </style>
 </head>
 <body>
-
-<div id="login">
-    <div class="loginBox">
-        <h3>VIDRIOS Y ALUMINIOS YURI</h3>
-        <div class="subtitle">Sistema de Cotizaciones Profesional</div>
-        
-        <div class="login-tabs">
-            <button class="login-tab active" onclick="mostrarFormulario('ruc')">RUC</button>
-            <button class="login-tab" onclick="mostrarFormulario('celular')">Celular</button>
-            <button class="login-tab" onclick="mostrarFormulario('codigo')">Código SMS</button>
-        </div>
-        
-        <div id="form-ruc" class="login-form active">
-            <input type="text" id="rucInput" placeholder="RUC / Usuario" autocomplete="off">
-            <div class="password-wrapper">
-                <input type="password" id="passRuc" placeholder="Contraseña">
-                <button type="button" class="toggle-password" onclick="togglePassword('passRuc', this)">Mostrar</button>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">📄</div>
+                <span>Cotizadora<span style="font-weight:400">Online</span></span>
             </div>
-            <button class="btn-login" onclick="loginRuc()">Ingresar con RUC</button>
-        </div>
-        
-        <div id="form-celular" class="login-form">
-            <input type="tel" id="celularInput" placeholder="Número de celular" autocomplete="off">
-            <div class="password-wrapper">
-                <input type="password" id="passCel" placeholder="Contraseña">
-                <button type="button" class="toggle-password" onclick="togglePassword('passCel', this)">Mostrar</button>
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="document.getElementById('editor').scrollIntoView({behavior:'smooth'})">Editor</button>
+                <button class="nav-btn" onclick="mostrarHistorial()">Historial</button>
+                <button class="btn-primary" onclick="descargarPDFDirecto()">Descargar PDF</button>
             </div>
-            <button class="btn-login" onclick="loginCelular()">Ingresar con Celular</button>
-        </div>
-        
-        <div id="form-codigo" class="login-form">
-            <input type="tel" id="celularCodeInput" placeholder="Número de celular" autocomplete="off">
-            <button class="btn-login btn-verify" onclick="enviarCodigo()">Enviar código SMS</button>
-            <div id="codeGroup" class="code-group">
-                <input type="text" id="codigoInput" placeholder="Código de 6 dígitos" maxlength="6">
-                <button class="btn-login" onclick="verificarCodigo()">Verificar y acceder</button>
-            </div>
-        </div>
-        
-        <div class="divider"><span>o</span></div>
-        <div style="text-align: center; font-size: 12px; color: #6c8daa;">¿Necesitas ayuda? Contacta con el administrador</div>
-        <div id="loginError" class="error-msg"></div>
-        <div id="loginSuccess" class="success-msg"></div>
-    </div>
-</div>
-
-<div id="app">
-    <div class="dashboard-header">
-        <h2>Sistema de Cotizaciones</h2>
-        <div class="btn-group">
-            <button class="btn btn-primary" onclick="vistaPrevia()">Vista Previa</button>
-            <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
-            <button class="btn btn-warning" onclick="guardarCotizacion()">Guardar</button>
-            <button class="btn btn-secondary" onclick="nuevaCotizacion()">Nueva Cotización</button>
         </div>
     </div>
 
-    <div class="workspace">
-        <div class="quote-area">
-            <div id="a4">
-                <div class="header">
-                    <img id="logo1" class="logo logo-left" style="display:none">
-                    <img id="logo2" class="logo logo-right" style="display:none">
-                    <div class="logo-buttons">
-                        <button onclick="subirLogo('logo1')">Subir Logo Izquierdo</button>
-                        <button onclick="subirLogo('logo2')">Subir Logo Derecho</button>
+    <div class="main-container" id="editor">
+        <div class="editor-panel">
+            <div class="editor-tabs">
+                <div class="editor-tab active" data-tab="datos" onclick="cambiarTab('datos')">Datos de Empresa</div>
+                <div class="editor-tab" data-tab="cliente" onclick="cambiarTab('cliente')">Datos del Cliente</div>
+                <div class="editor-tab" data-tab="items" onclick="cambiarTab('items')">Items</div>
+            </div>
+            <div id="tab-datos" class="editor-content">
+                <div class="form-group">
+                    <label>Nombre de la empresa</label>
+                    <input type="text" id="empresaNombre" placeholder="Tu empresa" value="VIDRIOS Y ALUMINIOS YURI">
+                </div>
+                <div class="form-group">
+                    <label>RUC / NIT</label>
+                    <input type="text" id="empresaRuc" placeholder="RUC" value="10617365036">
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <input type="text" id="empresaDireccion" placeholder="Dirección" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" id="empresaTelefono" placeholder="Teléfono" value="993963381">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="empresaEmail" placeholder="Email" value="hermozayurihermozapuelles@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label>Logo (opcional)</label>
+                    <input type="file" id="logoUpload" accept="image/*" onchange="subirLogo()">
+                    <img id="logoPreview" style="max-width: 100px; margin-top: 0.5rem; display: none;">
+                </div>
+            </div>
+            <div id="tab-cliente" class="editor-content hidden">
+                <div class="form-group">
+                    <label>Nombre del cliente</label>
+                    <input type="text" id="clienteNombre" placeholder="Nombre del cliente">
+                </div>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>DNI / RUC</label>
+                        <input type="text" id="clienteDoc" placeholder="DNI/RUC">
                     </div>
-                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
-                    <div class="slogan">Calidad y transparencia en cada detalle</div>
-                    <div class="company-owner">YURI HERMOZA PUELLES</div>
-                    <div class="company-ruc">RUC: 10617365036</div>
-                    <div class="direccion">
-                        <input class="editable" id="direccionEmpresa" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" id="clienteTelefono" placeholder="Teléfono">
                     </div>
                 </div>
-
-                <div class="dates-row">
-                    <div><b>Cotización N°</b> <input id="numCot" class="editable" style="width:130px"></div>
-                    <div><b>Fecha Emisión</b> <input type="date" id="fecha" class="editable"></div>
-                    <div><b>Fecha Validez</b> <input type="date" id="fechaValidez" class="editable"></div>
-                    <div><b>Moneda</b>
-                        <select id="moneda" class="editable" onchange="calcular()">
-                            <option value="PEN">Soles S/</option>
-                            <option value="USD">Dólares USD $</option>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <input type="text" id="clienteDireccion" placeholder="Dirección">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="clienteEmail" placeholder="Email">
+                </div>
+            </div>
+            <div id="tab-items" class="editor-content hidden">
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>N° Cotización</label>
+                        <input type="text" id="numCotizacion" placeholder="Número">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <input type="date" id="fechaCotizacion">
+                    </div>
+                </div>
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Vigencia (días)</label>
+                        <input type="number" id="vigencia" value="15">
+                    </div>
+                    <div class="form-group">
+                        <label>Moneda</label>
+                        <select id="moneda" onchange="actualizarPreview()">
+                            <option value="PEN">Soles (S/)</option>
+                            <option value="USD">Dólares ($)</option>
+                            <option value="MXN">Pesos Mexicanos ($)</option>
+                            <option value="COP">Pesos Colombianos ($)</option>
+                            <option value="CLP">Pesos Chilenos ($)</option>
+                            <option value="ARS">Pesos Argentinos ($)</option>
                         </select>
                     </div>
                 </div>
-
-                <div class="client-card">
-                    <h4>DATOS DEL CLIENTE</h4>
-                    <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable"></div>
-                    <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable"></div>
-                    <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable"></div>
-                    <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable"></div>
+                <div class="items-list">
+                    <div class="item-row header">
+                        <div>#</div>
+                        <div>Descripción</div>
+                        <div>Cantidad</div>
+                        <div>Precio Unit.</div>
+                        <div>Subtotal</div>
+                        <div></div>
+                    </div>
+                    <div id="items-container"></div>
                 </div>
-
-                <table class="items-table" id="tabla">
-                    <thead>
-                        <tr><th style="width:5%">#</th><th style="width:40%">Descripción</th><th style="width:10%">Cantidad</th><th style="width:15%">Precio Unitario</th><th style="width:15%">Subtotal</th><th style="width:8%"></th></tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-                <button class="btn btn-primary" style="margin:5px 0" onclick="agregarItem()">+ Agregar Item</button>
-
+                <button class="btn-add" onclick="agregarItem()">+ Agregar Item</button>
                 <div class="totals">
                     <div class="igv-toggle">
-                        <input type="checkbox" id="incluirIGV" checked onchange="calcular()">
-                        <label for="incluirIGV">Incluir IGV (18%)</label>
+                        <label for="incluirIGV">Incluir IGV/IVA</label>
+                        <input type="checkbox" id="incluirIGV" checked onchange="actualizarPreview()">
                     </div>
-                    <p>Costo Neto: <span id="costo">0.00</span></p>
-                    <p id="igvLine">IGV (18%): <span id="igv">0.00</span></p>
+                    <p>Subtotal: <span id="subtotal">0.00</span></p>
+                    <p id="igvLine">IGV/IVA (18%): <span id="igvMonto">0.00</span></p>
                     <p class="grand-total">Total: <span id="total">0.00</span></p>
                 </div>
-
-                <div style="margin-top:15px; font-size:12px; padding:10px; background:#f8fafc; border-radius:10px;">
-                    <b>Método de pago</b><br>
-                    Cuenta BCP: 52671107164027 | CCI: 00252617110716402721
-                </div>
-
-                <div class="firma-container">
-                    <img id="firmaImg" class="firma-img" style="display:none">
-                    <br>
-                    <button onclick="subirFirma()">Subir Firma / Sello</button>
-                </div>
-
-                <div class="footer-pages">
-                    <span>CC.HACCA S/N OMACHÁ - PARURO - CUSCO</span>
-                    <span>Página <span id="pageNum">1</span> de <span id="totalPages">1</span></span>
-                    <span class="print-date">Impresión: <span id="printDate"></span></span>
-                </div>
-                <div class="footer-center-text">
-                    hermozayurihermozapuelles@gmail.com | 993963381<br>
-                    <i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
+                <div class="form-group">
+                    <label>Notas / Términos</label>
+                    <textarea id="notas" rows="3" placeholder="Condiciones de pago, garantías, etc.">Cuenta BCP: 52671107164027 | CCI: 00252617110716402721</textarea>
                 </div>
             </div>
         </div>
 
-        <div class="history-area">
-            <h3>Historial de Cotizaciones</h3>
-            <div id="historial"></div>
-            <button class="btn btn-secondary" style="margin-top:15px; width:100%" onclick="exportarHistorial()">Exportar Historial</button>
+        <div class="preview-panel">
+            <div class="preview-header">
+                <h3>Vista Previa de Cotización</h3>
+                <div class="preview-actions">
+                    <button onclick="vistaPreviaCompleta()" title="Vista completa">👁️</button>
+                    <button onclick="descargarPDFDirecto()" title="Descargar PDF">📎</button>
+                </div>
+            </div>
+            <div class="preview-content">
+                <div id="previewCotizacion" class="quote-preview"></div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="preview">
-    <button class="close-preview" onclick="cerrarPreview()">✖ Cerrar</button>
-    <div id="previewContent" class="previewA4"></div>
-</div>
+    <div class="historial-panel" id="historialSection">
+        <h3>📋 Historial de Cotizaciones</h3>
+        <div id="historialList" class="historial-list"></div>
+        <button class="btn-add" style="margin-top:1rem" onclick="exportarHistorial()">Exportar Historial</button>
+    </div>
 
-<script>
-    // ========== CREDENCIALES ==========
-    const USUARIO_RUC = "10617365036";
-    const USUARIO_CELULAR = "993963381";
-    const CONTRASENA = "yuri2026";
-    let codigoEnviado = null;
+    <div id="modalPreview" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Vista previa de cotización</h3>
+                <button class="close-modal" onclick="cerrarModal()">✖</button>
+            </div>
+            <div id="modalContent"></div>
+            <button class="btn-primary" style="margin-top:1rem; width:100%" onclick="descargarPDFDirecto()">Descargar PDF</button>
+        </div>
+    </div>
 
-    // ========== FUNCIONES DEL LOGIN ==========
-    function mostrarFormulario(tipo) {
-        document.querySelectorAll('.login-tab').forEach(tab => tab.classList.remove('active'));
-        event.target.classList.add('active');
-        document.querySelectorAll('.login-form').forEach(form => form.classList.remove('active'));
-        document.getElementById(`form-${tipo}`).classList.add('active');
-        document.getElementById('loginError').innerText = '';
-        document.getElementById('loginSuccess').innerText = '';
-    }
+    <script>
+        // Variables globales
+        let items = [];
+        let cotizaciones = JSON.parse(localStorage.getItem('cotizaciones') || '[]');
+        let logoBase64 = localStorage.getItem('logoBase64') || null;
 
-    function togglePassword(inputId, btn) {
-        let passInput = document.getElementById(inputId);
-        if (passInput.type === 'password') {
-            passInput.type = 'text';
-            btn.textContent = 'Ocultar';
-        } else {
-            passInput.type = 'password';
-            btn.textContent = 'Mostrar';
+        // Inicialización
+        function init() {
+            generarNumeroCotizacion();
+            document.getElementById('fechaCotizacion').valueAsDate = new Date();
+            cargarLogoGuardado();
+            agregarItem();
+            actualizarPreview();
+            cargarHistorial();
         }
-    }
 
-    function loginRuc() {
-        let ruc = document.getElementById('rucInput').value.trim();
-        let pass = document.getElementById('passRuc').value.trim();
-        if (ruc === USUARIO_RUC && pass === CONTRASENA) {
-            ingresarAlSistema();
-        } else {
-            document.getElementById('loginError').innerText = 'RUC o Contraseña incorrectos';
+        function generarNumeroCotizacion() {
+            let contador = parseInt(localStorage.getItem('contador')) || 0;
+            contador++;
+            localStorage.setItem('contador', contador);
+            document.getElementById('numCotizacion').value = String(contador).padStart(4, '0') + '-' + new Date().getFullYear();
         }
-    }
 
-    function loginCelular() {
-        let celular = document.getElementById('celularInput').value.trim();
-        let pass = document.getElementById('passCel').value.trim();
-        if (celular === USUARIO_CELULAR && pass === CONTRASENA) {
-            ingresarAlSistema();
-        } else {
-            document.getElementById('loginError').innerText = 'Celular o Contraseña incorrectos';
+        function cargarLogoGuardado() {
+            if (logoBase64) {
+                document.getElementById('logoPreview').src = logoBase64;
+                document.getElementById('logoPreview').style.display = 'block';
+            }
         }
-    }
 
-    function enviarCodigo() {
-        let celular = document.getElementById('celularCodeInput').value.trim();
-        if (celular !== USUARIO_CELULAR) {
-            document.getElementById('loginError').innerText = 'Número de celular no registrado';
-            return;
+        function subirLogo() {
+            const file = document.getElementById('logoUpload').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoBase64 = e.target.result;
+                    localStorage.setItem('logoBase64', logoBase64);
+                    document.getElementById('logoPreview').src = logoBase64;
+                    document.getElementById('logoPreview').style.display = 'block';
+                    actualizarPreview();
+                };
+                reader.readAsDataURL(file);
+            }
         }
-        codigoEnviado = '123456';
-        document.getElementById('codeGroup').style.display = 'block';
-        document.getElementById('loginSuccess').innerHTML = 'Código enviado: 123456 (simulado)';
-        document.getElementById('loginError').innerText = '';
-        document.getElementById('codigoInput').value = '';
-    }
 
-    function verificarCodigo() {
-        let codigo = document.getElementById('codigoInput').value.trim();
-        if (!codigoEnviado) {
-            document.getElementById('loginError').innerText = 'Primero solicita un código';
-            return;
+        function agregarItem() {
+            items.push({
+                descripcion: '',
+                cantidad: 1,
+                precio: 0,
+                subtotal: 0
+            });
+            renderItems();
         }
-        if (codigo === codigoEnviado || codigo === '123456') {
-            ingresarAlSistema();
-        } else {
-            document.getElementById('loginError').innerText = 'Código incorrecto';
+
+        function eliminarItem(index) {
+            items.splice(index, 1);
+            renderItems();
         }
-    }
 
-    function ingresarAlSistema() {
-        document.getElementById('login').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        nuevaCotizacion();
-        cargarHistorial();
-        cargarImagenesGuardadas();
-        actualizarFechaImpresion();
-    }
+        function actualizarItem(index, campo, valor) {
+            items[index][campo] = campo === 'cantidad' || campo === 'precio' ? parseFloat(valor) || 0 : valor;
+            items[index].subtotal = items[index].cantidad * items[index].precio;
+            renderItems();
+            actualizarPreview();
+        }
 
-    // ========== FUNCIONES DEL COTIZADOR ==========
-    function actualizarFechaImpresion() {
-        let ahora = new Date();
-        let fechaStr = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById('printDate').innerText = fechaStr;
-    }
+        function renderItems() {
+            const container = document.getElementById('items-container');
+            container.innerHTML = '';
+            items.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.className = 'item-row';
+                row.innerHTML = `
+                    <div>${idx + 1}</div>
+                    <textarea placeholder="Descripción" onchange="actualizarItem(${idx}, 'descripcion', this.value)">${item.descripcion}</textarea>
+                    <input type="number" value="${item.cantidad}" step="1" min="0" onchange="actualizarItem(${idx}, 'cantidad', this.value)">
+                    <input type="number" value="${item.precio}" step="0.01" min="0" onchange="actualizarItem(${idx}, 'precio', this.value)">
+                    <div>${item.subtotal.toFixed(2)}</div>
+                    <button class="delete-item" onclick="eliminarItem(${idx})">✖</button>
+                `;
+                container.appendChild(row);
+            });
+            if (items.length === 0) agregarItem();
+        }
 
-    function generarNumero() {
-        let contador = parseInt(localStorage.getItem('contador')) || 0;
-        contador++;
-        localStorage.setItem('contador', contador);
-        return String(contador).padStart(4, '0') + '-' + new Date().getFullYear();
-    }
+        function calcularTotales() {
+            let subtotal = items.reduce((sum, item) => sum + item.subtotal, 0);
+            const incluirIGV = document.getElementById('incluirIGV').checked;
+            const igvPorcentaje = 18;
+            let igv = incluirIGV ? subtotal * (igvPorcentaje / 100) : 0;
+            let total = subtotal + igv;
+            const moneda = document.getElementById('moneda').value;
+            const simbolo = getSimboloMoneda(moneda);
+            document.getElementById('subtotal').innerHTML = simbolo + subtotal.toFixed(2);
+            document.getElementById('igvMonto').innerHTML = simbolo + igv.toFixed(2);
+            document.getElementById('total').innerHTML = simbolo + total.toFixed(2);
+            document.getElementById('igvLine').style.display = incluirIGV ? 'block' : 'none';
+            return { subtotal, igv, total, simbolo };
+        }
 
-    function nuevaCotizacion() {
-        document.getElementById('numCot').value = generarNumero();
-        let hoy = new Date();
-        document.getElementById('fecha').valueAsDate = hoy;
-        let validez = new Date();
-        validez.setDate(hoy.getDate() + 15);
-        document.getElementById('fechaValidez').valueAsDate = validez;
-        document.getElementById('moneda').value = 'PEN';
-        document.getElementById('incluirIGV').checked = true;
-        document.getElementById('clienteNombre').value = '';
-        document.getElementById('clienteDoc').value = '';
-        document.getElementById('clienteCel').value = '';
-        document.getElementById('clienteDir').value = '';
-        document.querySelector('#tabla tbody').innerHTML = '';
-        agregarItem();
-        calcular();
-        actualizarFechaImpresion();
-    }
+        function getSimboloMoneda(moneda) {
+            const simbolos = { PEN: 'S/ ', USD: '$ ', MXN: '$ ', COP: '$ ', CLP: '$ ', ARS: '$ ' };
+            return simbolos[moneda] || 'S/ ';
+        }
 
-    function agregarItem() {
-        let tbody = document.querySelector('#tabla tbody');
-        let rowCount = tbody.rows.length + 1;
-        let fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td style="text-align:center">${rowCount}</td>
-            <td><textarea rows="2" placeholder="Detalle del producto..."></textarea></td>
-            <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
-            <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
-            <td class="subtotal-cell" style="text-align:right; font-weight:600;">0.00</td>
-            <td style="text-align:center"><button class="delete-item" onclick="eliminarItem(this)">X</button></td>
-        `;
-        tbody.appendChild(fila);
-    }
+        function actualizarPreview() {
+            const { subtotal, igv, total, simbolo } = calcularTotales();
+            const empresa = {
+                nombre: document.getElementById('empresaNombre').value,
+                ruc: document.getElementById('empresaRuc').value,
+                direccion: document.getElementById('empresaDireccion').value,
+                telefono: document.getElementById('empresaTelefono').value,
+                email: document.getElementById('empresaEmail').value
+            };
+            const cliente = {
+                nombre: document.getElementById('clienteNombre').value,
+                documento: document.getElementById('clienteDoc').value,
+                telefono: document.getElementById('clienteTelefono').value,
+                direccion: document.getElementById('clienteDireccion').value,
+                email: document.getElementById('clienteEmail').value
+            };
+            const fecha = new Date(document.getElementById('fechaCotizacion').value);
+            const fechaValidez = new Date(fecha);
+            fechaValidez.setDate(fechaValidez.getDate() + parseInt(document.getElementById('vigencia').value || 0));
+            
+            let html = `
+                <div class="header-preview">
+                    ${logoBase64 ? `<img src="${logoBase64}" class="logo-preview" style="max-width:80px; margin-bottom:0.5rem">` : ''}
+                    <div class="company-name-preview">${empresa.nombre}</div>
+                    <div>RUC: ${empresa.ruc}</div>
+                    <div>${empresa.direccion}</div>
+                    <div>📞 ${empresa.telefono} | ✉ ${empresa.email}</div>
+                </div>
+                <div style="margin: 1rem 0">
+                    <strong>COTIZACIÓN N°:</strong> ${document.getElementById('numCotizacion').value}<br>
+                    <strong>Fecha de emisión:</strong> ${document.getElementById('fechaCotizacion').value}<br>
+                    <strong>Fecha de validez:</strong> ${fechaValidez.toISOString().split('T')[0]}
+                </div>
+                <div style="margin: 1rem 0; background:#f8fafc; padding:0.8rem; border-radius:8px">
+                    <strong>DATOS DEL CLIENTE</strong><br>
+                    ${cliente.nombre ? `Nombre: ${cliente.nombre}<br>` : ''}
+                    ${cliente.documento ? `DNI/RUC: ${cliente.documento}<br>` : ''}
+                    ${cliente.telefono ? `Teléfono: ${cliente.telefono}<br>` : ''}
+                    ${cliente.direccion ? `Dirección: ${cliente.direccion}<br>` : ''}
+                    ${cliente.email ? `Email: ${cliente.email}` : ''}
+                </div>
+                <table>
+                    <thead><tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th></tr></thead>
+                    <tbody>
+            `;
+            items.forEach((item, idx) => {
+                html += `<tr>
+                    <td>${idx + 1}</td>
+                    <td>${item.descripcion || '-'}</td>
+                    <td>${item.cantidad}</td>
+                    <td>${simbolo}${item.precio.toFixed(2)}</td>
+                    <td>${simbolo}${item.subtotal.toFixed(2)}</td>
+                </tr>`;
+            });
+            html += `
+                    </tbody>
+                </table>
+                <div class="totals-preview">
+                    <div>Subtotal: ${simbolo}${subtotal.toFixed(2)}</div>
+                    ${document.getElementById('incluirIGV').checked ? `<div>IGV/IVA (18%): ${simbolo}${igv.toFixed(2)}</div>` : ''}
+                    <div><strong>TOTAL: ${simbolo}${total.toFixed(2)}</strong></div>
+                </div>
+                <div style="margin-top:1rem; font-size:10px; color:#64748b">
+                    ${document.getElementById('notas').value.replace(/\n/g, '<br>')}
+                </div>
+                <div style="margin-top:1rem; text-align:center; font-size:10px; color:#94a3b8">
+                    CC.HACCA S/N OMACHÁ - PARURO - CUSCO | Todo lo puedo en Cristo que me fortalece - Filipenses 4:13
+                </div>
+            `;
+            document.getElementById('previewCotizacion').innerHTML = html;
+        }
 
-    function eliminarItem(boton) {
-        boton.closest('tr').remove();
-        renumerarItems();
-        calcular();
-    }
+        function vistaPreviaCompleta() {
+            const previewContent = document.getElementById('previewCotizacion').cloneNode(true);
+            document.getElementById('modalContent').innerHTML = '';
+            document.getElementById('modalContent').appendChild(previewContent);
+            document.getElementById('modalPreview').style.display = 'block';
+        }
 
-    function renumerarItems() {
-        let rows = document.querySelectorAll('#tabla tbody tr');
-        rows.forEach((row, idx) => { row.cells[0].innerText = idx + 1; });
-    }
+        function cerrarModal() {
+            document.getElementById('modalPreview').style.display = 'none';
+        }
 
-    function calcular() {
-        let subtotalGeneral = 0;
-        let filas = document.querySelectorAll('#tabla tbody tr');
-        filas.forEach(fila => {
-            let cantidad = parseFloat(fila.querySelector('td:nth-child(3) input').value) || 0;
-            let precio = parseFloat(fila.querySelector('td:nth-child(4) input').value) || 0;
-            let subtotal = cantidad * precio;
-            fila.querySelector('.subtotal-cell').innerText = subtotal.toFixed(2);
-            subtotalGeneral += subtotal;
+        function guardarCotizacion() {
+            const fecha = new Date();
+            const cotizacion = {
+                id: Date.now(),
+                numero: document.getElementById('numCotizacion').value,
+                fecha: document.getElementById('fechaCotizacion').value,
+                empresa: {
+                    nombre: document.getElementById('empresaNombre').value,
+                    ruc: document.getElementById('empresaRuc').value,
+                    direccion: document.getElementById('empresaDireccion').value
+                },
+                cliente: {
+                    nombre: document.getElementById('clienteNombre').value,
+                    documento: document.getElementById('clienteDoc').value,
+                    telefono: document.getElementById('clienteTelefono').value
+                },
+                items: items.map(i => ({ ...i })),
+                total: document.getElementById('total').innerText,
+                moneda: document.getElementById('moneda').value,
+                incluirIGV: document.getElementById('incluirIGV').checked,
+                notas: document.getElementById('notas').value,
+                fechaGuardado: fecha.toLocaleString()
+            };
+            cotizaciones.unshift(cotizacion);
+            localStorage.setItem('cotizaciones', JSON.stringify(cotizaciones));
+            cargarHistorial();
+            alert('Cotización guardada correctamente');
+        }
+
+        function cargarHistorial() {
+            const container = document.getElementById('historialList');
+            container.innerHTML = '';
+            if (cotizaciones.length === 0) {
+                container.innerHTML = '<p style="color:#94a3b8">No hay cotizaciones guardadas</p>';
+                return;
+            }
+            cotizaciones.slice(0, 20).forEach(cot => {
+                const div = document.createElement('div');
+                div.className = 'historial-item';
+                div.innerHTML = `
+                    <strong>${cot.numero}</strong> | ${cot.cliente.nombre || 'Cliente'} | ${cot.total}<br>
+                    <small>${cot.fecha || 'Sin fecha'}</small>
+                `;
+                div.onclick = () => cargarCotizacion(cot);
+                container.appendChild(div);
+            });
+        }
+
+        function cargarCotizacion(cot) {
+            document.getElementById('numCotizacion').value = cot.numero;
+            document.getElementById('fechaCotizacion').value = cot.fecha;
+            document.getElementById('empresaNombre').value = cot.empresa.nombre;
+            document.getElementById('empresaRuc').value = cot.empresa.ruc;
+            document.getElementById('empresaDireccion').value = cot.empresa.direccion;
+            document.getElementById('clienteNombre').value = cot.cliente.nombre || '';
+            document.getElementById('clienteDoc').value = cot.cliente.documento || '';
+            document.getElementById('clienteTelefono').value = cot.cliente.telefono || '';
+            document.getElementById('moneda').value = cot.moneda || 'PEN';
+            document.getElementById('incluirIGV').checked = cot.incluirIGV !== false;
+            document.getElementById('notas').value = cot.notas || '';
+            items = cot.items.map(i => ({ ...i }));
+            renderItems();
+            actualizarPreview();
+            alert('Cotización cargada correctamente');
+        }
+
+        function mostrarHistorial() {
+            document.getElementById('historialSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function exportarHistorial() {
+            const data = JSON.stringify(cotizaciones, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'historial_cotizaciones.json';
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        async function descargarPDFDirecto() {
+            const cliente = document.getElementById('clienteNombre').value || 'Cliente';
+            const numCot = document.getElementById('numCotizacion').value || '0000';
+            const previewDiv = document.getElementById('previewCotizacion').cloneNode(true);
+            previewDiv.style.padding = '20px';
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5],
+                filename: `Cotizacion_${numCot}_${cliente}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4' }
+            };
+            await html2pdf().set(opt).from(previewDiv).save();
+        }
+
+        function cambiarTab(tab) {
+            document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('tab-datos').classList.add('hidden');
+            document.getElementById('tab-cliente').classList.add('hidden');
+            document.getElementById('tab-items').classList.add('hidden');
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+        }
+
+        // Eventos
+        document.getElementById('incluirIGV').onchange = actualizarPreview;
+        document.getElementById('moneda').onchange = actualizarPreview;
+        document.querySelectorAll('#tab-items input, #tab-items select, #tab-items textarea').forEach(el => {
+            if (el.id !== 'items-container') el.onchange = actualizarPreview;
         });
-        let incluirIGV = document.getElementById('incluirIGV').checked;
-        let igv = incluirIGV ? (subtotalGeneral * 0.18) : 0;
-        let total = subtotalGeneral + igv;
-        let moneda = document.getElementById('moneda').value;
-        let simbolo = (moneda === 'PEN') ? 'S/ ' : '$ ';
-        document.getElementById('costo').innerHTML = simbolo + subtotalGeneral.toFixed(2);
-        document.getElementById('igv').innerHTML = simbolo + igv.toFixed(2);
-        document.getElementById('total').innerHTML = simbolo + total.toFixed(2);
-        document.getElementById('igvLine').style.display = incluirIGV ? 'block' : 'none';
-    }
+        document.querySelectorAll('#tab-datos input').forEach(el => el.onchange = actualizarPreview);
+        document.querySelectorAll('#tab-cliente input').forEach(el => el.onchange = actualizarPreview);
+        document.getElementById('notas').onchange = actualizarPreview;
+        document.getElementById('vigencia').onchange = actualizarPreview;
 
-    async function descargarPDF() {
-        let cliente = document.getElementById('clienteNombre').value || 'Cliente';
-        let numCot = document.getElementById('numCot').value || '0000';
-        let clon = document.getElementById('a4').cloneNode(true);
-        clon.classList.add('pdf');
-        let ahora = new Date();
-        let fechaImp = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
-        clon.querySelector('#printDate').innerText = fechaImp;
-        const opt = { margin: [0.5, 0.5, 0.5, 0.5], filename: `Cotizacion_${numCot}_${cliente}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'a4' } };
-        await html2pdf().set(opt).from(clon).save();
-    }
-
-    function vistaPrevia() {
-        let clon = document.getElementById('a4').cloneNode(true);
-        clon.classList.add('pdf');
-        document.getElementById('previewContent').innerHTML = '';
-        document.getElementById('previewContent').appendChild(clon);
-        document.getElementById('preview').style.display = 'block';
-    }
-
-    function cerrarPreview() {
-        document.getElementById('preview').style.display = 'none';
-   
+        // Guardado manual (Ctrl+S)
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                guard
