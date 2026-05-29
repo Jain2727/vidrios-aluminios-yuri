@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Cotizador Online | Crea Cotizaciones Profesionales en PDF</title>
+    <title>Sistema Profesional de Cotizaciones | Vidrios y Aluminios Yuri</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+        /* ========== ESTILOS PROFESIONALES (Inspirados en Brisk) ========== */
         * {
             margin: 0;
             padding: 0;
@@ -13,343 +14,320 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
-            background: #f5f7fa;
-            color: #1e293b;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        /* Login */
+        #login {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1f4e79 0%, #0d2b45 100%);
+        }
+        .loginBox {
+            background: white;
+            padding: 35px;
+            width: 380px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .loginBox h3 {
+            margin-bottom: 20px;
+            color: #1f4e79;
+        }
+        .loginBox input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .loginBox button {
+            width: 100%;
+            padding: 12px;
+            background: #1f4e79;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .loginBox button:hover {
+            background: #0d3b5a;
+        }
+        #error {
+            color: #d32f2f;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* App Container */
+        #app {
+            display: none;
+            max-width: 1300px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* Panel de Control (Header con botones) */
+        .dashboard-header {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #1f4e79;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0d3b5a;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #218838;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        /* Área de trabajo principal (Dos columnas: Cotización + Historial) */
+        .workspace {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        .quote-area {
+            flex: 2;
+            min-width: 300px;
+        }
+        .history-area {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        .history-area h3 {
+            color: #1f4e79;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
+        }
+        .history-item {
+            background: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            border-left: 3px solid #1f4e79;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .history-item:hover {
+            background: #e9ecef;
+        }
+
+        /* Hoja A4 (Formato de Cotización) */
+        #a4 {
+            background: white;
+            width: 100%;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 15mm 18mm;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            position: relative;
         }
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-            color: white;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px;
         }
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 800;
-            font-size: 1.3rem;
+            position: absolute;
+            top: 0;
+            width: 80px;
+            max-height: 80px;
+            object-fit: contain;
         }
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(255,255,255,0.2);
+        .logo-left { left: 0; }
+        .logo-right { right: 0; }
+        .company-name {
+            font-size: 24px;
+            color: #1f4e79;
+            margin-bottom: 5px;
+        }
+        .company-owner {
+            font-size: 14px;
+            color: #555;
+        }
+        .company-ruc {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .direccion {
+            margin-top: 8px;
+        }
+        .editable {
+            border: 1px solid #cbd5e0;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 13px;
+        }
+        .editable:focus {
+            outline: none;
+            border-color: #1f4e79;
+            box-shadow: 0 0 0 2px rgba(31,78,121,0.2);
+        }
+
+        /* Datos del Cliente (estilo Brisk) */
+        .client-card {
+            background: #f8fafc;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #e2e8f0;
         }
-        .nav-buttons {
+        .client-card h4 {
+            color: #1f4e79;
+            margin-bottom: 12px;
+        }
+        .campo {
             display: flex;
-            gap: 1rem;
+            margin-bottom: 10px;
+            align-items: center;
             flex-wrap: wrap;
         }
-        .nav-btn {
-            background: rgba(255,255,255,0.15);
-            border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .nav-btn:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateY(-1px);
-        }
-        .btn-primary {
-            background: white;
-            color: #4f46e5;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 8px;
+        .campo label {
+            width: 100px;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
+            font-size: 13px;
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        /* Main Container */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 2rem;
-        }
-
-        /* Editor Panel */
-        .editor-panel {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            overflow: hidden;
-            position: sticky;
-            top: 80px;
-            height: fit-content;
-        }
-        .editor-tabs {
-            display: flex;
-            border-bottom: 1px solid #e2e8f0;
-            background: #f8fafc;
-        }
-        .editor-tab {
+        .campo input {
             flex: 1;
-            padding: 1rem;
-            text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #64748b;
-        }
-        .editor-tab.active {
-            color: #4f46e5;
-            border-bottom: 2px solid #4f46e5;
-            background: white;
-        }
-        .editor-content {
-            padding: 1.5rem;
-        }
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-            color: #334155;
-            font-size: 0.85rem;
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 0.7rem 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            font-family: inherit;
-            transition: all 0.2s;
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
-        }
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        .items-list {
-            margin: 1.5rem 0;
-        }
-        .item-row {
-            display: grid;
-            grid-template-columns: 40px 1fr 80px 100px 100px 40px;
-            gap: 0.5rem;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            background: #f8fafc;
-            border-radius: 10px;
-        }
-        .item-row.header {
-            background: #e2e8f0;
-            font-weight: 600;
-            font-size: 0.8rem;
-            color: #475569;
-        }
-        .item-row input, .item-row textarea {
-            width: 100%;
-            padding: 0.4rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            font-family: inherit;
-        }
-        .item-row textarea {
-            resize: vertical;
-            min-height: 50px;
-        }
-        .delete-item {
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .delete-item:hover {
-            background: #dc2626;
-        }
-        .btn-add {
-            background: #4f46e5;
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 0.5rem;
-        }
-        .btn-add:hover {
-            background: #4338ca;
-        }
-        .totals {
-            background: #f8fafc;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-top: 1rem;
-            text-align: right;
-        }
-        .totals p {
-            margin: 0.3rem 0;
-        }
-        .grand-total {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #4f46e5;
-        }
-        .igv-toggle {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
+            min-width: 180px;
         }
 
-        /* Preview Panel */
-        .preview-panel {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            overflow: hidden;
-            position: sticky;
-            top: 80px;
-            height: fit-content;
-        }
-        .preview-header {
-            background: #f8fafc;
-            padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .preview-header h3 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        .preview-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .preview-actions button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2rem;
-            padding: 0.3rem;
-        }
-        .preview-content {
-            padding: 1rem;
-            max-height: 600px;
-            overflow-y: auto;
-        }
-        .quote-preview {
-            font-size: 12px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1rem;
-        }
-        .quote-preview .header-preview {
-            text-align: center;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .quote-preview .company-name-preview {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #1e293b;
-        }
-        .quote-preview .logo-preview {
-            max-width: 60px;
-            margin: 0 auto;
-        }
-        .quote-preview table {
+        /* Tabla de Items */
+        .items-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 10px;
+            margin: 15px 0;
         }
-        .quote-preview th, .quote-preview td {
-            border: 1px solid #e2e8f0;
-            padding: 0.3rem;
-            text-align: left;
-        }
-        .quote-preview th {
-            background: #f1f5f9;
+        .items-table th {
+            background: #1f4e79;
+            color: white;
+            padding: 10px 5px;
             font-weight: 600;
+            font-size: 13px;
+            text-align: center;
         }
-        .totals-preview {
-            text-align: right;
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid #e2e8f0;
+        .items-table td {
+            border: 1px solid #ddd;
+            padding: 8px 5px;
+            vertical-align: middle;
         }
-
-        /* Historial */
-        .historial-panel {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            margin-top: 2rem;
-            padding: 1.5rem;
+        .items-table input, .items-table textarea {
+            width: 100%;
+            border: none;
+            padding: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            background: transparent;
         }
-        .historial-panel h3 {
-            margin-bottom: 1rem;
-            color: #1e293b;
+        .items-table input:focus, .items-table textarea:focus {
+            outline: none;
+            background: #fef9e6;
         }
-        .historial-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .historial-item {
-            background: #f8fafc;
-            padding: 0.8rem;
-            border-radius: 10px;
-            margin-bottom: 0.5rem;
+        .delete-item {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.2s;
-            border-left: 3px solid #4f46e5;
+            font-size: 12px;
         }
-        .historial-item:hover {
-            background: #eef2ff;
-            transform: translateX(3px);
+        .delete-item:hover {
+            background: #c82333;
         }
 
-        /* Modal Preview */
-        .modal {
+        /* Totales */
+        .totals {
+            text-align: right;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .totals p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .totals .grand-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f4e79;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+
+        /* Preview Modal */
+        #preview {
             display: none;
             position: fixed;
             top: 0;
@@ -359,504 +337,445 @@
             background: rgba(0,0,0,0.8);
             z-index: 1000;
             overflow: auto;
-            padding: 2rem;
+            padding: 30px;
         }
-        .modal-content {
-            max-width: 800px;
-            margin: 0 auto;
+        .previewA4 {
             background: white;
-            border-radius: 20px;
-            padding: 1.5rem;
+            width: 210mm;
+            margin: 0 auto;
+            padding: 15mm;
         }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .close-modal {
-            background: none;
+        .close-preview {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            background: white;
             border: none;
-            font-size: 1.5rem;
+            font-size: 24px;
             cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 50%;
+            font-weight: bold;
         }
 
-        /* Utilities */
-        .hidden {
-            display: none;
+        /* Para PDF: quitar bordes y botones */
+        .pdf input, .pdf textarea, .pdf .editable {
+            border: none !important;
+            padding: 2px !important;
         }
-        @media (max-width: 900px) {
-            .main-container { grid-template-columns: 1fr; }
-            .editor-panel, .preview-panel { position: static; }
+        .pdf button {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .btn-group { width: 100%; justify-content: center; margin-bottom: 10px; }
+            .dashboard-header { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">📄</div>
-                <span>Cotizadora<span style="font-weight:400">Online</span></span>
-            </div>
-            <div class="nav-buttons">
-                <button class="nav-btn" onclick="document.getElementById('editor').scrollIntoView({behavior:'smooth'})">Editor</button>
-                <button class="nav-btn" onclick="mostrarHistorial()">Historial</button>
-                <button class="btn-primary" onclick="descargarPDFDirecto()">Descargar PDF</button>
-            </div>
+
+<div id="login">
+    <div class="loginBox">
+        <h3>🔐 Acceso al Sistema</h3>
+        <input type="text" id="ruc" placeholder="RUC" autocomplete="off">
+        <input type="password" id="pass" placeholder="Contraseña">
+        <button onclick="login()">Ingresar</button>
+        <div id="error"></div>
+    </div>
+</div>
+
+<div id="app">
+    <div class="dashboard-header">
+        <h2>📄 Cotizador Profesional</h2>
+        <div class="btn-group">
+            <button class="btn btn-primary" onclick="vistaPrevia()">👁️ Vista Previa</button>
+            <button class="btn btn-success" onclick="descargarPDF()">📎 Descargar PDF</button>
+            <button class="btn btn-warning" onclick="guardarCotizacion()">💾 Guardar</button>
+            <button class="btn btn-secondary" onclick="nuevaCotizacion()">➕ Nueva</button>
         </div>
     </div>
 
-    <div class="main-container" id="editor">
-        <div class="editor-panel">
-            <div class="editor-tabs">
-                <div class="editor-tab active" data-tab="datos" onclick="cambiarTab('datos')">Datos de Empresa</div>
-                <div class="editor-tab" data-tab="cliente" onclick="cambiarTab('cliente')">Datos del Cliente</div>
-                <div class="editor-tab" data-tab="items" onclick="cambiarTab('items')">Items</div>
-            </div>
-            <div id="tab-datos" class="editor-content">
-                <div class="form-group">
-                    <label>Nombre de la empresa</label>
-                    <input type="text" id="empresaNombre" placeholder="Tu empresa" value="VIDRIOS Y ALUMINIOS YURI">
-                </div>
-                <div class="form-group">
-                    <label>RUC / NIT</label>
-                    <input type="text" id="empresaRuc" placeholder="RUC" value="10617365036">
-                </div>
-                <div class="form-group">
-                    <label>Dirección</label>
-                    <input type="text" id="empresaDireccion" placeholder="Dirección" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
-                </div>
-                <div class="form-group">
-                    <label>Teléfono</label>
-                    <input type="text" id="empresaTelefono" placeholder="Teléfono" value="993963381">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="empresaEmail" placeholder="Email" value="hermozayurihermozapuelles@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label>Logo (opcional)</label>
-                    <input type="file" id="logoUpload" accept="image/*" onchange="subirLogo()">
-                    <img id="logoPreview" style="max-width: 100px; margin-top: 0.5rem; display: none;">
-                </div>
-            </div>
-            <div id="tab-cliente" class="editor-content hidden">
-                <div class="form-group">
-                    <label>Nombre del cliente</label>
-                    <input type="text" id="clienteNombre" placeholder="Nombre del cliente">
-                </div>
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>DNI / RUC</label>
-                        <input type="text" id="clienteDoc" placeholder="DNI/RUC">
+    <div class="workspace">
+        <!-- ÁREA DE COTIZACIÓN -->
+        <div class="quote-area">
+            <div id="a4">
+                <div class="header">
+                    <img id="logo1" class="logo logo-left" style="display:none">
+                    <img id="logo2" class="logo logo-right" style="display:none">
+                    <div style="margin-bottom: 10px;">
+                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo1')">📁 Logo Izq</button>
+                        <button class="btn btn-secondary" style="padding:2px 8px; font-size:11px;" onclick="subirLogo('logo2')">📁 Logo Der</button>
                     </div>
-                    <div class="form-group">
-                        <label>Teléfono</label>
-                        <input type="text" id="clienteTelefono" placeholder="Teléfono">
+                    <div class="company-name">VIDRIOS Y ALUMINIOS YURI</div>
+                    <div class="company-owner">YURI HERMOZA PUELLES</div>
+                    <div class="company-ruc">RUC: 10617365036</div>
+                    <div class="direccion">
+                        <input class="editable" id="direccionEmpresa" style="width:100%" value="APV LAS JOYAS SAN SEBASTIAN CUSCO">
                     </div>
+                    <hr>
                 </div>
-                <div class="form-group">
-                    <label>Dirección</label>
-                    <input type="text" id="clienteDireccion" placeholder="Dirección">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="clienteEmail" placeholder="Email">
-                </div>
-            </div>
-            <div id="tab-items" class="editor-content hidden">
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>N° Cotización</label>
-                        <input type="text" id="numCotizacion" placeholder="Número">
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha</label>
-                        <input type="date" id="fechaCotizacion">
-                    </div>
-                </div>
-                <div class="row-2">
-                    <div class="form-group">
-                        <label>Vigencia (días)</label>
-                        <input type="number" id="vigencia" value="15">
-                    </div>
-                    <div class="form-group">
-                        <label>Moneda</label>
-                        <select id="moneda" onchange="actualizarPreview()">
+
+                <div style="display:flex; justify-content:space-between; margin:15px 0;">
+                    <div><b>COTIZACIÓN N°</b> <input id="numCot" class="editable" style="width:140px"></div>
+                    <div><b>Fecha</b> <input type="date" id="fecha" class="editable"></div>
+                    <div><b>Moneda</b>
+                        <select id="moneda" class="editable" onchange="calcular()">
                             <option value="PEN">Soles (S/)</option>
                             <option value="USD">Dólares ($)</option>
-                            <option value="MXN">Pesos Mexicanos ($)</option>
-                            <option value="COP">Pesos Colombianos ($)</option>
-                            <option value="CLP">Pesos Chilenos ($)</option>
-                            <option value="ARS">Pesos Argentinos ($)</option>
                         </select>
                     </div>
                 </div>
-                <div class="items-list">
-                    <div class="item-row header">
-                        <div>#</div>
-                        <div>Descripción</div>
-                        <div>Cantidad</div>
-                        <div>Precio Unit.</div>
-                        <div>Subtotal</div>
-                        <div></div>
-                    </div>
-                    <div id="items-container"></div>
+
+                <div class="client-card">
+                    <h4>🧑 DATOS DEL CLIENTE</h4>
+                    <div class="campo"><label>Nombre / Razón Social:</label><input id="clienteNombre" class="editable"></div>
+                    <div class="campo"><label>DNI / RUC:</label><input id="clienteDoc" class="editable"></div>
+                    <div class="campo"><label>Teléfono / Celular:</label><input id="clienteCel" class="editable"></div>
+                    <div class="campo"><label>Dirección:</label><input id="clienteDir" class="editable"></div>
                 </div>
-                <button class="btn-add" onclick="agregarItem()">+ Agregar Item</button>
-                <div class="totals">
-                    <div class="igv-toggle">
-                        <label for="incluirIGV">Incluir IGV/IVA</label>
-                        <input type="checkbox" id="incluirIGV" checked onchange="actualizarPreview()">
-                    </div>
-                    <p>Subtotal: <span id="subtotal">0.00</span></p>
-                    <p id="igvLine">IGV/IVA (18%): <span id="igvMonto">0.00</span></p>
-                    <p class="grand-total">Total: <span id="total">0.00</span></p>
-                </div>
-                <div class="form-group">
-                    <label>Notas / Términos</label>
-                    <textarea id="notas" rows="3" placeholder="Condiciones de pago, garantías, etc.">Cuenta BCP: 52671107164027 | CCI: 00252617110716402721</textarea>
-                </div>
-            </div>
-        </div>
 
-        <div class="preview-panel">
-            <div class="preview-header">
-                <h3>Vista Previa de Cotización</h3>
-                <div class="preview-actions">
-                    <button onclick="vistaPreviaCompleta()" title="Vista completa">👁️</button>
-                    <button onclick="descargarPDFDirecto()" title="Descargar PDF">📎</button>
-                </div>
-            </div>
-            <div class="preview-content">
-                <div id="previewCotizacion" class="quote-preview"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="historial-panel" id="historialSection">
-        <h3>📋 Historial de Cotizaciones</h3>
-        <div id="historialList" class="historial-list"></div>
-        <button class="btn-add" style="margin-top:1rem" onclick="exportarHistorial()">Exportar Historial</button>
-    </div>
-
-    <div id="modalPreview" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Vista previa de cotización</h3>
-                <button class="close-modal" onclick="cerrarModal()">✖</button>
-            </div>
-            <div id="modalContent"></div>
-            <button class="btn-primary" style="margin-top:1rem; width:100%" onclick="descargarPDFDirecto()">Descargar PDF</button>
-        </div>
-    </div>
-
-    <script>
-        // Variables globales
-        let items = [];
-        let cotizaciones = JSON.parse(localStorage.getItem('cotizaciones') || '[]');
-        let logoBase64 = localStorage.getItem('logoBase64') || null;
-
-        // Inicialización
-        function init() {
-            generarNumeroCotizacion();
-            document.getElementById('fechaCotizacion').valueAsDate = new Date();
-            cargarLogoGuardado();
-            agregarItem();
-            actualizarPreview();
-            cargarHistorial();
-        }
-
-        function generarNumeroCotizacion() {
-            let contador = parseInt(localStorage.getItem('contador')) || 0;
-            contador++;
-            localStorage.setItem('contador', contador);
-            document.getElementById('numCotizacion').value = String(contador).padStart(4, '0') + '-' + new Date().getFullYear();
-        }
-
-        function cargarLogoGuardado() {
-            if (logoBase64) {
-                document.getElementById('logoPreview').src = logoBase64;
-                document.getElementById('logoPreview').style.display = 'block';
-            }
-        }
-
-        function subirLogo() {
-            const file = document.getElementById('logoUpload').files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    logoBase64 = e.target.result;
-                    localStorage.setItem('logoBase64', logoBase64);
-                    document.getElementById('logoPreview').src = logoBase64;
-                    document.getElementById('logoPreview').style.display = 'block';
-                    actualizarPreview();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function agregarItem() {
-            items.push({
-                descripcion: '',
-                cantidad: 1,
-                precio: 0,
-                subtotal: 0
-            });
-            renderItems();
-        }
-
-        function eliminarItem(index) {
-            items.splice(index, 1);
-            renderItems();
-        }
-
-        function actualizarItem(index, campo, valor) {
-            items[index][campo] = campo === 'cantidad' || campo === 'precio' ? parseFloat(valor) || 0 : valor;
-            items[index].subtotal = items[index].cantidad * items[index].precio;
-            renderItems();
-            actualizarPreview();
-        }
-
-        function renderItems() {
-            const container = document.getElementById('items-container');
-            container.innerHTML = '';
-            items.forEach((item, idx) => {
-                const row = document.createElement('div');
-                row.className = 'item-row';
-                row.innerHTML = `
-                    <div>${idx + 1}</div>
-                    <textarea placeholder="Descripción" onchange="actualizarItem(${idx}, 'descripcion', this.value)">${item.descripcion}</textarea>
-                    <input type="number" value="${item.cantidad}" step="1" min="0" onchange="actualizarItem(${idx}, 'cantidad', this.value)">
-                    <input type="number" value="${item.precio}" step="0.01" min="0" onchange="actualizarItem(${idx}, 'precio', this.value)">
-                    <div>${item.subtotal.toFixed(2)}</div>
-                    <button class="delete-item" onclick="eliminarItem(${idx})">✖</button>
-                `;
-                container.appendChild(row);
-            });
-            if (items.length === 0) agregarItem();
-        }
-
-        function calcularTotales() {
-            let subtotal = items.reduce((sum, item) => sum + item.subtotal, 0);
-            const incluirIGV = document.getElementById('incluirIGV').checked;
-            const igvPorcentaje = 18;
-            let igv = incluirIGV ? subtotal * (igvPorcentaje / 100) : 0;
-            let total = subtotal + igv;
-            const moneda = document.getElementById('moneda').value;
-            const simbolo = getSimboloMoneda(moneda);
-            document.getElementById('subtotal').innerHTML = simbolo + subtotal.toFixed(2);
-            document.getElementById('igvMonto').innerHTML = simbolo + igv.toFixed(2);
-            document.getElementById('total').innerHTML = simbolo + total.toFixed(2);
-            document.getElementById('igvLine').style.display = incluirIGV ? 'block' : 'none';
-            return { subtotal, igv, total, simbolo };
-        }
-
-        function getSimboloMoneda(moneda) {
-            const simbolos = { PEN: 'S/ ', USD: '$ ', MXN: '$ ', COP: '$ ', CLP: '$ ', ARS: '$ ' };
-            return simbolos[moneda] || 'S/ ';
-        }
-
-        function actualizarPreview() {
-            const { subtotal, igv, total, simbolo } = calcularTotales();
-            const empresa = {
-                nombre: document.getElementById('empresaNombre').value,
-                ruc: document.getElementById('empresaRuc').value,
-                direccion: document.getElementById('empresaDireccion').value,
-                telefono: document.getElementById('empresaTelefono').value,
-                email: document.getElementById('empresaEmail').value
-            };
-            const cliente = {
-                nombre: document.getElementById('clienteNombre').value,
-                documento: document.getElementById('clienteDoc').value,
-                telefono: document.getElementById('clienteTelefono').value,
-                direccion: document.getElementById('clienteDireccion').value,
-                email: document.getElementById('clienteEmail').value
-            };
-            const fecha = new Date(document.getElementById('fechaCotizacion').value);
-            const fechaValidez = new Date(fecha);
-            fechaValidez.setDate(fechaValidez.getDate() + parseInt(document.getElementById('vigencia').value || 0));
-            
-            let html = `
-                <div class="header-preview">
-                    ${logoBase64 ? `<img src="${logoBase64}" class="logo-preview" style="max-width:80px; margin-bottom:0.5rem">` : ''}
-                    <div class="company-name-preview">${empresa.nombre}</div>
-                    <div>RUC: ${empresa.ruc}</div>
-                    <div>${empresa.direccion}</div>
-                    <div>📞 ${empresa.telefono} | ✉ ${empresa.email}</div>
-                </div>
-                <div style="margin: 1rem 0">
-                    <strong>COTIZACIÓN N°:</strong> ${document.getElementById('numCotizacion').value}<br>
-                    <strong>Fecha de emisión:</strong> ${document.getElementById('fechaCotizacion').value}<br>
-                    <strong>Fecha de validez:</strong> ${fechaValidez.toISOString().split('T')[0]}
-                </div>
-                <div style="margin: 1rem 0; background:#f8fafc; padding:0.8rem; border-radius:8px">
-                    <strong>DATOS DEL CLIENTE</strong><br>
-                    ${cliente.nombre ? `Nombre: ${cliente.nombre}<br>` : ''}
-                    ${cliente.documento ? `DNI/RUC: ${cliente.documento}<br>` : ''}
-                    ${cliente.telefono ? `Teléfono: ${cliente.telefono}<br>` : ''}
-                    ${cliente.direccion ? `Dirección: ${cliente.direccion}<br>` : ''}
-                    ${cliente.email ? `Email: ${cliente.email}` : ''}
-                </div>
-                <table>
-                    <thead><tr><th>#</th><th>Descripción</th><th>Cant.</th><th>Precio Unit.</th><th>Subtotal</th></tr></thead>
-                    <tbody>
-            `;
-            items.forEach((item, idx) => {
-                html += `<tr>
-                    <td>${idx + 1}</td>
-                    <td>${item.descripcion || '-'}</td>
-                    <td>${item.cantidad}</td>
-                    <td>${simbolo}${item.precio.toFixed(2)}</td>
-                    <td>${simbolo}${item.subtotal.toFixed(2)}</td>
-                </tr>`;
-            });
-            html += `
-                    </tbody>
+                <table class="items-table" id="tabla">
+                    <thead>
+                        <tr><th>Item</th><th>Descripción</th><th>Cant.</th><th>P.Unitario</th><th>Subtotal</th><th></th></tr>
+                    </thead>
+                    <tbody></tbody>
                 </table>
-                <div class="totals-preview">
-                    <div>Subtotal: ${simbolo}${subtotal.toFixed(2)}</div>
-                    ${document.getElementById('incluirIGV').checked ? `<div>IGV/IVA (18%): ${simbolo}${igv.toFixed(2)}</div>` : ''}
-                    <div><strong>TOTAL: ${simbolo}${total.toFixed(2)}</strong></div>
-                </div>
-                <div style="margin-top:1rem; font-size:10px; color:#64748b">
-                    ${document.getElementById('notas').value.replace(/\n/g, '<br>')}
-                </div>
-                <div style="margin-top:1rem; text-align:center; font-size:10px; color:#94a3b8">
-                    CC.HACCA S/N OMACHÁ - PARURO - CUSCO | Todo lo puedo en Cristo que me fortalece - Filipenses 4:13
-                </div>
-            `;
-            document.getElementById('previewCotizacion').innerHTML = html;
-        }
+                <button class="btn btn-primary" style="margin-top:5px;" onclick="agregarItem()">+ Agregar Item</button>
 
-        function vistaPreviaCompleta() {
-            const previewContent = document.getElementById('previewCotizacion').cloneNode(true);
-            document.getElementById('modalContent').innerHTML = '';
-            document.getElementById('modalContent').appendChild(previewContent);
-            document.getElementById('modalPreview').style.display = 'block';
-        }
+                <div class="totals">
+                    <p>💰 Costo Neto: S/ <span id="costo">0.00</span></p>
+                    <p>📊 IGV (18%): S/ <span id="igv">0.00</span></p>
+                    <p class="grand-total">💵 Total: S/ <span id="total">0.00</span></p>
+                </div>
 
-        function cerrarModal() {
-            document.getElementById('modalPreview').style.display = 'none';
-        }
+                <div style="margin-top:20px; font-size:13px;">
+                    <b>🏦 Método de pago</b><br>
+                    Cuenta BCP: 52671107164027<br>
+                    CCI: 00252617110716402721
+                </div>
 
-        function guardarCotizacion() {
-            const fecha = new Date();
-            const cotizacion = {
-                id: Date.now(),
-                numero: document.getElementById('numCotizacion').value,
-                fecha: document.getElementById('fechaCotizacion').value,
-                empresa: {
-                    nombre: document.getElementById('empresaNombre').value,
-                    ruc: document.getElementById('empresaRuc').value,
-                    direccion: document.getElementById('empresaDireccion').value
-                },
-                cliente: {
-                    nombre: document.getElementById('clienteNombre').value,
-                    documento: document.getElementById('clienteDoc').value,
-                    telefono: document.getElementById('clienteTelefono').value
-                },
-                items: items.map(i => ({ ...i })),
-                total: document.getElementById('total').innerText,
-                moneda: document.getElementById('moneda').value,
-                incluirIGV: document.getElementById('incluirIGV').checked,
-                notas: document.getElementById('notas').value,
-                fechaGuardado: fecha.toLocaleString()
-            };
-            cotizaciones.unshift(cotizacion);
-            localStorage.setItem('cotizaciones', JSON.stringify(cotizaciones));
+                <div style="text-align:center; margin:20px 0;">
+                    <img id="firmaImg" width="120" style="display:none"><br>
+                    <button class="btn btn-secondary" onclick="subirFirma()">🖊️ Subir Firma / Sello</button>
+                </div>
+
+                <div class="footer">
+                    CC.HACCA S/N OMACHÁ - PARURO - CUSCO<br>
+                    ✉ hermozayurihermozapuelles@gmail.com | 📞 993963381<br>
+                    🙏 <i>Todo lo puedo en Cristo que me fortalece - Filipenses 4:13</i>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORIAL DE COTIZACIONES -->
+        <div class="history-area">
+            <h3>📋 Historial de Cotizaciones</h3>
+            <div id="historial"></div>
+            <button class="btn btn-secondary" style="margin-top:15px; width:100%" onclick="exportarHistorial()">📁 Exportar Historial</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE VISTA PREVIA -->
+<div id="preview">
+    <button class="close-preview" onclick="cerrarPreview()">✖</button>
+    <div id="previewContent" class="previewA4"></div>
+</div>
+
+<script>
+    // ========== CONFIGURACIÓN ==========
+    const RUC = "10617365036";
+    const PASS = "yuri2026";
+    let cotizaciones = [];
+
+    // ========== LOGIN ==========
+    function login() {
+        let ruc = document.getElementById("ruc").value.trim();
+        let pass = document.getElementById("pass").value.trim();
+        if(ruc === RUC && pass === PASS) {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("app").style.display = "block";
+            nuevaCotizacion();
             cargarHistorial();
-            alert('Cotización guardada correctamente');
+            cargarLogosGuardados();
+            cargarFirmaGuardada();
+        } else {
+            document.getElementById("error").innerText = "⚠️ RUC o Contraseña incorrectos";
         }
+    }
 
-        function cargarHistorial() {
-            const container = document.getElementById('historialList');
-            container.innerHTML = '';
-            if (cotizaciones.length === 0) {
-                container.innerHTML = '<p style="color:#94a3b8">No hay cotizaciones guardadas</p>';
-                return;
-            }
-            cotizaciones.slice(0, 20).forEach(cot => {
-                const div = document.createElement('div');
-                div.className = 'historial-item';
-                div.innerHTML = `
-                    <strong>${cot.numero}</strong> | ${cot.cliente.nombre || 'Cliente'} | ${cot.total}<br>
-                    <small>${cot.fecha || 'Sin fecha'}</small>
-                `;
-                div.onclick = () => cargarCotizacion(cot);
-                container.appendChild(div);
-            });
-        }
+    // ========== GESTIÓN DE NÚMERO DE COTIZACIÓN ==========
+    function generarNumero() {
+        let contador = parseInt(localStorage.getItem("contador")) || 0;
+        contador++;
+        localStorage.setItem("contador", contador);
+        return String(contador).padStart(4,"0") + "-" + new Date().getFullYear();
+    }
 
-        function cargarCotizacion(cot) {
-            document.getElementById('numCotizacion').value = cot.numero;
-            document.getElementById('fechaCotizacion').value = cot.fecha;
-            document.getElementById('empresaNombre').value = cot.empresa.nombre;
-            document.getElementById('empresaRuc').value = cot.empresa.ruc;
-            document.getElementById('empresaDireccion').value = cot.empresa.direccion;
-            document.getElementById('clienteNombre').value = cot.cliente.nombre || '';
-            document.getElementById('clienteDoc').value = cot.cliente.documento || '';
-            document.getElementById('clienteTelefono').value = cot.cliente.telefono || '';
-            document.getElementById('moneda').value = cot.moneda || 'PEN';
-            document.getElementById('incluirIGV').checked = cot.incluirIGV !== false;
-            document.getElementById('notas').value = cot.notas || '';
-            items = cot.items.map(i => ({ ...i }));
-            renderItems();
-            actualizarPreview();
-            alert('Cotización cargada correctamente');
-        }
+    function nuevaCotizacion() {
+        document.getElementById("numCot").value = generarNumero();
+        document.getElementById("fecha").valueAsDate = new Date();
+        document.getElementById("clienteNombre").value = "";
+        document.getElementById("clienteDoc").value = "";
+        document.getElementById("clienteCel").value = "";
+        document.getElementById("clienteDir").value = "";
+        document.querySelector("#tabla tbody").innerHTML = "";
+        agregarItem(); // al menos una fila
+        calcular();
+    }
 
-        function mostrarHistorial() {
-            document.getElementById('historialSection').scrollIntoView({ behavior: 'smooth' });
-        }
+    // ========== MANEJO DE ÍTEMS ==========
+    function agregarItem() {
+        let tbody = document.querySelector("#tabla tbody");
+        let rowCount = tbody.rows.length + 1;
+        let fila = document.createElement("tr");
+        fila.innerHTML = `
+            <td style="text-align:center">${rowCount}</td>
+            <td><textarea rows="2" placeholder="Descripción del producto/servicio..."></textarea></td>
+            <td><input type="number" value="1" min="0" step="1" onchange="calcular()"></td>
+            <td><input type="number" value="0" min="0" step="0.01" onchange="calcular()"></td>
+            <td class="subtotal-cell">0.00</td>
+            <td><button class="delete-item" onclick="eliminarItem(this)">X</button></td>
+        `;
+        tbody.appendChild(fila);
+    }
 
-        function exportarHistorial() {
-            const data = JSON.stringify(cotizaciones, null, 2);
-            const blob = new Blob([data], { type: 'application/json' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'historial_cotizaciones.json';
-            link.click();
-            URL.revokeObjectURL(link.href);
-        }
+    function eliminarItem(boton) {
+        let row = boton.closest("tr");
+        row.remove();
+        renumerarItems();
+        calcular();
+    }
 
-        async function descargarPDFDirecto() {
-            const cliente = document.getElementById('clienteNombre').value || 'Cliente';
-            const numCot = document.getElementById('numCotizacion').value || '0000';
-            const previewDiv = document.getElementById('previewCotizacion').cloneNode(true);
-            previewDiv.style.padding = '20px';
-            const opt = {
-                margin: [0.5, 0.5, 0.5, 0.5],
-                filename: `Cotizacion_${numCot}_${cliente}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4' }
-            };
-            await html2pdf().set(opt).from(previewDiv).save();
-        }
-
-        function cambiarTab(tab) {
-            document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('tab-datos').classList.add('hidden');
-            document.getElementById('tab-cliente').classList.add('hidden');
-            document.getElementById('tab-items').classList.add('hidden');
-            document.getElementById(`tab-${tab}`).classList.remove('hidden');
-        }
-
-        // Eventos
-        document.getElementById('incluirIGV').onchange = actualizarPreview;
-        document.getElementById('moneda').onchange = actualizarPreview;
-        document.querySelectorAll('#tab-items input, #tab-items select, #tab-items textarea').forEach(el => {
-            if (el.id !== 'items-container') el.onchange = actualizarPreview;
+    function renumerarItems() {
+        let rows = document.querySelectorAll("#tabla tbody tr");
+        rows.forEach((row, idx) => {
+            row.cells[0].innerText = idx + 1;
         });
-        document.querySelectorAll('#tab-datos input').forEach(el => el.onchange = actualizarPreview);
-        document.querySelectorAll('#tab-cliente input').forEach(el => el.onchange = actualizarPreview);
-        document.getElementById('notas').onchange = actualizarPreview;
-        document.getElementById('vigencia').onchange = actualizarPreview;
+    }
 
-        // Guardado manual (Ctrl+S)
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                e.preventDefault();
-                guard
+    // ========== CÁLCULO CON IGV Y MONEDA ==========
+    function calcular() {
+        let subtotalGeneral = 0;
+        let filas = document.querySelectorAll("#tabla tbody tr");
+        
+        filas.forEach(fila => {
+            let cantidad = parseFloat(fila.querySelector("td:nth-child(3) input").value) || 0;
+            let precio = parseFloat(fila.querySelector("td:nth-child(4) input").value) || 0;
+            let subtotal = cantidad * precio;
+            fila.querySelector(".subtotal-cell").innerText = subtotal.toFixed(2);
+            subtotalGeneral += subtotal;
+        });
+
+        let igv = subtotalGeneral * 0.18;
+        let total = subtotalGeneral + igv;
+        
+        let moneda = document.getElementById("moneda").value;
+        let simbolo = (moneda === "PEN") ? "S/ " : "$ ";
+        
+        document.getElementById("costo").innerText = simbolo + subtotalGeneral.toFixed(2);
+        document.getElementById("igv").innerText = simbolo + igv.toFixed(2);
+        document.getElementById("total").innerHTML = simbolo + total.toFixed(2);
+        
+        // También actualizar el texto en los totales para que el PDF muestre bien
+        document.querySelector(".totals p:first-child").innerHTML = `💰 Costo Neto: ${simbolo} ${subtotalGeneral.toFixed(2)}`;
+        document.querySelector(".totals p:nth-child(2)").innerHTML = `📊 IGV (18%): ${simbolo} ${igv.toFixed(2)}`;
+        document.querySelector(".grand-total").innerHTML = `💵 Total: ${simbolo} ${total.toFixed(2)}`;
+    }
+
+    // ========== PDF Y PREVISUALIZACIÓN ==========
+    async function descargarPDF() {
+        let originalA4 = document.getElementById("a4");
+        let clon = originalA4.cloneNode(true);
+        clon.classList.add("pdf");
+        let clienteNom = document.getElementById("clienteNombre").value || "SinCliente";
+        let numCot = document.getElementById("numCot").value || "0000";
+        
+        const opt = {
+            margin: [0.5, 0.5, 0.5, 0.5],
+            filename: `Cotizacion_${numCot}_${clienteNom}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, letterRendering: true },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        await html2pdf().set(opt).from(clon).save();
+    }
+
+    function vistaPrevia() {
+        let clon = document.getElementById("a4").cloneNode(true);
+        clon.classList.add("pdf");
+        let previewDiv = document.getElementById("previewContent");
+        previewDiv.innerHTML = "";
+        previewDiv.appendChild(clon);
+        document.getElementById("preview").style.display = "block";
+    }
+    function cerrarPreview() {
+        document.getElementById("preview").style.display = "none";
+    }
+
+    // ========== GUARDAR COTIZACIÓN CON DATOS COMPLETOS ==========
+    function guardarCotizacion() {
+        let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
+        let items = [];
+        document.querySelectorAll("#tabla tbody tr").forEach(row => {
+            items.push({
+                desc: row.querySelector("textarea").value,
+                cant: row.querySelector("td:nth-child(3) input").value,
+                precio: row.querySelector("td:nth-child(4) input").value,
+                subtotal: row.querySelector(".subtotal-cell").innerText
+            });
+        });
+        
+        let cotizacion = {
+            id: Date.now(),
+            numero: document.getElementById("numCot").value,
+            fecha: document.getElementById("fecha").value,
+            moneda: document.getElementById("moneda").value,
+            cliente: {
+                nombre: document.getElementById("clienteNombre").value,
+                documento: document.getElementById("clienteDoc").value,
+                celular: document.getElementById("clienteCel").value,
+                direccion: document.getElementById("clienteDir").value
+            },
+            items: items,
+            totalNeto: document.getElementById("costo").innerText,
+            totalIGV: document.getElementById("igv").innerText,
+            totalFinal: document.getElementById("total").innerText
+        };
+        
+        lista.unshift(cotizacion); // más reciente al inicio
+        localStorage.setItem("cotizaciones", JSON.stringify(lista));
+        cargarHistorial();
+    }
+
+    function cargarHistorial() {
+        let lista = JSON.parse(localStorage.getItem("cotizaciones") || "[]");
+        let div = document.getElementById("historial");
+        div.innerHTML = "";
+        if(lista.length === 0) {
+            div.innerHTML = "<p style='color:gray'>No hay cotizaciones guardadas</p>";
+            return;
+        }
+        lista.slice(0, 15).forEach(cot => {
+            let itemDiv = document.createElement("div");
+            itemDiv.className = "history-item";
+            let monedaSim = cot.moneda === "PEN" ? "S/" : "$";
+            itemDiv.innerHTML = `<strong>${cot.numero}</strong> | ${cot.cliente.nombre || "Anónimo"} | ${monedaSim} ${cot.totalFinal}<br><small>${cot.fecha || "sin fecha"}</small>`;
+            itemDiv.onclick = () => cargarCotizacionParaEditar(cot);
+            div.appendChild(itemDiv);
+        });
+    }
+    
+    function cargarCotizacionParaEditar(cot) {
+        // Cargar datos de cabecera
+        document.getElementById("numCot").value = cot.numero;
+        document.getElementById("fecha").value = cot.fecha || "";
+        document.getElementById("moneda").value = cot.moneda || "PEN";
+        document.getElementById("clienteNombre").value = cot.cliente.nombre || "";
+        document.getElementById("clienteDoc").value = cot.cliente.documento || "";
+        document.getElementById("clienteCel").value = cot.cliente.celular || "";
+        document.getElementById("clienteDir").value = cot.cliente.direccion || "";
+        
+        // Limpiar y regenerar items
+        let tbody = document.querySelector("#tabla tbody");
+        tbody.innerHTML = "";
+        if(cot.items && cot.items.length) {
+            cot.items.forEach((it, idx) => {
+                let fila = document.createElement("tr");
+                fila.innerHTML = `
+                    <td style="text-align:center">${idx+1}</td>
+                    <td><textarea rows="2">${escapeHtml(it.desc)}</textarea></td>
+                    <td><input type="number" value="${it.cant}" step="1" onchange="calcular()"></td>
+                    <td><input type="number" value="${it.precio}" step="0.01" onchange="calcular()"></td>
+                    <td class="subtotal-cell">${it.subtotal}</td>
+                    <td><button class="delete-item" onclick="eliminarItem(this)">X</button></td>
+                `;
+                tbody.appendChild(fila);
+            });
+        } else {
+            agregarItem();
+        }
+        calcular();
+    }
+    
+    function escapeHtml(str) {
+        if(!str) return "";
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function exportarHistorial() {
+        let data = localStorage.getItem("cotizaciones");
+        if(!data) return alert("No hay historial para exportar");
+        let blob = new Blob([data], {type: "application/json"});
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "historial_cotizaciones.json";
+        link.click();
+        URL.revokeObjectURL(link.href);
+    }
+
+    // ========== LOGOS Y FIRMA (persistentes) ==========
+    function subirLogo(id) {
+        let input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = function(e) {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onload = function(ev) {
+                let img = document.getElementById(id);
+                img.src = ev.target.result;
+                img.style.display = "inline-block";
+                localStorage.setItem(id, ev.target.result);
+            };
+            reader.readAsDataURL(file);
+        };
+        input.click();
+    }
+    
+    function cargarLogosGuardados() {
+        let logo1 = localStorage.getItem("logo1");
+        if(logo1) { document.getElementById("logo1").src = logo1; document.getElementById("logo1").style.display = "inline-block"; }
+        let logo2 = localStorage.getItem("logo2");
+        if(logo2) { document.getElementById("logo2").src = logo2; document.getElementById("logo2").style.display = "inline-block"; }
+    }
+    
+    function subirFirma() {
+        let input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.onchange = function(e) {
+            let reader = new FileReader();
+            reader.onload = function(ev) {
+                let img = document.getElementById("firmaImg");
+                img.src = ev.target.result;
+                img.style.display = "inline-block";
+                localStorage.setItem("firma", ev.target.result);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        };
+        input.click();
+    }
+    
+    function cargarFirmaGuardada() {
+        let firma = localStorage.getItem("firma");
+        if(firma) {
+            document.getElementById("firmaImg").src = firma;
+            document.getElementById("firmaImg").style.display = "inline-block";
+        }
+    }
+    
+    // Inicializar algunos campos
+    window.onload = () => {
+        // Si no hay contador, empezar desde 1
+        if(!localStorage.getItem("contador")) localStorage.setItem("contador", "0");
+    };
+</script>
+</body>
+</html>
